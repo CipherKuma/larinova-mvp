@@ -68,7 +68,7 @@
 
 **`Larinova_Analisis_Harga_Pasar.xlsx`** — Most analytically rigorous doc. ROI numbers are powerful: solo doctor saves IDR 9.75M/month, costs IDR 149K = 65x ROI. Small clinic: 147x ROI. Use these in outreach. Issues: "15 min saved per patient" assumption is unvalidated — one skeptical doctor could undermine the whole pitch. "Data Pasar Indonesia" sheet is duplicated in the workbook.
 
-**`Larinova_LENGKAP_FINAL.xlsx`** — 51 hospitals/clinics. Problem: list is institutional (large hospitals, chains) but current strategy targets solo practitioners and small clinics. No CRM columns (Contact Date / Channel / Response / Status / Next Action). Most WhatsApp fields are blank. No individual names — "Siloam Kebon Jeruk" is not a lead; the medical director there is.
+**`Larinova_LENGKAP_FINAL.xlsx`** — 51 hospitals/clinics (identical content to `sales/indonesia_leads.xlsx`; root copy deleted). Problem: list is institutional (large hospitals, chains) but current strategy targets solo practitioners and small clinics. No CRM columns (Contact Date / Channel / Response / Status / Next Action). **48/51 rows have WhatsApp field as "-"** — critical gap since WA is the primary outreach channel. No individual names — "Siloam Kebon Jeruk" is not a lead; the medical director there is.
 
 **`Riset_Pasar_Kebidanan_Larinova_v2.docx`** — Solid midwifery market research: 300K+ registered midwives, mandatory forms (ANC, Partograf, Nifas, Immunization), SATUSEHAT/BPJS regulatory hooks. Section 5 ("Rekomendasi Fitur") exists in the table of contents but the content is blank — fill it in.
 
@@ -96,8 +96,8 @@
 
 - [ ] Regenerate `Larinova_Pitch_Mid_Clinic_EN.pdf` and `_ID.pdf` with IDR 899K (Pro tier, 5-10 doctors)
 - [ ] Regenerate all 3 ID pitch PDFs with translated headers ("Fitur / Manual / Dengan Larinova")
-- [ ] Regenerate EN discovery form with "Page 2 of 2" (English page label)
-- [ ] Update both discovery forms: tagline → "AI Medical Scribe for Doctors"
+- [ ] **Discovery form EN (`sales/discovery-forms/discovery_form_en.pdf`):** footer still says `larinova.id` — update to `larinova.com` and regenerate
+- [ ] **Both discovery forms (EN + ID):** tagline says "Clinic Management & AI Platform for Indonesian Doctors" / "Platform Manajemen Klinik & AI" — change to "AI Medical Scribe for Doctors" / "Penulis Medis AI untuk Dokter" to match current positioning
 - [ ] Fill placeholder links: demo video URL, sign-up URL, WhatsApp number, email — across presentation, email template, WA templates
 
 ### High — before cold outreach
