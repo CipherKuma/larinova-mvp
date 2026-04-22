@@ -34,6 +34,26 @@ export async function getSubscription(
   return data as Subscription | null;
 }
 
+export function startOfMonthUtcISO(now: Date = new Date()): string {
+  const d = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0, 0),
+  );
+  return d.toISOString();
+}
+
+export async function getMonthlyConsultationCount(
+  doctorId: string,
+  now: Date = new Date(),
+): Promise<number> {
+  const supabase = await createClient();
+  const { count } = await supabase
+    .from("larinova_consultations")
+    .select("id", { count: "exact", head: true })
+    .eq("doctor_id", doctorId)
+    .gte("created_at", startOfMonthUtcISO(now));
+  return count ?? 0;
+}
+
 export async function getUsageCount(
   doctorId: string,
   feature: AIFeature,
