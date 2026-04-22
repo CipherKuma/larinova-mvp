@@ -1,10 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
 import {
   AIFeature,
+  FREE_TIER_CONSULTATION_LIMIT,
   FREE_TIER_LIMITS,
+  PlanType,
   Subscription,
   UsageCheck,
 } from "@/types/billing";
+
+export interface ConsultationUsageCheck {
+  allowed: boolean;
+  used: number;
+  limit: number;
+  plan: PlanType;
+}
 
 // India OPD pilot — 5 alpha doctors. Fill with real emails at deploy time.
 // Matched case-insensitively on every login; matched doctors are upgraded to
@@ -39,6 +48,27 @@ export function startOfMonthUtcISO(now: Date = new Date()): string {
     Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0, 0),
   );
   return d.toISOString();
+}
+
+export async function checkConsultationLimit(
+  doctorId: string,
+  now: Date = new Date(),
+): Promise<ConsultationUsageCheck> {
+  const subscription = await getSubscription(doctorId);
+  const plan: PlanType = subscription?.plan ?? "free";
+  const status = subscription?.status ?? "active";
+
+  if (plan === "pro" && (status === "active" || status === "whitelisted")) {
+    return { allowed: true, used: 0, limit: Infinity, plan };
+  }
+
+  const used = await getMonthlyConsultationCount(doctorId, now);
+  return {
+    allowed: used < FREE_TIER_CONSULTATION_LIMIT,
+    used,
+    limit: FREE_TIER_CONSULTATION_LIMIT,
+    plan,
+  };
 }
 
 export async function getMonthlyConsultationCount(

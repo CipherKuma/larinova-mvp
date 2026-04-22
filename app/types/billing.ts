@@ -4,7 +4,8 @@ export type SubscriptionStatus =
   | "active"
   | "canceled"
   | "past_due"
-  | "trialing";
+  | "trialing"
+  | "whitelisted";
 export type AIFeature = "summary" | "medical_codes" | "helena_chat";
 
 export interface Subscription {
