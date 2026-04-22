@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { Check, CreditCard, Sparkles, Zap, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Check, CreditCard, Sparkles, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { AIFeature, PricingRegion } from "@/types/billing";
 import { FREE_TIER_CONSULTATION_LIMIT, PLAN_PRICES } from "@/types/billing";
-import Script from "next/script";
+import RazorpayCheckoutButton from "@/components/razorpay-checkout";
 
 interface SubscriptionData {
   subscription: {
@@ -17,17 +17,10 @@ interface SubscriptionData {
   usage: Record<string, { used: number; limit: number }>;
 }
 
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
 export default function BillingClient() {
   const [data, setData] = useState<SubscriptionData | null>(null);
   const t = useTranslations("billing");
   const [loading, setLoading] = useState(true);
-  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const [region, setRegion] = useState<PricingRegion>("default");
 
   const prices = PLAN_PRICES[region];
@@ -67,56 +60,6 @@ export default function BillingClient() {
     }
   };
 
-  const handleCheckout = useCallback(
-    async (interval: "month" | "year") => {
-      setCheckoutLoading(interval);
-      try {
-        const res = await fetch("/api/razorpay/create-subscription", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ interval, region }),
-        });
-        const { subscription_id, key_id, doctor_name, email } =
-          await res.json();
-
-        if (!subscription_id) {
-          console.error("No subscription ID returned");
-          return;
-        }
-
-        const options = {
-          key: key_id,
-          subscription_id,
-          name: "Larinova",
-          description: `Pro Plan (${interval === "month" ? "Monthly" : "Yearly"})`,
-          prefill: { name: doctor_name, email },
-          theme: { color: "#000000" },
-          handler: async (response: any) => {
-            await fetch("/api/razorpay/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_subscription_id: response.razorpay_subscription_id,
-                razorpay_signature: response.razorpay_signature,
-                interval,
-              }),
-            });
-            fetchSubscription();
-          },
-        };
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-      } catch (error) {
-        console.error("Checkout error:", error);
-      } finally {
-        setCheckoutLoading(null);
-      }
-    },
-    [region],
-  );
-
   if (loading) {
     return (
       <div className="space-y-6">
@@ -140,10 +83,6 @@ export default function BillingClient() {
 
   return (
     <>
-      <Script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"
-      />
       <div className="glass-card">
         {/* Header + Current Plan */}
         <div className="p-6 border-b border-border">
@@ -369,28 +308,21 @@ export default function BillingClient() {
                   </div>
                 ) : (
                   <div className="mt-5 space-y-2">
-                    <button
-                      onClick={() => handleCheckout("month")}
-                      disabled={!!checkoutLoading}
-                      className="w-full py-2.5 px-4 bg-primary text-primary-foreground rounded-xl font-medium text-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
-                    >
-                      {checkoutLoading === "month" ? (
-                        <Loader2 className="w-4 h-4 animate-spin mx-auto" />
-                      ) : (
-                        t("subscribeMonthly", { label: prices.month.label })
-                      )}
-                    </button>
-                    <button
-                      onClick={() => handleCheckout("year")}
-                      disabled={!!checkoutLoading}
-                      className="w-full py-2.5 px-4 bg-secondary border border-border rounded-xl font-medium text-sm hover:bg-muted transition-colors disabled:opacity-50"
-                    >
-                      {checkoutLoading === "year" ? (
-                        <Loader2 className="w-4 h-4 animate-spin mx-auto" />
-                      ) : (
-                        t("subscribeYearly", { label: prices.year.label })
-                      )}
-                    </button>
+                    <RazorpayCheckoutButton
+                      interval="month"
+                      label={t("subscribeMonthly", {
+                        label: prices.month.label,
+                      })}
+                      className="w-full"
+                    />
+                    <RazorpayCheckoutButton
+                      interval="year"
+                      label={t("subscribeYearly", {
+                        label: prices.year.label,
+                      })}
+                      variant="outline"
+                      className="w-full"
+                    />
                   </div>
                 )}
               </div>
