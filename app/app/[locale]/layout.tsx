@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { notFound } from "next/navigation";
 import { routing } from "@/src/i18n/routing";
 import BetaTranslationBanner from "@/components/layout/BetaTranslationBanner";
+import { SwRegister } from "@/components/pwa/sw-register";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ export default async function LocaleLayout({
           <BetaTranslationBanner />
           {children}
           <Toaster />
+          <SwRegister />
         </NextIntlClientProvider>
       </body>
     </html>
