@@ -7,6 +7,7 @@ import {
   shouldSimulateRazorpay,
   verifyWebhookSignature,
 } from "@/lib/razorpay-helpers";
+import { notify } from "@/lib/notify";
 
 type RazorpayEventPayload = {
   event: string;
@@ -39,6 +40,12 @@ type SubscriptionRow = {
   plan: string | null;
   razorpay_subscription_id: string | null;
   doctor_id: string;
+};
+
+type DoctorRow = {
+  id: string;
+  email: string | null;
+  full_name: string | null;
 };
 
 export async function POST(req: Request) {
@@ -152,6 +159,19 @@ async function findSubscriptionRow(
   return (data as SubscriptionRow | null) ?? null;
 }
 
+async function findDoctorRow(
+  supabase: AdminSupabase,
+  doctorId: string | undefined,
+): Promise<DoctorRow | null> {
+  if (!doctorId) return null;
+  const { data } = await supabase
+    .from("larinova_doctors")
+    .select("id, email, full_name")
+    .eq("id", doctorId)
+    .maybeSingle();
+  return (data as DoctorRow | null) ?? null;
+}
+
 function shouldSkipWhitelisted(row: SubscriptionRow | null): boolean {
   // Never overwrite a whitelisted row with a Razorpay event unless the row has a
   // real subscription id (meaning the doctor actually completed Checkout).
@@ -186,6 +206,45 @@ async function onSubscriptionActivated(
       updated_at: new Date().toISOString(),
     })
     .eq("razorpay_subscription_id", sub.id);
+
+  const doctor = await findDoctorRow(supabase, row?.doctor_id);
+  if (doctor?.email) {
+    const renewalIso =
+      razorpayTsToIso(sub.current_end) ?? razorpayTsToIso(sub.end_at);
+    try {
+      await notify(
+        "email",
+        "subscription_activated",
+        {
+          doctorName: doctor.full_name ?? "Doctor",
+          planLabel:
+            interval === "year"
+              ? "Larinova Pro — Yearly"
+              : "Larinova Pro — Monthly",
+          renewalDate: renewalIso
+            ? new Date(renewalIso).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : undefined,
+          appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "https://app.larinova.com",
+        },
+        {
+          doctorId: doctor.id,
+          email: doctor.email,
+          name: doctor.full_name ?? undefined,
+          locale: "in",
+        },
+        { relatedEntityType: "subscription", relatedEntityId: sub.id },
+      );
+    } catch (err) {
+      console.error(
+        "[razorpay-webhook] notify subscription_activated failed",
+        err,
+      );
+    }
+  }
 
   await tryEmitInngest("payment.subscription_activated", {
     doctorId: row?.doctor_id,
@@ -260,6 +319,36 @@ async function onPaymentFailed(
       updated_at: new Date().toISOString(),
     })
     .eq("razorpay_subscription_id", sub.id);
+
+  const doctor = await findDoctorRow(supabase, row?.doctor_id);
+  if (doctor?.email) {
+    try {
+      const currentRow = await findSubscriptionRow(supabase, sub.id);
+      const planLabel =
+        currentRow?.plan === "pro" ? "Larinova Pro" : "your Larinova plan";
+      await notify(
+        "email",
+        "subscription_payment_failed",
+        {
+          doctorName: doctor.full_name ?? "Doctor",
+          planLabel,
+          billingUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://app.larinova.com"}/in/settings/billing`,
+        },
+        {
+          doctorId: doctor.id,
+          email: doctor.email,
+          name: doctor.full_name ?? undefined,
+          locale: "in",
+        },
+        { relatedEntityType: "subscription", relatedEntityId: sub.id },
+      );
+    } catch (err) {
+      console.error(
+        "[razorpay-webhook] notify subscription_payment_failed failed",
+        err,
+      );
+    }
+  }
 
   await tryEmitInngest("payment.subscription_failed", {
     doctorId: row?.doctor_id,
