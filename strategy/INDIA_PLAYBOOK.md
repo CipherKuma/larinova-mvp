@@ -316,7 +316,7 @@ Claude should know this to avoid making unsupported compliance claims in generat
 
 All prices in INR. Do not mix IDR and INR in any India-facing document.
 
-*Note: Full tiered pricing for India is defined in `mvp-web-app/types/billing.ts` and `docs/PRICING_IMPLEMENTATION_INSTRUCTIONS.md`. The numbers below are the current launch-phase figures.*
+*Note: Full tiered pricing for India is defined in `app/types/billing.ts` and `docs/PRICING_IMPLEMENTATION_INSTRUCTIONS.md`. The numbers below are the current launch-phase figures.*
 
 **Current offer (Day 1–90):** 14-day free trial, full access, no credit card, no commitment.
 

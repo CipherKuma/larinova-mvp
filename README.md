@@ -11,7 +11,7 @@ Private monorepo containing all Larinova work: product code, marketing site, str
 | Folder | Contents |
 |---|---|
 | `landing/` | Marketing site (Next.js) — deployed at larinova.com |
-| `mvp-web-app/` | Core product app (Next.js + Supabase) — deployed at app.larinova.com |
+| `app/` | Core product app (Next.js + Supabase) — deployed at app.larinova.com |
 | `docs/` | Strategy: sales plan, pricing plan, competitive research, clinical form spec |
 | `sales/` | Pitch decks, discovery forms, launch playbook, leads |
 | `logo-gen/` | Brand logos and icons |
@@ -55,7 +55,7 @@ Each sub-project still has its own dependencies:
 cd landing && npm install && npm run dev
 
 # Product app
-cd mvp-web-app && pnpm install && pnpm dev
+cd app && pnpm install && pnpm dev
 ```
 
 Required env files (never committed) — see each sub-project's `.env.example` for the shape.

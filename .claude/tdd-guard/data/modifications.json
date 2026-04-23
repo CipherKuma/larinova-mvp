@@ -1,0 +1,12 @@
+{
+  "session_id": "63cc16d8-b43b-41a7-b84c-37af16ab4514",
+  "transcript_path": "/Users/gabrielantonyxaviour/.claude/projects/-Users-gabrielantonyxaviour-Documents-products-larinova/63cc16d8-b43b-41a7-b84c-37af16ab4514.jsonl",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/Users/gabrielantonyxaviour/Documents/products/larinova/app/types/billing.ts",
+    "old_string": "  IN: {\n    currency: \"INR\",\n    symbol: \"₹\",\n    month: { amount: 150000, label: \"₹1,500/month\" },\n    year: { amount: 1500000, label: \"₹15,000/year\", savings: \"₹3,000\" },\n  },\n  default: {",
+    "new_string": "  IN: {\n    currency: \"INR\",\n    symbol: \"₹\",\n    month: { amount: 150000, label: \"₹1,500/month\" },\n    year: { amount: 1500000, label: \"₹15,000/year\", savings: \"₹3,000\" },\n  },\n  ID: {\n    currency: \"IDR\",\n    symbol: \"Rp\",\n    month: { amount: 29900000, label: \"Rp 299,000/month\" },\n    year: {\n      amount: 299000000,\n      label: \"Rp 2,990,000/year\",\n      savings: \"Rp 598,000\",\n    },\n  },\n  default: {",
+    "replace_all": false
+  }
+}

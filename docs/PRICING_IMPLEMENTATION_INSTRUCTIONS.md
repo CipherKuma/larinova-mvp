@@ -306,7 +306,7 @@ priceComparison: {
 
 ---
 
-## Part 4: Update `mvp-web-app/types/billing.ts`
+## Part 4: Update `app/types/billing.ts`
 
 ### Current state:
 ```typescript
@@ -343,7 +343,7 @@ export const FREE_TIER_LIMITS = { summary: 10000, medical_codes: 10000, helena_c
 
 ## Part 5: Update the MVP App Billing Page
 
-### File: `mvp-web-app/app/[locale]/(protected)/settings/billing/BillingClient.tsx`
+### File: `app/app/[locale]/(protected)/settings/billing/BillingClient.tsx`
 
 The current billing page has a "Coming Soon" overlay. When implementing tiered pricing:
 
