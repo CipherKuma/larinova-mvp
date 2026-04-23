@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Toaster } from "sonner";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { HeroIndia } from "@/components/HeroIndia";
 import { Problem } from "@/components/Problem";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Features } from "@/components/Features";
+import { FeaturesIndia } from "@/components/FeaturesIndia";
 import { Trust } from "@/components/Trust";
 import { PoweredBySarvam } from "@/components/PoweredBySarvam";
 import { Pricing } from "@/components/Pricing";
+import { PricingIndia } from "@/components/PricingIndia";
 import { FAQ } from "@/components/FAQ";
 import { Blog } from "@/components/Blog";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -129,18 +133,19 @@ export default async function LocaleLandingPage({ params }: PageProps) {
 
   const l = locale as Locale;
   const faqs = l === "id" ? FAQS_ID : FAQS;
+  const isIndiaOpd = l === "in";
 
   return (
     <SmoothScroll>
       <Nav locale={l} />
       <main>
-        <Hero locale={l} />
+        {isIndiaOpd ? <HeroIndia locale={l} /> : <Hero locale={l} />}
         <Problem locale={l} />
-        <HowItWorks locale={l} />
-        <Features locale={l} />
+        {!isIndiaOpd && <HowItWorks locale={l} />}
+        {isIndiaOpd ? <FeaturesIndia locale={l} /> : <Features locale={l} />}
         <Trust locale={l} />
         <PoweredBySarvam locale={l} />
-        <Pricing locale={l} />
+        {isIndiaOpd ? <PricingIndia locale={l} /> : <Pricing locale={l} />}
         <FAQ locale={l} />
         <Blog locale={l} />
         <FinalCTA locale={l} />
@@ -159,6 +164,7 @@ export default async function LocaleLandingPage({ params }: PageProps) {
       </main>
       <Footer locale={l} />
       <MobileCTA locale={l} />
+      <Toaster position="bottom-right" theme="dark" />
     </SmoothScroll>
   );
 }
