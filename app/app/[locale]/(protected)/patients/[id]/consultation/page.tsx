@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { TranscriptionView } from "@/components/consultation/TranscriptionView";
 import { ConsultationResults } from "@/components/consultation/ConsultationResults";
+import { PrepBriefBanner } from "@/components/consultation/PrepBriefBanner";
 import FreeTierExhaustedModal from "@/components/free-tier-exhausted-modal";
 import { CheckCircle, Loader2 } from "lucide-react";
 
@@ -316,6 +317,9 @@ export default function ConsultationPage({
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 pb-24">
+      {/* AI Prep Brief */}
+      <PrepBriefBanner patientId={patientId} />
+
       {/* Header */}
       <div className="glass-card-strong p-6 border-l-4 border-primary">
         <div className="flex items-center justify-between">
