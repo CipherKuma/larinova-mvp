@@ -28,7 +28,7 @@ export async function mockExternalAPIs(page: Page): Promise<void> {
         ],
         usage: { prompt_tokens: 50, completion_tokens: 40, total_tokens: 90 },
       }),
-    })
+    }),
   );
 
   // --- Deepgram Transcription ---
@@ -72,7 +72,7 @@ export async function mockExternalAPIs(page: Page): Promise<void> {
           ],
         },
       }),
-    })
+    }),
   );
 
   // --- AssemblyAI Transcript ---
@@ -118,7 +118,7 @@ export async function mockExternalAPIs(page: Page): Promise<void> {
         audio_duration: 12.5,
         confidence: 0.97,
       }),
-    })
+    }),
   );
 
   // --- Speechmatics ---
@@ -148,7 +148,7 @@ export async function mockExternalAPIs(page: Page): Promise<void> {
           },
         ],
       }),
-    })
+    }),
   );
 
   // --- Speechmatics Auth Token ---
@@ -159,6 +159,6 @@ export async function mockExternalAPIs(page: Page): Promise<void> {
       body: JSON.stringify({
         key_value: "mock-speechmatics-token",
       }),
-    })
+    }),
   );
 }
