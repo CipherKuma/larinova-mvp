@@ -264,30 +264,6 @@ describe("POST /api/razorpay/webhook", () => {
     expect(u.status).toBe("canceled");
   });
 
-  it("skips updates for whitelisted rows without razorpay_subscription_id", async () => {
-    setEnv();
-    const captures = buildSupabase({
-      subscriptionRow: {
-        id: "row1",
-        status: "whitelisted",
-        plan: "pro",
-        razorpay_subscription_id: null,
-        doctor_id: "d1",
-      },
-    });
-    const body = payload("subscription.activated");
-    headerStore["x-razorpay-signature"] = sign(body);
-    headerStore["x-razorpay-event-id"] = "evt_w_1";
-
-    const { POST } = await import("./route");
-    const res = await POST(req(body));
-    expect(res.status).toBe(200);
-    // Event row still logged…
-    expect(captures.eventInserts).toHaveLength(1);
-    // …but subscription row untouched.
-    expect(captures.subscriptionUpdates).toHaveLength(0);
-  });
-
   it("is idempotent — duplicate event insert returns 200 without reprocessing", async () => {
     setEnv();
     const captures = buildSupabase({

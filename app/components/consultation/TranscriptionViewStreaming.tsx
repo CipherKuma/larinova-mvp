@@ -17,6 +17,7 @@ import {
 import { SARVAM_LANGUAGES, type SarvamLanguageCode } from "@/lib/sarvam/types";
 import { useSarvamSTT } from "@/hooks/useSarvamSTT";
 import { useTranslations } from "next-intl";
+import { ListeningOrb } from "@/components/consultation/ListeningOrb";
 
 interface Transcript {
   id: string;
@@ -450,14 +451,31 @@ export function TranscriptionViewStreaming({
         )}
       </div>
 
+      {/* Listening Orb — active while recording */}
+      {isRecording && !isPaused && (
+        <div className="flex justify-center py-3 md:py-4 lg:py-5 xl:py-6 border-b border-border/50">
+          <ListeningOrb
+            stream={stt.streamRef.current}
+            size={140}
+            agentState="listening"
+          />
+        </div>
+      )}
+
       {/* Transcript Display */}
       <div
         ref={transcriptContainerRef}
         className="p-2 md:p-2.5 lg:p-3 xl:p-4 space-y-1 md:space-y-1.5 max-h-[300px] md:max-h-[400px] lg:max-h-[500px] overflow-y-auto font-mono"
       >
         {transcripts.length === 0 && !interimText ? (
-          <div className="text-center py-6 md:py-8 lg:py-10 xl:py-12 text-muted-foreground">
-            <Mic className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 mx-auto mb-2 md:mb-3 lg:mb-4 opacity-30" />
+          <div className="flex flex-col items-center py-6 md:py-8 lg:py-10 xl:py-12 text-muted-foreground">
+            {!isRecording && (
+              <ListeningOrb
+                size={120}
+                agentState={null}
+                className="mb-3 md:mb-4 lg:mb-5 opacity-80"
+              />
+            )}
             <p className="uppercase font-semibold text-[8px] md:text-[9px] lg:text-[10px] xl:text-sm">
               {t("noTranscriptsYet")}
             </p>

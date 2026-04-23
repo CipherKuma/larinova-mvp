@@ -1,4 +1,3 @@
-import { inngest } from "@/lib/inngest/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { chatSync } from "@/lib/ai/claude";
 import { runAgentStep } from "./helpers";
@@ -6,13 +5,16 @@ import { runAgentStep } from "./helpers";
 /**
  * Agent 4 — Patient Narrative.
  *
- * Trigger:  narrative.regenerate (emitted by the dispatcher on every
+ * Trigger:  narrative.regenerate (enqueued by the dispatcher on every
  *           consultation.finalized).
  *
  * Produces a 3-5 sentence doctor-facing summary and UPSERTs into
  * larinova_patient_narrative. Uses the patient's last 5 consultations plus
  * any known allergies / chronic conditions (columns may not exist yet on
  * larinova_patients — we read defensively).
+ *
+ * Invoked by the out-of-process worker (scripts/worker.ts) based on the
+ * larinova_agent_jobs queue. Previously an Inngest function.
  */
 
 const NARRATIVE_PROMPT = `You are writing a condensed doctor-facing summary for a returning patient.
@@ -23,42 +25,36 @@ walking into the room. Mention pattern over time when it's present
 
 Return ONLY the paragraph.`;
 
-export const narrativeAgent = inngest.createFunction(
-  {
-    id: "agent-narrative",
-    retries: 2,
-    triggers: [{ event: "narrative.regenerate" }],
-  },
-  async ({ event, step }) => {
-    const { patientId } = (event.data ?? {}) as { patientId: string };
+export interface NarrativeRunPayload {
+  patientId: string;
+}
 
-    const ctx = await step.run("load-patient-history", () =>
-      loadPatientHistory(patientId),
-    );
-    if (!ctx) return { skipped: true };
+export async function run(payload: NarrativeRunPayload) {
+  const { patientId } = payload;
 
-    const summary = await step.run("generate-narrative", () =>
-      runAgentStep(
-        {
-          agent: "narrative",
-          step: "generate",
-          event: "narrative.regenerate",
-          correlationId: patientId,
-          patientId,
-        },
-        async () => ({
-          result: await generateNarrative(ctx),
-          model: "sonnet",
-        }),
-      ),
-    );
+  // load-patient-history
+  const ctx = await loadPatientHistory(patientId);
+  if (!ctx) return { skipped: true };
 
-    await step.run("upsert-narrative", () =>
-      saveNarrative(patientId, summary, ctx.sourceIds),
-    );
-    return { patientId, sources: ctx.sourceIds.length };
-  },
-);
+  // generate-narrative
+  const summary = await runAgentStep(
+    {
+      agent: "narrative",
+      step: "generate",
+      event: "narrative.regenerate",
+      correlationId: patientId,
+      patientId,
+    },
+    async () => ({
+      result: await generateNarrative(ctx),
+      model: "sonnet",
+    }),
+  );
+
+  // upsert-narrative
+  await saveNarrative(patientId, summary, ctx.sourceIds);
+  return { patientId, sources: ctx.sourceIds.length };
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 

@@ -7,82 +7,9 @@ import { Mic, MicOff, Square } from "lucide-react";
 import { useSarvamSTT } from "@/hooks/useSarvamSTT";
 import type { SOAPNote } from "@/lib/sarvam/types";
 import { useTranslations, useLocale } from "next-intl";
+import { ListeningOrb } from "@/components/consultation/ListeningOrb";
 
 type Phase = "prompt" | "recording" | "processing" | "results";
-
-// Audio-reactive sound wave visualizer
-function SoundWaveVisualizer({ stream }: { stream: MediaStream | null }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animFrameRef = useRef<number>(0);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-
-  useEffect(() => {
-    if (!stream || !canvasRef.current) return;
-
-    const audioCtx = new AudioContext();
-    audioCtxRef.current = audioCtx;
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    analyser.smoothingTimeConstant = 0.7;
-    analyserRef.current = analyser;
-
-    const source = audioCtx.createMediaStreamSource(stream);
-    source.connect(analyser);
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d")!;
-    const dataArray = new Uint8Array(analyser.frequencyBinCount);
-    const barCount = 32;
-
-    const draw = () => {
-      animFrameRef.current = requestAnimationFrame(draw);
-      analyser.getByteFrequencyData(dataArray);
-
-      const width = canvas.width;
-      const height = canvas.height;
-      ctx.clearRect(0, 0, width, height);
-
-      const barWidth = width / barCount - 2;
-      const centerY = height / 2;
-
-      for (let i = 0; i < barCount; i++) {
-        // Sample from lower frequencies for better voice visualization
-        const dataIndex = Math.floor(
-          (i / barCount) * (analyser.frequencyBinCount * 0.4),
-        );
-        const value = dataArray[dataIndex] / 255;
-        const barHeight = Math.max(3, value * centerY * 0.9);
-
-        const x = i * (barWidth + 2);
-        const hue = 160; // emerald
-        const alpha = 0.4 + value * 0.6;
-
-        ctx.fillStyle = `hsla(${hue}, 84%, 39%, ${alpha})`;
-        ctx.beginPath();
-        ctx.roundRect(x, centerY - barHeight, barWidth, barHeight * 2, 2);
-        ctx.fill();
-      }
-    };
-
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animFrameRef.current);
-      source.disconnect();
-      audioCtx.close();
-    };
-  }, [stream]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      width={400}
-      height={80}
-      className="w-full h-16 rounded-lg"
-    />
-  );
-}
 
 interface StepMagicProps {
   onContinue: (
@@ -444,12 +371,11 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
                 </p>
               </div>
             ) : (
-              <div className="flex-1 flex items-center justify-center">
-                <div className="rounded-xl border border-border/30 bg-muted/5 w-full h-full min-h-[200px] flex items-center justify-center">
-                  <p className="text-muted-foreground/30 text-sm italic">
-                    {t("transcriptPlaceholder")}
-                  </p>
-                </div>
+              <div className="flex-1 flex flex-col items-center justify-center gap-4">
+                <ListeningOrb size={220} agentState={null} />
+                <p className="text-muted-foreground/50 text-sm italic">
+                  {t("transcriptPlaceholder")}
+                </p>
               </div>
             )}
 
@@ -463,7 +389,14 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
 
         {/* Recording: live transcript or recording indicator */}
         {phase === "recording" && (
-          <div className="h-full flex flex-col">
+          <div className="h-full flex flex-col gap-4">
+            <div className="flex-shrink-0 flex justify-center">
+              <ListeningOrb
+                stream={currentStream}
+                size={160}
+                agentState="listening"
+              />
+            </div>
             <div className="flex-1 rounded-xl border border-border/30 bg-muted/5 p-4 overflow-y-auto">
               {currentTranscript || currentInterimText ? (
                 <p className="text-foreground leading-relaxed">
@@ -476,15 +409,8 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
                   )}
                   <span className="inline-block w-1.5 h-4 bg-primary/70 animate-pulse ml-1 align-middle" />
                 </p>
-              ) : isBatchMode ? (
-                <div className="h-full flex flex-col items-center justify-center gap-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                  <p className="text-muted-foreground/50 text-sm">
-                    {t("startSpeaking")}
-                  </p>
-                </div>
               ) : (
-                <p className="text-muted-foreground/30 text-sm italic">
+                <p className="text-muted-foreground/50 text-sm text-center">
                   {t("startSpeaking")}
                 </p>
               )}
@@ -573,12 +499,9 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
 
       {/* Footer — pinned bottom */}
       <div className="flex-shrink-0 pt-4 pb-4">
-        {/* Sound wave visualizer + stop button during recording */}
+        {/* Stop button during recording */}
         {phase === "recording" && (
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <SoundWaveVisualizer stream={currentStream} />
-            </div>
+          <div className="flex justify-center">
             <button
               onClick={handleStop}
               disabled={currentDuration < 3}

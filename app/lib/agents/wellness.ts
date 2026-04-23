@@ -1,22 +1,29 @@
-import { inngest } from "@/lib/inngest/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { chatSync, extractJson } from "@/lib/ai/claude";
 import { notify } from "@/lib/notify";
+import { enqueueJob } from "@/lib/jobs/enqueue";
 import { runAgentStep } from "./helpers";
 import type { TemplateKey } from "@/lib/notify";
 
 /**
  * Agent 3 — Wellness Follow-up Agent.
  *
- * Split into two Inngest functions:
+ * Two entrypoints, both invoked by the out-of-process worker
+ * (scripts/worker.ts) based on the job type enqueued in larinova_agent_jobs:
  *
- *  A) wellnessSendAgent    — subscribes to followup.scheduled, sleeps until
- *                            scheduled_for, sends the opening WhatsApp.
- *  B) wellnessReplyAgent   — subscribes to followup.message_received; classifies
- *                            patient reply, decides probe / escalate / close.
+ *  A) runSend({threadId, tier})     — triggered by a followup.scheduled job
+ *                                      after the worker notices scheduled_for
+ *                                      <= now(). Sends the opening message.
+ *  B) runReply({threadId, body})    — triggered by a followup.message_received
+ *                                      job inserted by the Gupshup webhook.
  *
- * Keeping these separate lets Inngest handle the cold wait (days) in A while
- * B is short-lived and can fire many times per thread.
+ * Durable-wait note:
+ *   Previously these were dual Inngest functions with step.sleepUntil for the
+ *   day-1/3/7 cold wait. The worker now scans follow_up_threads.scheduled_for
+ *   and enqueues followup.scheduled only when the time arrives — the agent
+ *   itself does no waiting. For the 48h inbound-reply pause between probes,
+ *   the agent exits after sending a probe; when the next inbound lands the
+ *   webhook enqueues followup.message_received and we resume.
  *
  * Guardrails:
  *   - Hard cap at 10 exchanges per thread.
@@ -45,179 +52,158 @@ Return ONLY JSON: { action, body, classification }`;
 // A — scheduled send
 // ──────────────────────────────────────────────────────────────────────────
 
-export const wellnessSendAgent = inngest.createFunction(
-  {
-    id: "agent-wellness-send",
-    retries: 2,
-    triggers: [{ event: "followup.scheduled" }],
-  },
-  async ({ event, step }) => {
-    const { threadId, tier } = (event.data ?? {}) as {
-      threadId: string;
-      tier: "day-1" | "day-3" | "day-7";
-    };
+export interface WellnessSendPayload {
+  threadId: string;
+  tier: "day-1" | "day-3" | "day-7";
+}
 
-    const ctx = await step.run("load-thread", () => loadThread(threadId));
-    if (!ctx) return { skipped: true };
+export async function runSend(payload: WellnessSendPayload) {
+  const { threadId, tier } = payload;
 
-    await step.sleepUntil(
-      "await-scheduled-time",
-      new Date(ctx.thread.scheduled_for),
-    );
+  // load-thread
+  const ctx = await loadThread(threadId);
+  if (!ctx) return { skipped: true };
 
-    const promptBody = await step.run("generate-opening", () =>
-      runAgentStep(
-        {
-          agent: "wellness",
-          step: "opening",
-          event: "followup.scheduled",
-          correlationId: threadId,
-          patientId: ctx.patient.id,
-          payload: { tier },
-        },
-        async () => ({
-          result: await generateOpening(ctx, tier),
-          model: "sonnet",
-        }),
-      ),
-    );
+  // The worker only enqueues this job once scheduled_for has already passed,
+  // so no await-scheduled-time sleep is needed here.
 
-    const templateKey = templateFor(tier);
-    await step.run("send-opening", () =>
-      notify(
-        "whatsapp",
-        templateKey,
-        {
-          patientName: ctx.patient.full_name,
-          doctorName: ctx.doctor.full_name,
-          chiefComplaint: ctx.consultation.chief_complaint ?? undefined,
-          promptBody,
-        },
-        {
-          patientId: ctx.patient.id,
-          phone: ctx.patient.phone ?? undefined,
-          whatsapp: ctx.patient.phone ?? undefined,
-          name: ctx.patient.full_name,
-        },
-        { relatedEntityType: "follow_up_thread", relatedEntityId: threadId },
-      ),
-    );
+  // generate-opening
+  const promptBody = await runAgentStep(
+    {
+      agent: "wellness",
+      step: "opening",
+      event: "followup.scheduled",
+      correlationId: threadId,
+      patientId: ctx.patient.id,
+      payload: { tier },
+    },
+    async () => ({
+      result: await generateOpening(ctx, tier),
+      model: "sonnet",
+    }),
+  );
 
-    await step.run("mark-active", () =>
-      appendTranscript(threadId, "agent", promptBody, { status: "active" }),
-    );
+  const templateKey = templateFor(tier);
+  // send-opening
+  await notify(
+    "whatsapp",
+    templateKey,
+    {
+      patientName: ctx.patient.full_name,
+      doctorName: ctx.doctor.full_name,
+      chiefComplaint: ctx.consultation.chief_complaint ?? undefined,
+      promptBody,
+    },
+    {
+      patientId: ctx.patient.id,
+      phone: ctx.patient.phone ?? undefined,
+      whatsapp: ctx.patient.phone ?? undefined,
+      name: ctx.patient.full_name,
+    },
+    { relatedEntityType: "follow_up_thread", relatedEntityId: threadId },
+  );
 
-    return { threadId, tier, sent: true };
-  },
-);
+  // mark-active
+  await appendTranscript(threadId, "agent", promptBody, { status: "active" });
+
+  return { threadId, tier, sent: true };
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 // B — inbound reply handler
 // ──────────────────────────────────────────────────────────────────────────
 
-export const wellnessReplyAgent = inngest.createFunction(
-  {
-    id: "agent-wellness-reply",
-    retries: 2,
-    triggers: [{ event: "followup.message_received" }],
-  },
-  async ({ event, step }) => {
-    const { threadId, body } = (event.data ?? {}) as {
-      threadId: string;
-      body: string;
-    };
+export interface WellnessReplyPayload {
+  threadId: string;
+  body: string;
+}
 
-    const ctx = await step.run("load-thread-reply", () => loadThread(threadId));
-    if (!ctx) return { skipped: true };
+export async function runReply(payload: WellnessReplyPayload) {
+  const { threadId, body } = payload;
 
-    if (ctx.thread.patient_opted_out || ctx.thread.status === "closed") {
-      return { skipped: true, reason: "thread closed" };
-    }
+  // load-thread-reply
+  const ctx = await loadThread(threadId);
+  if (!ctx) return { skipped: true };
 
-    // STOP opt-out — short-circuit without Claude.
-    if (isStop(body)) {
-      await step.run("opt-out", () =>
-        appendTranscript(threadId, "patient", body, {
-          status: "opted_out",
-          patient_opted_out: true,
-          outcome: "closed",
-        }),
-      );
-      return { threadId, optedOut: true };
-    }
+  if (ctx.thread.patient_opted_out || ctx.thread.status === "closed") {
+    return { skipped: true, reason: "thread closed" };
+  }
 
-    await step.run("record-inbound", () =>
-      appendTranscript(threadId, "patient", body),
+  // STOP opt-out — short-circuit without Claude.
+  if (isStop(body)) {
+    // opt-out
+    await appendTranscript(threadId, "patient", body, {
+      status: "opted_out",
+      patient_opted_out: true,
+      outcome: "closed",
+    });
+    return { threadId, optedOut: true };
+  }
+
+  // record-inbound
+  await appendTranscript(threadId, "patient", body);
+
+  // Hard exchange cap.
+  if (ctx.thread.exchanges_count + 1 >= MAX_EXCHANGES) {
+    // hard-cap-close
+    await appendTranscript(
+      threadId,
+      "agent",
+      "Thanks — I'll check back with you and loop in your doctor if needed.",
+      { status: "closed", outcome: "unchanged" },
     );
+    return { threadId, closed: true, reason: "max-exchanges" };
+  }
 
-    // Hard exchange cap.
-    if (ctx.thread.exchanges_count + 1 >= MAX_EXCHANGES) {
-      await step.run("hard-cap-close", () =>
-        appendTranscript(
-          threadId,
-          "agent",
-          "Thanks — I'll check back with you and loop in your doctor if needed.",
-          { status: "closed", outcome: "unchanged" },
-        ),
-      );
-      return { threadId, closed: true, reason: "max-exchanges" };
+  // classify-reply
+  const decision = await runAgentStep(
+    {
+      agent: "wellness",
+      step: "classify",
+      event: "followup.message_received",
+      correlationId: threadId,
+      patientId: ctx.patient.id,
+      payload: { body },
+    },
+    async () => ({
+      result: await classifyReply(ctx, body),
+      model: "sonnet",
+    }),
+  );
+
+  if (decision.action === "escalate") {
+    // escalate-flag
+    await flagThread(ctx, threadId, decision.body, decision.classification);
+    // emit-flagged — enqueue so any downstream consumer can react.
+    await enqueueJob("followup.message_received", {
+      threadId,
+      _flagged: true,
+    });
+    return { threadId, flagged: true };
+  }
+
+  if (decision.action === "close") {
+    // close-thread
+    await appendTranscript(threadId, "agent", decision.body || "Take care!", {
+      status: "closed",
+      outcome: decision.classification,
+    });
+    if (decision.body) {
+      // send-close-msg
+      await sendAgentMessage(ctx, threadId, decision.body);
     }
+    return { threadId, closed: true };
+  }
 
-    const decision = await step.run("classify-reply", () =>
-      runAgentStep(
-        {
-          agent: "wellness",
-          step: "classify",
-          event: "followup.message_received",
-          correlationId: threadId,
-          patientId: ctx.patient.id,
-          payload: { body },
-        },
-        async () => ({
-          result: await classifyReply(ctx, body),
-          model: "sonnet",
-        }),
-      ),
-    );
-
-    if (decision.action === "escalate") {
-      await step.run("escalate-flag", () =>
-        flagThread(ctx, threadId, decision.body, decision.classification),
-      );
-      await step.sendEvent("emit-flagged", {
-        name: "followup.flagged",
-        data: { threadId },
-      });
-      return { threadId, flagged: true };
-    }
-
-    if (decision.action === "close") {
-      await step.run("close-thread", () =>
-        appendTranscript(threadId, "agent", decision.body || "Take care!", {
-          status: "closed",
-          outcome: decision.classification,
-        }),
-      );
-      if (decision.body) {
-        await step.run("send-close-msg", () =>
-          sendAgentMessage(ctx, threadId, decision.body),
-        );
-      }
-      return { threadId, closed: true };
-    }
-
-    // probe — send reply, wait for next inbound (48h).
-    await step.run("send-probe", () =>
-      sendAgentMessage(ctx, threadId, decision.body),
-    );
-    await step.run("save-probe-transcript", () =>
-      appendTranscript(threadId, "agent", decision.body, {
-        outcome: decision.classification,
-      }),
-    );
-    return { threadId, probed: true };
-  },
-);
+  // probe — send reply, wait for next inbound (webhook will enqueue).
+  // send-probe
+  await sendAgentMessage(ctx, threadId, decision.body);
+  // save-probe-transcript
+  await appendTranscript(threadId, "agent", decision.body, {
+    outcome: decision.classification,
+  });
+  return { threadId, probed: true };
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 

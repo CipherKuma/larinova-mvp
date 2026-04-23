@@ -1,13 +1,13 @@
 import crypto from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { inngest } from "@/lib/inngest/client";
+import { enqueueJob } from "@/lib/jobs/enqueue";
 
 /**
  * Gupshup WhatsApp webhook. Covers two event types we care about:
  *
  *  - `message`:        inbound patient reply → persist as larinova_messages
- *                      row (direction='in') and emit an Inngest event so
- *                      the right agent can respond.
+ *                      row (direction='in') and enqueue a job so the right
+ *                      agent can respond.
  *  - `message-event`:  delivery/read receipt for an outbound message → update
  *                      status on the matching larinova_messages row.
  */
@@ -86,10 +86,10 @@ async function handleInbound(
     status: "replied",
   });
 
-  // Route the inbound into Inngest so agents can react. The wellness agent
-  // listens for followup.message_received; any other reply becomes a generic
-  // whatsapp.message_received (which the intake agent can pick up via
-  // waitForEvent during its follow-up loop).
+  // Route the inbound into the job queue so the worker picks it up. The
+  // wellness agent handles followup.message_received. Messages not tied to
+  // an open thread are a no-op for alpha (no "whatsapp.message_received"
+  // consumer right now — left as DB row for future inbox review).
   const { data: thread } = patient?.id
     ? await supabase
         .from("larinova_follow_up_threads")
@@ -101,14 +101,9 @@ async function handleInbound(
     : { data: null as null };
 
   if (thread?.id) {
-    await inngest.send({
-      name: "followup.message_received",
-      data: { threadId: thread.id, body },
-    });
-  } else {
-    await inngest.send({
-      name: "whatsapp.message_received",
-      data: { phone: fromPhone, body, providerMsgId: providerMsgId ?? "" },
+    await enqueueJob("followup.message_received", {
+      threadId: thread.id,
+      body,
     });
   }
 

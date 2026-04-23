@@ -1,20 +1,21 @@
-import { inngest } from "@/lib/inngest/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { chatSync } from "@/lib/ai/claude";
 import { notify } from "@/lib/notify";
+import { enqueueJob } from "@/lib/jobs/enqueue";
 import { runAgentStep } from "./helpers";
 
 /**
  * Agent 2 — Post-consult Dispatcher.
  *
- * Trigger:  consultation.finalized
+ * Trigger:  consultation.finalized  (enqueued via lib/jobs/enqueue.ts)
  * Work:
  *   1. Load consultation (SOAP, Rx, ICD-10, chief complaint).
  *   2. Rewrite the clinical SOAP as plain-English patient summary (Claude).
- *   3. Send consultation_summary on 3 channels (email attach Rx PDF base64,
- *      WhatsApp with PDF link, SMS with portal short-link).
+ *   3. Send consultation_summary on email (WhatsApp + SMS deferred — they
+ *      simulate unless provider keys are wired; see lib/notify/*.ts).
  *   4. Schedule the follow-up threads (default day-1/3/7) — one
- *      larinova_follow_up_threads row + one followup.scheduled event each.
+ *      larinova_follow_up_threads row + one followup.scheduled job each.
+ *      (The worker polls `scheduled_for <= now()` and only dispatches then.)
  *   5. Emit narrative.regenerate so the Patient Narrative agent can refresh
  *      the doctor-facing summary.
  */
@@ -35,60 +36,60 @@ const DEFAULT_FOLLOW_UP: Array<"day-1" | "day-3" | "day-7"> = [
   "day-7",
 ];
 
-export const dispatcherAgent = inngest.createFunction(
-  {
-    id: "agent-dispatcher",
-    retries: 2,
-    triggers: [{ event: "consultation.finalized" }],
-  },
-  async ({ event, step }) => {
-    const { consultationId } = (event.data ?? {}) as {
-      consultationId: string;
-    };
+export interface DispatcherRunPayload {
+  consultationId: string;
+}
 
-    const ctx = await step.run("load-consultation", () =>
-      loadConsultationContext(consultationId),
-    );
-    if (!ctx) return { skipped: true };
+export interface DispatcherRunResult {
+  skipped?: boolean;
+  consultationId?: string;
+  patientId?: string;
+  followUpsScheduled?: number;
+}
 
-    const plainSummary = await step.run("generate-plain-summary", () =>
-      runAgentStep(
-        {
-          agent: "dispatcher",
-          step: "plain-summary",
-          event: "consultation.finalized",
-          correlationId: consultationId,
-          patientId: ctx.patient.id,
-        },
-        async () => ({
-          result: await generatePlainSummary(ctx),
-          model: "sonnet",
-        }),
-      ),
-    );
+export async function run(
+  payload: DispatcherRunPayload,
+): Promise<DispatcherRunResult> {
+  const { consultationId } = payload;
+  if (!consultationId) return { skipped: true };
 
-    const rxPdfUrl = await step.run("render-rx-pdf", () =>
-      renderAndUploadRx(ctx),
-    );
+  // load-consultation
+  const ctx = await loadConsultationContext(consultationId);
+  if (!ctx) return { skipped: true };
 
-    await step.run("notify-all-channels", () =>
-      sendAllChannels(ctx, plainSummary, rxPdfUrl),
-    );
-
-    await step.run("schedule-followups", () => scheduleFollowUps(ctx));
-
-    await step.sendEvent("emit-narrative-regenerate", {
-      name: "narrative.regenerate",
-      data: { patientId: ctx.patient.id },
-    });
-
-    return {
-      consultationId,
+  // generate-plain-summary
+  const plainSummary = await runAgentStep(
+    {
+      agent: "dispatcher",
+      step: "plain-summary",
+      event: "consultation.finalized",
+      correlationId: consultationId,
       patientId: ctx.patient.id,
-      followUpsScheduled: ctx.followUpSchedule.length,
-    };
-  },
-);
+    },
+    async () => ({
+      result: await generatePlainSummary(ctx),
+      model: "sonnet",
+    }),
+  );
+
+  // render-rx-pdf
+  const rxPdfUrl = await renderAndUploadRx(ctx);
+
+  // notify-all-channels
+  await sendAllChannels(ctx, plainSummary, rxPdfUrl);
+
+  // schedule-followups (writes DB rows + enqueues one job per tier)
+  const scheduledCount = await scheduleFollowUps(ctx);
+
+  // emit-narrative-regenerate
+  await enqueueJob("narrative.regenerate", { patientId: ctx.patient.id });
+
+  return {
+    consultationId,
+    patientId: ctx.patient.id,
+    followUpsScheduled: scheduledCount,
+  };
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -303,7 +304,7 @@ async function sendAllChannels(
   }
 }
 
-async function scheduleFollowUps(ctx: DispatcherContext): Promise<void> {
+async function scheduleFollowUps(ctx: DispatcherContext): Promise<number> {
   const supabase = createAdminClient();
   const tierOffsets: Record<"day-1" | "day-3" | "day-7", number> = {
     "day-1": 1,
@@ -311,6 +312,7 @@ async function scheduleFollowUps(ctx: DispatcherContext): Promise<void> {
     "day-7": 7,
   };
 
+  let scheduled = 0;
   for (const tier of ctx.followUpSchedule) {
     const scheduledFor = new Date();
     scheduledFor.setUTCDate(scheduledFor.getUTCDate() + tierOffsets[tier]);
@@ -330,9 +332,10 @@ async function scheduleFollowUps(ctx: DispatcherContext): Promise<void> {
 
     if (error || !thread) continue;
 
-    await inngest.send({
-      name: "followup.scheduled",
-      data: { threadId: thread.id, tier },
-    });
+    // Previously: inngest.send('followup.scheduled'). Now we insert a
+    // pending job; the worker will dispatch it when scheduled_for <= now().
+    await enqueueJob("followup.scheduled", { threadId: thread.id, tier });
+    scheduled += 1;
   }
+  return scheduled;
 }

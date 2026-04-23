@@ -1,4 +1,3 @@
-import { inngest } from "@/lib/inngest/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { chatSync, extractJson } from "@/lib/ai/claude";
 import { notify } from "@/lib/notify";
@@ -7,16 +6,22 @@ import { runAgentStep } from "./helpers";
 /**
  * Agent 1 — Pre-consult Intake AI.
  *
- * Trigger:  intake.submitted
+ * Trigger:  intake.submitted  (enqueued via lib/jobs/enqueue.ts)
  * Inputs:   appointment + intake submission + patient history
  * Output:   prep_brief written to larinova_appointments.prep_brief,
- *           intake.prep_ready emitted.
+ *           intake.prep_ready enqueued for the next stage.
  *
  * Loop:     up to MAX_ROUNDS (3) rounds of AI follow-up. Each round sends an
- *           intake_info_request via WhatsApp (falling back to email), then
- *           waits for a patient reply with a 48h timeout. If the patient does
- *           not reply, we still proceed to finalise the Prep Brief with
- *           whatever we have.
+ *           intake_info_request via WhatsApp (falling back to email).
+ *
+ * Durable-wait note (Inngest deferral):
+ *   Previously we called step.waitForEvent('intake.info_received', {timeout:48h})
+ *   to pause for the patient's reply. That runtime is gone — the worker now
+ *   re-enqueues `intake.submitted` each time a fresh reply lands (via webhook
+ *   inserting `intake.info_received` → dispatch re-runs `intake.submitted`).
+ *   This function runs its full loop-body ONCE per invocation: evaluate → if
+ *   not ready and rounds < MAX_ROUNDS, send a follow-up prompt and exit. If
+ *   ready OR we're out of rounds, write the prep brief and emit prep_ready.
  *
  * Guardrails (enforced via the Claude system prompt):
  *  - Never ask for gov IDs, bank info, unrelated PII.
@@ -69,113 +74,109 @@ consult. Return ONLY JSON matching this TypeScript type:
 - medications_to_review: current meds the patient reports. Empty array if none known.
 `;
 
-export const intakeAgent = inngest.createFunction(
-  {
-    id: "agent-intake",
-    retries: 2,
-    triggers: [{ event: "intake.submitted" }],
-  },
-  async ({ event, step }) => {
-    const { appointmentId } = (event.data ?? {}) as { appointmentId: string };
+export interface IntakeRunPayload {
+  appointmentId: string;
+}
 
-    const { appointment, submission, patient } = await step.run(
-      "load-intake-context",
-      () => loadIntakeContext(appointmentId),
-    );
-    if (!appointment || !submission || !patient) {
-      return { skipped: true, reason: "missing context" };
-    }
+export interface IntakeRunResult {
+  skipped?: boolean;
+  reason?: string;
+  appointmentId?: string;
+  rounds?: number;
+  ready?: boolean;
+  awaitingReply?: boolean;
+}
 
-    let ready = false;
-    let rounds = submission.ai_followup_rounds ?? 0;
-    let latestEvaluation: IntakeEvaluation | null = null;
+export async function run(payload: IntakeRunPayload): Promise<IntakeRunResult> {
+  const { appointmentId } = payload;
+  if (!appointmentId) return { skipped: true, reason: "missing appointmentId" };
 
-    while (!ready && rounds < MAX_ROUNDS) {
-      const evaluation = await step.run(`evaluate-intake-${rounds}`, () =>
-        runAgentStep(
-          {
-            agent: "intake",
-            step: `evaluate-${rounds}`,
-            event: "intake.submitted",
-            correlationId: appointmentId,
-            patientId: patient.id,
-            payload: { round: rounds },
-          },
-          async () => ({
-            result: await evaluateIntake(patient, appointment, submission),
-            model: "sonnet",
-          }),
-        ),
-      );
+  // load-intake-context
+  const { appointment, submission, patient } =
+    await loadIntakeContext(appointmentId);
+  if (!appointment || !submission || !patient) {
+    return { skipped: true, reason: "missing context" };
+  }
 
-      latestEvaluation = evaluation;
-      ready = evaluation.ready;
+  const rounds = submission.ai_followup_rounds ?? 0;
 
-      if (ready) break;
+  // evaluate-intake
+  const evaluation = await runAgentStep(
+    {
+      agent: "intake",
+      step: `evaluate-${rounds}`,
+      event: "intake.submitted",
+      correlationId: appointmentId,
+      patientId: patient.id,
+      payload: { round: rounds },
+    },
+    async () => ({
+      result: await evaluateIntake(patient, appointment, submission),
+      model: "sonnet",
+    }),
+  );
 
-      await step.run(`send-info-request-${rounds}`, () =>
-        sendIntakeInfoRequest(patient, appointment, evaluation),
-      );
+  // If the intake is not yet ready and we still have rounds available,
+  // send a follow-up prompt and exit. The worker will re-dispatch this
+  // agent when `intake.info_received` is enqueued (webhook path) or on
+  // a manual re-run.
+  if (!evaluation.ready && rounds < MAX_ROUNDS) {
+    // send-info-request
+    await sendIntakeInfoRequest(patient, appointment, evaluation);
 
-      await step.run(`bump-rounds-${rounds}`, async () => {
-        const supabase = createAdminClient();
-        await supabase
-          .from("larinova_intake_submissions")
-          .update({ ai_followup_rounds: rounds + 1 })
-          .eq("id", submission.id);
-      });
+    // bump-rounds
+    const supabase = createAdminClient();
+    await supabase
+      .from("larinova_intake_submissions")
+      .update({ ai_followup_rounds: rounds + 1 })
+      .eq("id", submission.id);
 
-      const reply = await step.waitForEvent(`await-reply-${rounds}`, {
-        event: "intake.info_received",
-        timeout: "48h",
-        match: "data.appointmentId",
-      });
+    return {
+      appointmentId,
+      rounds: rounds + 1,
+      ready: false,
+      awaitingReply: true,
+    };
+  }
 
-      rounds += 1;
-      if (!reply) break; // timeout → finalise with what we have
-    }
-
-    const prep = await step.run("generate-prep-brief", () =>
-      runAgentStep(
-        {
-          agent: "intake",
-          step: "generate-prep-brief",
-          event: "intake.submitted",
-          correlationId: appointmentId,
-          patientId: patient.id,
-        },
-        async () => ({
-          result: await generatePrepBrief(
-            patient,
-            appointment,
-            submission,
-            latestEvaluation,
-          ),
-          model: "sonnet",
-        }),
+  // generate-prep-brief
+  const prep = await runAgentStep(
+    {
+      agent: "intake",
+      step: "generate-prep-brief",
+      event: "intake.submitted",
+      correlationId: appointmentId,
+      patientId: patient.id,
+    },
+    async () => ({
+      result: await generatePrepBrief(
+        patient,
+        appointment,
+        submission,
+        evaluation,
       ),
-    );
+      model: "sonnet",
+    }),
+  );
 
-    await step.run("save-prep-brief", async () => {
-      const supabase = createAdminClient();
-      await supabase
-        .from("larinova_appointments")
-        .update({ prep_brief: prep, updated_at: new Date().toISOString() })
-        .eq("id", appointmentId);
-      await supabase
-        .from("larinova_intake_submissions")
-        .update({ ai_ready: true })
-        .eq("id", submission.id);
-    });
+  // save-prep-brief
+  const supabase = createAdminClient();
+  await supabase
+    .from("larinova_appointments")
+    .update({ prep_brief: prep, updated_at: new Date().toISOString() })
+    .eq("id", appointmentId);
+  await supabase
+    .from("larinova_intake_submissions")
+    .update({ ai_ready: true })
+    .eq("id", submission.id);
 
-    await step.sendEvent("emit-prep-ready", {
-      name: "intake.prep_ready",
-      data: { appointmentId },
-    });
+  // emit-prep-ready — previously an inngest event; now we no longer
+  // chain a downstream agent here. (The dispatcher fires on consultation
+  // finalization, not on intake readiness.) If/when we need a hook for
+  // prep-ready we'd enqueue a dedicated job type via enqueueJob().
 
-    return { appointmentId, rounds, ready };
-  },
-);
+  return { appointmentId, rounds, ready: evaluation.ready };
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 

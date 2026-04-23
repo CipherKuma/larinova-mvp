@@ -65,14 +65,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "already_subscribed" }, { status: 409 });
   }
 
-  // Whitelisted alpha doctors are already Pro — no need to create a paid sub.
-  if (existing?.status === "whitelisted") {
-    return NextResponse.json(
-      { error: "whitelisted_no_checkout" },
-      { status: 409 },
-    );
-  }
-
   const planId = getPlanId(interval);
   if (!planId && !shouldSimulateRazorpay()) {
     return NextResponse.json(
@@ -166,14 +158,11 @@ async function upsertSubscriptionRow(
     razorpay_customer_id: string;
   },
 ) {
-  // Never write over a 'whitelisted' row.
   const { data: row } = await supabase
     .from("larinova_subscriptions")
     .select("id, status")
     .eq("doctor_id", doctorId)
     .maybeSingle();
-
-  if (row?.status === "whitelisted") return;
 
   if (row) {
     await supabase

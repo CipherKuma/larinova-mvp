@@ -190,31 +190,6 @@ describe("POST /api/razorpay/create-subscription", () => {
     expect((await res.json()).error).toBe("already_subscribed");
   });
 
-  it("returns 409 for whitelisted alpha doctor", async () => {
-    setConfiguredEnv();
-    mockGetUser.mockResolvedValue({
-      data: { user: { id: "u1", email: "d@x.com" } },
-    });
-    mockFrom.mockImplementation(
-      buildQueryReturning({
-        larinova_doctors: { single: { id: "d1", full_name: "Dr Test" } },
-        larinova_subscriptions: {
-          maybeSingle: {
-            status: "whitelisted",
-            plan: "pro",
-            razorpay_subscription_id: null,
-            razorpay_customer_id: null,
-          },
-        },
-      }),
-    );
-
-    const { POST } = await import("./route");
-    const res = await POST(req({ interval: "month" }));
-    expect(res.status).toBe(409);
-    expect((await res.json()).error).toBe("whitelisted_no_checkout");
-  });
-
   it("creates customer + subscription and returns ids", async () => {
     setConfiguredEnv();
     mockGetUser.mockResolvedValue({

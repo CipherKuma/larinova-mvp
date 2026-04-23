@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, CreditCard, Sparkles, Zap } from "lucide-react";
+import { Check, CreditCard, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { AIFeature, PricingRegion } from "@/types/billing";
 import { FREE_TIER_CONSULTATION_LIMIT, PLAN_PRICES } from "@/types/billing";
@@ -75,9 +75,8 @@ export default function BillingClient() {
 
   const plan = data?.subscription?.plan ?? "free";
   const status = data?.subscription?.status ?? "active";
-  const isWhitelisted = plan === "pro" && status === "whitelisted";
   const isActivePro = plan === "pro" && status === "active";
-  const isPro = isWhitelisted || isActivePro;
+  const isPro = isActivePro;
 
   const consultationsUsed = data?.usage?.consultations?.used ?? 0;
 
@@ -99,9 +98,7 @@ export default function BillingClient() {
               <div
                 className={`p-2.5 rounded-xl ${isPro ? "bg-muted text-foreground" : "bg-secondary"}`}
               >
-                {isWhitelisted ? (
-                  <Sparkles className="w-5 h-5" />
-                ) : isActivePro ? (
+                {isActivePro ? (
                   <Zap className="w-5 h-5" />
                 ) : (
                   <CreditCard className="w-5 h-5" />
@@ -109,11 +106,7 @@ export default function BillingClient() {
               </div>
               <div>
                 <h2 className="font-semibold text-foreground">
-                  {isWhitelisted
-                    ? "Alpha Pro"
-                    : isActivePro
-                      ? t("proPlan")
-                      : t("freePlan")}
+                  {isActivePro ? t("proPlan") : t("freePlan")}
                 </h2>
                 {isActivePro && data?.subscription?.current_period_end && (
                   <p className="text-xs text-muted-foreground">
@@ -127,28 +120,9 @@ export default function BillingClient() {
                       : prices.month.label}
                   </p>
                 )}
-                {isWhitelisted && (
-                  <p className="text-xs text-muted-foreground">
-                    Unlimited consults &middot; no billing
-                  </p>
-                )}
               </div>
             </div>
           </div>
-
-          {isWhitelisted && (
-            <div className="mt-5 pt-5 border-t border-border">
-              <div className="rounded-xl border border-primary/40 bg-primary/5 p-4">
-                <h3 className="text-sm font-semibold text-foreground mb-1">
-                  You&apos;re one of our first alpha doctors.
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Thank you — every note you dictate helps shape Larinova. Reply
-                  to any email we send with feedback or feature wishes.
-                </p>
-              </div>
-            </div>
-          )}
 
           {isActivePro && (
             <div className="mt-5 pt-5 border-t border-border">
@@ -223,7 +197,7 @@ export default function BillingClient() {
         </div>
 
         {/* Pricing Cards */}
-        {!isWhitelisted && (
+        {
           <div className="p-6">
             <div className="grid md:grid-cols-3 gap-4">
               {/* Free */}
@@ -371,7 +345,7 @@ export default function BillingClient() {
               </div>
             </div>
           </div>
-        )}
+        }
       </div>
     </>
   );

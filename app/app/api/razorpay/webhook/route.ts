@@ -172,12 +172,6 @@ async function findDoctorRow(
   return (data as DoctorRow | null) ?? null;
 }
 
-function shouldSkipWhitelisted(row: SubscriptionRow | null): boolean {
-  // Never overwrite a whitelisted row with a Razorpay event unless the row has a
-  // real subscription id (meaning the doctor actually completed Checkout).
-  return row?.status === "whitelisted" && !row.razorpay_subscription_id;
-}
-
 async function onSubscriptionActivated(
   supabase: AdminSupabase,
   event: RazorpayEventPayload,
@@ -186,7 +180,6 @@ async function onSubscriptionActivated(
   if (!sub?.id) return;
 
   const row = await findSubscriptionRow(supabase, sub.id);
-  if (shouldSkipWhitelisted(row)) return;
 
   // Interval comes from our notes payload (set in create-subscription).
   const interval =
@@ -246,10 +239,8 @@ async function onSubscriptionActivated(
     }
   }
 
-  await tryEmitInngest("payment.subscription_activated", {
-    doctorId: row?.doctor_id,
-    razorpaySubscriptionId: sub.id,
-  });
+  // Welcome email is sent synchronously above via notify(). No further
+  // downstream event needed for alpha.
 }
 
 async function onSubscriptionCharged(
@@ -260,7 +251,6 @@ async function onSubscriptionCharged(
   if (!sub?.id) return;
 
   const row = await findSubscriptionRow(supabase, sub.id);
-  if (shouldSkipWhitelisted(row)) return;
 
   await supabase
     .from("larinova_subscriptions")
@@ -282,7 +272,6 @@ async function onSubscriptionCancelled(
   if (!sub?.id) return;
 
   const row = await findSubscriptionRow(supabase, sub.id);
-  if (shouldSkipWhitelisted(row)) return;
 
   // Doctor keeps Pro access until current_period_end. We only flip status.
   await supabase
@@ -295,11 +284,7 @@ async function onSubscriptionCancelled(
     })
     .eq("razorpay_subscription_id", sub.id);
 
-  await tryEmitInngest("payment.subscription_cancelled", {
-    doctorId: row?.doctor_id,
-    razorpaySubscriptionId: sub.id,
-    reason: eventName,
-  });
+  // Status flip above is sufficient — downstream consumers can read it.
 }
 
 async function onPaymentFailed(
@@ -310,7 +295,6 @@ async function onPaymentFailed(
   if (!sub?.id) return;
 
   const row = await findSubscriptionRow(supabase, sub.id);
-  if (shouldSkipWhitelisted(row)) return;
 
   await supabase
     .from("larinova_subscriptions")
@@ -350,25 +334,7 @@ async function onPaymentFailed(
     }
   }
 
-  await tryEmitInngest("payment.subscription_failed", {
-    doctorId: row?.doctor_id,
-    razorpaySubscriptionId: sub.id,
-  });
-}
-
-async function tryEmitInngest(name: string, data: Record<string, unknown>) {
-  // Team NotifyAgents owns `lib/inngest/client.ts`. Until it lands, stay quiet.
-  // Use a runtime-computed specifier so TS doesn't demand the module resolve at compile time.
-  try {
-    const specifier = "@/lib/inngest/client";
-    const mod = (await import(
-      /* @vite-ignore */ /* webpackIgnore: true */ specifier
-    ).catch(() => null)) as {
-      inngest?: { send: (e: unknown) => Promise<unknown> };
-    } | null;
-    if (!mod?.inngest?.send) return;
-    await mod.inngest.send({ name, data });
-  } catch (err) {
-    console.warn("[razorpay-webhook] inngest emission skipped", name, err);
-  }
+  // Payment failure is terminal for billing concerns — no downstream job needed
+  // for alpha. Previously emitted an inngest event; now consumers can read
+  // subscription_status='past_due' off larinova_doctors directly.
 }

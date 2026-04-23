@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getPatientFromAuthHeader } from "@/lib/auth/patient";
 import { jsonWithCors, preflight } from "@/lib/cors";
-import { inngest } from "@/lib/inngest/client";
+import { enqueueJob } from "@/lib/jobs/enqueue";
 
 /**
  * POST /api/intake-submissions
@@ -110,9 +110,8 @@ export async function POST(req: Request) {
     })
     .eq("id", parsed.appointmentId);
 
-  await inngest.send({
-    name: "intake.submitted",
-    data: { appointmentId: parsed.appointmentId },
+  await enqueueJob("intake.submitted", {
+    appointmentId: parsed.appointmentId,
   });
 
   return jsonWithCors(req, { submissionId: submission.id, patientId });
