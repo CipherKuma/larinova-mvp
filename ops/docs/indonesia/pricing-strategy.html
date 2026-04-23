@@ -1,0 +1,1834 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Larinova Indonesia — Pricing Strategy &amp; Competitive Positioning
+    </title>
+    <link rel="stylesheet" href="../_shared/strategy-doc.css" />
+    <style>
+      :root {
+        --accent: #1a6fa8;
+        --accent-light: #eff6ff;
+        --accent-dark: #1e40af;
+      }
+
+      @page {
+        @top-right {
+          content: "Larinova Indonesia — Pricing Strategy & Competitive Positioning";
+          font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+          font-size: 7pt;
+          color: #6c6c88;
+          letter-spacing: 0.02em;
+        }
+        @bottom-center {
+          content: "Confidential — Internal Strategy Document  \00b7  Larinova 2025  \00b7  Page "
+            counter(page);
+          font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+          font-size: 7pt;
+          color: #6c6c88;
+        }
+      }
+
+      /* ── COMPETITOR LANDSCAPE TABLE ── */
+      .comp-table col.c-vendor {
+        width: 18%;
+      }
+      .comp-table col.c-founded {
+        width: 9%;
+      }
+      .comp-table col.c-primary {
+        width: 18%;
+      }
+      .comp-table col.c-model {
+        width: 17%;
+      }
+      .comp-table col.c-price {
+        width: 20%;
+      }
+      .comp-table col.c-ai {
+        width: 18%;
+      }
+
+      /* ── FEATURE COMPARISON TABLE ── */
+      .feat-table col.f-feature {
+        width: 26%;
+      }
+      .feat-table col.f-sikda {
+        width: 12%;
+      }
+      .feat-table col.f-med {
+        width: 12%;
+      }
+      .feat-table col.f-saff {
+        width: 12%;
+      }
+      .feat-table col.f-trust {
+        width: 12%;
+      }
+      .feat-table col.f-klik {
+        width: 12%;
+      }
+      .feat-table col.f-lar {
+        width: 14%;
+      }
+
+      /* ── BUYER PERSONA TABLE ── */
+      .buyer-table col.b-buyer {
+        width: 20%;
+      }
+      .buyer-table col.b-pain {
+        width: 26%;
+      }
+      .buyer-table col.b-solve {
+        width: 30%;
+      }
+      .buyer-table col.b-wtp {
+        width: 24%;
+      }
+
+      /* ── PRICING TIERS TABLE ── */
+      .tiers-table col.t-row {
+        width: 20%;
+      }
+      .tiers-table col.t-core {
+        width: 20%;
+      }
+      .tiers-table col.t-pro {
+        width: 20%;
+      }
+      .tiers-table col.t-clp {
+        width: 20%;
+      }
+      .tiers-table col.t-ent {
+        width: 20%;
+      }
+
+      /* ── SEGMENT PRICING TABLE ── */
+      .seg-table col.s-type {
+        width: 22%;
+      }
+      .seg-table col.s-docs {
+        width: 8%;
+      }
+      .seg-table col.s-tier {
+        width: 10%;
+      }
+      .seg-table col.s-price {
+        width: 15%;
+      }
+      .seg-table col.s-comp {
+        width: 14%;
+      }
+      .seg-table col.s-cpric {
+        width: 13%;
+      }
+      .seg-table col.s-adv {
+        width: 18%;
+      }
+
+      /* ── SAFFMedic COMPARISON TABLE ── */
+      .saffcomp-table col.sc-size {
+        width: 14%;
+      }
+      .saffcomp-table col.sc-saff {
+        width: 18%;
+      }
+      .saffcomp-table col.sc-lar {
+        width: 18%;
+      }
+      .saffcomp-table col.sc-save {
+        width: 20%;
+      }
+      .saffcomp-table col.sc-what {
+        width: 30%;
+      }
+
+      /* ── AFFORDABILITY TABLE ── */
+      .afford-table col.af-seg {
+        width: 24%;
+      }
+      .afford-table col.af-rev {
+        width: 20%;
+      }
+      .afford-table col.af-bud {
+        width: 18%;
+      }
+      .afford-table col.af-lar {
+        width: 20%;
+      }
+      .afford-table col.af-aff {
+        width: 18%;
+      }
+
+      /* ── GOVT TIERS TABLE ── */
+      .gov-table col.g-row {
+        width: 18%;
+      }
+      .gov-table col.g-ps {
+        width: 27%;
+      }
+      .gov-table col.g-pp {
+        width: 27%;
+      }
+      .gov-table col.g-ge {
+        width: 28%;
+      }
+
+      /* ── REVENUE TABLE ── */
+      .rev-table col.rv-mo {
+        width: 16%;
+      }
+      .rev-table col.rv-doc {
+        width: 18%;
+      }
+      .rev-table col.rv-avg {
+        width: 18%;
+      }
+      .rev-table col.rv-mrr {
+        width: 24%;
+      }
+      .rev-table col.rv-arr {
+        width: 24%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════════════════════════════════════════════════════
+         COVER PAGE
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="cover">
+      <div class="cover-hero">
+        <div class="cover-wordmark">Larinova</div>
+        <div class="cover-title">
+          Indonesia Market — Pricing Strategy &amp; Competitive Positioning
+        </div>
+        <div class="cover-market">
+          Indonesia Healthcare Software Market &nbsp;·&nbsp; 2025
+        </div>
+      </div>
+      <div class="cover-meta">
+        <div class="cover-meta-line">
+          <strong>Confidential — Internal Strategy Document</strong>
+        </div>
+        <div class="cover-meta-line">
+          Prepared by Larinova Product &amp; Strategy Team
+        </div>
+        <div class="cover-meta-line">Version 1.0 &nbsp;·&nbsp; April 2025</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         PAGE 2 — EXECUTIVE SUMMARY
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="exec-summary">
+      <h1 class="exec-summary-title">Executive Summary</h1>
+      <p class="exec-summary-lead">
+        Larinova enters Indonesia as the first AI-native EHR in a market where
+        zero competitors offer any AI capability at any price. The SATUSEHAT
+        compliance mandate creates urgency among the ~1,200 non-compliant
+        hospitals. The core thesis: sell per doctor with a zero-base-fee Core
+        tier to win individual doctors, then upsell clinics to Pro when they hit
+        the AI scribe session cap. Government is a Phase 3 play — prove with
+        private clinics first, then partner with a SIMRS vendor or Dinkes to
+        enter without procurement burden.
+      </p>
+
+      <table class="summary-table">
+        <colgroup>
+          <col style="width: 28%" />
+          <col style="width: 72%" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>What we are building</td>
+            <td>
+              The first AI-native EHR in Indonesia — not a compliance tool, a
+              doctor productivity platform
+            </td>
+          </tr>
+          <tr>
+            <td>Core pricing principle</td>
+            <td>
+              Per-doctor pricing that aligns our revenue with doctor value, not
+              admin budgets
+            </td>
+          </tr>
+          <tr>
+            <td>Competitive position</td>
+            <td>
+              Cheaper than SAFFMedic for most segments, with a categorically
+              superior product
+            </td>
+          </tr>
+          <tr>
+            <td>AI moat</td>
+            <td>
+              Zero competitors have AI scribe at any price point — first mover
+              advantage is real
+            </td>
+          </tr>
+          <tr>
+            <td>Government strategy</td>
+            <td>
+              Phase-in via partnerships, e-katalog registration, and Dinkes
+              pilot — never lead with it
+            </td>
+          </tr>
+          <tr>
+            <td>Year 1 target</td>
+            <td>400 active doctors, ~Rp 220M MRR by Month 12</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top: 14pt; margin-bottom: 8pt">In this document</h3>
+      <ol class="toc-list" style="list-style: decimal; padding-left: 14pt">
+        <li>
+          <strong>Market Overview</strong> — Indonesia healthcare software
+          landscape &amp; key stats
+        </li>
+        <li>
+          <strong>Competitive Analysis</strong> — Feature &amp; pricing
+          breakdown vs all competitors
+        </li>
+        <li>
+          <strong>Why Larinova Wins</strong> — Our differentiation and value
+          proposition
+        </li>
+        <li>
+          <strong>Pricing Architecture</strong> — Tiers, model logic, and
+          rationale
+        </li>
+        <li>
+          <strong>Segment Pricing Map</strong> — What each facility type pays vs
+          competitors
+        </li>
+        <li>
+          <strong>Affordability &amp; Buying Power</strong> — Indonesian market
+          economics and ROI case
+        </li>
+        <li>
+          <strong>Government &amp; Public Sector</strong> — Special pricing for
+          Puskesmas &amp; government hospitals
+        </li>
+        <li>
+          <strong>Revenue Projections</strong> — What this pricing model yields
+          at scale
+        </li>
+      </ol>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 1 — MARKET OVERVIEW
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">1</span>
+      <div class="section-head">
+        <div class="section-title">Market Overview</div>
+        <div class="section-sub">Indonesia healthcare software landscape</div>
+      </div>
+    </div>
+
+    <h2>The opportunity</h2>
+    <p>
+      Indonesia's healthcare digitisation is at an inflection point. The
+      Ministry of Health's SATUSEHAT mandate requires all healthcare facilities
+      to connect to the national health data platform. As of early 2025, 98.6%
+      of institutions have registered — but most are running outdated, clunky
+      software with zero AI capability. The compliance window is the wedge. The
+      doctor productivity gap is the moat.
+    </p>
+
+    <table>
+      <colgroup>
+        <col style="width: 36%" />
+        <col style="width: 22%" />
+        <col style="width: 42%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Figure</th>
+          <th>Implication for Larinova</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Healthcare facilities in Indonesia</td>
+          <td>~10,000+ registered</td>
+          <td>Large addressable market</td>
+        </tr>
+        <tr>
+          <td>Hospitals not yet SATUSEHAT-compliant (2025)</td>
+          <td>~1,200+</td>
+          <td>Urgent compliance buyers</td>
+        </tr>
+        <tr>
+          <td>Doctors in Indonesia</td>
+          <td>~180,000+</td>
+          <td>Per-doctor pricing scales massively</td>
+        </tr>
+        <tr>
+          <td>EMR penetration (private clinics)</td>
+          <td>~40–50%</td>
+          <td>Half the market still undigitised</td>
+        </tr>
+        <tr>
+          <td>WhatsApp penetration (Indonesia)</td>
+          <td>&gt;95% of adults</td>
+          <td>Native WA integration is essential</td>
+        </tr>
+        <tr>
+          <td>BPJS insured population</td>
+          <td>270M+ (~98%)</td>
+          <td>BPJS bridging is non-negotiable</td>
+        </tr>
+        <tr>
+          <td>Average clinic spend on software</td>
+          <td>Rp 300k–9M/mo</td>
+          <td>Wide range — tiering is correct</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Competitive landscape snapshot</h2>
+    <p>
+      Five main vendors currently serve the Indonesian healthcare software
+      market. None of them has any AI feature. This is the single most important
+      fact in this document — Larinova enters a market where the entire
+      incumbent base is operating at zero AI sophistication.
+    </p>
+
+    <table class="comp-table">
+      <colgroup>
+        <col class="c-vendor" />
+        <col class="c-founded" />
+        <col class="c-primary" />
+        <col class="c-model" />
+        <col class="c-price" />
+        <col class="c-ai" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Founded</th>
+          <th>Primary market</th>
+          <th>Pricing model</th>
+          <th>Entry price/mo</th>
+          <th>AI features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SIKDA Optima (Teknokayo)</td>
+          <td>2014</td>
+          <td>Puskesmas &amp; government clinics</td>
+          <td>Per facility</td>
+          <td>Rp 300k</td>
+          <td class="no">None</td>
+        </tr>
+        <tr>
+          <td>Medify</td>
+          <td>~2018</td>
+          <td>Small clinics &amp; hospitals</td>
+          <td>Per doctor + case volume</td>
+          <td>Rp ~500k (1 doctor)</td>
+          <td class="no">None</td>
+        </tr>
+        <tr>
+          <td>SAFFMedic</td>
+          <td>~2020</td>
+          <td>Mid-size clinics &amp; hospitals</td>
+          <td>Tiered per facility</td>
+          <td>Rp 3,550k</td>
+          <td class="no">None</td>
+        </tr>
+        <tr>
+          <td>Trustmedis</td>
+          <td>~2015</td>
+          <td>Large hospitals</td>
+          <td>Custom / quote</td>
+          <td>Est. Rp 2M–5M+</td>
+          <td class="no">None</td>
+        </tr>
+        <tr>
+          <td>KlikMedis</td>
+          <td>~2021</td>
+          <td>Clinics &amp; Puskesmas</td>
+          <td>Per facility</td>
+          <td>Not public</td>
+          <td class="no">None</td>
+        </tr>
+        <tr>
+          <td class="larinova-col">Larinova</td>
+          <td class="larinova-col">2025</td>
+          <td class="larinova-col">All private facilities</td>
+          <td class="larinova-col">Per doctor + base fee</td>
+          <td class="larinova-col">Rp 450k (1 doctor)</td>
+          <td class="larinova-col">Full AI suite</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 2 — COMPETITIVE ANALYSIS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">2</span>
+      <div class="section-head">
+        <div class="section-title">Competitive Analysis</div>
+        <div class="section-sub">Detailed feature &amp; pricing comparison</div>
+      </div>
+    </div>
+
+    <h2>Full feature comparison</h2>
+    <p class="footnote">
+      Legend: <span class="yes">Yes</span> = fully supported &nbsp;·&nbsp;
+      <span class="partial">Partial</span> = limited or higher tier only
+      &nbsp;·&nbsp; <span class="no">No</span> = not available at any price
+    </p>
+
+    <table class="feat-table">
+      <colgroup>
+        <col class="f-feature" />
+        <col class="f-sikda" />
+        <col class="f-med" />
+        <col class="f-saff" />
+        <col class="f-trust" />
+        <col class="f-klik" />
+        <col class="f-lar" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>SIKDA Optima</th>
+          <th>Medify</th>
+          <th>SAFFMedic</th>
+          <th>Trustmedis</th>
+          <th>KlikMedis</th>
+          <th class="accent-head">Larinova</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row">
+          <td colspan="7">Core clinical</td>
+        </tr>
+        <tr>
+          <td>Patient registration &amp; queue</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>EMR / CPPT / SOAP notes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>ICD-10 diagnosis coding</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Outpatient (rawat jalan)</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Inpatient ward module</td>
+          <td class="no">No</td>
+          <td class="partial">Premium+</td>
+          <td class="partial">Medium+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Emergency dept. module</td>
+          <td class="no">No</td>
+          <td class="partial">Premium+</td>
+          <td class="partial">Medium II+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Pharmacy module</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Premium+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">v1.5</td>
+        </tr>
+        <tr>
+          <td>Laboratory module</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Premium+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Dental / odontogram</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Radiology integration</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Pro+</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="7">Compliance &amp; integrations</td>
+        </tr>
+        <tr>
+          <td>SATUSEHAT integration</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>BPJS / Primary Care bridging</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Mobile JKN integration</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>HL7 FHIR support</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr>
+          <td>ISO 27001 data security</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="7">Automation &amp; workflow</td>
+        </tr>
+        <tr>
+          <td>Queue / appointment system</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Automated reporting</td>
+          <td class="partial">Basic</td>
+          <td class="partial">Basic</td>
+          <td class="partial">Medium+</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Basic</td>
+          <td class="larinova-col">Y (advanced)</td>
+        </tr>
+        <tr>
+          <td>WhatsApp notifications</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr>
+          <td>Email notifications</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>SMS notifications</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Workflow automation engine</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (core feature)</td>
+        </tr>
+        <tr>
+          <td>Referral auto-routing</td>
+          <td class="partial">Manual</td>
+          <td class="partial">Manual</td>
+          <td class="partial">Manual</td>
+          <td class="partial">Manual</td>
+          <td class="partial">Manual</td>
+          <td class="larinova-col">Y (automated)</td>
+        </tr>
+        <tr>
+          <td>Multi-branch management</td>
+          <td class="no">No</td>
+          <td class="partial">Enterprise</td>
+          <td class="partial">Enterprise</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="7">AI features</td>
+        </tr>
+        <tr>
+          <td>AI medical scribe</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (core product)</td>
+        </tr>
+        <tr>
+          <td>Voice-to-notes (Bahasa Indo.)</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (Sarvam API)</td>
+        </tr>
+        <tr>
+          <td>Auto form-fill from voice</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (key moat)</td>
+        </tr>
+        <tr>
+          <td>Clinical decision support</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Predictive analytics / AI insights</td>
+          <td class="no">No</td>
+          <td class="partial">Basic dash</td>
+          <td class="no">No</td>
+          <td class="partial">Dashboard only</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="7">Social &amp; communications</td>
+        </tr>
+        <tr>
+          <td>Doctor collaboration feed</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (unique)</td>
+        </tr>
+        <tr>
+          <td>In-app doctor–patient messaging</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Patient-facing portal</td>
+          <td class="no">No</td>
+          <td class="partial">Queue only</td>
+          <td class="no">No</td>
+          <td class="partial">Basic</td>
+          <td class="partial">Basic</td>
+          <td class="larinova-col">Y (full)</td>
+        </tr>
+        <tr>
+          <td>Patient CRM &amp; retention tools</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Marketing email campaigns</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Telemedicine (video consult)</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="7">Business &amp; financial</td>
+        </tr>
+        <tr>
+          <td>Billing / invoicing</td>
+          <td class="partial">Basic</td>
+          <td class="partial">Premium+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Full accounting module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Pro+</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Doctor remuneration calc.</td>
+          <td class="no">No</td>
+          <td class="partial">Premium+</td>
+          <td class="partial">Pro+</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Basic</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>HR &amp; staff management</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Clinic+</td>
+        </tr>
+        <tr>
+          <td>Open developer API</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Mobile app (Android + iOS)</td>
+          <td class="partial">Android only</td>
+          <td class="partial">Queue only</td>
+          <td class="partial">Web only</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Web only</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr>
+          <td>White label option</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Enterprise</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 3 — WHY LARINOVA WINS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">3</span>
+      <div class="section-head">
+        <div class="section-title">Why Larinova Wins</div>
+        <div class="section-sub">Differentiation and value proposition</div>
+      </div>
+    </div>
+
+    <h2>The three unfair advantages</h2>
+
+    <div class="callout">
+      <div class="callout-title">
+        1. AI medical scribe — a completely uncontested lane
+      </div>
+      <p>
+        Not a single competitor in Indonesia has AI transcription,
+        voice-to-notes, or auto form-fill. This is not a feature gap — it is a
+        category gap. Every doctor using a competitor today still manually types
+        every patient note. A busy doctor seeing 30 patients/day spends roughly
+        90–120 minutes on documentation. Larinova eliminates most of that. The
+        ROI is not marginal — it is transformative.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">2. Per-doctor pricing unlocks a new buyer</div>
+      <p>
+        Every competitor sells to the clinic owner or hospital administrator.
+        The purchase decision sits in procurement, goes through committee, and
+        takes months. Larinova's per-doctor model lets us sell directly to the
+        doctor — who experiences the pain personally and has authority to
+        expense a tool that saves them 2 hours a day. This collapses the sales
+        cycle from months to days and enables bottom-up viral growth within a
+        clinic.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">
+        3. Communications infrastructure nobody else has built
+      </div>
+      <p>
+        No competitor offers email campaigns, patient CRM, multi-channel
+        reminders, or a doctor collaboration feed. Indonesian patients are
+        WhatsApp-native. Indonesian doctors are undersupported on peer
+        consultation. These are solved problems in Western healthcare software
+        (Epic, Athenahealth, Elation) that have never been brought to this
+        market. Larinova brings the full stack.
+      </p>
+    </div>
+
+    <h2>Value proposition by buyer persona</h2>
+
+    <table class="buyer-table">
+      <colgroup>
+        <col class="b-buyer" />
+        <col class="b-pain" />
+        <col class="b-solve" />
+        <col class="b-wtp" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Buyer</th>
+          <th>Pain today</th>
+          <th>What Larinova solves</th>
+          <th>Willingness to pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Individual doctor (praktek mandiri)</td>
+          <td>Manual typing of every note; no patient follow-up tools</td>
+          <td>AI scribe saves 1–2 hrs/day; built-in patient reminders</td>
+          <td>High — direct personal ROI; Rp 450k = cost of 4 consultations</td>
+        </tr>
+        <tr>
+          <td>Clinic owner (klinik pratama/utama)</td>
+          <td>Admin overhead; compliance risk; no patient retention system</td>
+          <td>
+            Full EMR + SATUSEHAT compliance; patient CRM; multi-doctor
+            management
+          </td>
+          <td>High — operational ROI; new revenue from retained patients</td>
+        </tr>
+        <tr>
+          <td>Hospital admin (RS tipe D/C)</td>
+          <td>Legacy SIMRS with poor UX; no AI or analytics; manual BPJS</td>
+          <td>
+            Modern full-stack EHR; automated BPJS; AI analytics; inpatient + ER
+            modules
+          </td>
+          <td>
+            Medium-high — procurement cycle; but AI scribe is a strong hook
+          </td>
+        </tr>
+        <tr>
+          <td>Government clinic (Puskesmas)</td>
+          <td>No budget; compliance pressure; poor existing tools</td>
+          <td>SATUSEHAT compliance; basic EMR; government grant pathway</td>
+          <td>Low — needs subsidised tier; but volume is massive</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 4 — PRICING ARCHITECTURE
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">4</span>
+      <div class="section-head">
+        <div class="section-title">Pricing Architecture</div>
+        <div class="section-sub">Tiers, model logic, and rationale</div>
+      </div>
+    </div>
+
+    <h2>Pricing model: platform base fee + per-doctor seat</h2>
+    <p>
+      The hybrid model (base + per-seat) is used by best-in-class healthcare
+      SaaS globally (Athenahealth, Kareo, DrChrono). The base fee anchors the
+      platform's intrinsic value independent of headcount. The per-doctor fee
+      scales revenue naturally as clinics grow. This model avoids the
+      race-to-the-bottom of pure per-facility pricing while remaining accessible
+      to solo practitioners through a zero-base-fee Core tier.
+    </p>
+
+    <table class="tiers-table">
+      <colgroup>
+        <col class="t-row" />
+        <col class="t-core" />
+        <col class="t-pro" />
+        <col class="t-clp" />
+        <col class="t-ent" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Core</th>
+          <th>Pro</th>
+          <th>Clinic+</th>
+          <th>Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target facility</td>
+          <td>Solo practice, 1–3 doctors</td>
+          <td>General / specialist clinic, 3–15 doctors</td>
+          <td>Large clinic / small hospital, 10–30 doctors</td>
+          <td>Hospital chain, 30+ doctors</td>
+        </tr>
+        <tr>
+          <td>Base fee / month</td>
+          <td>—</td>
+          <td>Rp 500k</td>
+          <td>Rp 2,000k</td>
+          <td>Custom</td>
+        </tr>
+        <tr>
+          <td>Per doctor / month</td>
+          <td>Rp 450k</td>
+          <td>Rp 650k</td>
+          <td>Rp 800k</td>
+          <td>Negotiated</td>
+        </tr>
+        <tr>
+          <td>Annual discount</td>
+          <td>15%</td>
+          <td>15%</td>
+          <td>20%</td>
+          <td>20–30%</td>
+        </tr>
+        <tr>
+          <td>Per doctor (annual)</td>
+          <td>Rp 382k/mo</td>
+          <td>Rp 552k/mo</td>
+          <td>Rp 640k/mo</td>
+          <td>Negotiated</td>
+        </tr>
+        <tr>
+          <td>AI scribe sessions</td>
+          <td>50/doc/month</td>
+          <td>Unlimited</td>
+          <td>Unlimited</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>API access</td>
+          <td>None</td>
+          <td>1,000 calls/mo</td>
+          <td>Unlimited</td>
+          <td>Unlimited + custom</td>
+        </tr>
+        <tr>
+          <td>Branches</td>
+          <td>1</td>
+          <td>1 (add-on avail.)</td>
+          <td>Up to 3</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td>Email / chat</td>
+          <td>Priority chat</td>
+          <td>Priority + onboarding</td>
+          <td>Dedicated AM + SLA</td>
+        </tr>
+        <tr>
+          <td>Free trial</td>
+          <td>14 days</td>
+          <td>14 days</td>
+          <td>14 days</td>
+          <td>30 days POC</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Add-on pricing</h2>
+
+    <table>
+      <colgroup>
+        <col style="width: 38%" />
+        <col style="width: 32%" />
+        <col style="width: 30%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Add-on</th>
+          <th>Price</th>
+          <th>Available on</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Extra AI scribe sessions</td>
+          <td>Rp 50k per 50 sessions</td>
+          <td>Core only</td>
+        </tr>
+        <tr>
+          <td>Additional branch</td>
+          <td>Rp 750k / branch / month</td>
+          <td>Pro tier</td>
+        </tr>
+        <tr>
+          <td>White label / custom branding</td>
+          <td>Rp 5,000k / month</td>
+          <td>Clinic+ and up</td>
+        </tr>
+        <tr>
+          <td>Dedicated training session</td>
+          <td>Rp 500k per session</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>Data migration service</td>
+          <td>Rp 1,500k one-time</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>SMS credits</td>
+          <td>Rp 150 / SMS after free allowance</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>Advanced API tier</td>
+          <td>Rp 1,500k / month</td>
+          <td>Pro add-on</td>
+        </tr>
+        <tr>
+          <td>Medical check-up (MCU) package</td>
+          <td>Rp 2,500k per 200 participants</td>
+          <td>Pro and up</td>
+        </tr>
+        <tr>
+          <td>Custom AI model fine-tuning</td>
+          <td>Negotiated</td>
+          <td>Enterprise only</td>
+        </tr>
+        <tr>
+          <td>On-premise deployment</td>
+          <td>Negotiated</td>
+          <td>Enterprise only</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 5 — SEGMENT PRICING MAP
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">5</span>
+      <div class="section-head">
+        <div class="section-title">Segment Pricing Map</div>
+        <div class="section-sub">
+          What each facility type pays vs competitors
+        </div>
+      </div>
+    </div>
+
+    <table class="seg-table">
+      <colgroup>
+        <col class="s-type" />
+        <col class="s-docs" />
+        <col class="s-tier" />
+        <col class="s-price" />
+        <col class="s-comp" />
+        <col class="s-cpric" />
+        <col class="s-adv" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Facility type</th>
+          <th>Doctors</th>
+          <th>Tier</th>
+          <th>Larinova/mo</th>
+          <th>Nearest competitor</th>
+          <th>Competitor price</th>
+          <th>Larinova advantage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solo doctor practice</td>
+          <td>1</td>
+          <td>Core</td>
+          <td>Rp 450k</td>
+          <td>Medify (1 doctor)</td>
+          <td>Rp ~500k</td>
+          <td class="highlight-green">Cheaper + AI scribe</td>
+        </tr>
+        <tr>
+          <td>Small general clinic</td>
+          <td>2–3</td>
+          <td>Core</td>
+          <td>Rp 900k–1.35M</td>
+          <td>SAFFMedic Basic</td>
+          <td>Rp 3,550k</td>
+          <td class="highlight-green">75% cheaper + AI</td>
+        </tr>
+        <tr>
+          <td>Medium general clinic</td>
+          <td>4–8</td>
+          <td>Pro</td>
+          <td>Rp 3.1M–5.7M</td>
+          <td>SAFFMedic Med I</td>
+          <td>Rp 4,980k</td>
+          <td class="highlight-green">Competitive + far more features</td>
+        </tr>
+        <tr>
+          <td>Large general / specialist</td>
+          <td>8–15</td>
+          <td>Pro</td>
+          <td>Rp 5.7M–10.25M</td>
+          <td>SAFFMedic Med II</td>
+          <td>Rp 9,000k</td>
+          <td class="highlight-green">~Same price, vastly better</td>
+        </tr>
+        <tr>
+          <td>Large specialist clinic</td>
+          <td>15–25</td>
+          <td>Clinic+</td>
+          <td>Rp 14M–22M</td>
+          <td>SAFFMedic Pro</td>
+          <td>Rp 24,000k</td>
+          <td class="highlight-green">40% cheaper + AI + social</td>
+        </tr>
+        <tr>
+          <td>Small hospital (Type D)</td>
+          <td>20–40</td>
+          <td>Clinic+</td>
+          <td>Rp 18M–34M</td>
+          <td>SAFFMedic Enterprise</td>
+          <td>Rp 43,000k</td>
+          <td class="highlight-green">Up to 60% cheaper</td>
+        </tr>
+        <tr>
+          <td>Mid hospital (Type C/B)</td>
+          <td>40–120</td>
+          <td>Enterprise</td>
+          <td>Custom Rp 35M+</td>
+          <td>Trustmedis / NCI</td>
+          <td>Custom</td>
+          <td class="highlight-green">AI differentiates — no price war</td>
+        </tr>
+        <tr>
+          <td>Clinic chain / network</td>
+          <td>Any</td>
+          <td>Enterprise</td>
+          <td>Custom + branch fees</td>
+          <td>None</td>
+          <td>No competitor</td>
+          <td class="highlight-green">Uncontested segment</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Price vs SAFFMedic — the main comparable</h2>
+    <p>
+      SAFFMedic is our primary competitor for the 4–30 doctor clinic segment.
+      The table below shows that for most clinic sizes, Larinova is meaningfully
+      cheaper — with a product that is categorically superior. This is an
+      unusual position: cheaper AND better. It is sustainable because our AI
+      features are not commodity features — they require deep integration with
+      Indonesian speech models (Sarvam AI) that competitors cannot easily
+      replicate.
+    </p>
+
+    <table class="saffcomp-table">
+      <colgroup>
+        <col class="sc-size" />
+        <col class="sc-saff" />
+        <col class="sc-lar" />
+        <col class="sc-save" />
+        <col class="sc-what" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Clinic size</th>
+          <th>SAFFMedic</th>
+          <th>Larinova Pro</th>
+          <th>Saving</th>
+          <th>What the saving buys</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3 doctors</td>
+          <td>Rp 3,550k</td>
+          <td>Rp 2,450k</td>
+          <td class="highlight-green">Rp 1,100k (31%)</td>
+          <td>AI scribe for all 3 doctors</td>
+        </tr>
+        <tr>
+          <td>5 doctors</td>
+          <td>Rp 4,980k</td>
+          <td>Rp 3,750k</td>
+          <td class="highlight-green">Rp 1,230k (25%)</td>
+          <td>+ patient CRM &amp; email campaigns</td>
+        </tr>
+        <tr>
+          <td>10 doctors</td>
+          <td>Rp 9,000k</td>
+          <td>Rp 7,000k</td>
+          <td class="highlight-green">Rp 2,000k (22%)</td>
+          <td>+ full automation engine</td>
+        </tr>
+        <tr>
+          <td>15 doctors</td>
+          <td>Rp 9,000k*</td>
+          <td>Rp 10,250k</td>
+          <td class="highlight-amber">—</td>
+          <td>Premium justified by AI + social</td>
+        </tr>
+        <tr>
+          <td>20 doctors</td>
+          <td>Rp 24,000k</td>
+          <td>Rp 14,500k</td>
+          <td class="highlight-green">Rp 9,500k (40%)</td>
+          <td>Clinic+ with inpatient module</td>
+        </tr>
+        <tr>
+          <td>30 doctors</td>
+          <td>Rp 43,000k</td>
+          <td>Rp 22,000k</td>
+          <td class="highlight-green">Rp 21,000k (49%)</td>
+          <td>Full hospital feature set</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="footnote">
+      * SAFFMedic Medium II caps at this price but has no AI features at any
+      tier.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 6 — AFFORDABILITY & BUYING POWER
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">6</span>
+      <div class="section-head">
+        <div class="section-title">Affordability &amp; Buying Power</div>
+        <div class="section-sub">Indonesian market economics and ROI case</div>
+      </div>
+    </div>
+
+    <h2>Understanding the Indonesian healthcare buyer</h2>
+    <p>
+      Indonesia is a price-sensitive market — but the sensitivity varies
+      enormously by segment. Private clinic owners and hospital administrators
+      have real budgets and will pay for demonstrated value. The mistake is
+      treating all buyers the same. Below is an honest assessment of
+      affordability by segment.
+    </p>
+
+    <table class="afford-table">
+      <colgroup>
+        <col class="af-seg" />
+        <col class="af-rev" />
+        <col class="af-bud" />
+        <col class="af-lar" />
+        <col class="af-aff" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Monthly revenue (est.)</th>
+          <th>Software budget (est. 0.5–2%)</th>
+          <th>Larinova price (recommended tier)</th>
+          <th>Affordability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solo doctor (private practice)</td>
+          <td>Rp 20M–60M</td>
+          <td>Rp 100k–1.2M</td>
+          <td>Rp 450k (Core)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Small clinic 3 doctors</td>
+          <td>Rp 60M–150M</td>
+          <td>Rp 300k–3M</td>
+          <td>Rp 1.35M (Core)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Medium clinic 7 doctors</td>
+          <td>Rp 150M–400M</td>
+          <td>Rp 750k–8M</td>
+          <td>Rp 5.05M (Pro)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Large clinic 15 doctors</td>
+          <td>Rp 400M–1B</td>
+          <td>Rp 2M–20M</td>
+          <td>Rp 10.25M (Pro)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Small hospital 25 docs</td>
+          <td>Rp 1B–5B</td>
+          <td>Rp 5M–100M</td>
+          <td>Rp 22M (Clinic+)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Government Puskesmas</td>
+          <td>Budget-funded</td>
+          <td>Near zero</td>
+          <td>Needs subsidy tier</td>
+          <td class="highlight-amber">Requires special model</td>
+        </tr>
+        <tr>
+          <td>Government hospital (RSUD)</td>
+          <td>Budget-funded</td>
+          <td>Allocated via DIPA</td>
+          <td>Custom / grant</td>
+          <td class="highlight-amber">Procurement process</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>The ROI case — why Rp 650k/doctor/month is a steal</h2>
+    <p>
+      The strongest objection to our pricing will be sticker shock from doctors
+      used to paying nothing or Rp 300k for SIKDA Optima. The answer is always
+      ROI.
+    </p>
+
+    <table>
+      <colgroup>
+        <col style="width: 36%" />
+        <col style="width: 30%" />
+        <col style="width: 34%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Conservative estimate</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Patients per day (busy GP)</td>
+          <td>25–35 patients</td>
+          <td>~30 average</td>
+        </tr>
+        <tr>
+          <td>Documentation time per patient (manual)</td>
+          <td>3–4 minutes</td>
+          <td>~90 min/day total</td>
+        </tr>
+        <tr>
+          <td>Documentation time with AI scribe</td>
+          <td>30–45 seconds review</td>
+          <td>~15 min/day total</td>
+        </tr>
+        <tr>
+          <td>Time recovered per doctor per day</td>
+          <td>~75 minutes</td>
+          <td>~25 hours/month</td>
+        </tr>
+        <tr>
+          <td>Hourly value of a doctor's time</td>
+          <td>Rp 200k–500k/hr</td>
+          <td>Conservative: Rp 200k</td>
+        </tr>
+        <tr>
+          <td>Monthly value of recovered time</td>
+          <td>25 hrs × Rp 200k</td>
+          <td>Rp 5,000,000</td>
+        </tr>
+        <tr>
+          <td>Larinova Pro cost per doctor</td>
+          <td>Rp 650k/month</td>
+          <td>Rp 650,000</td>
+        </tr>
+        <tr>
+          <td class="highlight-accent" style="font-weight: 600">
+            Net ROI per doctor per month
+          </td>
+          <td class="highlight-accent">Rp 5M – Rp 650k</td>
+          <td class="highlight-accent" style="font-weight: 700">
+            ~Rp 4,350,000 (670% ROI)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      This is the core sales argument. Every pricing conversation should return
+      to it. Rp 650k/month is the cost of 3 consultations. The AI scribe alone
+      pays for itself on the first day of use every month.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 7 — GOVERNMENT & PUBLIC SECTOR
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">7</span>
+      <div class="section-head">
+        <div class="section-title">Government &amp; Public Sector</div>
+        <div class="section-sub">
+          Special pricing strategy for Puskesmas &amp; government hospitals
+        </div>
+      </div>
+    </div>
+
+    <h2>Why the government segment matters</h2>
+    <p>
+      Indonesia has approximately 10,000+ Puskesmas (community health centres)
+      and 900+ government hospitals (RSUD/RSUP). These facilities serve the
+      majority of Indonesia's 270 million patients. They also face the strongest
+      SATUSEHAT compliance pressure — Kemenkes mandates integration and these
+      facilities cannot afford to fail audits. This creates a real entry point
+      despite near-zero software budgets.
+    </p>
+    <p>
+      The strategic play is not to compete on price with SIKDA Optima (Rp
+      300k/month for a barebones tool). It is to offer a meaningfully better
+      product at a price that can be covered by government health IT budget
+      allocations (DIPA/BOK) or through a grant-subsidy partnership model.
+    </p>
+
+    <h2>Government tier — special pricing model</h2>
+
+    <table class="gov-table">
+      <colgroup>
+        <col class="g-row" />
+        <col class="g-ps" />
+        <col class="g-pp" />
+        <col class="g-ge" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Public Starter (Puskesmas)</th>
+          <th>Public Pro (RSUD tipe D/C)</th>
+          <th>Government Enterprise (RSUP / large RSUD)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target</td>
+          <td>Puskesmas, community health centres</td>
+          <td>Government district hospitals</td>
+          <td>Provincial/national government hospitals</td>
+        </tr>
+        <tr>
+          <td>Facility count (est.)</td>
+          <td>~10,000+ Puskesmas</td>
+          <td>~900+ RSUD</td>
+          <td>~150+ RSUP/large RSUD</td>
+        </tr>
+        <tr>
+          <td>Pricing model</td>
+          <td>Per facility / flat rate</td>
+          <td>Per facility + limited seats</td>
+          <td>Negotiated contract</td>
+        </tr>
+        <tr>
+          <td>Monthly price</td>
+          <td>Rp 300k–500k (per facility)</td>
+          <td>Rp 1,500k–5,000k (per facility)</td>
+          <td>Custom / annual tender</td>
+        </tr>
+        <tr>
+          <td>AI scribe</td>
+          <td>Basic (20 sessions/mo)</td>
+          <td>Standard (50 sessions/mo)</td>
+          <td>Full — unlimited</td>
+        </tr>
+        <tr>
+          <td>SATUSEHAT</td>
+          <td>Full integration</td>
+          <td>Full integration</td>
+          <td>Full integration + custom reporting</td>
+        </tr>
+        <tr>
+          <td>BPJS / PCare</td>
+          <td>Full bridging</td>
+          <td>Full bridging</td>
+          <td>Full bridging + VClaim</td>
+        </tr>
+        <tr>
+          <td>EMR depth</td>
+          <td>Outpatient only</td>
+          <td>Outpatient + basic inpatient</td>
+          <td>Full hospital EHR</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td>Self-serve + docs</td>
+          <td>Email + chat</td>
+          <td>Dedicated + on-site training</td>
+        </tr>
+        <tr>
+          <td>Contract structure</td>
+          <td>Monthly / annual</td>
+          <td>Annual</td>
+          <td>Annual tender (LPSE)</td>
+        </tr>
+        <tr>
+          <td>Revenue pathway</td>
+          <td>Direct or via Dinkes</td>
+          <td>Direct or via procurement</td>
+          <td>Government procurement (e-katalog)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Go-to-market strategy for government segment</h2>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 1 — Prove with private clinics first (now – Q3 2025)
+      </div>
+      <p class="phase-body">
+        Do not lead with the government segment. Government procurement in
+        Indonesia is slow, political, and margin-destroying if entered too
+        early. Build the product, prove SATUSEHAT compliance, and collect 10–20
+        private clinic case studies with measurable outcomes.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 2 — Partner with a SIMRS vendor or distributor (Q4 2025)
+      </div>
+      <p class="phase-body">
+        Rather than direct sales into government, partner with an existing SIMRS
+        vendor that already has government relationships (e.g., a Dinkes
+        partner). White-label the AI scribe module as a bolt-on they can resell.
+        This gets you into government without the procurement burden.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 3 — Register on e-katalog / LKPP (2026)
+      </div>
+      <p class="phase-body">
+        Indonesia's government procurement platform (e-katalog) allows
+        pre-approved vendors to sell directly to government buyers without full
+        tender. Register Larinova as an approved health IT vendor. This is the
+        path to scale in the government segment.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 4 — Pilot with Kemenkes or Dinkes (2026–2027)
+      </div>
+      <p class="phase-body">
+        Target a Dinas Kesehatan (regional health office) for a subsidised
+        pilot. A successful Dinkes endorsement creates top-down pressure on all
+        Puskesmas in that region to adopt the platform. This is how SIKDA Optima
+        grew in Jakarta — Dinkes DKI mandate.
+      </p>
+    </div>
+
+    <h2>Critical warning on government pricing</h2>
+    <p>
+      Government contracts in Indonesia are won on price and relationships, not
+      features. The moment you enter the government segment with aggressive
+      discounts, you risk anchoring your brand as a budget product — which
+      undermines private clinic pricing. Keep government pricing clearly
+      separate from private tier pricing, use a different product SKU (e.g.,
+      'Larinova Public'), and never publicly advertise the government rate. The
+      two markets should not know what the other is paying.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 8 — REVENUE PROJECTIONS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">8</span>
+      <div class="section-head">
+        <div class="section-title">Revenue Projections</div>
+        <div class="section-sub">What this pricing model yields at scale</div>
+      </div>
+    </div>
+
+    <h2>12-month revenue model — conservative scenario</h2>
+    <p>
+      Assumes: gradual ramp, 70% on Core, 25% on Pro, 5% on Clinic+. No
+      Enterprise in year 1.
+    </p>
+
+    <table class="rev-table">
+      <colgroup>
+        <col class="rv-mo" />
+        <col class="rv-doc" />
+        <col class="rv-avg" />
+        <col class="rv-mrr" />
+        <col class="rv-arr" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Active doctors</th>
+          <th>Avg revenue/doc</th>
+          <th>Monthly ARR</th>
+          <th>Cumulative ARR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Month 1–2 (pilot)</td>
+          <td>5–10</td>
+          <td>Rp 450k</td>
+          <td>~Rp 2.25M–4.5M</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Month 3</td>
+          <td>20</td>
+          <td>Rp 480k</td>
+          <td>~Rp 9.6M</td>
+          <td>~Rp 24M</td>
+        </tr>
+        <tr>
+          <td>Month 6</td>
+          <td>75</td>
+          <td>Rp 510k</td>
+          <td>~Rp 38M</td>
+          <td>~Rp 165M</td>
+        </tr>
+        <tr>
+          <td>Month 9</td>
+          <td>200</td>
+          <td>Rp 530k</td>
+          <td>~Rp 106M</td>
+          <td>~Rp 530M</td>
+        </tr>
+        <tr>
+          <td>Month 12</td>
+          <td>400</td>
+          <td>Rp 550k</td>
+          <td>~Rp 220M</td>
+          <td>~Rp 1.2B</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>What 400 active doctors looks like</h2>
+    <p>
+      400 doctors across Indonesia is a very achievable Year 1 target. Indonesia
+      has 180,000+ registered doctors. Capturing 0.22% of that base in 12 months
+      requires winning roughly 40–60 clinics. At an average of 7 doctors per
+      clinic, that is 6–8 new clinics per month from Month 6 onward. That is a
+      sales motion one founder-led BD person can execute.
+    </p>
+
+    <h2>Key pricing levers to pull as you scale</h2>
+
+    <h3>Annual pre-payment incentive</h3>
+    <p>
+      Offer 2 months free on annual commits. At Rp 650k × 12 = Rp 7.8M per
+      doctor, a 2-month free incentive costs you Rp 1.3M but locks in Rp 6.5M
+      guaranteed revenue. Dramatically improves cash flow predictability.
+    </p>
+
+    <h3>Referral programme</h3>
+    <p>
+      Doctors talk to each other. A Rp 200k/month credit per referred doctor who
+      activates is a powerful growth loop. At a 20% referral conversion rate,
+      CAC drops to near zero within high-density hospital networks.
+    </p>
+
+    <h3>Usage-based upsell</h3>
+    <p>
+      Core tier doctors who hit 50 AI scribe sessions in week 3 will upgrade
+      themselves. Build the upgrade nudge into the product — not a sales call.
+      This is the most important conversion mechanism in the pricing
+      architecture.
+    </p>
+
+    <h3>Clinic-level volume pricing</h3>
+    <p>
+      For clinics with 10+ doctors on Pro, offer a 10% volume discount. It
+      prevents churn at the enterprise threshold and keeps them in the Pro tier
+      rather than shopping Enterprise.
+    </p>
+  </body>
+</html>

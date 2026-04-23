@@ -1,0 +1,431 @@
+/* ── STRATEGY DOCUMENT STYLES ─────────────────────────────────────────────
+   Shared base for Larinova internal pricing strategy documents.
+   Each HTML file sets --accent / --accent-light / --accent-dark and the
+   @page header/footer content via an inline <style> block.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ── PAGE DEFAULTS ─────────────────────────────────────────────────────── */
+@page {
+  size: A4;
+  margin: 22mm 20mm 18mm 20mm;
+}
+
+@page cover {
+  margin: 0;
+  @top-right {
+    content: none;
+  }
+  @top-left {
+    content: none;
+  }
+  @top-center {
+    content: none;
+  }
+  @bottom-center {
+    content: none;
+  }
+  @bottom-left {
+    content: none;
+  }
+  @bottom-right {
+    content: none;
+  }
+}
+
+/* ── RESET ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── COLOR TOKENS ──────────────────────────────────────────────────────── */
+:root {
+  --ink: #14141c;
+  --ink-mid: #3a3a52;
+  --ink-light: #6c6c88;
+  --ink-faint: #bebebd;
+  --page: #ffffff;
+  --rule: #e2e2ee;
+  --yes: #16a34a;
+  --partial: #b45309;
+  --no: #dc2626;
+  /* --accent, --accent-light, --accent-dark set per-document */
+}
+
+/* ── BASE ──────────────────────────────────────────────────────────────── */
+body {
+  font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
+  font-size: 9pt;
+  line-height: 1.52;
+  color: var(--ink);
+  background: var(--page);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── COVER PAGE ────────────────────────────────────────────────────────── */
+.cover {
+  page: cover;
+  width: 210mm;
+  height: 297mm;
+  display: flex;
+  flex-direction: column;
+  break-after: page;
+}
+
+.cover-hero {
+  flex: 1;
+  background: var(--accent);
+  padding: 64pt 52pt 40pt 52pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover-wordmark {
+  font-size: 54pt;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.97);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin-bottom: 20pt;
+}
+
+.cover-title {
+  font-size: 22pt;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.96);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 12pt;
+  max-width: 380pt;
+}
+
+.cover-market {
+  font-size: 9pt;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cover-meta {
+  background: #0f1a2b;
+  padding: 22pt 52pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover-meta-line {
+  font-size: 8pt;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
+.cover-meta-line strong {
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 600;
+}
+
+/* ── SECTION OPENERS ───────────────────────────────────────────────────── */
+.section-opener {
+  display: flex;
+  align-items: flex-end;
+  gap: 16pt;
+  margin-bottom: 18pt;
+  padding-bottom: 10pt;
+  border-bottom: 1.5pt solid var(--accent);
+  break-before: page;
+  break-after: avoid;
+}
+
+.section-num {
+  font-size: 72pt;
+  font-weight: 800;
+  color: var(--accent);
+  opacity: 0.13;
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  flex-shrink: 0;
+  width: 56pt;
+  text-align: right;
+}
+
+.section-head {
+  padding-bottom: 4pt;
+}
+
+.section-title {
+  font-size: 17pt;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin-bottom: 3pt;
+}
+
+.section-sub {
+  font-size: 7.5pt;
+  font-weight: 500;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── EXECUTIVE SUMMARY PAGE ────────────────────────────────────────────── */
+.exec-summary {
+  break-before: page;
+}
+
+.exec-summary-title {
+  font-size: 16pt;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin: 0 0 6pt 0;
+  padding-bottom: 8pt;
+  border-bottom: 1.5pt solid var(--accent);
+}
+
+.exec-summary-lead {
+  font-size: 10pt;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  margin: 10pt 0 14pt 0;
+  max-width: 520pt;
+}
+
+.toc-list {
+  margin: 12pt 0 0 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: 20pt;
+}
+
+.toc-list li {
+  font-size: 8.5pt;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  margin-bottom: 3pt;
+  break-inside: avoid;
+}
+
+.toc-list li strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── HEADINGS ──────────────────────────────────────────────────────────── */
+h2 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 16pt 0 8pt 0;
+  line-height: 1.3;
+  break-after: avoid;
+}
+
+h3 {
+  font-size: 10pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 12pt 0 6pt 0;
+  line-height: 1.3;
+  break-after: avoid;
+}
+
+p {
+  margin: 0 0 8pt 0;
+  font-size: 9pt;
+  color: var(--ink-mid);
+  line-height: 1.55;
+}
+
+/* ── DIVIDER ───────────────────────────────────────────────────────────── */
+.rule {
+  border: none;
+  border-top: 0.5pt solid var(--rule);
+  margin: 14pt 0;
+}
+
+/* ── TABLES ────────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 8pt;
+  margin-bottom: 14pt;
+  break-inside: auto;
+}
+
+thead {
+  display: table-header-group;
+}
+
+th {
+  background: #1f2937;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 7pt;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 6pt 8pt;
+  text-align: left;
+  vertical-align: middle;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+th.accent-head {
+  background: var(--accent);
+}
+
+td {
+  padding: 6pt 8pt;
+  border-bottom: 0.5pt solid var(--rule);
+  vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.45;
+  font-size: 8pt;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+tr {
+  break-inside: avoid;
+}
+
+/* Category / section header rows within feature tables */
+.cat-row td {
+  background: var(--accent-light);
+  font-weight: 700;
+  font-size: 7pt;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-dark);
+  padding: 4pt 8pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Value color coding */
+.yes {
+  color: var(--yes);
+  font-weight: 600;
+}
+.partial {
+  color: var(--partial);
+  font-weight: 600;
+}
+.no {
+  color: var(--no);
+}
+.larinova-col {
+  color: var(--accent);
+  font-weight: 600;
+}
+.highlight-green {
+  color: var(--yes);
+  font-weight: 600;
+}
+.highlight-amber {
+  color: var(--partial);
+  font-weight: 600;
+}
+.highlight-accent {
+  color: var(--accent);
+  font-weight: 700;
+}
+.dim {
+  color: var(--ink-light);
+}
+
+/* Summary / two-col tables */
+.summary-table {
+  margin-bottom: 16pt;
+}
+
+.summary-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  width: 34%;
+}
+
+.summary-table td:last-child {
+  color: var(--ink-mid);
+}
+
+/* ── CALLOUT BOXES ─────────────────────────────────────────────────────── */
+.callout {
+  background: var(--accent-light);
+  border-radius: 2pt;
+  padding: 10pt 13pt;
+  margin-bottom: 9pt;
+  break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.callout-title {
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin-bottom: 5pt;
+  line-height: 1.3;
+}
+
+.callout p {
+  font-size: 8.5pt;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Government phase callouts */
+.phase-callout {
+  background: var(--accent-light);
+  border-radius: 2pt;
+  padding: 9pt 13pt;
+  margin-bottom: 8pt;
+  break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.phase-title {
+  font-size: 9pt;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4pt;
+}
+
+.phase-body {
+  font-size: 8.5pt;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── FOOTNOTE ──────────────────────────────────────────────────────────── */
+.footnote {
+  font-size: 7.5pt;
+  color: var(--ink-light);
+  line-height: 1.5;
+  margin-top: 6pt;
+}

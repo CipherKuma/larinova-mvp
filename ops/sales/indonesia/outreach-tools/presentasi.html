@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Larinova — Presentasi Lengkap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --teal: #00B8A9;
+    --teal-dark: #008F84;
+    --teal-light: #E0F7F5;
+    --blue: #0A2E4A;
+    --blue-mid: #1A4A6E;
+    --accent: #F5A623;
+    --white: #FFFFFF;
+    --gray-light: #F4F7FA;
+    --gray: #8A9BB0;
+    --text: #1A2B3C;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #0A1628;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text);
+    user-select: none;
+  }
+
+  /* ─── WRAPPER ─────────────────────────────────── */
+  .presentation-wrapper {
+    width: 100%;
+    max-width: 960px;
+  }
+
+  /* ─── SLIDE AREA ──────────────────────────────── */
+  .slide-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    animation: fadeIn 0.5s ease;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── CONTROLS BAR ────────────────────────────── */
+  .controls {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.18); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .slide-counter {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    flex: 1;
+  }
+
+  .play-btn {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .play-btn:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,184,169,0.4); }
+  .play-btn.playing { background: linear-gradient(135deg, #E74C3C, #C0392B); }
+
+  /* ─── PROGRESS BAR ────────────────────────────── */
+  .progress-bar {
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* ─── NARRATION BOX ───────────────────────────── */
+  .narration-box {
+    margin-top: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,184,169,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.75);
+    font-style: italic;
+    min-height: 70px;
+  }
+  .narration-box span { color: var(--teal); font-weight: 600; font-style: normal; }
+
+  /* ─── SLIDE DESIGNS ───────────────────────────── */
+
+  /* SLIDE 1 — COVER */
+  .slide-cover {
+    background: linear-gradient(135deg, #0A2E4A 0%, #0D3B5E 50%, #0A2E4A 100%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-cover::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,184,169,0.15), transparent 70%);
+    top: -200px; left: 50%; transform: translateX(-50%);
+  }
+  .slide-cover .logo-text {
+    font-size: 64px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -2px;
+    position: relative;
+  }
+  .slide-cover .logo-text span { color: var(--teal); }
+  .slide-cover .tagline {
+    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 12px;
+    font-weight: 400;
+    max-width: 600px;
+  }
+  .slide-cover .badge {
+    margin-top: 28px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white;
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+  }
+  .slide-cover .sub-badge {
+    margin-top: 14px;
+    color: rgba(255,255,255,0.45);
+    font-size: 14px;
+  }
+  .dots-bg {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 300px; height: 200px;
+    opacity: 0.05;
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* SLIDE 2 — MASALAH */
+  .slide-problem {
+    background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);
+    flex-direction: column;
+    padding: 40px 50px;
+    justify-content: center;
+    position: relative;
+  }
+  .slide-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+  .slide-heading {
+    font-size: 34px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+  .slide-heading em { color: var(--accent); font-style: normal; }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .problem-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .problem-icon {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .problem-card h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .problem-card p {
+    color: rgba(255,255,255,0.55);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  /* SLIDE 3 — SOLUSI */
+  .slide-solution {
+    background: linear-gradient(135deg, #003D3A 0%, #005A55 100%);
+    flex-direction: column;
+    padding: 40px 50px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-solution::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,184,169,0.2), transparent);
+    bottom: -200px; right: -100px;
+  }
+  .solution-body {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 10px;
+  }
+  .solution-logo {
+    font-size: 80px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -3px;
+    flex-shrink: 0;
+  }
+  .solution-logo span { color: var(--teal); }
+  .solution-points { flex: 1; }
+  .solution-point {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .solution-point:last-child { border-bottom: none; }
+  .solution-point .check {
+    width: 28px; height: 28px;
+    background: rgba(0,184,169,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .solution-point p {
+    color: rgba(255,255,255,0.85);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* SLIDE 4 — AI SCRIBE */
+  .slide-ai {
+    background: linear-gradient(135deg, #0A1628 0%, #0D2244 100%);
+    flex-direction: row;
+    overflow: hidden;
+  }
+  .ai-left {
+    width: 45%;
+    background: linear-gradient(160deg, var(--teal), var(--teal-dark));
+    padding: 40px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-left::before {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    bottom: -60px; right: -60px;
+  }
+  .ai-badge {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .ai-left h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .ai-left p {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .ai-right {
+    flex: 1;
+    padding: 35px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+  .ai-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .ai-step-num {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 16px;
+    flex-shrink: 0;
+  }
+  .ai-step h4 { color: white; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .ai-step p { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+  /* SLIDE 5 — FITUR LENGKAP */
+  .slide-features {
+    background: #F4F7FA;
+    flex-direction: column;
+    padding: 36px 44px;
+    justify-content: center;
+  }
+  .slide-features .slide-title { color: var(--teal-dark); }
+  .slide-features .slide-heading { color: var(--blue); font-size: 30px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .feature-card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.2s;
+  }
+  .feature-card:hover { transform: translateY(-2px); }
+  .feature-icon { font-size: 32px; margin-bottom: 10px; }
+  .feature-card h4 { color: var(--blue); font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .feature-card p { color: var(--gray); font-size: 11.5px; line-height: 1.5; }
+
+  /* SLIDE 6 — KENAPA LARINOVA */
+  .slide-why {
+    background: linear-gradient(135deg, #1a1a2e, #0A2E4A);
+    flex-direction: column;
+    padding: 36px 50px;
+    justify-content: center;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .why-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,184,169,0.2);
+    border-radius: 14px;
+    padding: 20px 18px;
+    text-align: center;
+  }
+  .why-card .num {
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+  }
+  .why-card h4 { color: white; font-size: 13px; font-weight: 700; margin: 8px 0 6px; }
+  .why-card p { color: rgba(255,255,255,0.5); font-size: 12px; line-height: 1.5; }
+
+  /* SLIDE 7 — TARGET */
+  .slide-target {
+    background: #F4F7FA;
+    flex-direction: row;
+  }
+  .target-left {
+    width: 38%;
+    background: linear-gradient(160deg, var(--blue), var(--blue-mid));
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .target-left .slide-title { color: rgba(255,255,255,0.5); }
+  .target-left .slide-heading { color: white; font-size: 28px; margin-bottom: 0; }
+  .target-right {
+    flex: 1;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  .target-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .target-icon { font-size: 26px; }
+  .target-row h4 { color: var(--blue); font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .target-row p { color: var(--gray); font-size: 12px; }
+
+  /* SLIDE 8 — CTA */
+  .slide-cta {
+    background: linear-gradient(135deg, #00B8A9 0%, #008F84 100%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-cta::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    top: -200px; right: -150px;
+  }
+  .slide-cta h1 {
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    max-width: 700px;
+    position: relative;
+  }
+  .slide-cta h1 span { color: rgba(255,255,255,0.3); }
+  .slide-cta .free-badge {
+    background: white;
+    color: var(--teal-dark);
+    font-size: 20px;
+    font-weight: 800;
+    padding: 12px 36px;
+    border-radius: 50px;
+    margin-top: 24px;
+    display: inline-block;
+    position: relative;
+  }
+  .slide-cta .sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 16px;
+    margin-top: 14px;
+    position: relative;
+  }
+
+  /* SLIDE 9 — CARA PENDEKATAN */
+  .slide-approach {
+    background: linear-gradient(160deg, #1a1a2e, #0A2E4A);
+    flex-direction: column;
+    padding: 36px 50px;
+    justify-content: center;
+  }
+  .steps-list { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 18px;
+  }
+  .step-circle {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 15px;
+    flex-shrink: 0;
+  }
+  .step-row h4 { color: white; font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .step-row p { color: rgba(255,255,255,0.5); font-size: 12.5px; }
+
+  /* SLIDE 10 — PESAN WA */
+  .slide-wa {
+    background: #075E54;
+    flex-direction: column;
+    padding: 36px 50px;
+    justify-content: center;
+  }
+  .wa-header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .wa-logo { font-size: 32px; }
+  .wa-header h2 { color: white; font-size: 24px; font-weight: 800; }
+  .wa-bubble {
+    background: white;
+    border-radius: 0 16px 16px 16px;
+    padding: 16px 20px;
+    max-width: 80%;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    position: relative;
+  }
+  .wa-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -8px;
+    border-width: 0 8px 8px 0;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
+  }
+  .wa-tip {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .wa-tip strong { color: white; }
+
+  /* SLIDE 11 — KEBERATAN */
+  .slide-objection {
+    background: #F4F7FA;
+    flex-direction: column;
+    padding: 36px 44px;
+    justify-content: center;
+  }
+  .slide-objection .slide-title { color: var(--teal-dark); }
+  .slide-objection .slide-heading { color: var(--blue); font-size: 28px; }
+  .objection-table { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .obj-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .obj-q {
+    background: #FFF3E0;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #7B4F00;
+    font-weight: 600;
+  }
+  .obj-a {
+    background: #E0F7F5;
+    border-left: 3px solid var(--teal);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #004D47;
+    font-weight: 500;
+  }
+
+  /* SLIDE 12 — PENUTUP */
+  .slide-close {
+    background: linear-gradient(135deg, #0A2E4A 0%, #0D3B5E 100%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-close::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,184,169,0.12), transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .close-logo {
+    font-size: 52px; font-weight: 800;
+    color: white; letter-spacing: -2px;
+    position: relative;
+  }
+  .close-logo span { color: var(--teal); }
+  .close-motto {
+    font-size: 18px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 8px;
+    font-weight: 400;
+    position: relative;
+  }
+  .close-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    position: relative;
+  }
+  .close-btn {
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .close-btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .close-btn-outline {
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="presentation-wrapper">
+
+  <!-- ═══ SLIDE CONTAINER ═══ -->
+  <div class="slide-container">
+
+    <!-- SLIDE 1 — COVER -->
+    <div class="slide slide-cover active" data-narration="Selamat datang di presentasi Larinova. Larinova adalah aplikasi manajemen klinik berbasis AI yang dirancang khusus untuk dokter-dokter di Indonesia. Semuanya tersedia dalam Bahasa Indonesia. Mari kita mulai!">
+      <div style="position:relative;z-index:1;text-align:center;">
+        <div class="logo-text">Lari<span>nova</span></div>
+        <div class="tagline">Aplikasi manajemen klinik + AI khusus untuk dokter Indonesia</div>
+        <div class="badge">✨ Akses Gratis 1 Bulan — Mulai Sekarang</div>
+        <div class="sub-badge">Tidak perlu kartu kredit &nbsp;·&nbsp; Tidak ada komitmen</div>
+      </div>
+      <div class="dots-bg"></div>
+    </div>
+
+    <!-- SLIDE 2 — MASALAH -->
+    <div class="slide slide-problem" data-narration="Sebagai dokter, kamu pasti pernah merasakan ini. Setiap hari habis waktu berjam-jam hanya untuk nulis catatan konsultasi secara manual. Pakai banyak aplikasi yang berbeda-beda — satu buat jadwal, satu buat rekam medis, satu lagi buat dokumen. Belum lagi aplikasinya semua dalam bahasa Inggris. Ini bukan salah dokternya — memang belum ada solusi yang tepat untuk Indonesia. Sampai sekarang.">
+      <div class="slide-title">😩 Masalah Dokter</div>
+      <div class="slide-heading">Waktu dokter habis untuk <em>hal yang salah</em></div>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-icon">✍️</div>
+          <div>
+            <h4>Nulis catatan manual berjam-jam</h4>
+            <p>Setiap konsultasi harus dicatat manual — menyita waktu yang seharusnya untuk pasien.</p>
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📱</div>
+          <div>
+            <h4>Banyak aplikasi berbeda-beda</h4>
+            <p>Jadwal di satu app, rekam medis di app lain, dokumen di tempat lain — semua terpisah.</p>
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🌐</div>
+          <div>
+            <h4>Semua aplikasi dalam bahasa Inggris</h4>
+            <p>Tidak ada platform manajemen klinik yang sepenuhnya dalam Bahasa Indonesia.</p>
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📄</div>
+          <div>
+            <h4>Dokumen lambat dan ribet</h4>
+            <p>Resep, surat rujukan, sertifikat medis — semua harus dibuat manual satu per satu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 — SOLUSI -->
+    <div class="slide slide-solution" data-narration="Nah, itulah kenapa Larinova hadir. Larinova adalah satu platform lengkap yang menggabungkan manajemen klinik dan otomasi berbasis AI — semuanya dalam Bahasa Indonesia. Satu aplikasi untuk semua kebutuhan dokter.">
+      <div class="slide-title">💡 Solusi</div>
+      <div class="slide-heading" style="color:white;">Larinova: Satu aplikasi, semua kebutuhan dokter</div>
+      <div class="solution-body">
+        <div class="solution-logo">Lari<span>nova</span></div>
+        <div class="solution-points">
+          <div class="solution-point">
+            <div class="check">✓</div>
+            <p>Manajemen pasien, jadwal & rekam medis dalam satu tempat</p>
+          </div>
+          <div class="solution-point">
+            <div class="check">✓</div>
+            <p>AI yang otomatis menuliskan catatan konsultasi — tanpa ketik manual</p>
+          </div>
+          <div class="solution-point">
+            <div class="check">✓</div>
+            <p>Dokumen medis (resep, rujukan, sertifikat) ter-generate otomatis</p>
+          </div>
+          <div class="solution-point">
+            <div class="check">✓</div>
+            <p>100% dalam Bahasa Indonesia — dirancang untuk dokter di sini</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 — AI SCRIBE -->
+    <div class="slide slide-ai" data-narration="Fitur paling canggih di Larinova adalah AI Scribe. Cara kerjanya sederhana: kamu bicara dengan pasien seperti biasa. Larinova mendengarkan dan langsung menuliskan catatan konsultasi secara otomatis. Setelah konsultasi selesai, semua dokumen sudah siap — resep, surat rujukan, catatan SOAP. Tidak perlu nulis apa-apa lagi! Dan yang paling penting — ini satu-satunya AI seperti ini yang mendukung Bahasa Indonesia secara penuh. Tidak ada kompetitor yang punya fitur ini untuk pasar Indonesia.">
+      <div class="ai-left">
+        <div class="ai-badge">⭐ Fitur Unggulan</div>
+        <h2>AI Scribe — Asisten Dokter Berbasis AI</h2>
+        <p>Bicara dengan pasien seperti biasa. AI Larinova mendengarkan dan langsung menulis catatan secara otomatis — dalam Bahasa Indonesia.</p>
+      </div>
+      <div class="ai-right">
+        <div class="ai-step">
+          <div class="ai-step-num">1</div>
+          <div>
+            <h4>Dokter mulai konsultasi</h4>
+            <p>Bicara dengan pasien seperti biasa — tidak ada yang berubah</p>
+          </div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-num">2</div>
+          <div>
+            <h4>AI mendengarkan & mencatat</h4>
+            <p>Larinova merekam dan memproses percakapan secara real-time</p>
+          </div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-num">3</div>
+          <div>
+            <h4>Catatan & dokumen siap otomatis</h4>
+            <p>SOAP notes, resep, surat rujukan — semua langsung tersedia</p>
+          </div>
+        </div>
+        <div class="ai-step">
+          <div class="ai-step-num">4</div>
+          <div>
+            <h4>Dokter hemat 2–3 jam per hari</h4>
+            <p>Fokus ke pasien, bukan ke kertas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 — FITUR LENGKAP -->
+    <div class="slide slide-features" data-narration="Selain AI Scribe, Larinova juga punya empat modul utama lainnya. Pertama, manajemen rekam medis dan riwayat pasien. Kedua, penjadwalan dan tracking konsultasi. Ketiga, otomasi dokumen seperti resep dan surat rujukan. Keempat, workflow otomasi yang menghubungkan semua proses — seperti Zapier tapi untuk klinik. Semuanya terintegrasi dalam satu platform.">
+      <div class="slide-title">📦 Modul Lengkap</div>
+      <div class="slide-heading">Semua yang dibutuhkan klinik, dalam satu platform</div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧑‍⚕️</div>
+          <h4>Rekam Medis</h4>
+          <p>Riwayat pasien lengkap, terstruktur, mudah dicari kapan saja</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <h4>Penjadwalan</h4>
+          <p>Atur jadwal konsultasi, reminder otomatis ke pasien</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h4>AI Scribe</h4>
+          <p>Catatan konsultasi otomatis dari percakapan dokter-pasien</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h4>Dokumen Otomatis</h4>
+          <p>Resep, rujukan, sertifikat medis dibuat otomatis setelah konsultasi</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 — KENAPA LARINOVA -->
+    <div class="slide slide-why" data-narration="Kenapa harus Larinova? Ada tiga alasan utama. Pertama, Larinova adalah satu-satunya platform manajemen klinik yang sepenuhnya dalam Bahasa Indonesia — tidak ada yang lain. Kedua, AI Scribe Larinova bisa menghemat dua sampai tiga jam kerja dokter setiap harinya. Ketiga, ini platform all-in-one — tidak perlu pakai banyak aplikasi berbeda lagi. Satu aplikasi untuk semuanya.">
+      <div class="slide-title">🏆 Keunggulan</div>
+      <div class="slide-heading" style="color:white;">Kenapa Larinova berbeda dari yang lain</div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="num">#1</div>
+          <h4>Satu-satunya di Indonesia</h4>
+          <p>Platform manajemen klinik berbasis AI yang sepenuhnya dalam Bahasa Indonesia. Tidak ada kompetitor langsung.</p>
+        </div>
+        <div class="why-card">
+          <div class="num">2–3</div>
+          <h4>Jam hemat per hari</h4>
+          <p>AI Scribe menghilangkan pekerjaan dokumentasi manual yang menghabiskan waktu dokter setiap harinya.</p>
+        </div>
+        <div class="why-card">
+          <div class="num">1</div>
+          <h4>Aplikasi untuk segalanya</h4>
+          <p>Menggantikan berbagai aplikasi terpisah — jadwal, rekam medis, dokumen — dalam satu platform terintegrasi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 — TARGET -->
+    <div class="slide slide-target" data-narration="Siapa yang cocok pakai Larinova? Sebenarnya semua dokter dan fasilitas kesehatan di Indonesia. Mulai dari dokter umum yang berpraktik sendiri, klinik kecil dengan beberapa dokter, jaringan klinik yang punya banyak cabang, sampai rumah sakit besar. Semua spesialisasi — dokter gigi, SpOG, Sp.A, kardiologi, dermatologi, dan lain-lain. Saat ini fokus di Jakarta dulu, tapi akan segera berkembang ke seluruh Indonesia.">
+      <div class="target-left">
+        <div class="slide-title">🎯 Target Pengguna</div>
+        <div class="slide-heading">Siapa yang cocok pakai Larinova?</div>
+      </div>
+      <div class="target-right">
+        <div class="target-row">
+          <div class="target-icon">👨‍⚕️</div>
+          <div>
+            <h4>Dokter Praktik Mandiri</h4>
+            <p>Solo praktisi yang butuh efisiensi administrasi</p>
+          </div>
+        </div>
+        <div class="target-row">
+          <div class="target-icon">🏥</div>
+          <div>
+            <h4>Klinik Kecil (2–10 Dokter)</h4>
+            <p>Manajemen tim dan pasien dalam satu sistem</p>
+          </div>
+        </div>
+        <div class="target-row">
+          <div class="target-icon">🏢</div>
+          <div>
+            <h4>Jaringan Klinik & Rumah Sakit</h4>
+            <p>Skalabilitas untuk operasional multi-lokasi</p>
+          </div>
+        </div>
+        <div class="target-row">
+          <div class="target-icon">🦷</div>
+          <div>
+            <h4>Semua Spesialisasi</h4>
+            <p>Umum, gigi, anak, kandungan, jantung, kulit, dll.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 — CTA -->
+    <div class="slide slide-cta" data-narration="Sekarang adalah waktu yang tepat untuk coba Larinova. Kenapa? Karena kami sedang membuka akses gratis selama satu bulan penuh — tanpa kartu kredit, tanpa komitmen, tanpa syarat. Dokter bisa langsung merasakan sendiri bagaimana AI Larinova mengubah cara kerja sehari-hari. Gratis. Satu bulan. Mulai sekarang.">
+      <h1>Coba <span>Larinova</span><br>Gratis 1 Bulan</h1>
+      <div class="free-badge">🎁 Akses Penuh · Gratis · Sekarang</div>
+      <div class="sub">Tidak perlu kartu kredit &nbsp;·&nbsp; Tidak ada komitmen &nbsp;·&nbsp; Langsung aktif</div>
+    </div>
+
+    <!-- SLIDE 9 — CARA PENDEKATAN -->
+    <div class="slide slide-approach" data-narration="Nah, bagaimana cara kita mendekati dokter? Ada lima langkah sederhana. Pertama, kirim pesan WhatsApp yang singkat dan hangat. Kalau mereka tertarik, kirim link video demo yang cuma satu sampai dua menit. Setelah nonton video, share link pendaftaran yang gratis. Kalau dua hari tidak ada respons, kirim satu follow-up. Setelah mereka daftar dan aktif pakai aplikasinya, minta referensi — siapa tahu punya teman dokter lain yang butuh?">
+      <div class="slide-title">📋 Strategi Pendekatan</div>
+      <div class="slide-heading" style="color:white;font-size:28px;">Langkah-langkah mendekati dokter</div>
+      <div class="steps-list">
+        <div class="step-row">
+          <div class="step-circle">1</div>
+          <div>
+            <h4>Kirim pesan WhatsApp pertama</h4>
+            <p>Singkat, hangat, personal — tanyakan boleh kirim video singkat</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-circle">2</div>
+          <div>
+            <h4>Kirim video demo (1–2 menit)</h4>
+            <p>Kalau dokter tertarik, langsung share link video demo</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-circle">3</div>
+          <div>
+            <h4>Share link pendaftaran gratis</h4>
+            <p>Setelah nonton video, ajak daftar — gratis, tidak ada risiko</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-circle">4</div>
+          <div>
+            <h4>Follow up di hari ke-2 (jika tidak ada respons)</h4>
+            <p>Maksimal 2 pesan — kalau tidak ada respons, move on</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-circle">5</div>
+          <div>
+            <h4>Minta referensi setelah aktif pakai</h4>
+            <p>Dokter yang suka biasanya punya teman dokter lain — tanyakan!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 — PESAN WA -->
+    <div class="slide slide-wa" data-narration="Ini contoh pesan WhatsApp yang bisa langsung kamu pakai. Untuk dokter yang sudah kamu kenal, mulai dengan sapaan hangat — ceritakan tentang Larinova dengan santai, lalu tanya boleh kirim video singkat. Untuk dokter yang belum kenal, perkenalkan diri dulu, jelaskan fitur utama AI Scribe secara singkat, dan tanyakan boleh kirim video. Ingat — pesannya harus pendek dan ramah. Dokter sibuk, jadi jangan kirim teks panjang!">
+      <div class="wa-header">
+        <div class="wa-logo">💬</div>
+        <h2>Contoh Pesan WhatsApp</h2>
+      </div>
+      <div class="wa-bubble">
+        <strong>Untuk dokter yang dikenal:</strong><br><br>
+        Halo [Nama Dokter]! Apa kabar? Ada yang mau aku ceritain nih — aku lagi kerja bareng startup namanya Larinova, mereka bikin aplikasi khusus buat dokter di Indonesia. Bisa bantu manage pasien, jadwal, dan yang paling keren, ada AI yang otomatis bikin catatan konsultasi — jadi dokter gak perlu nulis manual lagi. Semuanya dalam Bahasa Indonesia juga. Sekarang lagi ada akses gratis 1 bulan, gak perlu kartu kredit. Boleh aku kirim video singkatnya? Cuma 1–2 menit kok 😊
+      </div>
+      <div class="wa-tip">
+        <strong>💡 Tips:</strong> Pesan harus pendek dan hangat. Jangan panjang — dokter sibuk. Tujuannya cuma: dapat izin kirim video demo.
+      </div>
+    </div>
+
+    <!-- SLIDE 11 — KEBERATAN -->
+    <div class="slide slide-objection" data-narration="Pasti ada dokter yang ragu-ragu atau punya pertanyaan. Jangan panik — ini normal! Kalau dokter bilang sudah pakai sistem lain, jawab bahwa boleh coba bersamaan dulu — gratis satu bulan, tidak ada yang dirugikan. Kalau bilang tidak ada waktu, jelaskan justru Larinova yang hemat waktu — AI-nya yang nulis, bukan dokternya. Kalau tanya soal harga, bilang sekarang murni gratis dulu — tidak perlu komitmen apa-apa. Kuncinya: selalu tawarkan gratis satu bulan sebagai cara untuk menghilangkan keraguan.">
+      <div class="slide-title">🤔 Jawaban untuk Pertanyaan Dokter</div>
+      <div class="slide-heading">Kalau dokter bilang begini, jawab begini</div>
+      <div class="objection-table">
+        <div class="obj-row">
+          <div class="obj-q">❓ "Sudah pakai sistem lain"</div>
+          <div class="obj-a">✅ "Boleh coba bersamaan dulu Dokter — gratis 1 bulan, tidak ada yang dirugikan."</div>
+        </div>
+        <div class="obj-row">
+          <div class="obj-q">❓ "Tidak ada waktu"</div>
+          <div class="obj-a">✅ "Justru Larinova yang hemat waktu — AI-nya yang nulis catatan, bukan Dokter."</div>
+        </div>
+        <div class="obj-row">
+          <div class="obj-q">❓ "Nanti berbayar? Berapa harganya?"</div>
+          <div class="obj-a">✅ "Sekarang murni gratis 1 bulan dulu Dokter — tidak ada komitmen sama sekali."</div>
+        </div>
+        <div class="obj-row">
+          <div class="obj-q">❓ "Apakah data pasien aman?"</div>
+          <div class="obj-a">✅ "Data disimpan dengan enkripsi dan keamanan berlapis — keamanan pasien adalah prioritas utama."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 — PENUTUP -->
+    <div class="slide slide-close" data-narration="Itu dia presentasi lengkap Larinova! Ingat tujuan utama kita sekarang: sebanyak mungkin dokter Indonesia mendaftar dan aktif menggunakan Larinova — gratis dulu. Kamu bisa melakukannya. Mulai dari kontak terdekat, kirim pesan yang hangat, dan biarkan produknya yang bicara. Selamat berjuang, dan kalau butuh bantuan, aku siap membantu kapan saja!">
+      <div class="close-logo">Lari<span>nova</span></div>
+      <div class="close-motto">Untuk dokter Indonesia, oleh teknologi Indonesia 🇮🇩</div>
+      <div style="position:relative;margin-top:30px;color:rgba(255,255,255,0.5);font-size:14px;">
+        Ingat tujuan kita: <strong style="color:white;">Dokter daftar → Aktif pakai → Kasih feedback → Referral</strong>
+      </div>
+      <div class="close-actions">
+        <button class="close-btn close-btn-primary" onclick="goToSlide(0)">🔄 Ulangi dari Awal</button>
+        <button class="close-btn close-btn-outline" onclick="startAutoPlay()">▶ Putar Ulang dengan Suara</button>
+      </div>
+    </div>
+
+  </div><!-- end slide-container -->
+
+  <!-- ═══ PROGRESS BAR ═══ -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width: 8.33%"></div>
+  </div>
+
+  <!-- ═══ CONTROLS ═══ -->
+  <div class="controls">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Sebelumnya</button>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;">
+      <button class="play-btn" id="playBtn" onclick="togglePlay()">
+        <span id="playIcon">▶</span> <span id="playText">Putar Narasi</span>
+      </button>
+      <div class="slide-counter" id="slideCounter">Slide 1 dari 12</div>
+    </div>
+
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Selanjutnya →</button>
+  </div>
+
+  <!-- ═══ NARRATION BOX ═══ -->
+  <div class="narration-box" id="narrationBox">
+    <span>🎙 Teks Narasi:</span> Klik <strong>"Putar Narasi"</strong> untuk mendengarkan penjelasan suara di setiap slide.
+  </div>
+
+</div><!-- end wrapper -->
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let isPlaying = false;
+  let utterance = null;
+  let autoAdvance = false;
+
+  function updateUI() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+    document.getElementById('slideCounter').textContent = `Slide ${currentSlide + 1} dari ${totalSlides}`;
+    document.getElementById('prevBtn').disabled = currentSlide === 0;
+    document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+    document.getElementById('progressFill').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+
+    // Update narration box
+    const narration = slides[currentSlide].getAttribute('data-narration');
+    document.getElementById('narrationBox').innerHTML = `<span>🎙 Narasi Slide ${currentSlide + 1}:</span> ${narration}`;
+  }
+
+  function changeSlide(dir) {
+    stopSpeech();
+    currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+    updateUI();
+  }
+
+  function goToSlide(index) {
+    stopSpeech();
+    currentSlide = index;
+    updateUI();
+  }
+
+  function stopSpeech() {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    isPlaying = false;
+    autoAdvance = false;
+    document.getElementById('playIcon').textContent = '▶';
+    document.getElementById('playText').textContent = 'Putar Narasi';
+    document.getElementById('playBtn').classList.remove('playing');
+  }
+
+  function togglePlay() {
+    if (isPlaying) {
+      stopSpeech();
+    } else {
+      speakCurrentSlide(false);
+    }
+  }
+
+  function startAutoPlay() {
+    stopSpeech();
+    goToSlide(0);
+    setTimeout(() => speakCurrentSlide(true), 300);
+  }
+
+  function speakCurrentSlide(auto) {
+    if (!window.speechSynthesis) {
+      alert('Browser kamu tidak mendukung text-to-speech. Coba gunakan Chrome atau Edge.');
+      return;
+    }
+
+    autoAdvance = auto;
+    const text = slides[currentSlide].getAttribute('data-narration');
+    utterance = new SpeechSynthesisUtterance(text);
+
+    // Try Indonesian voice, fallback to any
+    const voices = window.speechSynthesis.getVoices();
+    const idVoice = voices.find(v => v.lang.startsWith('id')) ||
+                    voices.find(v => v.lang.startsWith('ms')) ||
+                    voices.find(v => v.default);
+    if (idVoice) utterance.voice = idVoice;
+    utterance.lang = 'id-ID';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+
+    utterance.onstart = () => {
+      isPlaying = true;
+      document.getElementById('playIcon').textContent = '⏸';
+      document.getElementById('playText').textContent = 'Sedang diputar...';
+      document.getElementById('playBtn').classList.add('playing');
+    };
+
+    utterance.onend = () => {
+      isPlaying = false;
+      document.getElementById('playIcon').textContent = '▶';
+      document.getElementById('playText').textContent = 'Putar Narasi';
+      document.getElementById('playBtn').classList.remove('playing');
+
+      if (autoAdvance && currentSlide < totalSlides - 1) {
+        setTimeout(() => {
+          currentSlide++;
+          updateUI();
+          speakCurrentSlide(true);
+        }, 1000);
+      }
+    };
+
+    utterance.onerror = () => {
+      isPlaying = false;
+      document.getElementById('playBtn').classList.remove('playing');
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+    if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+  });
+
+  // Load voices
+  if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    window.speechSynthesis.getVoices();
+  }
+
+  updateUI();
+</script>
+
+</body>
+</html>

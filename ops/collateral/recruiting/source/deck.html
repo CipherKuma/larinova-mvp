@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova Ambassador Program</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        background: #fff;
+        color: #1a1a2e;
+      }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        overflow: hidden;
+        padding: 44px 52px;
+        background: #fff;
+        break-after: page;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+      }
+      .page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      /* ── ACCENT PALETTE ── */
+      :root {
+        --green: #1a7a4f;
+        --green-light: #eaf7f0;
+        --green-mid: #145c3a;
+        --ink: #1a1a2e;
+        --ink-mid: #444;
+        --ink-light: #777;
+        --rule: #e5e5e5;
+      }
+
+      /* ── SHARED ── */
+      .section-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--green);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 14px;
+        line-height: 1.2;
+      }
+
+      .bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .bullets li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: #333;
+      }
+      .bullets li::before {
+        content: "•";
+        color: var(--green);
+        font-size: 18px;
+        line-height: 1.2;
+        flex-shrink: 0;
+      }
+      .bullets li strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .page-footer {
+        font-size: 11px;
+        color: #bbb;
+        text-align: center;
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        margin-top: auto;
+      }
+
+      .todo {
+        display: inline-block;
+        background: #fff3cd;
+        color: #7a5c00;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 3px;
+        border: 1px solid #e0c860;
+        letter-spacing: 0.05em;
+      }
+
+      /* ── SLIDE 1: COVER ── */
+      .cover-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--green);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      .cover-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--ink);
+        line-height: 1.1;
+        margin-bottom: 14px;
+        letter-spacing: -0.02em;
+      }
+      .cover-title em {
+        color: var(--green);
+        font-style: normal;
+      }
+      .cover-sub {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ink-mid);
+        line-height: 1.5;
+        margin-bottom: 8px;
+        max-width: 88%;
+      }
+      .cover-markets {
+        font-size: 12px;
+        color: var(--ink-light);
+        margin-bottom: 40px;
+      }
+
+      .cover-stats {
+        display: flex;
+        gap: 0;
+        margin-bottom: 36px;
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+        padding: 20px 0;
+      }
+      .cover-stat {
+        flex: 1;
+        text-align: center;
+        padding: 0 16px;
+        border-right: 1px solid var(--rule);
+      }
+      .cover-stat:last-child {
+        border-right: none;
+      }
+      .cover-stat-num {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--green);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .cover-stat-label {
+        font-size: 11px;
+        color: var(--ink-mid);
+        line-height: 1.4;
+      }
+
+      /* ── SLIDE 2: OPPORTUNITY ── */
+      .opp-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+      .opp-card {
+        background: var(--green-light);
+        border-left: 3px solid var(--green);
+        padding: 14px 16px;
+      }
+      .opp-card-num {
+        font-size: 36px;
+        font-weight: 800;
+        color: var(--green);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .opp-card-label {
+        font-size: 12px;
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+      .opp-insight {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.5;
+        padding: 14px 18px;
+        background: #f4f4f8;
+        border-left: 3px solid var(--ink);
+        margin-bottom: 0;
+      }
+
+      /* ── SLIDE 3: HOW IT WORKS ── */
+      .steps-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0;
+        margin-bottom: 28px;
+      }
+      .amb-step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-right: 12px;
+      }
+      .amb-step:last-child {
+        padding-right: 0;
+      }
+      .amb-step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: var(--green);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-bottom: 4px;
+      }
+      .amb-step-name {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .amb-step-desc {
+        font-size: 11px;
+        color: var(--ink-mid);
+        line-height: 1.5;
+      }
+      .step-arrow {
+        font-size: 16px;
+        color: #ccc;
+        padding: 24px 6px 0;
+        flex-shrink: 0;
+      }
+
+      .mock-timeline {
+        background: var(--green-light);
+        border: 1px solid #b2e0cc;
+        border-radius: 6px;
+        padding: 18px 22px;
+        margin-bottom: 16px;
+      }
+      .mock-timeline-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--green);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .mock-timeline-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 12px;
+        line-height: 1.45;
+        color: var(--ink-mid);
+        margin-bottom: 6px;
+      }
+      .mock-timeline-row:last-child {
+        margin-bottom: 0;
+      }
+      .mock-arrow {
+        color: var(--green);
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .mock-highlight {
+        font-weight: 700;
+        color: var(--green);
+      }
+
+      /* ── SLIDE 4: WHAT WE GIVE YOU ── */
+      .kit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+      .kit-item {
+        padding: 14px 16px;
+        border: 1px solid var(--rule);
+        border-top: 3px solid var(--green);
+        border-radius: 2px;
+      }
+      .kit-item-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+      .kit-item-desc {
+        font-size: 11.5px;
+        color: var(--ink-mid);
+        line-height: 1.5;
+      }
+
+      /* ── SLIDE 5: JOIN US ── */
+      .join-body {
+        font-size: 13px;
+        color: var(--ink-mid);
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+      .cta-box {
+        background: var(--green);
+        border-radius: 12px;
+        padding: 28px 40px;
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .cta-headline {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .cta-options {
+        font-size: 12.5px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+      }
+      .cta-options strong {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SLIDE 1: COVER -->
+    <div class="page">
+      <p class="cover-eyebrow">Larinova Ambassador Program</p>
+      <h1 class="cover-title">
+        Help doctors<br />
+        work faster.<br />
+        <em>Earn per activation.</em>
+      </h1>
+      <p class="cover-sub">
+        A commission-only partnership for people who already talk to doctors and
+        want to build a side income introducing Larinova to their network.
+      </p>
+      <p class="cover-markets">
+        Built for Jakarta and Chennai ambassadors &#8212; the two cities we are
+        actively launching in right now.
+      </p>
+
+      <div class="cover-stats">
+        <div class="cover-stat">
+          <div class="cover-stat-num">180K+</div>
+          <div class="cover-stat-label">
+            Doctors in Indonesia &#8212; zero AI scribe competitors
+          </div>
+        </div>
+        <div class="cover-stat">
+          <div class="cover-stat-num">1.1M</div>
+          <div class="cover-stat-label">
+            Doctors in India &#8212; one English-only competitor
+          </div>
+        </div>
+        <div class="cover-stat">
+          <div class="cover-stat-num">90 min</div>
+          <div class="cover-stat-label">
+            Per day lost to manual documentation per doctor
+          </div>
+        </div>
+      </div>
+
+      <p class="page-footer">
+        Larinova &nbsp;&#183;&nbsp; AI Medical Scribe for Doctors
+        &nbsp;&#183;&nbsp; larinova.com
+      </p>
+    </div>
+
+    <!-- SLIDE 2: THE OPPORTUNITY -->
+    <div class="page">
+      <p class="section-label">The Opportunity</p>
+      <h2 class="section-title">
+        A wide-open market. No one&#8217;s talking to these doctors yet.
+      </h2>
+
+      <div class="opp-grid">
+        <div class="opp-card">
+          <div class="opp-card-num">180,000+</div>
+          <div class="opp-card-label">
+            Doctors in Indonesia &#8212; the vast majority still writing notes
+            by hand after every consultation
+          </div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-card-num">1.1M</div>
+          <div class="opp-card-label">
+            Doctors in India &#8212; with patients speaking Tamil, Telugu,
+            Bengali, Marathi and 18 other languages that current AI tools ignore
+          </div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-card-num">90 min</div>
+          <div class="opp-card-label">
+            Median time spent on documentation per doctor per day &#8212; time
+            that could be spent on patients or going home earlier
+          </div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-card-num">0</div>
+          <div class="opp-card-label">
+            Direct AI scribe competitors in Indonesia. One in India (English and
+            Hindi only &#8212; leaves Tamil, Telugu, Bengali completely
+            underserved)
+          </div>
+        </div>
+      </div>
+
+      <div class="opp-insight">
+        &#8220;Most doctors have never heard of a working AI scribe. The person
+        who introduces them to one creates a lasting impression.&#8221;
+      </div>
+
+      <p class="page-footer">
+        Larinova &nbsp;&#183;&nbsp; AI Medical Scribe for Doctors
+        &nbsp;&#183;&nbsp; larinova.com
+      </p>
+    </div>
+
+    <!-- SLIDE 3: HOW THE AMBASSADOR PROGRAM WORKS -->
+    <div class="page">
+      <p class="section-label">How the Ambassador Program Works</p>
+      <h2 class="section-title">Four steps from intro to income.</h2>
+
+      <div class="steps-row">
+        <div class="amb-step">
+          <span class="amb-step-num">1</span>
+          <span class="amb-step-name">Introduce</span>
+          <span class="amb-step-desc"
+            >Share the Larinova 1-pager or WhatsApp message with a doctor in
+            your network. We provide the script &#8212; you just send it.</span
+          >
+        </div>
+        <span class="step-arrow">&#8594;</span>
+        <div class="amb-step">
+          <span class="amb-step-num">2</span>
+          <span class="amb-step-name">Trial Start</span>
+          <span class="amb-step-desc"
+            >Doctor signs up for the 1-month free trial. Takes 3 minutes. No
+            credit card. You share the link &#8212; that&#8217;s it.</span
+          >
+        </div>
+        <span class="step-arrow">&#8594;</span>
+        <div class="amb-step">
+          <span class="amb-step-num">3</span>
+          <span class="amb-step-name">Activation Check</span>
+          <span class="amb-step-desc"
+            >Check in during the trial week to help them get started. A simple
+            WhatsApp message. We brief you on what to say.</span
+          >
+        </div>
+        <span class="step-arrow">&#8594;</span>
+        <div class="amb-step">
+          <span class="amb-step-num">4</span>
+          <span class="amb-step-name">Earn Commission</span>
+          <span class="amb-step-desc"
+            >Rp 300,000 / &#8377;1,500 per activation. Rp 500,000 / &#8377;2,500
+            per paid conversion. Clinic bonus for 5+ doctor practices.</span
+          >
+        </div>
+      </div>
+
+      <div class="mock-timeline">
+        <div class="mock-timeline-label">
+          Example &#8212; Month 1 (illustrative)
+        </div>
+        <div class="mock-timeline-row">
+          <span
+            >Refer <strong>10 doctors</strong> in your WhatsApp / LinkedIn
+            network</span
+          >
+        </div>
+        <div class="mock-timeline-row">
+          <span class="mock-arrow">&#8594;</span>
+          <span
+            ><strong>6 activate</strong> (use the app for &#8805;7 days)</span
+          >
+          <span class="mock-arrow">&#8594;</span>
+          <span
+            >Earn
+            <span class="mock-highlight">Rp 1,800,000 / &#8377;9,000</span> in
+            activation commission</span
+          >
+        </div>
+        <div class="mock-timeline-row">
+          <span class="mock-arrow">&#8594;</span>
+          <span><strong>3 convert to paid</strong> after free trial</span>
+          <span class="mock-arrow">&#8594;</span>
+          <span
+            >Earn
+            <span class="mock-highlight">Rp 1,500,000 / &#8377;7,500</span> in
+            conversion commission</span
+          >
+        </div>
+        <div class="mock-timeline-row">
+          <span class="mock-arrow">&#8594;</span>
+          <span>1 clinic deal (5 doctors) closes</span>
+          <span class="mock-arrow">&#8594;</span>
+          <span
+            >Earn
+            <span class="mock-highlight">Rp 5,000,000 / &#8377;25,000</span>
+            bonus</span
+          >
+        </div>
+      </div>
+
+      <div
+        style="
+          margin-top: 14px;
+          padding: 10px 14px;
+          background: #ebf7ef;
+          border-left: 3px solid #2b8c4a;
+          border-radius: 3px;
+          font-size: 12px;
+          line-height: 1.5;
+        "
+      >
+        <strong>Founding Ambassador program:</strong> the first 10 ambassadors
+        globally (5 Indonesia + 5 India) earn
+        <strong>2&times; activation payout</strong> &#8212; Rp 600,000 /
+        &#8377;3,000 per activation &#8212; on their first 20 brought doctors.
+        Lifetime Founding title, direct founder access, first-pick territory as
+        we expand.
+      </div>
+
+      <p class="page-footer">
+        Larinova &nbsp;&#183;&nbsp; AI Medical Scribe for Doctors
+        &nbsp;&#183;&nbsp; larinova.com
+      </p>
+    </div>
+
+    <!-- SLIDE 4: WHAT WE GIVE YOU -->
+    <div class="page">
+      <p class="section-label">What We Give You</p>
+      <h2 class="section-title">
+        Everything you need to sell. Nothing you have to build.
+      </h2>
+
+      <div class="kit-grid">
+        <div class="kit-item">
+          <div class="kit-item-title">Complete Sales Kit</div>
+          <div class="kit-item-desc">
+            1-pagers, pitch decks, and WhatsApp/LinkedIn message templates
+            &#8212; all in Bahasa Indonesia, English, and Tamil. Ready to use on
+            day one.
+          </div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-item-title">Direct Access to Gabriel (Founder)</div>
+          <div class="kit-item-desc">
+            WhatsApp the founder directly for any question &#8212; about the
+            product, an objection from a doctor, or a clinic deal you&#8217;re
+            trying to close.
+          </div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-item-title">Priority Support for Your Doctors</div>
+          <div class="kit-item-desc">
+            Doctors you refer get dedicated onboarding support. We make sure
+            they activate &#8212; which means you earn.
+          </div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-item-title">1-Hour Ambassador Training</div>
+          <div class="kit-item-desc">
+            One video call to get you up to speed. Product demo, common
+            objections, how to use the sales kit, and how commissions are
+            tracked and paid.
+          </div>
+        </div>
+      </div>
+
+      <ul class="bullets">
+        <li>
+          <strong>First-mover advantage</strong> &#8212; the Larinova ambassador
+          network is tiny right now. Early ambassadors get first access to new
+          territories as we expand beyond Jakarta and Chennai.
+        </li>
+        <li>
+          <strong>No exclusivity required</strong> &#8212; keep your day job,
+          your other work, your existing relationships. This is a side income,
+          not an employment contract.
+        </li>
+        <li>
+          <strong>You set your own pace</strong> &#8212; there is no quota.
+          Refer one doctor or one hundred. Commission is earned per result, not
+          per hour.
+        </li>
+      </ul>
+
+      <p class="page-footer">
+        Larinova &nbsp;&#183;&nbsp; AI Medical Scribe for Doctors
+        &nbsp;&#183;&nbsp; larinova.com
+      </p>
+    </div>
+
+    <!-- SLIDE 5: JOIN US -->
+    <div class="page">
+      <p class="section-label">Join Us</p>
+      <h2 class="section-title">
+        The doctors in your network are waiting. Let&#8217;s introduce them.
+      </h2>
+
+      <p class="join-body">
+        You already have the trust. You already talk to doctors. Larinova gives
+        you the product, the materials, and the commission structure to turn
+        those conversations into income &#8212; while helping doctors save 90
+        minutes every single day.
+      </p>
+
+      <div class="cta-box">
+        <p class="cta-headline">Ready to become a Larinova ambassador?</p>
+        <p class="cta-options">
+          <strong>Reply to this deck</strong> with your city + background (2
+          lines is fine)<br />
+          or book a 15-minute intro call:
+          <strong>cal.com/gabrielaxy/larinova</strong>
+        </p>
+      </div>
+
+      <ul class="bullets" style="margin-bottom: 24px">
+        <li>
+          Email: <strong>gabriel@larinova.com</strong> (direct to founder)
+        </li>
+        <li>
+          WhatsApp: <strong>+91 84386 11643</strong> (India) &#183; Indonesia
+          number coming soon
+        </li>
+        <li>Web: <strong>larinova.com</strong></li>
+      </ul>
+
+      <p class="page-footer">
+        Larinova &nbsp;&#183;&nbsp; AI Medical Scribe for Doctors
+        &nbsp;&#183;&nbsp; larinova.com &nbsp;&#183;&nbsp; hello@larinova.com
+      </p>
+    </div>
+  </body>
+</html>

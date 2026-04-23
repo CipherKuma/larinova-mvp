@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "_gmail_disabled": {
+      "_comment": "Uncomment and rename to 'gmail' after running Gmail OAuth setup. See README.md.",
+      "command": "npx",
+      "args": ["-y", "@gongrzhe/server-gmail-autoauth-mcp"],
+      "env": {
+        "GMAIL_OAUTH_PATH": "/Users/gabrielantonyxaviour/Documents/products/larinova/ops/.gmail-credentials.json",
+        "GMAIL_CREDENTIALS_PATH": "/Users/gabrielantonyxaviour/Documents/products/larinova/ops/.gmail-token.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,2226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      Larinova India — Pricing Strategy &amp; Competitive Positioning
+    </title>
+    <link rel="stylesheet" href="../_shared/strategy-doc.css" />
+    <style>
+      :root {
+        --accent: #0d9488;
+        --accent-light: #f0fdfa;
+        --accent-dark: #0f766e;
+      }
+
+      @page {
+        @top-right {
+          content: "Larinova India — Pricing Strategy & Competitive Positioning";
+          font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+          font-size: 7pt;
+          color: #6c6c88;
+          letter-spacing: 0.02em;
+        }
+        @bottom-center {
+          content: "Confidential — Internal Strategy Document  \00b7  Larinova 2025  \00b7  Page "
+            counter(page);
+          font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+          font-size: 7pt;
+          color: #6c6c88;
+        }
+      }
+
+      /* ── COMPETITOR LANDSCAPE TABLE ── */
+      .comp-table col.c-vendor {
+        width: 13%;
+      }
+      .comp-table col.c-founded {
+        width: 9%;
+      }
+      .comp-table col.c-primary {
+        width: 18%;
+      }
+      .comp-table col.c-model {
+        width: 14%;
+      }
+      .comp-table col.c-price {
+        width: 16%;
+      }
+      .comp-table col.c-ai {
+        width: 13%;
+      }
+      .comp-table col.c-lang {
+        width: 17%;
+      }
+
+      /* ── FEATURE COMPARISON TABLE ── */
+      .feat-table col.f-feature {
+        width: 24%;
+      }
+      .feat-table col.f-hp {
+        width: 10%;
+      }
+      .feat-table col.f-pr {
+        width: 10%;
+      }
+      .feat-table col.f-eka {
+        width: 10%;
+      }
+      .feat-table col.f-moc {
+        width: 10%;
+      }
+      .feat-table col.f-sc {
+        width: 10%;
+      }
+      .feat-table col.f-ly {
+        width: 10%;
+      }
+      .feat-table col.f-lar {
+        width: 16%;
+      }
+
+      /* ── EKA.CARE COMPARISON TABLE ── */
+      .eka-table col.e-dim {
+        width: 22%;
+      }
+      .eka-table col.e-eka {
+        width: 39%;
+      }
+      .eka-table col.e-lar {
+        width: 39%;
+      }
+
+      /* ── PRICING TIERS TABLE ── */
+      .tiers-table col.t-row {
+        width: 20%;
+      }
+      .tiers-table col.t-core {
+        width: 20%;
+      }
+      .tiers-table col.t-pro {
+        width: 20%;
+      }
+      .tiers-table col.t-clp {
+        width: 20%;
+      }
+      .tiers-table col.t-ent {
+        width: 20%;
+      }
+
+      /* ── SEGMENT PRICING TABLE ── */
+      .seg-table col.s-type {
+        width: 22%;
+      }
+      .seg-table col.s-docs {
+        width: 8%;
+      }
+      .seg-table col.s-tier {
+        width: 10%;
+      }
+      .seg-table col.s-price {
+        width: 14%;
+      }
+      .seg-table col.s-comp {
+        width: 14%;
+      }
+      .seg-table col.s-cpric {
+        width: 13%;
+      }
+      .seg-table col.s-adv {
+        width: 19%;
+      }
+
+      /* ── EKA VS LARINOVA PRICE TABLE ── */
+      .ekacomp-table col.ec-size {
+        width: 14%;
+      }
+      .ekacomp-table col.ec-eka {
+        width: 18%;
+      }
+      .ekacomp-table col.ec-lar {
+        width: 18%;
+      }
+      .ekacomp-table col.ec-diff {
+        width: 20%;
+      }
+      .ekacomp-table col.ec-what {
+        width: 30%;
+      }
+
+      /* ── AFFORDABILITY TABLE ── */
+      .afford-table col.af-seg {
+        width: 24%;
+      }
+      .afford-table col.af-rev {
+        width: 20%;
+      }
+      .afford-table col.af-bud {
+        width: 18%;
+      }
+      .afford-table col.af-lar {
+        width: 20%;
+      }
+      .afford-table col.af-aff {
+        width: 18%;
+      }
+
+      /* ── GOVT TIERS TABLE ── */
+      .gov-table col.g-row {
+        width: 18%;
+      }
+      .gov-table col.g-ps {
+        width: 27%;
+      }
+      .gov-table col.g-pp {
+        width: 27%;
+      }
+      .gov-table col.g-ge {
+        width: 28%;
+      }
+
+      /* ── CITY TABLE ── */
+      .city-table col.ct-city {
+        width: 14%;
+      }
+      .city-table col.ct-rat {
+        width: 28%;
+      }
+      .city-table col.ct-seg {
+        width: 30%;
+      }
+      .city-table col.ct-adv {
+        width: 28%;
+      }
+
+      /* ── REVENUE TABLE ── */
+      .rev-table col.rv-mo {
+        width: 16%;
+      }
+      .rev-table col.rv-doc {
+        width: 18%;
+      }
+      .rev-table col.rv-avg {
+        width: 16%;
+      }
+      .rev-table col.rv-mrr {
+        width: 24%;
+      }
+      .rev-table col.rv-arr {
+        width: 26%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══════════════════════════════════════════════════════════════
+         COVER PAGE
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="cover">
+      <div class="cover-hero">
+        <div class="cover-wordmark">Larinova</div>
+        <div class="cover-title">
+          India Market — Pricing Strategy &amp; Competitive Positioning
+        </div>
+        <div class="cover-market">
+          India Healthcare Software Market &nbsp;·&nbsp; 2025
+        </div>
+      </div>
+      <div class="cover-meta">
+        <div class="cover-meta-line">
+          <strong>Confidential — Internal Strategy Document</strong>
+        </div>
+        <div class="cover-meta-line">
+          Prepared by Larinova Product &amp; Strategy Team
+        </div>
+        <div class="cover-meta-line">Version 1.0 &nbsp;·&nbsp; April 2025</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         PAGE 2 — EXECUTIVE SUMMARY
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="exec-summary">
+      <h1 class="exec-summary-title">Executive Summary</h1>
+      <p class="exec-summary-lead">
+        Larinova enters the Indian market as the only AI-native EHR with full
+        clinical support across all 22 official Indian languages. The core
+        thesis: charge per doctor, lead with the AI scribe ROI argument, and
+        price below Eka.Care for solo and small clinics while charging a
+        justified premium at medium and large clinics where the full HMS feature
+        set is unmatched. The government segment is a Phase 3 play —
+        private-market proof and ABDM certification come first.
+      </p>
+
+      <table class="summary-table">
+        <colgroup>
+          <col style="width: 30%" />
+          <col style="width: 70%" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>What we are building</td>
+            <td>
+              India's first AI-native EHR with full support for all 22 Indian
+              languages — not a compliance tool, a doctor productivity platform
+            </td>
+          </tr>
+          <tr>
+            <td>Core pricing principle</td>
+            <td>
+              Per-doctor pricing that aligns revenue with doctor value; not
+              facility-level admin pricing
+            </td>
+          </tr>
+          <tr>
+            <td>Primary AI differentiator</td>
+            <td>
+              22-language AI scribe via Sarvam AI — vs Eka.Care's 12-language,
+              English-primary scribe
+            </td>
+          </tr>
+          <tr>
+            <td>vs HealthPlix (free)</td>
+            <td>
+              Paid, but ROI case is 1,055% monthly return — the AI scribe pays
+              for itself in 2 days
+            </td>
+          </tr>
+          <tr>
+            <td>vs Eka.Care (AI competitor)</td>
+            <td>
+              Cheaper for solo/small; premium justified for medium/large by full
+              HMS features they lack
+            </td>
+          </tr>
+          <tr>
+            <td>vs Practo Ray</td>
+            <td>
+              10–40% cheaper at entry, with AI scribe Practo does not have at
+              any price
+            </td>
+          </tr>
+          <tr>
+            <td>Government strategy</td>
+            <td>
+              Phase-in post private-market proof: ABDM certification → state NHA
+              pilots → GeM registration
+            </td>
+          </tr>
+          <tr>
+            <td>Year 1 city priority</td>
+            <td>
+              Chennai first (home + Tamil moat), then Bengaluru, Hyderabad,
+              Mumbai, Delhi NCR
+            </td>
+          </tr>
+          <tr>
+            <td>Year 1 revenue target</td>
+            <td>700 active doctors by Month 12 — ~₹80.5L MRR (~₹3.6Cr ARR)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top: 14pt; margin-bottom: 8pt">In this document</h3>
+      <ol class="toc-list" style="list-style: decimal; padding-left: 14pt">
+        <li>
+          <strong>Market Overview</strong> — India healthcare software landscape
+          &amp; key stats
+        </li>
+        <li>
+          <strong>Competitive Analysis</strong> — Feature &amp; pricing
+          breakdown vs all Indian competitors
+        </li>
+        <li>
+          <strong>The Eka.Care Problem</strong> — The one AI competitor you must
+          know deeply
+        </li>
+        <li>
+          <strong>Why Larinova Wins</strong> — Our differentiation and the
+          language moat
+        </li>
+        <li>
+          <strong>Pricing Architecture</strong> — Tiers, model logic, and INR
+          pricing rationale
+        </li>
+        <li>
+          <strong>Segment Pricing Map</strong> — What each facility type pays vs
+          competitors
+        </li>
+        <li>
+          <strong>Affordability &amp; Buying Power</strong> — Indian market
+          economics and ROI case
+        </li>
+        <li>
+          <strong>Government &amp; Public Sector</strong> — Special pricing for
+          PHCs, CHCs &amp; government hospitals
+        </li>
+        <li><strong>Revenue Projections</strong> — 12-month model at scale</li>
+      </ol>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 1 — MARKET OVERVIEW
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">1</span>
+      <div class="section-head">
+        <div class="section-title">Market Overview</div>
+        <div class="section-sub">India healthcare software landscape</div>
+      </div>
+    </div>
+
+    <h2>The scale of the opportunity</h2>
+    <p>
+      India is the world's largest democracy with 1.4 billion people and a
+      healthcare sector projected to reach $650 billion by 2025. The country has
+      1.1 million registered doctors, over 70,000 hospitals, and roughly 600,000
+      clinics. Digital adoption in healthcare is at an inflection point — driven
+      by the government's Ayushman Bharat Digital Mission (ABDM), rising
+      smartphone penetration, and a post-COVID push toward teleconsultation and
+      EMR. Yet the vast majority of private clinics still run on paper or
+      rudimentary software. The gap between what exists and what's needed is
+      enormous.
+    </p>
+
+    <table>
+      <colgroup>
+        <col style="width: 34%" />
+        <col style="width: 22%" />
+        <col style="width: 44%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Figure</th>
+          <th>Implication for Larinova</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Registered doctors in India</td>
+          <td>~1.1 million+</td>
+          <td>Massive per-doctor pricing opportunity</td>
+        </tr>
+        <tr>
+          <td>Private hospitals</td>
+          <td>~70,000+</td>
+          <td>Mid/upper tier = primary market</td>
+        </tr>
+        <tr>
+          <td>Private clinics (solo/small)</td>
+          <td>~600,000+</td>
+          <td>Largest volume segment — Core tier</td>
+        </tr>
+        <tr>
+          <td>ABHA health accounts created</td>
+          <td>~690 crore (6.9B)</td>
+          <td>ABDM is mainstream — compliance is table stakes</td>
+        </tr>
+        <tr>
+          <td>ABDM-enabled facilities</td>
+          <td>~1.52 lakh</td>
+          <td>Only ~22% private — huge white space</td>
+        </tr>
+        <tr>
+          <td>AB-PMJAY beneficiaries</td>
+          <td>~50 crore (500M)</td>
+          <td>Insurance integration is non-negotiable</td>
+        </tr>
+        <tr>
+          <td>India digital health market (2024)</td>
+          <td>$14.5 billion</td>
+          <td>Growing to $106.97B by 2033</td>
+        </tr>
+        <tr>
+          <td>EMR penetration (private clinics)</td>
+          <td>~20–30%</td>
+          <td>Most of the market still on paper</td>
+        </tr>
+        <tr>
+          <td>Official languages in India</td>
+          <td>22 official + 100s of dialects</td>
+          <td>Language support is a massive moat</td>
+        </tr>
+        <tr>
+          <td>HealthPlix active doctors</td>
+          <td>~10,000+</td>
+          <td>Leading EMR — benchmark to beat</td>
+        </tr>
+        <tr>
+          <td>Eka.Care active doctors</td>
+          <td>~65,000+</td>
+          <td>AI scribe competitor — must be tracked closely</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Regulatory landscape — what compliance means in India</h2>
+    <p>
+      Unlike Indonesia where SATUSEHAT is a single integration, India's
+      compliance stack is more layered:
+    </p>
+
+    <table>
+      <colgroup>
+        <col style="width: 26%" />
+        <col style="width: 36%" />
+        <col style="width: 38%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Regulation / Standard</th>
+          <th>What it requires</th>
+          <th>Larinova must&hellip;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ABDM / ABHA Integration</td>
+          <td>
+            Generate &amp; link ABHA IDs, share health records via
+            ABDM-certified HIP/HIU modules
+          </td>
+          <td>Build ABDM-certified HIP/HIU modules</td>
+        </tr>
+        <tr>
+          <td>EHR Standards 2016 (MoHFW)</td>
+          <td>Structured electronic records in HL7 FHIR R4 format</td>
+          <td>Ensure all records are FHIR-compliant</td>
+        </tr>
+        <tr>
+          <td>AB-PMJAY / NHCX</td>
+          <td>Claims submission via National Health Claims Exchange</td>
+          <td>Integrate NHCX for insurance claim routing</td>
+        </tr>
+        <tr>
+          <td>DPDP Act 2023</td>
+          <td>Data localisation, consent framework, data minimisation</td>
+          <td>Store all Indian patient data on Indian servers</td>
+        </tr>
+        <tr>
+          <td>NABH Standards</td>
+          <td>Quality benchmarks for hospitals seeking accreditation</td>
+          <td>Optional — but needed for hospital-tier sales</td>
+        </tr>
+        <tr>
+          <td>WASA Security Audit</td>
+          <td>Web Application Security Assessment before ABDM go-live</td>
+          <td>Pass CERT-IN empanelled security audit</td>
+        </tr>
+        <tr>
+          <td>NMC / HPR Registration</td>
+          <td>Doctors must be linked to Health Professional Registry</td>
+          <td>Integrate HPR ID verification at onboarding</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 2 — COMPETITIVE ANALYSIS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">2</span>
+      <div class="section-head">
+        <div class="section-title">Competitive Analysis</div>
+        <div class="section-sub">
+          Features &amp; pricing vs all Indian competitors
+        </div>
+      </div>
+    </div>
+
+    <h2>Competitor landscape — who is in the market</h2>
+
+    <table class="comp-table">
+      <colgroup>
+        <col class="c-vendor" />
+        <col class="c-founded" />
+        <col class="c-primary" />
+        <col class="c-model" />
+        <col class="c-price" />
+        <col class="c-ai" />
+        <col class="c-lang" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Vendor</th>
+          <th>Founded</th>
+          <th>Primary market</th>
+          <th>Pricing model</th>
+          <th>Entry price/mo</th>
+          <th>AI features</th>
+          <th>Language support</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HealthPlix</td>
+          <td>2015</td>
+          <td>Solo &amp; small clinic doctors</td>
+          <td>Freemium (free basic)</td>
+          <td>Free (limited) / ₹999+ paid</td>
+          <td>Basic AI (limited)</td>
+          <td>22 languages (prescriptions)</td>
+        </tr>
+        <tr>
+          <td>Practo Ray</td>
+          <td>2008</td>
+          <td>Clinics, hospitals, marketplace</td>
+          <td>Per doctor /month</td>
+          <td>₹1,000–₹6,000/doctor/month</td>
+          <td>None (marketplace AI)</td>
+          <td>English, Hindi, some regional</td>
+        </tr>
+        <tr>
+          <td>Eka.Care</td>
+          <td>2021</td>
+          <td>Clinics &amp; hospitals (ABDM-first)</td>
+          <td>Per doctor /month</td>
+          <td>~₹999–₹2,999/doctor/month</td>
+          <td class="highlight-accent">EkaScribe (AI scribe!)</td>
+          <td>12 languages (patient app)</td>
+        </tr>
+        <tr>
+          <td>MocDoc HMS</td>
+          <td>~2015</td>
+          <td>Mid–large hospitals, chains</td>
+          <td>Custom /facility</td>
+          <td>Custom (est. ₹5k–₹50k/mo)</td>
+          <td>None</td>
+          <td>English + select regional</td>
+        </tr>
+        <tr>
+          <td>SoftClinic GenX</td>
+          <td>~2005</td>
+          <td>Small–mid hospitals, clinics</td>
+          <td>One-time license + AMC</td>
+          <td>₹15k–₹50k one-time + ₹5k/yr AMC</td>
+          <td>None</td>
+          <td>English + Hindi</td>
+        </tr>
+        <tr>
+          <td>KareXpert</td>
+          <td>~2016</td>
+          <td>Large hospitals, chains</td>
+          <td>Custom /facility</td>
+          <td>Custom (enterprise)</td>
+          <td>None</td>
+          <td>English</td>
+        </tr>
+        <tr>
+          <td>Lybrate</td>
+          <td>~2013</td>
+          <td>Solo doctors, marketplace</td>
+          <td>Per clinic /month</td>
+          <td>₹799–₹1,349/clinic/month</td>
+          <td>None</td>
+          <td>English, Hindi</td>
+        </tr>
+        <tr>
+          <td>eSushrut Lite (NHA)</td>
+          <td>2023</td>
+          <td>Government PHCs &amp; clinics</td>
+          <td>Per facility /month</td>
+          <td>₹299/facility/month (subsidised)</td>
+          <td>None</td>
+          <td>Hindi + regional</td>
+        </tr>
+        <tr>
+          <td class="larinova-col">Larinova</td>
+          <td class="larinova-col">2025</td>
+          <td class="larinova-col">All private facilities</td>
+          <td class="larinova-col">Per doctor + base fee</td>
+          <td class="larinova-col">₹899/doctor/month</td>
+          <td class="larinova-col">Full AI suite — all languages</td>
+          <td class="larinova-col">22+ Indian languages (Sarvam)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Full feature comparison</h2>
+    <p class="footnote">
+      Legend: <span class="yes">Yes</span> = fully supported &nbsp;·&nbsp;
+      <span class="partial">Partial</span> = limited or higher tier only
+      &nbsp;·&nbsp; <span class="no">No</span> = not available
+    </p>
+
+    <table class="feat-table">
+      <colgroup>
+        <col class="f-feature" />
+        <col class="f-hp" />
+        <col class="f-pr" />
+        <col class="f-eka" />
+        <col class="f-moc" />
+        <col class="f-sc" />
+        <col class="f-ly" />
+        <col class="f-lar" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>HealthPlix</th>
+          <th>Practo Ray</th>
+          <th>Eka.Care</th>
+          <th>MocDoc</th>
+          <th>SoftClinic</th>
+          <th>Lybrate</th>
+          <th class="accent-head">Larinova</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row">
+          <td colspan="8">Core clinical</td>
+        </tr>
+        <tr>
+          <td>Patient registration &amp; queue</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>EMR / CPPT / SOAP notes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>ICD-10 diagnosis coding</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>e-Prescription</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Outpatient (OPD) module</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Inpatient (IPD) module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Emergency / ICU module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Pharmacy module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v1.5</td>
+        </tr>
+        <tr>
+          <td>Laboratory module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Dental / odontogram</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Radiology integration</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="8">Compliance &amp; integrations</td>
+        </tr>
+        <tr>
+          <td>ABDM / ABHA integration</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>AB-PMJAY / NHCX claims</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>HL7 FHIR R4 support</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr>
+          <td>DPDP Act 2023 compliance</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>NABH-ready reporting</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Clinic+</td>
+        </tr>
+        <tr>
+          <td>HPR / NMR doctor verification</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="8">AI &amp; intelligence</td>
+        </tr>
+        <tr>
+          <td>AI medical scribe</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="highlight-accent">Y (EkaScribe)</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (core product)</td>
+        </tr>
+        <tr>
+          <td>Voice-to-notes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Y (limited)</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (Sarvam API)</td>
+        </tr>
+        <tr>
+          <td>22+ Indian language support</td>
+          <td class="partial">Y (Rx only)</td>
+          <td class="no">No</td>
+          <td class="partial">12 languages</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (full — Sarvam)</td>
+        </tr>
+        <tr>
+          <td>Auto form-fill from voice</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Clinical decision support</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>AI-powered analytics</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="8">Automation &amp; workflow</td>
+        </tr>
+        <tr>
+          <td>Appointment booking system</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Queue management</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Workflow automation engine</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (core)</td>
+        </tr>
+        <tr>
+          <td>Referral management</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (auto-route)</td>
+        </tr>
+        <tr>
+          <td>Multi-branch support</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="8">Communication &amp; social</td>
+        </tr>
+        <tr>
+          <td>SMS / WhatsApp reminders</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Email notifications</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Patient-facing app / portal</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Y (full)</td>
+        </tr>
+        <tr>
+          <td>Teleconsultation / telemedicine</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">v2</td>
+        </tr>
+        <tr>
+          <td>Doctor collaboration feed</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Y (unique)</td>
+        </tr>
+        <tr>
+          <td>Patient CRM &amp; retention</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Marketing email campaigns</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr class="cat-row">
+          <td colspan="8">Business &amp; financial</td>
+        </tr>
+        <tr>
+          <td>Billing / invoicing</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Insurance claim processing</td>
+          <td class="partial">Partial</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Full accounting module</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Clinic+</td>
+        </tr>
+        <tr>
+          <td>Doctor remuneration calc.</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Clinic+</td>
+        </tr>
+        <tr>
+          <td>HR &amp; staff management</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Clinic+</td>
+        </tr>
+        <tr>
+          <td>Open developer API</td>
+          <td class="no">No</td>
+          <td class="partial">Partial</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="larinova-col">Yes</td>
+        </tr>
+        <tr>
+          <td>Mobile app (Android + iOS)</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">Y (native)</td>
+        </tr>
+        <tr>
+          <td>Marketplace / doctor discovery</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+          <td class="yes">Yes</td>
+          <td class="larinova-col">N (different play)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 3 — THE EKA.CARE PROBLEM
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">3</span>
+      <div class="section-head">
+        <div class="section-title">The Eka.Care Problem</div>
+        <div class="section-sub">
+          The one AI competitor you must know deeply
+        </div>
+      </div>
+    </div>
+
+    <h2>Why Eka.Care is different from every other competitor</h2>
+    <p>
+      Every other Indian EMR vendor is irrelevant to the AI scribe discussion.
+      Eka.Care is not. Founded in 2021 by the ex-CTO of Goibibo, Eka.Care has
+      built EkaScribe — an AI-powered voice assistant that transcribes
+      doctor-patient conversations into structured clinical notes. They have
+      65,000 active doctors. They have ABDM compliance. They have a 12-language
+      patient app. They are the only direct AI competitor in India. This section
+      is entirely about how to beat them.
+    </p>
+
+    <table class="eka-table">
+      <colgroup>
+        <col class="e-dim" />
+        <col class="e-eka" />
+        <col class="e-lar" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Eka.Care (EkaScribe)</th>
+          <th class="accent-head">Larinova</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI scribe capability</td>
+          <td>Voice-to-notes via EkaScribe, structured notes</td>
+          <td class="larinova-col">
+            Voice-to-notes + auto form-fill via Sarvam AI
+          </td>
+        </tr>
+        <tr>
+          <td>Language support (scribe)</td>
+          <td>Limited — primarily English + Hindi</td>
+          <td class="larinova-col">
+            All 22 official Indian languages + dialects
+          </td>
+        </tr>
+        <tr>
+          <td>Regional language depth</td>
+          <td>12 languages (patient app only)</td>
+          <td class="larinova-col">Full clinical support in all languages</td>
+        </tr>
+        <tr>
+          <td>ABDM integration</td>
+          <td>Yes — ABDM-first product</td>
+          <td class="larinova-col">Yes — full ABDM + NHCX</td>
+        </tr>
+        <tr>
+          <td>Doctor count (2025)</td>
+          <td>~65,000 doctors</td>
+          <td class="larinova-col">Target: 2,000 in Year 1</td>
+        </tr>
+        <tr>
+          <td>Patient count</td>
+          <td>~18 million</td>
+          <td class="larinova-col">—</td>
+        </tr>
+        <tr>
+          <td>Funding raised</td>
+          <td>Significant (undisclosed rounds)</td>
+          <td class="larinova-col">Bootstrapped / early stage</td>
+        </tr>
+        <tr>
+          <td>Primary positioning</td>
+          <td>'OpenAI for Indian healthcare' — API-first</td>
+          <td class="larinova-col">Doctor productivity + full clinic EHR</td>
+        </tr>
+        <tr>
+          <td>Pricing (est.)</td>
+          <td>~₹999–₹2,999/doctor/month</td>
+          <td class="larinova-col">
+            ₹899–₹1,499/doctor/month (lower + more features)
+          </td>
+        </tr>
+        <tr>
+          <td>Full HMS features</td>
+          <td>Weak — primarily documentation tool</td>
+          <td class="larinova-col">
+            Full stack: billing, pharmacy, CRM, social
+          </td>
+        </tr>
+        <tr>
+          <td>Automation engine</td>
+          <td>Partial</td>
+          <td class="larinova-col">Full workflow automation</td>
+        </tr>
+        <tr>
+          <td>Patient CRM</td>
+          <td>Partial</td>
+          <td class="larinova-col">Full CRM + email campaigns</td>
+        </tr>
+        <tr>
+          <td>Doctor social layer</td>
+          <td>None</td>
+          <td class="larinova-col">Full collaboration feed (unique)</td>
+        </tr>
+        <tr>
+          <td>Open API platform</td>
+          <td>Yes (API-first)</td>
+          <td class="larinova-col">Yes — developer API</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>How to beat Eka.Care</h2>
+
+    <div class="callout">
+      <div class="callout-title">Language depth is the kill shot</div>
+      <p>
+        Eka.Care's patient app supports 12 languages but their clinical scribe
+        is primarily English and Hindi. India has 22 official languages and
+        hundreds of dialects. A Tamil-speaking cardiologist in Chennai, a
+        Bengali-speaking GP in Kolkata, a Telugu surgeon in Hyderabad — none of
+        them are well-served by Eka.Care's scribe. Sarvam AI's Indic language
+        models cover all 22 official languages with clinical-grade accuracy.
+        This is Larinova's moat that cannot be replicated quickly.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Full HMS vs documentation tool</div>
+      <p>
+        Eka.Care is fundamentally a documentation tool that added some EMR
+        features. Their inpatient, pharmacy, lab, and accounting modules are
+        weak. A clinic needs more than a scribe — they need billing, pharmacy,
+        CRM, and automation. Larinova is the full stack. Eka.Care is a feature
+        within a full stack. This makes us the platform they eventually need to
+        replace Eka.Care with.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">Price and feature combination</div>
+      <p>
+        At ₹899/doctor/month for Core vs Eka.Care's estimated ₹999–₹2,999,
+        Larinova enters lower and delivers more. The comparison should be: 'Same
+        AI scribe quality, all 22 languages, plus full clinic management,
+        patient CRM, and email campaigns — for less.' That is a straightforward
+        win in a price-sensitive market.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 4 — WHY LARINOVA WINS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">4</span>
+      <div class="section-head">
+        <div class="section-title">Why Larinova Wins</div>
+        <div class="section-sub">Differentiation and the language moat</div>
+      </div>
+    </div>
+
+    <h2>The four unfair advantages in India</h2>
+
+    <div class="callout">
+      <div class="callout-title">
+        1. The language moat — 22 Indian languages, fully supported
+      </div>
+      <p>
+        India's linguistic diversity is a feature, not a bug — if you embrace
+        it. No competitor offers full clinical support (not just UI, but actual
+        scribe transcription and note generation) in Tamil, Telugu, Kannada,
+        Malayalam, Bengali, Marathi, Gujarati, Punjabi, Odia, Assamese, and the
+        other 12 official languages. Powered by Sarvam AI's Indic language
+        models, Larinova is the only platform where a Malayalam-speaking doctor
+        in Kerala can dictate in Malayalam and get structured FHIR-compliant
+        clinical notes in Malayalam or English. This is not a feature that can
+        be shipped in a quarter — it requires deep language model work that
+        gives Larinova a multi-year head start.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">
+        2. AI scribe with auto form-fill — Eka.Care can transcribe, we can fill
+      </div>
+      <p>
+        EkaScribe transcribes conversations. Larinova goes further: our AI
+        listens, transcribes, extracts structured clinical data, and auto-fills
+        the EMR form — diagnosis codes, vitals, prescriptions, follow-up dates.
+        The doctor reviews and approves in 30 seconds instead of manually typing
+        for 4 minutes. This is the difference between a transcription tool and a
+        productivity platform. Every competitor comparison should anchor on this
+        distinction.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">3. Full HMS — not just a scribe</div>
+      <p>
+        HealthPlix is EMR-only. Eka.Care is documentation-first. Practo Ray is
+        appointments-first. None of them are the complete operating system for a
+        clinic. Larinova covers the full workflow: registration, queue, EMR,
+        billing, pharmacy, lab orders, CRM, email, automation, and analytics —
+        all in one platform. Doctors who start on Core for the scribe will
+        upgrade to Pro for the automation and CRM. This is the growth flywheel.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-title">
+        4. Doctor-to-doctor social layer — a category that doesn't exist
+      </div>
+      <p>
+        India has 1.1 million doctors who consult in near-isolation. There is no
+        professional network built into a clinical tool. Larinova's doctor
+        collaboration feed — for case sharing, specialist referrals, peer
+        consultation, and CME — is a feature that Practo's marketplace has tried
+        to serve externally but nobody has embedded inside an EMR. This creates
+        retention and network effects that no competitor can replicate without
+        rebuilding their entire product.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 5 — PRICING ARCHITECTURE
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">5</span>
+      <div class="section-head">
+        <div class="section-title">Pricing Architecture</div>
+        <div class="section-sub">
+          Tiers, model logic, and INR pricing rationale
+        </div>
+      </div>
+    </div>
+
+    <h2>Pricing model: platform base fee + per-doctor seat</h2>
+    <p>
+      India's market is anchored by HealthPlix at free, which creates a price
+      perception problem. The answer is not to compete on price with free — it
+      is to demonstrate such clear AI-driven ROI that doctors see ₹899/month as
+      a no-brainer investment. The benchmark is Practo Ray at
+      ₹1,000–₹6,000/doctor/month. Larinova enters below Practo Ray's floor with
+      dramatically better features. The per-doctor model aligns our revenue with
+      doctor value creation and enables bottom-up viral growth within clinics.
+    </p>
+
+    <table class="tiers-table">
+      <colgroup>
+        <col class="t-row" />
+        <col class="t-core" />
+        <col class="t-pro" />
+        <col class="t-clp" />
+        <col class="t-ent" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Core</th>
+          <th>Pro</th>
+          <th>Clinic+</th>
+          <th>Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target facility</td>
+          <td>Solo practice, 1–3 doctors</td>
+          <td>General/specialist clinic, 3–15 doctors</td>
+          <td>Large clinic / small hospital, 10–40 doctors</td>
+          <td>Hospital chain, 40+ doctors</td>
+        </tr>
+        <tr>
+          <td>Base fee / month</td>
+          <td>—</td>
+          <td>₹500</td>
+          <td>₹2,500</td>
+          <td>Custom</td>
+        </tr>
+        <tr>
+          <td>Per doctor / month</td>
+          <td>₹899</td>
+          <td>₹1,299</td>
+          <td>₹1,799</td>
+          <td>Negotiated</td>
+        </tr>
+        <tr>
+          <td>Annual discount</td>
+          <td>15%</td>
+          <td>15%</td>
+          <td>20%</td>
+          <td>20–30%</td>
+        </tr>
+        <tr>
+          <td>Per doctor (annual)</td>
+          <td>₹764/mo</td>
+          <td>₹1,104/mo</td>
+          <td>₹1,439/mo</td>
+          <td>Negotiated</td>
+        </tr>
+        <tr>
+          <td>AI scribe sessions</td>
+          <td>50/doc/month</td>
+          <td>Unlimited</td>
+          <td>Unlimited</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>Indian languages (scribe)</td>
+          <td>All 22</td>
+          <td>All 22</td>
+          <td>All 22</td>
+          <td>All 22 + custom</td>
+        </tr>
+        <tr>
+          <td>API access</td>
+          <td>None</td>
+          <td>2,000 calls/mo</td>
+          <td>Unlimited</td>
+          <td>Unlimited + custom</td>
+        </tr>
+        <tr>
+          <td>Branches</td>
+          <td>1</td>
+          <td>1 (add-on avail.)</td>
+          <td>Up to 3</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td>ABDM / ABHA</td>
+          <td>Full</td>
+          <td>Full</td>
+          <td>Full</td>
+          <td>Full + custom</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td>Email / chat</td>
+          <td>Priority chat</td>
+          <td>Priority + onboarding</td>
+          <td>Dedicated AM + SLA</td>
+        </tr>
+        <tr>
+          <td>Free trial</td>
+          <td>14 days</td>
+          <td>14 days</td>
+          <td>14 days</td>
+          <td>30-day POC</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Add-on pricing</h2>
+
+    <table>
+      <colgroup>
+        <col style="width: 40%" />
+        <col style="width: 32%" />
+        <col style="width: 28%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Add-on</th>
+          <th>Price</th>
+          <th>Available on</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Extra AI scribe sessions</td>
+          <td>₹99 per 50 sessions</td>
+          <td>Core only</td>
+        </tr>
+        <tr>
+          <td>Additional branch</td>
+          <td>₹1,500 / branch / month</td>
+          <td>Pro tier</td>
+        </tr>
+        <tr>
+          <td>White label / custom branding</td>
+          <td>₹10,000 / month</td>
+          <td>Clinic+ and up</td>
+        </tr>
+        <tr>
+          <td>Dedicated training session</td>
+          <td>₹1,000 per session</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>Data migration service</td>
+          <td>₹2,500 one-time</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>SMS credits</td>
+          <td>₹0.15 / SMS after free allowance</td>
+          <td>All tiers</td>
+        </tr>
+        <tr>
+          <td>Advanced API tier</td>
+          <td>₹3,000 / month</td>
+          <td>Pro add-on</td>
+        </tr>
+        <tr>
+          <td>NABH compliance reporting pack</td>
+          <td>₹5,000 / month</td>
+          <td>Clinic+ and up</td>
+        </tr>
+        <tr>
+          <td>Custom AI language fine-tuning</td>
+          <td>Negotiated</td>
+          <td>Enterprise only</td>
+        </tr>
+        <tr>
+          <td>On-premise deployment</td>
+          <td>Negotiated</td>
+          <td>Enterprise only</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 6 — SEGMENT PRICING MAP
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">6</span>
+      <div class="section-head">
+        <div class="section-title">Segment Pricing Map</div>
+        <div class="section-sub">
+          What each facility type pays vs competitors
+        </div>
+      </div>
+    </div>
+
+    <table class="seg-table">
+      <colgroup>
+        <col class="s-type" />
+        <col class="s-docs" />
+        <col class="s-tier" />
+        <col class="s-price" />
+        <col class="s-comp" />
+        <col class="s-cpric" />
+        <col class="s-adv" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Facility type</th>
+          <th>Doctors</th>
+          <th>Tier</th>
+          <th>Larinova/mo</th>
+          <th>Nearest competitor</th>
+          <th>Competitor price</th>
+          <th>Larinova advantage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solo doctor practice</td>
+          <td>1</td>
+          <td>Core</td>
+          <td>₹899</td>
+          <td>Eka.Care (~₹999)</td>
+          <td>~₹999</td>
+          <td class="highlight-green">10% cheaper + more features</td>
+        </tr>
+        <tr>
+          <td>Small general clinic</td>
+          <td>2–3</td>
+          <td>Core</td>
+          <td>₹1,798–₹2,697</td>
+          <td>HealthPlix (free)</td>
+          <td>Free*</td>
+          <td class="highlight-amber">Must justify vs free</td>
+        </tr>
+        <tr>
+          <td>Medium general clinic</td>
+          <td>4–8</td>
+          <td>Pro</td>
+          <td>₹5.7k–₹11k</td>
+          <td>Practo Ray (4 docs)</td>
+          <td>₹4k–₹24k</td>
+          <td class="highlight-green">Competitive + AI scribe</td>
+        </tr>
+        <tr>
+          <td>Large clinic / specialist</td>
+          <td>8–15</td>
+          <td>Pro</td>
+          <td>₹11k–₹20k</td>
+          <td>Eka.Care</td>
+          <td>~₹8k–₹45k</td>
+          <td class="highlight-green">Lower + all 22 languages</td>
+        </tr>
+        <tr>
+          <td>Large specialist clinic</td>
+          <td>15–25</td>
+          <td>Clinic+</td>
+          <td>₹29.5k–₹47.5k</td>
+          <td>Eka.Care / MocDoc</td>
+          <td>Custom / ₹45k+</td>
+          <td class="highlight-green">Cheaper + full HMS</td>
+        </tr>
+        <tr>
+          <td>Small hospital (50–100 beds)</td>
+          <td>20–40</td>
+          <td>Clinic+</td>
+          <td>₹38k–₹74k</td>
+          <td>MocDoc / SoftClinic</td>
+          <td>Custom</td>
+          <td class="highlight-green">AI scribe — no competitor has</td>
+        </tr>
+        <tr>
+          <td>Mid hospital (100–300 beds)</td>
+          <td>40–100</td>
+          <td>Enterprise</td>
+          <td>Custom ₹80k+</td>
+          <td>MocDoc / KareXpert</td>
+          <td>Custom</td>
+          <td class="highlight-green">Only AI EHR at scale</td>
+        </tr>
+        <tr>
+          <td>Hospital chain / network</td>
+          <td>Any</td>
+          <td>Enterprise</td>
+          <td>Custom + branch fees</td>
+          <td>None (no chain EHR w/ AI)</td>
+          <td>No competitor</td>
+          <td class="highlight-green">Uncontested segment</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="footnote">
+      * HealthPlix free tier: limited to single doctor, no AI scribe, no
+      multi-specialty, no pharmacy. Paid plans start ₹999/mo.
+    </p>
+
+    <h2>Price vs Eka.Care — the primary AI competitor comparison</h2>
+    <p>
+      Solo doctor and small 2–3 doctor clinics: price below Eka.Care. Medium and
+      large clinics: charge a justified premium because Larinova delivers a full
+      HMS that Eka.Care simply does not offer. The premium sells itself when you
+      demo the feature difference.
+    </p>
+
+    <table class="ekacomp-table">
+      <colgroup>
+        <col class="ec-size" />
+        <col class="ec-eka" />
+        <col class="ec-lar" />
+        <col class="ec-diff" />
+        <col class="ec-what" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Clinic size</th>
+          <th>Eka.Care (est.)</th>
+          <th>Larinova Pro</th>
+          <th>Difference</th>
+          <th>What the difference buys</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 doctor</td>
+          <td>~₹999</td>
+          <td>₹899</td>
+          <td class="highlight-green">−₹100 (10% cheaper)</td>
+          <td>Full clinic management vs doc-only scribe</td>
+        </tr>
+        <tr>
+          <td>3 doctors</td>
+          <td>~₹2,997</td>
+          <td>₹2,397</td>
+          <td class="highlight-green">−₹600 (20% saving)</td>
+          <td>+ patient CRM + email + pharmacy</td>
+        </tr>
+        <tr>
+          <td>5 doctors</td>
+          <td>~₹4,995</td>
+          <td>₹7,000</td>
+          <td class="highlight-amber">+₹2,005 premium</td>
+          <td>Justified: full HMS + automation + social</td>
+        </tr>
+        <tr>
+          <td>10 doctors</td>
+          <td>~₹9,990</td>
+          <td>₹13,490</td>
+          <td class="highlight-amber">+₹3,500 premium</td>
+          <td>Full hospital features Eka.Care doesn't have</td>
+        </tr>
+        <tr>
+          <td>15 doctors</td>
+          <td>~₹14,985</td>
+          <td>₹20,000</td>
+          <td class="highlight-amber">+₹5,015 premium</td>
+          <td>Clinic+ with inpatient + accounting + HR</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 7 — AFFORDABILITY & BUYING POWER
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">7</span>
+      <div class="section-head">
+        <div class="section-title">Affordability &amp; Buying Power</div>
+        <div class="section-sub">Indian market economics and ROI case</div>
+      </div>
+    </div>
+
+    <h2>The HealthPlix free tier problem — and how to overcome it</h2>
+    <p>
+      HealthPlix's free basic tier has anchored price expectations at zero for
+      solo Indian doctors. This is the biggest pricing challenge in the Indian
+      market. The answer is not to go free — it is to make the ROI so obvious
+      that paying ₹899/month is a trivial decision. The AI scribe ROI argument
+      is the tool.
+    </p>
+
+    <table class="afford-table">
+      <colgroup>
+        <col class="af-seg" />
+        <col class="af-rev" />
+        <col class="af-bud" />
+        <col class="af-lar" />
+        <col class="af-aff" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Monthly revenue (est.)</th>
+          <th>Software budget (est. 0.5–1.5%)</th>
+          <th>Larinova recommended tier</th>
+          <th>Affordability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solo doctor (urban private)</td>
+          <td>₹2L–₹8L</td>
+          <td>₹1k–₹12k</td>
+          <td>₹899 (Core)</td>
+          <td>Very comfortable</td>
+        </tr>
+        <tr>
+          <td>Solo doctor (semi-urban)</td>
+          <td>₹80k–₹3L</td>
+          <td>₹400–₹4.5k</td>
+          <td>₹899 (Core)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Small clinic 3 docs</td>
+          <td>₹5L–₹20L</td>
+          <td>₹2.5k–₹30k</td>
+          <td>₹2.7k (Core)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Medium clinic 7 docs</td>
+          <td>₹15L–₹50L</td>
+          <td>₹7.5k–₹75k</td>
+          <td>₹9.6k (Pro)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Large clinic 15 docs</td>
+          <td>₹40L–₹1.5Cr</td>
+          <td>₹20k–₹2.25L</td>
+          <td>₹20k (Pro)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Small hospital 30 docs</td>
+          <td>₹1Cr–₹5Cr</td>
+          <td>₹50k–₹7.5L</td>
+          <td>₹56k (Clinic+)</td>
+          <td>Comfortable</td>
+        </tr>
+        <tr>
+          <td>Government PHC / CHC</td>
+          <td>Budget-allocated</td>
+          <td>Near zero</td>
+          <td>Needs subsidy tier</td>
+          <td class="highlight-amber">Requires special model</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>The ROI case — why ₹1,299/doctor/month is a steal</h2>
+
+    <table>
+      <colgroup>
+        <col style="width: 36%" />
+        <col style="width: 30%" />
+        <col style="width: 34%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Conservative estimate</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Patients per day (busy GP)</td>
+          <td>25–40 patients</td>
+          <td>~30 average</td>
+        </tr>
+        <tr>
+          <td>Documentation time per patient (manual)</td>
+          <td>3–5 minutes</td>
+          <td>~105 min/day</td>
+        </tr>
+        <tr>
+          <td>Documentation with AI scribe + auto-fill</td>
+          <td>30–45 seconds review</td>
+          <td>~15 min/day</td>
+        </tr>
+        <tr>
+          <td>Time recovered per doctor per day</td>
+          <td>~90 minutes</td>
+          <td>~30 hours/month</td>
+        </tr>
+        <tr>
+          <td>Hourly value of a doctor's time (India)</td>
+          <td>₹500–₹2,000/hr</td>
+          <td>Conservative: ₹500</td>
+        </tr>
+        <tr>
+          <td>Monthly value of recovered time</td>
+          <td>30 hrs × ₹500</td>
+          <td>₹15,000</td>
+        </tr>
+        <tr>
+          <td>Larinova Pro cost per doctor</td>
+          <td>₹1,299/month</td>
+          <td>₹1,299</td>
+        </tr>
+        <tr>
+          <td class="highlight-accent" style="font-weight: 600">
+            Net ROI per doctor per month
+          </td>
+          <td class="highlight-accent">₹15,000 – ₹1,299</td>
+          <td class="highlight-accent" style="font-weight: 700">
+            ~₹13,701 (1,055% ROI)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      ₹1,299/month is the cost of 2–3 consultations. The AI scribe alone
+      recovers 30 hours a month — worth ₹15,000 at minimum. Every sales
+      conversation should start and end here. Do not lead with features. Lead
+      with time saved.
+    </p>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 8 — GOVERNMENT & PUBLIC SECTOR
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">8</span>
+      <div class="section-head">
+        <div class="section-title">Government &amp; Public Sector</div>
+        <div class="section-sub">
+          Special pricing for PHCs, CHCs &amp; government hospitals
+        </div>
+      </div>
+    </div>
+
+    <h2>The government segment in India — size and complexity</h2>
+    <p>
+      India's public healthcare system is massive: ~25,000 Primary Health
+      Centres (PHCs), ~5,000 Community Health Centres (CHCs), ~750 District
+      Hospitals, and hundreds of government medical college hospitals. The
+      government also runs eSushrut Lite (NHA's own HMIS at ₹299/month)
+      targeting small facilities — creating a difficult price floor. However,
+      government facilities have real pain: compliance burden, poor tools, and
+      the political pressure to meet ABDM targets. The entry angle is not price
+      — it is ABDM compliance delivery and multilingual support for the rural
+      healthcare workers who need it most.
+    </p>
+
+    <table class="gov-table">
+      <colgroup>
+        <col class="g-row" />
+        <col class="g-ps" />
+        <col class="g-pp" />
+        <col class="g-ge" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Public Starter (PHCs / CHCs)</th>
+          <th>Public Pro (District Hospitals)</th>
+          <th>Government Enterprise (Medical College Hospitals)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target</td>
+          <td>Primary Health Centres, Community Health Centres</td>
+          <td>District/sub-district government hospitals</td>
+          <td>Government medical college hospitals, AIIMS-tier</td>
+        </tr>
+        <tr>
+          <td>Facility count</td>
+          <td>~25,000 PHC + 5,000 CHC</td>
+          <td>~750 district hospitals</td>
+          <td>~200+ medical colleges</td>
+        </tr>
+        <tr>
+          <td>Pricing model</td>
+          <td>Per facility flat rate</td>
+          <td>Per facility + seats</td>
+          <td>Annual tender / contract</td>
+        </tr>
+        <tr>
+          <td>Monthly price</td>
+          <td>₹199 – ₹399/facility</td>
+          <td>₹1,500 – ₹5,000/facility</td>
+          <td>Custom / NHM budget</td>
+        </tr>
+        <tr>
+          <td>AI scribe</td>
+          <td>Basic (20 sessions/mo)</td>
+          <td>Standard (100 sessions/mo)</td>
+          <td>Full — unlimited</td>
+        </tr>
+        <tr>
+          <td>Indian languages</td>
+          <td>All 22 (rural workers need this)</td>
+          <td>All 22</td>
+          <td>All 22 + tribal dialects</td>
+        </tr>
+        <tr>
+          <td>ABDM integration</td>
+          <td>Full — ABHA generation</td>
+          <td>Full ABDM + NHCX claims</td>
+          <td>Full + custom reporting</td>
+        </tr>
+        <tr>
+          <td>AB-PMJAY / PMJAY</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes + state schemes</td>
+        </tr>
+        <tr>
+          <td>EMR depth</td>
+          <td>Outpatient + basic MCH</td>
+          <td>Outpatient + inpatient</td>
+          <td>Full hospital EHR</td>
+        </tr>
+        <tr>
+          <td>Support</td>
+          <td>Self-serve + regional language docs</td>
+          <td>Email + regional language support</td>
+          <td>Dedicated + on-site</td>
+        </tr>
+        <tr>
+          <td>Revenue pathway</td>
+          <td>NHM / State NHA funding</td>
+          <td>Direct or DISHA funds</td>
+          <td>NMF / MoHFW contracts</td>
+        </tr>
+        <tr>
+          <td>Go-to-market</td>
+          <td>State-level Dinkes partnerships</td>
+          <td>District collector / CMO</td>
+          <td>Central govt. procurement</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Critical: eSushrut Lite is the floor, not the target</h2>
+    <p>
+      The NHA's own eSushrut Lite at ₹299/month means the Government of India
+      has effectively set a free/near-free floor for PHCs. Larinova should not
+      try to compete at this price point — it will destroy margins and brand
+      positioning. Instead, position Larinova Public Starter at ₹199–₹399 as the
+      premium government product with AI scribe and 22-language support that
+      eSushrut Lite does not offer. The pitch: 'Same price, 10x the capability.'
+    </p>
+
+    <h2>4-phase government go-to-market strategy</h2>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 1 — Private first, always (now – Q3 2025)
+      </div>
+      <p class="phase-body">
+        Never lead with government. Private clinics in Chennai, Bengaluru,
+        Mumbai, and Delhi are the beachhead. Build 20–30 case studies with
+        measurable outcomes before approaching any government body. Government
+        procurement in India requires vendor track record, ABDM certification,
+        and political relationships — none of which can be shortcut.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 2 — NHA / ABDM certification (Q3–Q4 2025)
+      </div>
+      <p class="phase-body">
+        Get Larinova certified as an ABDM-compliant HIP/HIU. This is the single
+        most important government credential. The certification process involves
+        sandbox testing, a WASA security audit by a CERT-IN empanelled agency,
+        and a demonstration in front of NHA. Once certified, Larinova can be
+        promoted through all ABDM channels.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">Phase 3 — State NHA partnerships (2026)</div>
+      <p class="phase-body">
+        Each state has a State NHA / NHM office that manages healthcare IT
+        budgets. Partner with 2–3 state NHAs for a subsidised pilot in their PHC
+        network. Tamil Nadu, Karnataka, and Maharashtra are the highest-budget
+        states with strong digital health ambitions. A successful state pilot
+        creates a template for national scale.
+      </p>
+    </div>
+
+    <div class="phase-callout">
+      <div class="phase-title">
+        Phase 4 — GeM / GFR procurement registration (2026)
+      </div>
+      <p class="phase-body">
+        Register Larinova on the Government e-Marketplace (GeM) portal under the
+        Health IT category. GeM allows government buyers to procure directly
+        without full tender. This is how to sell to District Hospitals and
+        government clinics at scale without navigating L1-tender processes that
+        are won on price alone.
+      </p>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SECTION 9 — REVENUE PROJECTIONS
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="section-opener">
+      <span class="section-num">9</span>
+      <div class="section-head">
+        <div class="section-title">Revenue Projections</div>
+        <div class="section-sub">12-month model at scale</div>
+      </div>
+    </div>
+
+    <h2>12-month revenue model — conservative scenario</h2>
+    <p>
+      Assumes: 65% Core, 30% Pro, 5% Clinic+. Chennai / Bengaluru / Mumbai as
+      primary cities for Year 1.
+    </p>
+
+    <table class="rev-table">
+      <colgroup>
+        <col class="rv-mo" />
+        <col class="rv-doc" />
+        <col class="rv-avg" />
+        <col class="rv-mrr" />
+        <col class="rv-arr" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Active doctors</th>
+          <th>Avg revenue/doc</th>
+          <th>Monthly MRR</th>
+          <th>Cumulative ARR</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Month 1–2 (pilot)</td>
+          <td>5–15</td>
+          <td>₹899</td>
+          <td>~₹9k–₹13.5k</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Month 3</td>
+          <td>30</td>
+          <td>₹950</td>
+          <td>~₹28.5k</td>
+          <td>~₹70k</td>
+        </tr>
+        <tr>
+          <td>Month 6</td>
+          <td>120</td>
+          <td>₹1,050</td>
+          <td>~₹1.26L</td>
+          <td>~₹5.4L</td>
+        </tr>
+        <tr>
+          <td>Month 9</td>
+          <td>350</td>
+          <td>₹1,100</td>
+          <td>~₹38.5L</td>
+          <td>~₹1.6Cr</td>
+        </tr>
+        <tr>
+          <td>Month 12</td>
+          <td>700</td>
+          <td>₹1,150</td>
+          <td>~₹80.5L</td>
+          <td>~₹3.6Cr</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>City-first strategy — where to launch and why</h2>
+
+    <table class="city-table">
+      <colgroup>
+        <col class="ct-city" />
+        <col class="ct-rat" />
+        <col class="ct-seg" />
+        <col class="ct-adv" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Rationale</th>
+          <th>Target segment</th>
+          <th>Larinova advantage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chennai</td>
+          <td>Home city — network, relationships, Tamil moat</td>
+          <td>Private clinics, Tamil-speaking specialists</td>
+          <td>Tamil scribe = immediate moat vs Eka.Care</td>
+        </tr>
+        <tr>
+          <td>Bengaluru</td>
+          <td>India's healthcare tech hub, high-paying specialists</td>
+          <td>Specialist clinics, English/Kannada doctors</td>
+          <td>Full feature set, best UX in market</td>
+        </tr>
+        <tr>
+          <td>Hyderabad</td>
+          <td>Large Telugu-speaking doctor base, underserved</td>
+          <td>Multi-specialty clinics, Narayana network proximity</td>
+          <td>Telugu scribe — zero competition</td>
+        </tr>
+        <tr>
+          <td>Mumbai</td>
+          <td>Highest revenue per doctor in India, large hospital networks</td>
+          <td>Hospital clinics, Marathi-language GPs</td>
+          <td>Marathi scribe + enterprise positioning</td>
+        </tr>
+        <tr>
+          <td>Delhi NCR</td>
+          <td>Government + private mix, AIIMS proximity</td>
+          <td>Mixed private and govt tier</td>
+          <td>Hindi scribe + govt compliance focus</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Key pricing levers to pull as you scale</h2>
+
+    <h3>The freemium conversion trap</h3>
+    <p>
+      HealthPlix's free tier creates doctors who are used to paying nothing. Do
+      NOT offer a permanent free tier — it devalues the product permanently. A
+      14-day full-featured trial is the correct model. Once a doctor has spent
+      14 days with an AI scribe that saves them 90 minutes a day, asking for
+      ₹899/month is a formality.
+    </p>
+
+    <h3>Annual pre-payment incentive</h3>
+    <p>
+      ₹899 × 12 = ₹10,788 per doctor per year. Offer 2 months free on annual
+      commit (effective ₹764/month). This locks in ₹9,168 guaranteed and
+      improves cash flow dramatically — critical for an early-stage company
+      building runway.
+    </p>
+
+    <h3>Hospital network pricing</h3>
+    <p>
+      When a hospital network (like Narayana, Apollo, Fortis) wants Larinova
+      across multiple facilities, negotiate a fixed per-doctor rate with a
+      volume discount: 50–99 doctors = 15% off, 100–199 doctors = 25% off, 200+
+      = custom. This is how to land enterprise accounts while maintaining
+      per-doctor pricing discipline.
+    </p>
+
+    <h3>Language-specific partnerships</h3>
+    <p>
+      Partner with state medical associations (Tamil Nadu Medical Association,
+      Karnataka Medical Association) for group pricing. A state-level deal at
+      ₹750/doctor/month for 500 doctors = ₹37.5L/month. These deals are won
+      through relationship, not sales — make this a Year 2 play after the
+      product is proven.
+    </p>
+  </body>
+</html>

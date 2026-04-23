@@ -2,7 +2,7 @@
 
 AI medical scribe for doctors in India and Indonesia. Records doctor-patient consultations in the local language, then auto-generates SOAP notes, ICD-10 codes, and prescriptions.
 
-**This repo is code-only.** All non-technical material (strategy, sales, collateral, pricing docs, logo gen, ops CLIs) lives in the sibling dir `~/Documents/products/larinova-ops/`. That split exists so ops-side MCPs (Gmail, WhatsApp) don't bleed into coding context. See `../larinova-ops/CLAUDE.md`.
+This repo holds both the code and the ops material, split into subdirs so they can have different MCP configs. The rule: **Gmail/WhatsApp MCPs live inside `ops/`**, so they only load when your CWD is inside that subdir. Code sessions at the repo root (or in `app/`, `landing/`, `patient-portal/`) never see them. See `ops/CLAUDE.md`.
 
 ## Brand
 - **Name**: Larinova (formerly Kosyn)
@@ -14,34 +14,39 @@ AI medical scribe for doctors in India and Indonesia. Records doctor-patient con
 ## Directory structure
 ```
 larinova/
-├── CLAUDE.md                ← you are here
+├── CLAUDE.md                ← you are here (code-scope + pointer to ops/)
 ├── AGENTS.md                ← installed CLIs + scripts for agents
 ├── README.md
 ├── cmux.json                ← dev workspace layout
-├── landing/                 ← marketing site (Next.js, has its own CLAUDE.md)
-├── app/                     ← product app (Next.js, has its own CLAUDE.md)
-├── patient-portal/          ← patient.larinova.com (Next.js)
-├── docs/                    ← technical docs only
-│   └── superpowers/         ← spec docs, plans, launch evidence
+├── .mcp.json                ← repo-root MCPs (Context7) — loaded everywhere
 ├── .claude/                 ← Claude Code state (spec, skills, tdd-guard)
-└── .mcp.json                ← Context7 only (code-focused)
+│
+├── Code (open Claude Code at the repo root)
+│   ├── app/                 ← product app (Next.js, own CLAUDE.md)
+│   ├── landing/             ← marketing site (Next.js, own CLAUDE.md)
+│   ├── patient-portal/      ← patient.larinova.com (Next.js)
+│   └── docs/                ← technical docs
+│       └── superpowers/     ← spec docs, plans, launch evidence
+│
+└── ops/                     ← non-technical (open Claude Code here for ops work)
+    ├── CLAUDE.md
+    ├── .mcp.json            ← local Gmail MCP (gabrielantony56@gmail.com)
+    ├── .gitignore
+    ├── strategy/            ← INDONESIA_PLAYBOOK, INDIA_PLAYBOOK, GO_TO_MARKET, etc.
+    ├── sales/               ← decks, discovery forms, leads
+    ├── collateral/          ← marketing assets
+    ├── logo-gen/            ← brand logos
+    ├── docs/                ← SALES_OUTREACH_PLAN, PRICING_IMPL, Competitive_Research,
+    │                         india/ + indonesia/ pricing-strategy HTML/PDF
+    └── whatsapp/            ← whatsapp-web.js CLI (pair/send/list)
 ```
 
-## Sibling dir (non-technical)
-```
-../larinova-ops/
-├── strategy/                ← INDONESIA_PLAYBOOK, INDIA_PLAYBOOK, GO_TO_MARKET, etc.
-├── sales/                   ← decks, discovery forms, leads
-├── collateral/              ← marketing assets
-├── logo-gen/                ← brand logos
-├── docs/                    ← SALES_OUTREACH_PLAN, PRICING_IMPL, Competitive_Research,
-│                             india/ + indonesia/ pricing-strategy HTML/PDF
-├── whatsapp/                ← whatsapp-web.js CLI (pair/send/list)
-├── .mcp.json                ← local Gmail MCP (scoped to gabrielantony56@gmail.com)
-└── CLAUDE.md
-```
+## How the MCP split works
+Claude Code walks **up** from CWD to find `.mcp.json`. So:
+- Working at the repo root or in `app/` / `landing/` / `patient-portal/` → only `.mcp.json` at the root is seen. Gmail/WhatsApp not loaded.
+- Working in `ops/` or deeper → `ops/.mcp.json` becomes visible too. Gmail available.
 
-When a strategy doc or sales artifact needs to land in code (pricing changes, whitelist updates, landing copy), `cd` back into this repo to make the edit. Conversely, when code decisions affect positioning or outreach, update the relevant doc in `../larinova-ops/`.
+When switching modes, restart your Claude Code session in the appropriate directory.
 
 ## Current focus (April 2026)
 - **Indonesia launch** — primary. Meeting doctors IRL, collecting testimonials, then cold outreach to ~50 hospital leads.
@@ -56,7 +61,7 @@ When a strategy doc or sales artifact needs to land in code (pricing changes, wh
 - Any Indonesian text in internal docs must carry an English translation alongside.
 
 ## Per-subdir context
-When working inside `landing/`, `app/`, or `patient-portal/`, Claude Code auto-loads that subdir's `CLAUDE.md`. Read it first — stack, routes, and conventions live there.
+When working inside `landing/`, `app/`, `patient-portal/`, or `ops/`, Claude Code auto-loads that subdir's `CLAUDE.md`. Read it first — stack, routes, and conventions live there.
 
 ## Strategy docs
-All strategy and sales material has moved to `../larinova-ops/`. See its `CLAUDE.md` for the index.
+All strategy and sales material lives under `ops/`. See `ops/CLAUDE.md` for the index.

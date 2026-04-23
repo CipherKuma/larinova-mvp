@@ -1,0 +1,21 @@
+{
+  "name": "larinova-ops-whatsapp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "WhatsApp CLI tools for larinova-ops (based on whatsapp-web.js). Port of agents/clan-runtime's pairing + send scripts.",
+  "scripts": {
+    "pair": "tsx pair.ts",
+    "send": "tsx send.ts",
+    "list": "tsx list.ts"
+  },
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.34.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

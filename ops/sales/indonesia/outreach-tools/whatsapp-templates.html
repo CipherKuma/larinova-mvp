@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp Templates — Larinova</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #f0f4f8;
+        font-family: "Segoe UI", Arial, sans-serif;
+        padding: 30px 15px;
+        color: #111;
+      }
+      h1 {
+        text-align: center;
+        font-size: 22px;
+        color: #1a6ee8;
+        margin-bottom: 6px;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 36px;
+      }
+
+      .section {
+        max-width: 700px;
+        margin: 0 auto 44px;
+      }
+      .section-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #6b7280;
+        margin-bottom: 14px;
+        padding-left: 4px;
+      }
+
+      /* PHONE FRAME */
+      .phone-wrap {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .phone {
+        background: #fff;
+        border-radius: 32px;
+        border: 3px solid #d1d5db;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+        width: 300px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .phone-header {
+        background: #075e54;
+        padding: 12px 16px 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .phone-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #25d366;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .phone-info .name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .phone-info .online {
+        font-size: 11px;
+        color: #a7f3d0;
+      }
+      .phone-body {
+        background: #ece5dd;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d0c9bf' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        padding: 16px 10px;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .msg-bubble {
+        background: #fff;
+        border-radius: 4px 16px 16px 16px;
+        padding: 11px 14px 22px;
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: #111;
+        position: relative;
+        max-width: 90%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        white-space: pre-wrap;
+      }
+      .msg-time {
+        position: absolute;
+        bottom: 6px;
+        right: 10px;
+        font-size: 10px;
+        color: #888;
+      }
+
+      /* COPY BOX */
+      .copy-box-wrap {
+        flex: 1;
+        min-width: 260px;
+      }
+      .copy-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+      }
+      .copy-box {
+        background: #fff;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        font-size: 13.5px;
+        line-height: 1.7;
+        color: #374151;
+        white-space: pre-wrap;
+        word-break: break-word;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .copy-box:hover {
+        border-color: #1a6ee8;
+        box-shadow: 0 0 0 3px rgba(26, 110, 232, 0.1);
+      }
+      .copy-btn {
+        margin-top: 10px;
+        background: #1a6ee8;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover {
+        background: #1558c0;
+      }
+      .copy-btn.copied {
+        background: #22c55e;
+      }
+
+      /* TIP BOX */
+      .tip {
+        max-width: 700px;
+        margin: 0 auto 20px;
+        background: #fff7ed;
+        border-left: 4px solid #f97316;
+        border-radius: 0 10px 10px 0;
+        padding: 14px 18px;
+        font-size: 13px;
+        color: #92400e;
+        line-height: 1.6;
+      }
+      .tip strong {
+        color: #ea580c;
+      }
+
+      hr.divider {
+        max-width: 700px;
+        margin: 0 auto 36px;
+        border: none;
+        border-top: 2px dashed #e5e7eb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>💬 Template WhatsApp — Larinova</h1>
+    <div class="subtitle">
+      Klik tombol "Salin Teks" lalu paste langsung ke WhatsApp
+    </div>
+
+    <!-- ===== 1. PESAN PERTAMA - KENALAN (WARM) ===== -->
+    <div class="section">
+      <div class="section-label">📌 Pesan 1 — Kenalan (Kenalan / Teman)</div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👨‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Budi Santoso</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Halo Dok Budi! Apa kabar? 😊 Aku mau share sesuatu nih — lagi
+              kerja bareng startup namanya *Larinova*, mereka bikin aplikasi
+              khusus buat dokter di Indonesia. Yang paling keren: ada *AI yang
+              otomatis bikin catatan konsultasi* — jadi Dokter gak perlu nulis
+              manual lagi. Semua dalam *Bahasa Indonesia* 🇮🇩 Sekarang lagi ada
+              *akses gratis 1 bulan*, gak perlu kartu kredit. Boleh aku kirim
+              video singkatnya? Cuma 1-2 menit kok 🙏
+              <div class="msg-time">10.24 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg1">
+            Halo Dok [Nama]! Apa kabar? 😊 Aku mau share sesuatu nih — lagi
+            kerja bareng startup namanya *Larinova*, mereka bikin aplikasi
+            khusus buat dokter di Indonesia. Yang paling keren: ada *AI yang
+            otomatis bikin catatan konsultasi* — jadi Dokter gak perlu nulis
+            manual lagi. Semua dalam *Bahasa Indonesia* 🇮🇩 Sekarang lagi ada
+            *akses gratis 1 bulan*, gak perlu kartu kredit. Boleh aku kirim
+            video singkatnya? Cuma 1-2 menit kok 🙏
+          </div>
+          <button class="copy-btn" onclick="copyText('msg1', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ===== 2. PESAN PERTAMA - COLD ===== -->
+    <div class="section">
+      <div class="section-label">
+        📌 Pesan 2 — Perkenalan (Dokter Baru / Tidak Kenal)
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👩‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Sari Dewi</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Halo Dokter Sari 🙏 Perkenalkan, saya [Nama] dari *Larinova* —
+              aplikasi manajemen klinik + AI khusus dokter Indonesia. ✅ Catatan
+              konsultasi otomatis pakai AI ✅ Resep & surat rujukan langsung
+              ter-generate ✅ Semua dalam Bahasa Indonesia 🇮🇩 Lagi buka *akses
+              gratis 1 bulan* untuk dokter early adopter. Boleh saya kirim video
+              demo-nya Dok? 1-2 menit saja 😊
+              <div class="msg-time">14.05 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg2">
+            Halo Dokter [Nama] 🙏 Perkenalkan, saya [Nama Kamu] dari *Larinova*
+            — aplikasi manajemen klinik + AI khusus dokter Indonesia. ✅ Catatan
+            konsultasi otomatis pakai AI ✅ Resep & surat rujukan langsung
+            ter-generate ✅ Semua dalam Bahasa Indonesia 🇮🇩 Lagi buka *akses
+            gratis 1 bulan* untuk dokter early adopter. Boleh saya kirim video
+            demo-nya Dok? 1-2 menit saja 😊
+          </div>
+          <button class="copy-btn" onclick="copyText('msg2', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ===== 3. KIRIM VIDEO ===== -->
+    <div class="section">
+      <div class="section-label">
+        📌 Pesan 3 — Kirim Link Video Demo (setelah Dokter tertarik)
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👨‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Budi Santoso</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Ini videonya Dok 😊 🎬 *[LINK VIDEO DI SINI]* Cuma 1-2 menit —
+              langsung keliatan cara AI-nya bikin catatan otomatis. Kalau
+              setelah nonton tertarik, aku langsung share link daftarnya ya.
+              *Gratis 1 bulan, gak ada kartu kredit, gak ada komitmen* 🙏
+              <div class="msg-time">10.31 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg3">
+            Ini videonya Dok 😊 🎬 *[LINK VIDEO DI SINI]* Cuma 1-2 menit —
+            langsung keliatan cara AI-nya bikin catatan otomatis. Kalau setelah
+            nonton tertarik, aku langsung share link daftarnya ya. *Gratis 1
+            bulan, gak ada kartu kredit, gak ada komitmen* 🙏
+          </div>
+          <button class="copy-btn" onclick="copyText('msg3', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ===== 4. FOLLOW UP ===== -->
+    <div class="section">
+      <div class="section-label">
+        📌 Pesan 4 — Follow Up (2 hari tidak ada balasan)
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👩‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Sari Dewi</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Halo Dokter [Nama] 😊 Hanya mau follow up sebentar — sempat lihat
+              video Larinova yang aku kirim? Kalau ada pertanyaan atau mau coba
+              langsung, aku siap bantu 🙏
+              <div class="msg-time">09.15 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg4">
+            Halo Dokter [Nama] 😊 Hanya mau follow up sebentar — sempat lihat
+            video Larinova yang aku kirim? Kalau ada pertanyaan atau mau coba
+            langsung, aku siap bantu 🙏
+          </div>
+          <button class="copy-btn" onclick="copyText('msg4', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ===== 5. POST SIGN UP ===== -->
+    <div class="section">
+      <div class="section-label">
+        📌 Pesan 5 — Setelah Dokter Daftar (aktivasi)
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👨‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Budi Santoso</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Halo Dokter [Nama]! 🎉 Makasih sudah daftar di *Larinova* 🙏 Sudah
+              sempat buka aplikasinya? Kalau ada kendala atau butuh bantuan
+              waktu pertama kali pakai, langsung chat aku ya — aku siap bantu!
+              Feedback dari Dokter juga sangat berarti buat kami 😊
+              <div class="msg-time">11.00 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg5">
+            Halo Dokter [Nama]! 🎉 Makasih sudah daftar di *Larinova* 🙏 Sudah
+            sempat buka aplikasinya? Kalau ada kendala atau butuh bantuan waktu
+            pertama kali pakai, langsung chat aku ya — aku siap bantu! Feedback
+            dari Dokter juga sangat berarti buat kami 😊
+          </div>
+          <button class="copy-btn" onclick="copyText('msg5', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ===== 6. REFERRAL ===== -->
+    <div class="section">
+      <div class="section-label">
+        📌 Pesan 6 — Minta Referral (setelah Dokter pakai & suka)
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-header">
+            <div class="phone-avatar">👨‍⚕️</div>
+            <div class="phone-info">
+              <div class="name">dr. Budi Santoso</div>
+              <div class="online">online</div>
+            </div>
+          </div>
+          <div class="phone-body">
+            <div class="msg-bubble">
+              Dokter, senang banget dengar pengalamannya pakai Larinova 😊 Boleh
+              tanya — ada teman dokter atau kolega yang mungkin juga butuh
+              aplikasi seperti ini? Kalau ada, aku bisa langsung kirimin info ke
+              mereka 🙏 Makasih banyak Dok!
+              <div class="msg-time">16.20 ✓✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="copy-box-wrap">
+          <div class="copy-label">📋 Teks siap copy:</div>
+          <div class="copy-box" id="msg6">
+            Dokter, senang banget dengar pengalamannya pakai Larinova 😊 Boleh
+            tanya — ada teman dokter atau kolega yang mungkin juga butuh
+            aplikasi seperti ini? Kalau ada, aku bisa langsung kirimin info ke
+            mereka 🙏 Makasih banyak Dok!
+          </div>
+          <button class="copy-btn" onclick="copyText('msg6', this)">
+            📋 Salin Teks
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIP -->
+    <div class="tip">
+      <strong>💡 Tips WhatsApp:</strong> Teks yang diapit *bintang* akan jadi
+      <strong>tebal/bold</strong> di WhatsApp. Jadi kalau kamu copy teks ini,
+      kata-kata penting otomatis muncul bold di HP dokternya!
+    </div>
+
+    <script>
+      function copyText(id, btn) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = "✅ Tersalin!";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "📋 Salin Teks";
+            btn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>

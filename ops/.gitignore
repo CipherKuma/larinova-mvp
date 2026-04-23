@@ -1,0 +1,19 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+
+# WhatsApp session state — never commit, it's a live auth token
+whatsapp/data/
+whatsapp/.wwebjs_auth/
+whatsapp/.wwebjs_cache/
+
+# Gmail MCP OAuth tokens
+.gmail-credentials.json
+.gmail-token.json
+
+# macOS
+.DS_Store
+
+# Claude Code local settings (keep the skills dir, but not local settings)
+.claude/settings.local.json

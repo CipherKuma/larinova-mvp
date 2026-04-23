@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova untuk Klinik Berkembang</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        background: #fff;
+        color: #1a1a2e;
+      }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        overflow: hidden;
+        padding: 44px 52px;
+        background: #fff;
+        break-after: page;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+      }
+      .page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .deck-title {
+        font-size: 34px;
+        font-weight: 800;
+        color: #1a1a2e;
+        line-height: 1.15;
+        margin-bottom: 8px;
+      }
+      .deck-subtitle {
+        font-size: 15px;
+        font-weight: 500;
+        color: #00b8a9;
+        margin-bottom: 6px;
+      }
+      .deck-target {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 36px;
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 0;
+        margin-bottom: 36px;
+      }
+      .stat {
+        flex: 1;
+        text-align: center;
+        padding: 0 12px;
+        border-right: 1px solid #e5e5e5;
+      }
+      .stat:last-child {
+        border-right: none;
+      }
+      .stat-number {
+        font-size: 52px;
+        font-weight: 800;
+        color: #00b8a9;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #555;
+        line-height: 1.45;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 14px;
+      }
+
+      .bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+      .bullets li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: #333;
+      }
+      .bullets li::before {
+        content: "•";
+        color: #00b8a9;
+        font-size: 18px;
+        line-height: 1.2;
+        flex-shrink: 0;
+      }
+      .bullets li strong {
+        color: #1a1a2e;
+        font-weight: 600;
+      }
+
+      .table-intro {
+        font-size: 12.5px;
+        color: #555;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        margin-bottom: 28px;
+      }
+      .comparison-table th {
+        background: #2c3e50;
+        color: #fff;
+        padding: 10px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .comparison-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #eee;
+        color: #1a1a2e;
+        vertical-align: top;
+      }
+      .comparison-table tbody tr:nth-child(even) td {
+        background: #f8f9fa;
+      }
+      .comparison-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .manual {
+        color: #e07c1a;
+      }
+      .larinova {
+        color: #1e7a3b;
+      }
+
+      .offer-intro {
+        font-size: 12.5px;
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 14px;
+      }
+      .pricing-text {
+        font-size: 12.5px;
+        color: #444;
+        font-style: italic;
+        line-height: 1.65;
+        margin-bottom: 32px;
+        padding: 12px 16px;
+        background: #f0faf9;
+        border-left: 3px solid #00b8a9;
+        border-radius: 4px;
+      }
+
+      .cta-box {
+        background: #00b8a9;
+        border-radius: 14px;
+        padding: 28px 40px;
+        text-align: center;
+        margin-bottom: auto;
+      }
+      .cta-headline {
+        font-size: 17px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+      .cta-contact {
+        font-size: 12.5px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .page-footer {
+        font-size: 11px;
+        color: #bbb;
+        text-align: center;
+        padding-top: 14px;
+        border-top: 1px solid #eee;
+        margin-top: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HALAMAN 1: Cover + Masalah -->
+    <div class="page">
+      <h1 class="deck-title">Larinova untuk Klinik Berkembang</h1>
+      <p class="deck-subtitle">AI Medical Scribe untuk Klinik Menengah</p>
+      <p class="deck-target">Untuk klinik dengan 5–10 dokter</p>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">
+            Jam per dokter per hari terbuang untuk administrasi
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">15–25</div>
+          <div class="stat-label">
+            Pasien tambahan yang bisa dilayani klinik Anda per hari
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">IDR 0</div>
+          <div class="stat-label">
+            Biaya untuk bulan pertama — akses penuh, tanpa kartu kredit
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Dokter Anda Tenggelam dalam Administrasi</h2>
+      <ul class="bullets">
+        <li>
+          Dokter Anda melayani 15–30 pasien per hari. Setelah setiap konsultasi,
+          mereka menghabiskan 5–10 menit menulis catatan manual.
+        </li>
+        <li>
+          Itu 2+ jam pekerjaan administrasi per dokter per hari. Untuk klinik
+          5–10 dokter, itu 10–20 jam produktivitas yang hilang setiap hari.
+        </li>
+        <li>
+          Dokter terburu-buru menulis catatan di akhir shift, sehingga catatan
+          tidak lengkap dan detail klinis terlewat.
+        </li>
+        <li>Anda membayar gaji dokter untuk pekerjaan administrasi.</li>
+      </ul>
+    </div>
+
+    <!-- HALAMAN 2: Fitur + Manfaat -->
+    <div class="page">
+      <h2 class="section-title">Larinova Mengurus Catatan Secara Otomatis</h2>
+      <p class="table-intro">
+        Dokter berbicara dengan pasien seperti biasa. Larinova mendengarkan dan
+        otomatis membuat:
+      </p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Fitur</th>
+            <th>Manual</th>
+            <th>Dengan Larinova</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Catatan SOAP</td>
+            <td class="manual">5–10 menit manual</td>
+            <td class="larinova">30 detik, otomatis</td>
+          </tr>
+          <tr>
+            <td>Kode ICD-10</td>
+            <td class="manual">Cari kode manual</td>
+            <td class="larinova">Disarankan otomatis, akurasi 94%+</td>
+          </tr>
+          <tr>
+            <td>Resep</td>
+            <td class="manual">Ditulis tangan</td>
+            <td class="larinova">Dihasilkan dari percakapan</td>
+          </tr>
+          <tr>
+            <td>Surat Rujukan</td>
+            <td class="manual">10+ menit per surat</td>
+            <td class="larinova">Draft otomatis, instan</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-title">Dibangun untuk Klinik Indonesia</h2>
+      <ul class="bullets">
+        <li>
+          <strong>Bahasa Indonesia native</strong> — Dokter Anda berbicara
+          Indonesia ke pasien. Larinova memahami secara native — tanpa lapisan
+          terjemahan.
+        </li>
+        <li>
+          <strong>Setup mudah</strong> — Tidak perlu tim IT. Berbasis cloud,
+          berfungsi di HP, tablet, atau laptop. Dokter bisa mulai pakai dalam 5
+          menit.
+        </li>
+        <li>
+          <strong>Dokumentasi lengkap</strong> — Catatan SOAP, kode ICD-10,
+          resep, dan surat rujukan — semua dari satu rekaman konsultasi.
+        </li>
+        <li>
+          <strong>Lebih banyak pasien, lebih banyak pendapatan</strong> — Jika
+          setiap dokter hemat 2 jam, klinik bisa melayani 15–25 pasien tambahan
+          per hari.
+        </li>
+      </ul>
+    </div>
+
+    <!-- HALAMAN 3: Penawaran + CTA -->
+    <div class="page">
+      <h2 class="section-title">Penawaran Kami</h2>
+      <p class="offer-intro">
+        Coba Larinova GRATIS selama 1 bulan penuh. Semua fitur, semua dokter
+        Anda, tanpa kartu kredit. Kalau dokter suka, kita bicara harga. Kalau
+        tidak, tidak masalah.
+      </p>
+      <p class="pricing-text">
+        Setelah 1 bulan gratis: Rp 650.000/dokter/bulan + Rp 500.000 biaya dasar
+        klinik (tier Pro). Untuk klinik 5 dokter = Rp 3,75 juta/bulan. Tanpa
+        kartu kredit.
+      </p>
+
+      <div class="cta-box">
+        <p class="cta-headline">Mulai Uji Coba Gratis 1 Bulan Hari Ini</p>
+        <p class="cta-contact">hello@larinova.com &nbsp;|&nbsp; larinova.com</p>
+      </div>
+
+      <p class="page-footer">
+        Larinova &nbsp;·&nbsp; AI Scribe Medis untuk Dokter &nbsp;·&nbsp;
+        larinova.com &nbsp;·&nbsp; hello@larinova.com
+      </p>
+    </div>
+  </body>
+</html>

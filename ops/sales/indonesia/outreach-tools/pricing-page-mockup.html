@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Larinova — Harga & Paket</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --teal-900: #0d3349;
+        --teal-700: #1a3c5e;
+        --teal-500: #2e6da4;
+        --teal-400: #3d84c0;
+        --teal-100: #d9e8f5;
+        --teal-50: #f0f7ff;
+        --green: #1e7a3b;
+        --green-lt: #d4edda;
+        --orange: #e8842a;
+        --orange-lt: #fff3e0;
+        --grey-100: #f8f9fa;
+        --grey-200: #e9ecef;
+        --grey-400: #adb5bd;
+        --grey-700: #495057;
+        --white: #ffffff;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.07);
+        --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+        --radius: 16px;
+        --font: "Inter", sans-serif;
+      }
+
+      body {
+        font-family: var(--font);
+        background: var(--grey-100);
+        color: #1a1a2e;
+        min-height: 100vh;
+      }
+
+      /* ── NAV ── */
+      nav {
+        background: var(--white);
+        border-bottom: 1px solid var(--grey-200);
+        padding: 0 40px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: var(--teal-700);
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--teal-500);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+      .nav-cta {
+        background: var(--teal-500);
+        color: #fff;
+        border: none;
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--teal-700);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        text-align: center;
+        padding: 72px 24px 48px;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .hero-badge {
+        display: inline-block;
+        background: var(--teal-100);
+        color: var(--teal-700);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 5px 14px;
+        border-radius: 100px;
+        margin-bottom: 20px;
+        letter-spacing: 0.03em;
+      }
+      .hero h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--teal-900);
+        margin-bottom: 16px;
+      }
+      .hero h1 span {
+        color: var(--teal-500);
+      }
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--grey-700);
+        line-height: 1.7;
+        margin-bottom: 32px;
+      }
+
+      /* ── TOGGLE ── */
+      .toggle-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 52px;
+      }
+      .toggle-label {
+        font-size: 0.95rem;
+        color: var(--grey-700);
+        font-weight: 500;
+      }
+      .toggle-label.active {
+        color: var(--teal-700);
+        font-weight: 700;
+      }
+      .badge-save {
+        background: var(--green);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 100px;
+      }
+      .toggle {
+        width: 48px;
+        height: 26px;
+        background: var(--teal-500);
+        border-radius: 100px;
+        cursor: pointer;
+        position: relative;
+        transition: background 0.2s;
+      }
+      .toggle::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+      .toggle.off {
+        background: var(--grey-400);
+      }
+      .toggle.off::after {
+        transform: translateX(0);
+      }
+      .toggle.on::after {
+        transform: translateX(22px);
+      }
+
+      /* ── CARDS GRID ── */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      .card {
+        background: var(--white);
+        border-radius: var(--radius);
+        border: 1.5px solid var(--grey-200);
+        padding: 32px 26px 28px;
+        position: relative;
+        transition:
+          box-shadow 0.25s,
+          transform 0.25s,
+          border-color 0.25s;
+        display: flex;
+        flex-direction: column;
+      }
+      .card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-4px);
+        border-color: var(--teal-400);
+      }
+
+      /* POPULAR card */
+      .card.popular {
+        background: var(--teal-700);
+        border-color: var(--teal-700);
+        color: #fff;
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+      }
+      .card.popular:hover {
+        transform: translateY(-14px);
+      }
+
+      .badge-popular {
+        position: absolute;
+        top: -13px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--orange);
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 4px 14px;
+        border-radius: 100px;
+        white-space: nowrap;
+        letter-spacing: 0.04em;
+      }
+
+      .card-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+      }
+      .card:not(.popular) .card-icon {
+        background: var(--teal-50);
+      }
+      .card.popular .card-icon {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .card-tier {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--teal-500);
+        margin-bottom: 6px;
+      }
+      .card.popular .card-tier {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .card-name {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin-bottom: 6px;
+        color: var(--teal-900);
+      }
+      .card.popular .card-name {
+        color: #fff;
+      }
+
+      .card-desc {
+        font-size: 0.85rem;
+        color: var(--grey-700);
+        line-height: 1.5;
+        margin-bottom: 22px;
+        min-height: 42px;
+      }
+      .card.popular .card-desc {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .card-price {
+        margin-bottom: 6px;
+      }
+      .price-amount {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--teal-700);
+        line-height: 1;
+      }
+      .card.popular .price-amount {
+        color: #fff;
+      }
+      .price-currency {
+        font-size: 0.9rem;
+        font-weight: 600;
+        vertical-align: super;
+        color: var(--teal-500);
+      }
+      .card.popular .price-currency {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .price-period {
+        font-size: 0.82rem;
+        color: var(--grey-400);
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+      .card.popular .price-period {
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .price-annual {
+        font-size: 0.78rem;
+        color: var(--green);
+        font-weight: 600;
+        background: var(--green-lt);
+        padding: 3px 9px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+      .card.popular .price-annual {
+        background: rgba(255, 255, 255, 0.15);
+        color: #a8f5c0;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--grey-200);
+        margin: 0 0 20px;
+      }
+      .card.popular .divider {
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+
+      .features {
+        list-style: none;
+        margin-bottom: 28px;
+        flex: 1;
+      }
+      .features li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.87rem;
+        color: var(--grey-700);
+        padding: 6px 0;
+        line-height: 1.45;
+      }
+      .card.popular .features li {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .feature-check {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--teal-100);
+        flex-shrink: 0;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card.popular .feature-check {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      .feature-check svg {
+        width: 10px;
+        height: 10px;
+      }
+
+      .card-btn {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 2px solid var(--teal-500);
+        background: transparent;
+        color: var(--teal-500);
+        transition: all 0.2s;
+        text-align: center;
+      }
+      .card-btn:hover {
+        background: var(--teal-500);
+        color: #fff;
+      }
+      .card.popular .card-btn {
+        background: #fff;
+        color: var(--teal-700);
+        border-color: #fff;
+      }
+      .card.popular .card-btn:hover {
+        background: var(--teal-100);
+      }
+
+      /* ── ENTERPRISE BANNER ── */
+      .enterprise-banner {
+        max-width: 1180px;
+        margin: 28px auto 0;
+        padding: 0 24px;
+      }
+      .enterprise-inner {
+        background: linear-gradient(
+          135deg,
+          var(--teal-900) 0%,
+          var(--teal-700) 100%
+        );
+        border-radius: var(--radius);
+        padding: 32px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .ent-left {
+        flex: 1;
+      }
+      .ent-tag {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--orange);
+        margin-bottom: 8px;
+      }
+      .ent-title {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      .ent-desc {
+        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        max-width: 500px;
+      }
+      .ent-features {
+        display: flex;
+        gap: 16px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .ent-pill {
+        background: rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.78rem;
+        font-weight: 500;
+        padding: 5px 12px;
+        border-radius: 100px;
+      }
+      .ent-btn {
+        background: var(--orange);
+        color: #fff;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+      }
+      .ent-btn:hover {
+        background: #c97021;
+      }
+
+      /* ── TRUST BADGES ── */
+      .trust {
+        text-align: center;
+        padding: 52px 24px 72px;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .trust-title {
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--grey-400);
+        margin-bottom: 24px;
+      }
+      .trust-badges {
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--grey-700);
+      }
+      .trust-item svg {
+        color: var(--teal-500);
+      }
+
+      /* ── FAQ NOTE ── */
+      .faq-note {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--grey-400);
+        padding-bottom: 48px;
+      }
+      .faq-note a {
+        color: var(--teal-500);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .card.popular {
+          transform: none;
+        }
+      }
+      @media (max-width: 640px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 1.9rem;
+        }
+        .enterprise-inner {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="logo">
+        <div class="logo-icon">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+            />
+          </svg>
+        </div>
+        Larinova
+      </div>
+      <button class="nav-cta">Coba Gratis 1 Bulan →</button>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">✦ Khusus Dokter & Klinik Indonesia</div>
+      <h1>Harga yang <span>Transparan</span>,<br />Nilai yang Nyata</h1>
+      <p>
+        Hemat 3–5 jam per hari dokumentasi manual. Mulai gratis, tanpa kartu
+        kredit, tanpa komitmen.
+      </p>
+
+      <!-- Billing Toggle -->
+      <div class="toggle-wrap">
+        <span class="toggle-label active" id="lbl-monthly">Bulanan</span>
+        <div
+          class="toggle off"
+          id="billing-toggle"
+          onclick="toggleBilling()"
+        ></div>
+        <span class="toggle-label" id="lbl-annual">
+          Tahunan &nbsp;<span class="badge-save">Hemat 17%</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- PRICING CARDS -->
+    <div class="cards-grid">
+      <!-- STARTER -->
+      <div class="card">
+        <div class="card-icon">
+          <svg
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
+          </svg>
+        </div>
+        <div class="card-tier">Starter</div>
+        <div class="card-name">Dokter Solo</div>
+        <div class="card-desc">
+          Untuk dokter praktik mandiri yang ingin mulai otomatisasi dokumentasi.
+        </div>
+        <div class="card-price">
+          <span class="price-currency">IDR</span>
+          <span class="price-amount" id="price-starter">149.000</span>
+        </div>
+        <div class="price-period">per bulan · 1 dokter</div>
+        <div class="price-annual" id="annual-starter">
+          = IDR 1.490.000/tahun
+        </div>
+        <hr class="divider" />
+        <ul class="features">
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >AI Scribe — catatan konsultasi otomatis
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Rekam medis pasien
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Jadwal & manajemen appointment
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Dokumen otomatis (resep, surat rujukan)
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Bahasa Indonesia penuh
+          </li>
+        </ul>
+        <button class="card-btn">Mulai Gratis →</button>
+      </div>
+
+      <!-- BASIC -->
+      <div class="card">
+        <div class="card-icon">
+          <svg
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+            />
+          </svg>
+        </div>
+        <div class="card-tier">Basic</div>
+        <div class="card-name">Klinik Kecil</div>
+        <div class="card-desc">
+          Untuk klinik dengan 2–4 dokter. Kelola semua dalam satu platform.
+        </div>
+        <div class="card-price">
+          <span class="price-currency">IDR</span>
+          <span class="price-amount" id="price-basic">399.000</span>
+        </div>
+        <div class="price-period">per bulan · hingga 4 dokter</div>
+        <div class="price-annual" id="annual-basic">= IDR 3.990.000/tahun</div>
+        <hr class="divider" />
+        <ul class="features">
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Semua fitur Starter
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Manajemen multi-dokter
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Manajemen staf & tugas
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Laporan operasional klinik
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Billing & rekap keuangan dasar
+          </li>
+        </ul>
+        <button class="card-btn">Mulai Gratis →</button>
+      </div>
+
+      <!-- PRO (POPULAR) -->
+      <div class="card popular">
+        <div class="badge-popular">⭐ Paling Populer</div>
+        <div class="card-icon">
+          <svg
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="white"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            />
+          </svg>
+        </div>
+        <div class="card-tier">Pro</div>
+        <div class="card-name">Klinik Menengah</div>
+        <div class="card-desc">
+          Untuk klinik 5–10 dokter yang butuh otomatisasi penuh & analitik.
+        </div>
+        <div class="card-price">
+          <span class="price-currency">IDR</span>
+          <span class="price-amount" id="price-pro">899.000</span>
+        </div>
+        <div class="price-period">per bulan · hingga 10 dokter</div>
+        <div class="price-annual" id="annual-pro">= IDR 8.990.000/tahun</div>
+        <hr class="divider" />
+        <ul class="features">
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Semua fitur Basic
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Workflow automation (Zapier-like)
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Integrasi notifikasi WhatsApp
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Analitik lanjutan & dashboard
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Priority customer support
+          </li>
+        </ul>
+        <button class="card-btn">Mulai Gratis →</button>
+      </div>
+
+      <!-- BUSINESS -->
+      <div class="card">
+        <div class="card-icon">
+          <svg
+            width="22"
+            height="22"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"
+            />
+          </svg>
+        </div>
+        <div class="card-tier">Business</div>
+        <div class="card-name">Klinik Utama</div>
+        <div class="card-desc">
+          Untuk klinik utama, RSIA kecil, atau jaringan klinik hingga 25 dokter.
+        </div>
+        <div class="card-price">
+          <span class="price-currency">IDR</span>
+          <span class="price-amount" id="price-business">2.499.000</span>
+        </div>
+        <div class="price-period">per bulan · hingga 25 dokter</div>
+        <div class="price-annual" id="annual-business">
+          = IDR 24.990.000/tahun
+        </div>
+        <hr class="divider" />
+        <ul class="features">
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Semua fitur Pro
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Multi-lokasi & multi-cabang
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Dukungan integrasi BPJS
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Onboarding & pelatihan tim
+          </li>
+          <li>
+            <span class="feature-check"
+              ><svg
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="#2E6DA4"
+                stroke-width="2"
+              >
+                <polyline points="1.5,5 4,7.5 8.5,2.5" /></svg></span
+            >Dedicated account manager
+          </li>
+        </ul>
+        <button class="card-btn">Mulai Gratis →</button>
+      </div>
+    </div>
+
+    <!-- ENTERPRISE BANNER -->
+    <div class="enterprise-banner">
+      <div class="enterprise-inner">
+        <div class="ent-left">
+          <div class="ent-tag">Enterprise</div>
+          <div class="ent-title">
+            Rumah Sakit Menengah & Jaringan Klinik Besar
+          </div>
+          <div class="ent-desc">
+            Untuk RS, jaringan klinik >25 dokter, atau institusi yang butuh
+            kustomisasi penuh, SLA tertulis, dan integrasi HIS/EMR.
+          </div>
+          <div class="ent-features">
+            <span class="ent-pill">Unlimited dokter</span>
+            <span class="ent-pill">Integrasi HIS/EMR</span>
+            <span class="ent-pill">SLA & support 24/7</span>
+            <span class="ent-pill">Harga kustom</span>
+          </div>
+        </div>
+        <button class="ent-btn">Hubungi Kami →</button>
+      </div>
+    </div>
+
+    <!-- TRUST -->
+    <div class="trust">
+      <div class="trust-title">Kenapa dokter Indonesia percaya Larinova</div>
+      <div class="trust-badges">
+        <div class="trust-item">
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+          Data aman & terenkripsi
+        </div>
+        <div class="trust-item">
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 5h12M9 3v2m1.048 3.938A21.88 21.88 0 0112 15c0 2.486-.401 4.875-1.143 7.09M3 5a2 2 0 012 2v10a2 2 0 002 2h6a2 2 0 002-2v-1"
+            />
+          </svg>
+          100% Bahasa Indonesia
+        </div>
+        <div class="trust-item">
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Gratis 1 bulan penuh
+        </div>
+        <div class="trust-item">
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="#2E6DA4"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          Support 7 hari seminggu
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-note">
+      Ada pertanyaan? <a href="#">Hubungi kami via WhatsApp</a> atau baca
+      <a href="#">FAQ →</a>
+    </div>
+
+    <script>
+      let isAnnual = false;
+      const prices = {
+        monthly: {
+          starter: "149.000",
+          basic: "399.000",
+          pro: "899.000",
+          business: "2.499.000",
+        },
+        annual: {
+          starter: "123.000",
+          basic: "331.000",
+          pro: "746.000",
+          business: "2.074.000",
+        },
+        annualTotal: {
+          starter: "1.490.000",
+          basic: "3.990.000",
+          pro: "8.990.000",
+          business: "24.990.000",
+        },
+        annualTotalDisc: {
+          starter: "1.476.000",
+          basic: "3.972.000",
+          pro: "8.952.000",
+          business: "24.888.000",
+        },
+      };
+
+      function toggleBilling() {
+        isAnnual = !isAnnual;
+        const tog = document.getElementById("billing-toggle");
+        tog.className = "toggle " + (isAnnual ? "on" : "off");
+        document.getElementById("lbl-monthly").className =
+          "toggle-label " + (isAnnual ? "" : "active");
+        document.getElementById("lbl-annual").className =
+          "toggle-label " + (isAnnual ? "active" : "");
+
+        const set = isAnnual ? prices.annual : prices.monthly;
+        ["starter", "basic", "pro", "business"].forEach((k) => {
+          document.getElementById("price-" + k).textContent = set[k];
+          const el = document.getElementById("annual-" + k);
+          el.textContent = isAnnual
+            ? "= IDR " + prices.annualTotalDisc[k] + "/tahun (hemat 17%)"
+            : "= IDR " + prices.annualTotal[k] + "/tahun";
+        });
+
+        // update period text
+        document.querySelectorAll(".price-period").forEach((el) => {
+          const docs = el.textContent.split("·")[1];
+          el.textContent =
+            (isAnnual ? "per bulan (tagihan tahunan)" : "per bulan") +
+            " ·" +
+            docs;
+        });
+      }
+    </script>
+  </body>
+</html>

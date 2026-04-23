@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova for Growing Clinics</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        background: #fff;
+        color: #1a1a2e;
+      }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        overflow: hidden;
+        padding: 44px 52px;
+        background: #fff;
+        break-after: page;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+      }
+      .page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      /* Page 1 */
+      .deck-title {
+        font-size: 34px;
+        font-weight: 800;
+        color: #1a1a2e;
+        line-height: 1.15;
+        margin-bottom: 8px;
+      }
+      .deck-subtitle {
+        font-size: 15px;
+        font-weight: 500;
+        color: #00b8a9;
+        margin-bottom: 6px;
+      }
+      .deck-target {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 36px;
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 0;
+        margin-bottom: 36px;
+      }
+      .stat {
+        flex: 1;
+        text-align: center;
+        padding: 0 12px;
+        border-right: 1px solid #e5e5e5;
+      }
+      .stat:last-child {
+        border-right: none;
+      }
+      .stat-number {
+        font-size: 52px;
+        font-weight: 800;
+        color: #00b8a9;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #555;
+        line-height: 1.45;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 14px;
+      }
+
+      .bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+      .bullets li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: #333;
+      }
+      .bullets li::before {
+        content: "•";
+        color: #00b8a9;
+        font-size: 18px;
+        line-height: 1.2;
+        flex-shrink: 0;
+      }
+      .bullets li strong {
+        color: #1a1a2e;
+        font-weight: 600;
+      }
+
+      /* Page 2 */
+      .table-intro {
+        font-size: 12.5px;
+        color: #555;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+        margin-bottom: 28px;
+      }
+      .comparison-table th {
+        background: #2c3e50;
+        color: #fff;
+        padding: 10px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      .comparison-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #eee;
+        color: #1a1a2e;
+        vertical-align: top;
+      }
+      .comparison-table tbody tr:nth-child(even) td {
+        background: #f8f9fa;
+      }
+      .comparison-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .manual {
+        color: #e07c1a;
+      }
+      .larinova {
+        color: #1e7a3b;
+      }
+
+      /* Page 3 */
+      .offer-intro {
+        font-size: 12.5px;
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 14px;
+      }
+      .pricing-text {
+        font-size: 12.5px;
+        color: #444;
+        font-style: italic;
+        line-height: 1.65;
+        margin-bottom: 32px;
+        padding: 12px 16px;
+        background: #f0faf9;
+        border-left: 3px solid #00b8a9;
+        border-radius: 4px;
+      }
+
+      .cta-box {
+        background: #00b8a9;
+        border-radius: 14px;
+        padding: 28px 40px;
+        text-align: center;
+        margin-bottom: auto;
+      }
+      .cta-headline {
+        font-size: 17px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+      .cta-contact {
+        font-size: 12.5px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .page-footer {
+        font-size: 11px;
+        color: #bbb;
+        text-align: center;
+        padding-top: 14px;
+        border-top: 1px solid #eee;
+        margin-top: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PAGE 1: Cover + Pain -->
+    <div class="page">
+      <h1 class="deck-title">Larinova for Growing Clinics</h1>
+      <p class="deck-subtitle">AI Medical Scribe for Mid-Size Clinics</p>
+      <p class="deck-target">For clinics with 5–10 doctors</p>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">
+            Hours per doctor per day lost to paperwork
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">15–25</div>
+          <div class="stat-label">
+            Extra patients your clinic could see daily
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">IDR 0</div>
+          <div class="stat-label">
+            Cost for the first month — full access, no credit card
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Your Doctors Are Drowning in Paperwork</h2>
+      <ul class="bullets">
+        <li>
+          Your doctors see 15–30 patients each per day. After each consultation,
+          they spend 5–10 minutes writing notes manually.
+        </li>
+        <li>
+          That's 2+ hours of pure paperwork per doctor, per day. For a 5–10
+          doctor clinic, that's 10–20 hours of lost productivity daily.
+        </li>
+        <li>
+          Doctors rush notes at end of shift, leading to incomplete records and
+          missed clinical details.
+        </li>
+        <li>You're paying doctor salaries for them to do secretarial work.</li>
+      </ul>
+    </div>
+
+    <!-- PAGE 2: Features + Benefits -->
+    <div class="page">
+      <h2 class="section-title">Larinova Handles the Notes Automatically</h2>
+      <p class="table-intro">
+        The doctor talks to the patient normally. Larinova listens and
+        automatically creates:
+      </p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Manual</th>
+            <th>With Larinova</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SOAP Notes</td>
+            <td class="manual">5–10 min manual</td>
+            <td class="larinova">30 seconds, automatic</td>
+          </tr>
+          <tr>
+            <td>ICD-10 Codes</td>
+            <td class="manual">Manual code lookup</td>
+            <td class="larinova">Auto-suggested, 94%+ accuracy</td>
+          </tr>
+          <tr>
+            <td>Prescriptions</td>
+            <td class="manual">Written by hand</td>
+            <td class="larinova">Generated from the conversation</td>
+          </tr>
+          <tr>
+            <td>Referral Letters</td>
+            <td class="manual">10+ min per letter</td>
+            <td class="larinova">Auto-drafted instantly</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-title">Built for Indonesian Clinics</h2>
+      <ul class="bullets">
+        <li>
+          <strong>Works in Bahasa Indonesia</strong> — Your doctors speak
+          Indonesian to patients. Larinova understands natively — no translation
+          layer, no English-only limitations.
+        </li>
+        <li>
+          <strong>Simple setup</strong> — No IT team needed. Cloud-based, works
+          on phone, tablet, or laptop. Your doctors can start using it in 5
+          minutes.
+        </li>
+        <li>
+          <strong>All-in-one documentation</strong> — SOAP notes, ICD-10 codes,
+          prescriptions, and referral letters — all from one consultation
+          recording.
+        </li>
+        <li>
+          <strong>More patients, more revenue</strong> — If each doctor saves 2
+          hours, your clinic can see 15–25 more patients per day.
+        </li>
+      </ul>
+    </div>
+
+    <!-- PAGE 3: Offer + CTA -->
+    <div class="page">
+      <h2 class="section-title">Our Offer</h2>
+      <p class="offer-intro">
+        Try Larinova free for 1 full month. All features, all your doctors, no
+        credit card required. If your doctors love it, we'll talk pricing. If
+        not, no hard feelings.
+      </p>
+      <p class="pricing-text">
+        After the 1-month free trial: Rp 650,000/doctor/month + Rp 500,000
+        clinic base fee (Pro tier). For a typical 5-doctor clinic = Rp
+        3.75M/month. No credit card required to start.
+      </p>
+
+      <div class="cta-box">
+        <p class="cta-headline">Start Your 1 Month Free Trial Today</p>
+        <p class="cta-contact">hello@larinova.com &nbsp;|&nbsp; larinova.com</p>
+      </div>
+
+      <p class="page-footer">
+        Larinova &nbsp;·&nbsp; AI Medical Scribe for Doctors &nbsp;·&nbsp;
+        larinova.com &nbsp;·&nbsp; hello@larinova.com
+      </p>
+    </div>
+  </body>
+</html>

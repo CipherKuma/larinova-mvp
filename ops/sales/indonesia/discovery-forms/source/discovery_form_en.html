@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova Discovery Form</title>
+    <link
+      rel="stylesheet"
+      href="../../../../collateral/_shared/design-tokens.css"
+    />
+    <link rel="stylesheet" href="../../../../collateral/_shared/print.css" />
+    <style>
+      :root {
+        --accent: #1a6fa8;
+        --accent-light: #ebf5ff;
+        --accent-dark: #0f4e78;
+      }
+
+      .form-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 9pt;
+        border-bottom: 2pt solid var(--accent);
+        margin-bottom: 12pt;
+      }
+
+      .form-header .logo {
+        height: 22pt;
+        width: auto;
+      }
+
+      .form-header .header-tagline {
+        font-size: var(--ts-xs);
+        font-weight: 500;
+        color: var(--ink-light);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .form-title {
+        font-size: var(--ts-xl);
+        font-weight: 800;
+        color: var(--ink);
+        margin: 0 0 2pt 0;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .form-subtitle {
+        font-size: var(--ts-sm);
+        color: var(--ink-light);
+        margin: 0 0 12pt 0;
+      }
+
+      .section {
+        margin-bottom: 11pt;
+      }
+
+      .section-title {
+        font-size: var(--ts-micro);
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0 0 6pt 0;
+        padding: 4pt 0 3pt 0;
+        border-bottom: 0.5pt solid var(--rule-color);
+      }
+
+      .field-grid {
+        display: grid;
+        gap: 0 14pt;
+      }
+
+      .cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .cols-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .cols-1 {
+        grid-template-columns: 1fr;
+      }
+
+      .field {
+        margin-bottom: 7pt;
+      }
+
+      .field-label {
+        font-size: var(--ts-xs);
+        font-weight: 600;
+        color: var(--ink-mid);
+        display: block;
+        margin-bottom: 3pt;
+      }
+
+      .field-line {
+        display: block;
+        width: 100%;
+        height: 14pt;
+        border: none;
+        border-bottom: 0.75pt solid var(--ink-faint);
+        background: transparent;
+      }
+
+      .field-line-tall {
+        height: 20pt;
+      }
+
+      /* Checkbox groups */
+      .check-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5pt 16pt;
+        margin-top: 3pt;
+      }
+
+      .check-item {
+        display: flex;
+        align-items: center;
+        gap: 4pt;
+        font-size: var(--ts-sm);
+        color: var(--ink-mid);
+      }
+
+      .check-box {
+        display: inline-block;
+        width: 9pt;
+        height: 9pt;
+        border: 0.75pt solid var(--ink-mid);
+        flex-shrink: 0;
+      }
+
+      /* Radio-style (yes/no/maybe) */
+      .radio-group {
+        display: flex;
+        gap: 18pt;
+        margin-top: 3pt;
+      }
+
+      .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 4pt;
+        font-size: var(--ts-sm);
+        color: var(--ink-mid);
+      }
+
+      .radio-circle {
+        display: inline-block;
+        width: 9pt;
+        height: 9pt;
+        border-radius: 50%;
+        border: 0.75pt solid var(--ink-mid);
+        flex-shrink: 0;
+      }
+
+      .consent-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 6pt;
+        margin-top: 4pt;
+      }
+
+      .consent-text {
+        font-size: var(--ts-xs);
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+
+      .form-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 8pt;
+        border-top: 0.5pt solid var(--rule-color);
+        margin-top: 10pt;
+      }
+
+      .form-footer .footer-logo {
+        height: 14pt;
+        width: auto;
+      }
+
+      .footer-mid {
+        font-size: var(--ts-xs);
+        color: var(--ink-light);
+        text-align: center;
+      }
+
+      .footer-domain {
+        font-size: var(--ts-xs);
+        color: var(--ink-mid);
+        font-weight: 600;
+        letter-spacing: 0.03em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- HEADER -->
+      <header class="form-header">
+        <img
+          class="logo"
+          src="../../../../logo-gen/larinova-logo-dark.png"
+          alt="Larinova"
+        />
+        <span class="header-tagline">AI Medical Scribe for Doctors</span>
+      </header>
+
+      <!-- TITLE -->
+      <h1 class="form-title">Doctor Discovery Form</h1>
+      <p class="form-subtitle">
+        Help us understand your practice so we can show you exactly what
+        Larinova can do for you.
+      </p>
+
+      <!-- SECTION 1 -->
+      <section class="section">
+        <p class="section-title">Section 1 — Clinic / Practice Information</p>
+        <div class="field-grid cols-2">
+          <div class="field">
+            <span class="field-label">Doctor Name</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Practice / Clinic Name</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">City</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Specialty</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Number of Doctors at Practice</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Patients per Day (approx.)</span>
+            <span class="field-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="section">
+        <p class="section-title">Section 2 — Current Workflow</p>
+        <div class="field-grid cols-2">
+          <div class="field">
+            <span class="field-label"
+              >Minutes spent on manual documentation per patient</span
+            >
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Current apps / software in use</span>
+            <span class="field-line"></span>
+          </div>
+        </div>
+        <div class="field" style="margin-top: 2pt">
+          <span class="field-label"
+            >Biggest documentation pain points (tick all that apply)</span
+          >
+          <div class="check-group">
+            <div class="check-item">
+              <span class="check-box"></span> Time — takes too long
+            </div>
+            <div class="check-item">
+              <span class="check-box"></span> Note quality — inconsistent or
+              incomplete
+            </div>
+            <div class="check-item">
+              <span class="check-box"></span> Compliance (SATUSEHAT / ABHA)
+            </div>
+            <div class="check-item">
+              <span class="check-box"></span> Data integration — systems don't
+              talk to each other
+            </div>
+            <div class="check-item">
+              <span class="check-box"></span> Other:
+              <span
+                class="field-line"
+                style="
+                  display: inline-block;
+                  width: 90pt;
+                  height: 10pt;
+                  vertical-align: bottom;
+                "
+              ></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section class="section">
+        <p class="section-title">Section 3 — Larinova Interest</p>
+        <div class="field-grid cols-2">
+          <div class="field">
+            <span class="field-label"
+              >Interested in 1-month free trial? (no credit card)</span
+            >
+            <div class="radio-group">
+              <div class="radio-item">
+                <span class="radio-circle"></span> Yes
+              </div>
+              <div class="radio-item">
+                <span class="radio-circle"></span> No
+              </div>
+              <div class="radio-item">
+                <span class="radio-circle"></span> Maybe
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Primary practice language</span>
+            <div class="check-group">
+              <div class="check-item">
+                <span class="check-box"></span> Bahasa Indonesia
+              </div>
+              <div class="check-item">
+                <span class="check-box"></span> Tamil
+              </div>
+              <div class="check-item">
+                <span class="check-box"></span> English
+              </div>
+              <div class="check-item">
+                <span class="check-box"></span> Other:
+                <span
+                  class="field-line"
+                  style="
+                    display: inline-block;
+                    width: 50pt;
+                    height: 10pt;
+                    vertical-align: bottom;
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Best time / date for a demo</span>
+          <span class="field-line field-line-tall"></span>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section class="section">
+        <p class="section-title">Section 4 — Contact Details</p>
+        <div class="field-grid cols-2">
+          <div class="field">
+            <span class="field-label">WhatsApp Number</span>
+            <span class="field-line"></span>
+          </div>
+          <div class="field">
+            <span class="field-label">Email Address</span>
+            <span class="field-line"></span>
+          </div>
+        </div>
+        <div class="consent-row">
+          <span
+            class="check-box"
+            style="margin-top: 1pt; flex-shrink: 0"
+          ></span>
+          <span class="consent-text"
+            >I consent to Larinova contacting me via the details above to
+            schedule a demo or share relevant product information. I can
+            withdraw consent at any time.</span
+          >
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="form-footer">
+        <img
+          class="footer-logo"
+          src="../../../../logo-gen/larinova-logo-dark.png"
+          alt="Larinova"
+        />
+        <span class="footer-mid">larinova.com &middot; hello@larinova.com</span>
+        <span class="footer-domain">AI Medical Scribe for Doctors</span>
+      </footer>
+    </div>
+  </body>
+</html>

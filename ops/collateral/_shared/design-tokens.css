@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+:root {
+  /* Typography */
+  --font-body: "Inter", "Helvetica Neue", "Arial", sans-serif;
+
+  /* Neutral palette */
+  --ink: #14141c;
+  --ink-mid: #3a3a52;
+  --ink-light: #6c6c88;
+  --ink-faint: #bebebd;
+  --page: #ffffff;
+  --rule-color: #e2e2ee;
+
+  /* Accent — overridden per locale in each HTML file */
+  --accent: #1a6fa8;
+  --accent-light: #ebf5ff;
+  --accent-dark: #0f4f7a;
+
+  /* Spacing (pt) */
+  --sp-1: 3pt;
+  --sp-2: 6pt;
+  --sp-3: 10pt;
+  --sp-4: 15pt;
+  --sp-5: 22pt;
+  --sp-6: 30pt;
+  --sp-7: 42pt;
+
+  /* Type scale (pt) */
+  --ts-micro: 6.5pt;
+  --ts-xs: 7.5pt;
+  --ts-sm: 8.5pt;
+  --ts-base: 10pt;
+  --ts-md: 11.5pt;
+  --ts-lg: 14pt;
+  --ts-xl: 18pt;
+  --ts-2xl: 26pt;
+  --ts-3xl: 34pt;
+}

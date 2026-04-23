@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Larinova</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #f0f4f8;
+        font-family: "Segoe UI", Arial, sans-serif;
+        padding: 30px 15px;
+      }
+      .email-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      /* HEADER */
+      .header {
+        background: linear-gradient(135deg, #1a6ee8 0%, #0f4db5 100%);
+        padding: 28px 36px 24px;
+        text-align: center;
+      }
+      .logo {
+        font-size: 26px;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 1px;
+      }
+      .logo span {
+        color: #7dd3fc;
+      }
+      .tagline {
+        font-size: 13px;
+        color: #bfdbfe;
+        margin-top: 4px;
+        letter-spacing: 0.5px;
+      }
+
+      /* BODY */
+      .body {
+        padding: 36px 36px 28px;
+      }
+      .greeting {
+        font-size: 17px;
+        font-weight: 600;
+        color: #1e3a5f;
+        margin-bottom: 14px;
+      }
+      .intro-text {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.75;
+        margin-bottom: 24px;
+      }
+      .intro-text strong {
+        color: #1a6ee8;
+      }
+
+      /* VIDEO THUMBNAIL */
+      .video-section {
+        margin-bottom: 28px;
+      }
+      .video-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 10px;
+      }
+      .video-thumb-link {
+        display: block;
+        text-decoration: none;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .video-bg {
+        width: 100%;
+        height: 240px;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e3a6e 50%,
+          #1a6ee8 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      /* Decorative circles */
+      .video-bg::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        top: -80px;
+        right: -80px;
+      }
+      .video-bg::after {
+        content: "";
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+        bottom: -60px;
+        left: -40px;
+      }
+      .play-button {
+        width: 72px;
+        height: 72px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        position: relative;
+        z-index: 2;
+        transition: transform 0.2s;
+      }
+      .play-button::after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+        border-left: 22px solid #1a6ee8;
+        margin-left: 5px;
+      }
+      .video-title-text {
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 18px;
+        position: relative;
+        z-index: 2;
+        letter-spacing: 0.3px;
+      }
+      .video-duration {
+        color: #93c5fd;
+        font-size: 12px;
+        margin-top: 5px;
+        position: relative;
+        z-index: 2;
+      }
+      .video-thumb-link:hover .play-button {
+        transform: scale(1.1);
+      }
+      .video-caption {
+        font-size: 12px;
+        color: #9ca3af;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      /* FEATURES */
+      .features {
+        background: #f8faff;
+        border-radius: 12px;
+        padding: 20px 22px;
+        margin-bottom: 28px;
+        border: 1px solid #e0eaff;
+      }
+      .features-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1a6ee8;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 14px;
+      }
+      .feature-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 11px;
+      }
+      .feature-row:last-child {
+        margin-bottom: 0;
+      }
+      .feature-icon {
+        font-size: 16px;
+        margin-right: 10px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .feature-text {
+        font-size: 14px;
+        color: #374151;
+        line-height: 1.5;
+      }
+      .feature-text strong {
+        color: #1e3a5f;
+      }
+
+      /* CTA */
+      .cta-section {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #1a6ee8, #0f4db5);
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 15px 40px;
+        border-radius: 50px;
+        box-shadow: 0 4px 16px rgba(26, 110, 232, 0.35);
+        letter-spacing: 0.3px;
+      }
+      .cta-sub {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 10px;
+      }
+
+      /* FOOTER */
+      .footer {
+        background: #f8faff;
+        border-top: 1px solid #e5e7eb;
+        padding: 20px 36px;
+        text-align: center;
+      }
+      .footer-text {
+        font-size: 12px;
+        color: #9ca3af;
+        line-height: 1.7;
+      }
+      .footer-text a {
+        color: #1a6ee8;
+        text-decoration: none;
+      }
+      .footer-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="logo">Lari<span>nova</span></div>
+        <div class="tagline">Manajemen Klinik + AI untuk Dokter Indonesia</div>
+      </div>
+
+      <!-- BODY -->
+      <div class="body">
+        <div class="greeting">Halo Dokter [Nama] 👋</div>
+
+        <div class="intro-text">
+          Perkenalkan, saya <strong>[Nama Kamu]</strong> dari Larinova.<br /><br />
+          Kami develop aplikasi khusus untuk dokter di Indonesia — mulai dari
+          manajemen pasien, jadwal konsultasi, sampai
+          <strong>AI yang otomatis bikin catatan medis</strong> saat kamu
+          konsultasi. Semuanya dalam <strong>Bahasa Indonesia</strong>.
+        </div>
+
+        <!-- VIDEO THUMBNAIL -->
+        <div class="video-section">
+          <div class="video-label">▶ Lihat demo singkat</div>
+          <!-- Ganti href="#" dengan link video kamu -->
+          <a class="video-thumb-link" href="#" target="_blank">
+            <div class="video-bg">
+              <div class="play-button"></div>
+              <div class="video-title-text">
+                Lihat Larinova Bekerja — 90 Detik
+              </div>
+              <div class="video-duration">🎬 Demo Bahasa Indonesia</div>
+            </div>
+          </a>
+          <div class="video-caption">
+            Klik gambar di atas untuk menonton video demo
+          </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="features">
+          <div class="features-title">Apa yang bisa Larinova bantu?</div>
+          <div class="feature-row">
+            <div class="feature-icon">🤖</div>
+            <div class="feature-text">
+              <strong>AI Scribe</strong> — catatan konsultasi dibuat otomatis,
+              dokter tidak perlu nulis manual lagi
+            </div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">📋</div>
+            <div class="feature-text">
+              <strong>Dokumen otomatis</strong> — resep, surat rujukan,
+              sertifikat medis langsung ter-generate
+            </div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">📅</div>
+            <div class="feature-text">
+              <strong>Manajemen jadwal & pasien</strong> — semua dalam satu
+              aplikasi
+            </div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">🇮🇩</div>
+            <div class="feature-text">
+              <strong>100% Bahasa Indonesia</strong> — satu-satunya platform
+              lengkap dalam bahasa kita
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+          <!-- Ganti href="#" dengan link sign-up kamu -->
+          <a class="cta-button" href="#" target="_blank"
+            >Coba Gratis 1 Bulan →</a
+          >
+          <div class="cta-sub">
+            Tidak perlu kartu kredit &nbsp;·&nbsp; Tidak ada komitmen
+            &nbsp;·&nbsp; Gratis penuh
+          </div>
+        </div>
+
+        <div class="intro-text" style="font-size: 14px; color: #6b7280">
+          Kalau ada pertanyaan, langsung balas email ini atau hubungi saya via
+          WhatsApp — saya siap bantu 🙏
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <div class="footer-name">[Nama Kamu]</div>
+        <div class="footer-text">
+          Larinova Indonesia &nbsp;·&nbsp;
+          <a href="mailto:kamu@larinova.com">kamu@larinova.com</a><br />
+          WhatsApp: <a href="https://wa.me/628XXXXXXXXX">+62 8XX-XXXX-XXXX</a
+          ><br /><br />
+          Tidak ingin menerima email ini lagi?
+          <a href="#">Berhenti berlangganan</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
