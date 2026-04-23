@@ -1,0 +1,23 @@
+-- ============================================================
+-- Hotfix: remove patient_view_own_doctor policy (infinite recursion)
+-- ============================================================
+-- The patient-portal RLS bundle (20260423103800) added a SELECT
+-- policy on larinova_doctors whose USING clause subqueried
+-- larinova_appointments. That subquery re-evaluated the doctor-side
+-- RLS on larinova_appointments, which in turn re-evaluated the
+-- doctor-side RLS on larinova_doctors, and so on — Postgres raised
+-- "infinite recursion detected in policy for relation
+-- larinova_doctors" on every authenticated SELECT.
+--
+-- Prod effect: every signed-in doctor was redirected to
+-- /in/onboarding because the middleware treated the recursion
+-- failure as !doctorData.
+--
+-- Fix: drop the policy. Patient portal never needs to read
+-- larinova_doctors directly — doctor info is already carried by the
+-- appointment rows patients have access to, or fetched via the
+-- main-app CORS route using service role. If direct reads are ever
+-- required, reintroduce via a SECURITY DEFINER function that
+-- bypasses RLS inside the subquery.
+
+DROP POLICY IF EXISTS "patient_view_own_doctor" ON larinova_doctors;
