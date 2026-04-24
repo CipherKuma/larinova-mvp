@@ -7,12 +7,27 @@ import { routing } from "./src/i18n/routing";
 const intlMiddleware = createIntlMiddleware(routing);
 
 export async function proxy(request: NextRequest) {
-  // Root path "/" passes through to app/page.tsx which renders sign-in /
-  // sign-up links directly at 200. This lets Razorpay's payment-gateway
-  // verifier (and SEO crawlers) fetch the submitted URL without following
-  // a locale redirect. Localised authenticated app lives at /in/* and /id/*.
+  // Root path "/" — internally rewrite to the geo-appropriate sign-in page
+  // so the URL stays "/" but the content comes from the existing
+  // [locale]/(auth)/sign-in page. Payment-gateway verifiers (Razorpay)
+  // and SEO crawlers get a 200 with the real sign-in UI, no redirect.
+  // After the user signs in / signs up, the sign-in page navigates to
+  // /in/... or /id/... for the authenticated product flow.
   if (request.nextUrl.pathname === "/") {
-    return NextResponse.next();
+    const country =
+      request.headers.get("x-vercel-ip-country") ||
+      request.headers.get("cf-ipcountry") ||
+      null;
+    const targetLocale = country === "ID" ? "id" : "in";
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = `/${targetLocale}/sign-in`;
+    const response = NextResponse.rewrite(rewriteUrl);
+    response.cookies.set("larinova_locale", targetLocale, {
+      maxAge: 60 * 60 * 24 * 365,
+      path: "/",
+      sameSite: "lax",
+    });
+    return response;
   }
 
   // Handle next-intl routing first
