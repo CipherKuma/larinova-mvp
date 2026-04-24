@@ -9,7 +9,8 @@
     "send": "tsx send.ts",
     "list": "tsx list.ts",
     "read": "tsx read.ts",
-    "recent": "tsx recent.ts"
+    "recent": "tsx recent.ts",
+    "full-list": "tsx full-list.ts"
   },
   "dependencies": {
     "qrcode-terminal": "^0.12.0",
