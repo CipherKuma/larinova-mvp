@@ -202,6 +202,7 @@ export function ExpandableChatBar({
           patient_id: patientId,
           document_type: selectedDocumentType,
           generate_document: !!selectedDocumentType,
+          locale: locale === "id" ? "id" : "in",
         }),
       });
 

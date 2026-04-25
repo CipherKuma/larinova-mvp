@@ -164,6 +164,7 @@ export function HelenaInlineChat() {
           conversation_id: conversationId,
           document_type: selectedDocumentType,
           generate_document: !!selectedDocumentType,
+          locale: locale === "id" ? "id" : "in",
         }),
       });
       if (!response.ok) throw new Error("Failed to get response");

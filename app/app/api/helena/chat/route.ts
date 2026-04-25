@@ -7,11 +7,12 @@ import {
 } from "@/types/helena";
 import { checkAIUsage, recordAIUsage } from "@/lib/subscription";
 import { buildHelenaSystemPrompt } from "@/lib/helena/prompts";
+import { sarvamChat, type SarvamMessage } from "@/lib/helena/sarvam";
 import type { Locale } from "@/src/i18n/routing";
 
-const CLAUDE_SERVICE_URL =
-  process.env.CLAUDE_SERVICE_URL || "https://claude.fierypools.fun";
-const CLAUDE_API_KEY = process.env.CLAUDE_SERVICE_API_KEY || "";
+// Vercel function timeout. Sarvam typically responds in 1-6s, but allow
+// headroom for long document drafts.
+export const maxDuration = 30;
 
 // Parse document from response
 function parseDocumentFromResponse(response: string): {
@@ -61,6 +62,7 @@ export async function POST(req: Request) {
       patient_id,
       document_type,
       generate_document,
+      locale: requestLocale,
     } = body;
 
     const supabase = await createClient();
@@ -101,7 +103,11 @@ export async function POST(req: Request) {
     // Get or create conversation
     let conversationId = conversation_id;
     let conversation;
-    let conversationLocale: Locale = (doctor.locale as Locale) ?? "in";
+    // For NEW conversations, the URL the user is on right now wins over the
+    // doctor row's stored locale — a doctor browsing /in/ wants English even
+    // if their account was created with locale='id'.
+    let conversationLocale: Locale =
+      (requestLocale as Locale) ?? (doctor.locale as Locale) ?? "in";
 
     if (conversationId) {
       const { data: existingConv } = await supabase
@@ -111,7 +117,7 @@ export async function POST(req: Request) {
         .single();
       conversation = existingConv;
 
-      // Existing conversation's stored locale wins over current URL locale
+      // Existing conversation's stored locale wins — don't switch languages mid-thread.
       if (existingConv?.locale) {
         conversationLocale = existingConv.locale as Locale;
       }
@@ -134,8 +140,12 @@ export async function POST(req: Request) {
         .single();
 
       if (convError) {
+        console.error("[helena/chat] conv insert error:", convError);
         return NextResponse.json(
-          { error: "Failed to create conversation" },
+          {
+            error: "Failed to create conversation",
+            details: convError.message,
+          },
           { status: 500 },
         );
       }
@@ -191,36 +201,24 @@ export async function POST(req: Request) {
       .order("created_at", { ascending: true })
       .limit(20);
 
-    // Build conversation context for Claude
-    const conversationContext =
-      messageHistory
-        ?.map((m) => `${m.role.toUpperCase()}: ${m.content}`)
-        .join("\n\n") || "";
-
-    // Build the full prompt using locale-aware system prompt
-    let fullPrompt = systemPrompt;
-
-    fullPrompt += `\n\nDoctor Information:
+    // Augment system prompt with doctor + (optional) patient context. This
+    // keeps the LLM's `system` role focused on persona and constraints while
+    // facts about the current session live alongside it.
+    let augmentedSystem = systemPrompt;
+    augmentedSystem += `\n\nDoctor Information:
 - Name: Dr. ${doctor.full_name}
 - Specialization: ${doctor.specialization || "General Practice"}
 - License Number: ${doctor.license_number || "N/A"}`;
-
     if (patientContext) {
-      fullPrompt += patientContext;
+      augmentedSystem += patientContext;
     }
-
     if (document_type && generate_document) {
       const docInfo = DOCUMENT_TYPES[document_type];
-      fullPrompt += `\n\n**IMPORTANT**: The doctor wants to generate a ${docInfo.label}. Please create a complete, professional ${docInfo.label} based on the context and the doctor's request.`;
+      augmentedSystem += `\n\n**IMPORTANT**: The doctor wants to generate a ${docInfo.label}. Please create a complete, professional ${docInfo.label} based on the context and the doctor's request.`;
     }
 
-    if (conversationContext) {
-      fullPrompt += `\n\nConversation History:\n${conversationContext}`;
-    }
-
-    fullPrompt += `\n\nCurrent User Message: ${message}`;
-
-    // Save user message to database
+    // Save user message to database (before LLM call so it's recorded even
+    // if inference fails).
     await supabase.from("helena_messages").insert({
       conversation_id: conversationId,
       role: "user",
@@ -228,67 +226,51 @@ export async function POST(req: Request) {
       metadata: { document_type, generate_document },
     });
 
-    // Call Claude Service
-    const claudeResponse = await fetch(`${CLAUDE_SERVICE_URL}/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": CLAUDE_API_KEY,
-      },
-      body: JSON.stringify({
-        prompt: fullPrompt,
-        model: "sonnet",
-        maxTurns: 1,
-        workingDirectory: "/tmp",
-      }),
-    });
+    // Build chat-completion message array. messageHistory was just fetched
+    // above and does NOT include the user message we just inserted, so we
+    // append it explicitly at the end.
+    const chatMessages: SarvamMessage[] = [
+      { role: "system", content: augmentedSystem },
+    ];
+    for (const m of messageHistory ?? []) {
+      if (m.role === "user" || m.role === "assistant") {
+        chatMessages.push({ role: m.role, content: m.content });
+      }
+    }
+    chatMessages.push({ role: "user", content: message });
 
-    if (!claudeResponse.ok) {
+    let assistantResponse: string;
+    const sarvamStart = Date.now();
+    try {
+      const result = await sarvamChat({
+        messages: chatMessages,
+        model: "sarvam-m",
+        maxTokens: 2000,
+        reasoningEffort: "low",
+      });
+      assistantResponse = result.text;
+      console.log(
+        "[helena/chat] sarvam ok",
+        `${Date.now() - sarvamStart}ms`,
+        `prompt=${result.promptTokens}`,
+        `completion=${result.completionTokens}`,
+        `finish=${result.finishReason}`,
+      );
+    } catch (e) {
+      console.error("[helena/chat] sarvam error:", e);
       return NextResponse.json(
         { error: "Failed to get response from Helena" },
-        { status: 500 },
+        { status: 502 },
       );
     }
 
-    // Parse response from Claude service
-    const responseText = await claudeResponse.text();
-    const lines = responseText.split("\n").filter((line) => line.trim());
-
-    let assistantResponse = "";
-    for (const line of lines) {
-      try {
-        const event = JSON.parse(line);
-
-        // Handle assistant message with content array (non-streaming format)
-        if (event.type === "claude_event" && event.data?.type === "assistant") {
-          const content = event.data.message?.content;
-          if (content && Array.isArray(content)) {
-            for (const block of content) {
-              if (block.type === "text") {
-                assistantResponse += block.text;
-              }
-            }
-          }
-        }
-
-        // Also handle streaming text_delta format (fallback)
-        if (
-          event.type === "claude_event" &&
-          event.data?.type === "content_block_delta"
-        ) {
-          if (event.data.delta?.type === "text_delta") {
-            assistantResponse += event.data.delta.text;
-          }
-        }
-      } catch {
-        continue;
-      }
-    }
-
     if (!assistantResponse.trim()) {
+      console.error(
+        "[helena/chat] empty Sarvam response after stripping reasoning",
+      );
       return NextResponse.json(
-        { error: "Failed to get response from Helena" },
-        { status: 500 },
+        { error: "Empty response from Helena" },
+        { status: 502 },
       );
     }
 
@@ -354,7 +336,8 @@ export async function POST(req: Request) {
       document: savedDocument,
       locale: conversationLocale,
     });
-  } catch {
+  } catch (e) {
+    console.error("[helena/chat] unhandled error:", e);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

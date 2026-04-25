@@ -170,6 +170,7 @@ export interface HelenaChatRequest {
   patient_id?: string;
   document_type?: DocumentType;
   generate_document?: boolean;
+  locale?: "in" | "id";
 }
 
 export interface HelenaChatResponse {
