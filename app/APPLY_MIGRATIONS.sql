@@ -226,10 +226,82 @@ CREATE INDEX IF NOT EXISTS idx_larinova_doctors_is_alpha
   ON larinova_doctors(is_alpha)
   WHERE is_alpha = true;
 
--- Allow 'whitelisted' subscription status
+-- 2026-04-25: Invite-code system + drop 'whitelisted' subscription status.
+-- See: supabase/migrations/20260425120000_invite_codes_and_drop_whitelisted.sql
 ALTER TABLE larinova_subscriptions
   DROP CONSTRAINT IF EXISTS larinova_subscriptions_status_check;
-
 ALTER TABLE larinova_subscriptions
   ADD CONSTRAINT larinova_subscriptions_status_check
-  CHECK (status IN ('active', 'canceled', 'past_due', 'trialing', 'whitelisted'));
+  CHECK (status IN ('active', 'canceled', 'past_due', 'trialing'));
+UPDATE larinova_subscriptions SET status = 'active' WHERE status = 'whitelisted';
+
+CREATE TABLE IF NOT EXISTS larinova_invite_codes (
+  code         TEXT PRIMARY KEY,
+  note         TEXT,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  redeemed_by  UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  redeemed_at  TIMESTAMPTZ,
+  CONSTRAINT redeemed_pair_consistent
+    CHECK ((redeemed_by IS NULL) = (redeemed_at IS NULL))
+);
+CREATE INDEX IF NOT EXISTS idx_larinova_invite_codes_redeemed_by
+  ON larinova_invite_codes (redeemed_by) WHERE redeemed_by IS NOT NULL;
+ALTER TABLE larinova_invite_codes ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE larinova_doctors
+  ADD COLUMN IF NOT EXISTS invite_code_redeemed_at TIMESTAMPTZ;
+
+CREATE OR REPLACE FUNCTION redeem_invite_code(p_code TEXT)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_user_id    UUID := auth.uid();
+  v_now        TIMESTAMPTZ := NOW();
+  v_period_end TIMESTAMPTZ := v_now + INTERVAL '30 days';
+  v_already    TIMESTAMPTZ;
+BEGIN
+  IF v_user_id IS NULL THEN
+    RAISE EXCEPTION 'unauthenticated' USING ERRCODE = 'P0001';
+  END IF;
+
+  SELECT invite_code_redeemed_at INTO v_already
+    FROM larinova_doctors WHERE user_id = v_user_id;
+  IF v_already IS NOT NULL THEN
+    RETURN jsonb_build_object('ok', true, 'already_redeemed', true);
+  END IF;
+
+  PERFORM 1 FROM larinova_invite_codes
+   WHERE code = p_code AND redeemed_by IS NULL
+   FOR UPDATE;
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'invalid_or_used_code' USING ERRCODE = 'P0001';
+  END IF;
+
+  UPDATE larinova_invite_codes
+     SET redeemed_by = v_user_id, redeemed_at = v_now
+   WHERE code = p_code;
+
+  UPDATE larinova_doctors
+     SET invite_code_redeemed_at = v_now
+   WHERE user_id = v_user_id;
+
+  INSERT INTO larinova_subscriptions (doctor_id, plan, status, current_period_end)
+  SELECT id, 'pro', 'active', v_period_end
+    FROM larinova_doctors WHERE user_id = v_user_id
+  ON CONFLICT (doctor_id) DO UPDATE
+    SET plan = 'pro',
+        status = 'active',
+        current_period_end = GREATEST(
+          larinova_subscriptions.current_period_end,
+          EXCLUDED.current_period_end
+        );
+
+  RETURN jsonb_build_object('ok', true, 'period_end', v_period_end);
+END;
+$$;
+
+REVOKE ALL ON FUNCTION redeem_invite_code(TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION redeem_invite_code(TEXT) TO authenticated;
