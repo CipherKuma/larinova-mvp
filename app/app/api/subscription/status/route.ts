@@ -34,9 +34,22 @@ export async function GET() {
 
     const subscription = await getSubscription(doctor.id);
 
+    // Pro is only "real" while it's active AND current_period_end is in the
+    // future — same rule as checkConsultationLimit / checkAIUsage. Without
+    // this, expired-Pro users see "Pro Plan" in the UI but get blocked at
+    // the 21st consultation.
+    const periodEnd = subscription?.current_period_end
+      ? new Date(subscription.current_period_end)
+      : null;
+    const now = new Date();
+    const isPro =
+      subscription?.plan === "pro" &&
+      subscription?.status === "active" &&
+      periodEnd !== null &&
+      periodEnd > now;
+
     const features: AIFeature[] = ["summary", "medical_codes", "helena_chat"];
     const usage: Record<string, { used: number; limit: number }> = {};
-    const isPro = subscription?.plan === "pro";
 
     for (const feature of features) {
       const used = await getUsageCount(doctor.id, feature);
@@ -52,8 +65,14 @@ export async function GET() {
       limit: isPro ? Infinity : FREE_TIER_CONSULTATION_LIMIT,
     };
 
+    // Override the surfaced subscription so the UI reflects effective tier
+    // (an expired Pro renders as Free without lying about renewal date).
+    const effectiveSubscription = subscription
+      ? { ...subscription, plan: isPro ? subscription.plan : "free" }
+      : { plan: "free", status: "active" };
+
     return NextResponse.json({
-      subscription: subscription ?? { plan: "free", status: "active" },
+      subscription: effectiveSubscription,
       usage,
     });
   } catch {
