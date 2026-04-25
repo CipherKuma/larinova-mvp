@@ -68,10 +68,28 @@ export async function proxy(request: NextRequest) {
     },
   );
 
-  // Refresh session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Refresh session if expired. If the refresh token is gone or invalid
+  // (cookies cleared, token rotated, manual revoke), clear all sb-* cookies
+  // silently so we don't keep retrying a dead token.
+  const { data: getUserData, error: getUserError } =
+    await supabase.auth.getUser();
+
+  let user = getUserData?.user ?? null;
+
+  if (getUserError) {
+    const code = (getUserError as { code?: string }).code;
+    const msg = getUserError.message?.toLowerCase() ?? "";
+    const isRefreshTokenError =
+      code === "refresh_token_not_found" || msg.includes("refresh token");
+    if (isRefreshTokenError) {
+      for (const cookie of request.cookies.getAll()) {
+        if (cookie.name.startsWith("sb-")) {
+          supabaseResponse.cookies.delete(cookie.name);
+        }
+      }
+      user = null;
+    }
+  }
 
   // Define public routes
   const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
@@ -94,7 +112,7 @@ export async function proxy(request: NextRequest) {
     // Check if onboarding is completed
     const { data: doctorData, error: doctorError } = await supabase
       .from("larinova_doctors")
-      .select("onboarding_completed, locale")
+      .select("onboarding_completed, locale, invite_code_redeemed_at")
       .eq("user_id", user.id)
       .single();
 
@@ -103,6 +121,17 @@ export async function proxy(request: NextRequest) {
     // If there's an error fetching doctor data or doctor doesn't exist, go to onboarding
     if (doctorError || !doctorData) {
       redirectUrl.pathname = `/${locale}/onboarding`;
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    // Invite-code gate: not-yet-onboarded users must redeem before reaching
+    // /onboarding. Already-onboarded users are grandfathered (skip this gate).
+    if (
+      !doctorData.onboarding_completed &&
+      !doctorData.invite_code_redeemed_at &&
+      !pathname.includes("/redeem")
+    ) {
+      redirectUrl.pathname = `/${locale}/redeem`;
       return NextResponse.redirect(redirectUrl);
     }
 
