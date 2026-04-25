@@ -41,11 +41,16 @@ export async function checkConsultationLimit(
   const subscription = await getSubscription(doctorId);
   const plan: PlanType = subscription?.plan ?? "free";
   const status = subscription?.status ?? "active";
+  const periodEnd = subscription?.current_period_end
+    ? new Date(subscription.current_period_end)
+    : null;
 
-  // Pro access granted only while the Razorpay subscription is active. The
-  // previous "whitelisted" bypass is gone — alpha doctors get Pro for 1
-  // billing cycle via the Razorpay 100%-off promo offer instead.
-  if (plan === "pro" && status === "active") {
+  if (
+    plan === "pro" &&
+    status === "active" &&
+    periodEnd !== null &&
+    periodEnd > now
+  ) {
     return { allowed: true, used: 0, limit: Infinity, plan };
   }
 
@@ -74,28 +79,39 @@ export async function getMonthlyConsultationCount(
 export async function getUsageCount(
   doctorId: string,
   feature: AIFeature,
+  now: Date = new Date(),
 ): Promise<number> {
   const supabase = await createClient();
   const { count } = await supabase
     .from("larinova_ai_usage")
     .select("*", { count: "exact", head: true })
     .eq("doctor_id", doctorId)
-    .eq("feature", feature);
+    .eq("feature", feature)
+    .gte("created_at", startOfMonthUtcISO(now));
   return count ?? 0;
 }
 
 export async function checkAIUsage(
   doctorId: string,
   feature: AIFeature,
+  now: Date = new Date(),
 ): Promise<UsageCheck> {
   const subscription = await getSubscription(doctorId);
   const plan = subscription?.plan ?? "free";
+  const periodEnd = subscription?.current_period_end
+    ? new Date(subscription.current_period_end)
+    : null;
 
-  if (plan === "pro" && subscription?.status === "active") {
+  if (
+    plan === "pro" &&
+    subscription?.status === "active" &&
+    periodEnd !== null &&
+    periodEnd > now
+  ) {
     return { allowed: true, used: 0, limit: Infinity, plan };
   }
 
-  const used = await getUsageCount(doctorId, feature);
+  const used = await getUsageCount(doctorId, feature, now);
   const limit = FREE_TIER_LIMITS[feature];
 
   return {
