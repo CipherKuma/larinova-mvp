@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS larinova_documents (
   doctor_id UUID REFERENCES larinova_doctors(id) ON DELETE CASCADE,
   patient_id UUID REFERENCES larinova_patients(id) ON DELETE SET NULL,
   consultation_id UUID REFERENCES larinova_consultations(id) ON DELETE SET NULL,
-  conversation_id UUID REFERENCES agent_conversations(id) ON DELETE SET NULL,
+  conversation_id UUID, -- FK added in 20260129000001_fix_documents_fk.sql (helena_conversations)
 
   -- Document metadata
   document_type document_type NOT NULL DEFAULT 'general',
