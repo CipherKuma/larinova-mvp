@@ -13,6 +13,24 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       const supabase = createClient();
+
+      // PKCE: when arriving from a Supabase verify/magic link, the URL carries
+      // ?code=<auth_code>. Exchange it for a session BEFORE getUser, otherwise
+      // the session never exists and getUser returns null → endless /sign-in
+      // bounce.
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+      if (code) {
+        const { error: exchangeError } =
+          await supabase.auth.exchangeCodeForSession(code);
+        if (exchangeError) {
+          router.push(
+            `/${locale}/sign-in?error=${encodeURIComponent(exchangeError.message)}`,
+          );
+          return;
+        }
+      }
+
       const {
         data: { user },
         error,
