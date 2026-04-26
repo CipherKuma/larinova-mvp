@@ -25,7 +25,8 @@ import { toast } from "sonner";
 
 // Note: Zod error messages will be overridden by FormMessage component translations
 const signUpSchema = z.object({
-  fullName: z.string().min(2),
+  firstName: z.string().trim().min(1).max(60),
+  lastName: z.string().trim().min(1).max(60),
   email: z.string().email(),
   password: z.string().min(8),
   phoneNumber: z
@@ -49,7 +50,8 @@ export default function SignUpPage() {
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      fullName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       phoneNumber: "",
@@ -71,7 +73,8 @@ export default function SignUpPage() {
         body: JSON.stringify({
           email: data.email,
           password: data.password,
-          fullName: data.fullName,
+          firstName: data.firstName.trim(),
+          lastName: data.lastName.trim(),
           phoneNumber: data.phoneNumber,
         }),
       });
@@ -98,8 +101,8 @@ export default function SignUpPage() {
           );
 
           toast.error(t("auth.accountAlreadyExists"), {
-        description: t("auth.accountExistsSignIn"),
-      });
+            description: t("auth.accountExistsSignIn"),
+          });
 
           setLoading(false);
 
@@ -113,8 +116,8 @@ export default function SignUpPage() {
 
         // Other errors - show toast
         toast.error(t("auth.signUpFailed"), {
-        description: result.error || t("auth.unableToCreateAccount"),
-      });
+          description: result.error || t("auth.unableToCreateAccount"),
+        });
 
         setLoading(false);
         return;
@@ -147,8 +150,8 @@ export default function SignUpPage() {
           console.log("[SIGNUP-UI] Email verification required");
 
           toast.success(t("auth.accountCreatedVerifyEmail"), {
-        description: t("auth.checkInboxToVerify"),
-      });
+            description: t("auth.checkInboxToVerify"),
+          });
 
           setLoading(false);
           // Don't redirect - let them see the message
@@ -161,8 +164,8 @@ export default function SignUpPage() {
         );
 
         toast.success(t("auth.accountCreated"), {
-        description: t("auth.accountCreatedSignIn"),
-      });
+          description: t("auth.accountCreatedSignIn"),
+        });
 
         setLoading(false);
         router.push("/sign-in");
@@ -223,21 +226,46 @@ export default function SignUpPage() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <FormField
-            control={form.control}
-            name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium">
-                  {t("auth.fullName")}
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder={t("auth.fullName")} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium">
+                    {t("auth.firstName")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("auth.firstName")}
+                      autoComplete="given-name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium">
+                    {t("auth.lastName")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={t("auth.lastName")}
+                      autoComplete="family-name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}

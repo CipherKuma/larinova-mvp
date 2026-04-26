@@ -14,7 +14,15 @@ type SignupErrorType =
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password, fullName, phoneNumber } = body;
+    const { email, password, phoneNumber } = body;
+    // Accept either {firstName, lastName} (current sign-up form) or
+    // {fullName} (back-compat for any external integration still posting
+    // the old shape).
+    const firstName: string | undefined = body.firstName?.trim();
+    const lastName: string | undefined = body.lastName?.trim();
+    const fullNameRaw: string | undefined = body.fullName?.trim();
+    const fullName =
+      firstName && lastName ? `${firstName} ${lastName}` : fullNameRaw;
 
     // Validation
     if (!email || !password || !fullName) {
@@ -92,12 +100,22 @@ export async function POST(request: Request) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
+    // Compute first/last for the new columns. If the caller supplied them
+    // explicitly, use those; otherwise split fullName on first whitespace.
+    const computedFirst =
+      firstName ?? (fullName ? fullName.split(/\s+/)[0] : null);
+    const computedLast =
+      lastName ??
+      (fullName ? fullName.split(/\s+/).slice(1).join(" ") || null : null);
+
     const { error: profileError } = await serviceClient
       .from("larinova_doctors")
       .insert({
         user_id: authData.user.id,
         email,
-        full_name: fullName,
+        first_name: computedFirst,
+        last_name: computedLast,
+        full_name: fullName, // trigger keeps this in sync going forward
         specialization: "Not Specified",
         locale: "in",
         onboarding_completed: false,

@@ -67,6 +67,8 @@
     "email": "Email",
     "password": "Password",
     "fullName": "Full Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
     "confirmPassword": "Confirm Password",
     "forgotPassword": "Forgot Password?",
     "dontHaveAccount": "Don't have an account?",

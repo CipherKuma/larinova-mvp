@@ -67,6 +67,8 @@
     "email": "Email",
     "password": "Kata Sandi",
     "fullName": "Nama Lengkap",
+    "firstName": "Nama Depan",
+    "lastName": "Nama Belakang",
     "confirmPassword": "Konfirmasi Kata Sandi",
     "forgotPassword": "Lupa Kata Sandi?",
     "dontHaveAccount": "Belum memiliki akun?",
