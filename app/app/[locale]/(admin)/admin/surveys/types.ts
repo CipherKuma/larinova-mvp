@@ -1,0 +1,20 @@
+export type SurveyRow = {
+  id: string;
+  created_at: string;
+  locale: "en" | "id";
+  name: string;
+  specialization: string;
+  clinic: string;
+  city: string;
+  whatsapp: string;
+  email: string | null;
+  patients_per_day: string | null;
+  data_storage: string[];
+  data_storage_other: string | null;
+  paperwork_time: string | null;
+  shift_notes: string | null;
+  referral_time: string | null;
+  problems: string[];
+  priorities: string[];
+  tell_us_more: string | null;
+};

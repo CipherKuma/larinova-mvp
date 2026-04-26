@@ -11,7 +11,7 @@ import {
   Cell,
 } from "recharts";
 import SubmissionsTable from "./SubmissionsTable";
-import type { SurveyRow } from "./page";
+import type { SurveyRow } from "./types";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
