@@ -301,15 +301,15 @@ export default function ConsultationSummaryPage({
   // Consultation Completed View
   if (isCompleted) {
     return (
-      <div className="max-w-6xl mx-auto space-y-4 pb-24">
+      <div className="max-w-6xl mx-auto space-y-3 md:space-y-4 pb-24">
         {/* Success Header */}
-        <div className="glass-card-strong p-6 border-l-4 border-green-500 text-center">
+        <div className="glass-card-strong p-4 md:p-6 border-l-4 border-green-500 text-center">
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
               <PartyPopper className="w-6 h-6 text-green-500" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-foreground mb-2">
+          <h1 className="text-xl md:text-2xl font-bold text-foreground mb-2">
             {t("summaryPage.consultationComplete")}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -317,7 +317,7 @@ export default function ConsultationSummaryPage({
           </p>
 
           {consultation && (
-            <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-border text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-border text-left">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">
                   {t("consultations.patient")}
@@ -589,19 +589,19 @@ export default function ConsultationSummaryPage({
 
   // Pre-completion View (generating state)
   return (
-    <div className="max-w-6xl mx-auto space-y-4 pb-24">
+    <div className="max-w-6xl mx-auto space-y-3 md:space-y-4 pb-24">
       {/* Header */}
       <div className="glass-card-strong p-4 border-l-4 border-primary">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-foreground">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-3">
+          <div className="min-w-0">
+            <h1 className="text-lg md:text-xl font-bold text-foreground">
               {t("consultations.consultationSummary")}
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
               {t("consultations.reviewTranscription")}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <CheckCircle className="w-4 h-4 text-primary" />
             <span className="text-sm font-semibold text-foreground">
               {t("consultations.sessionCompleted")}
@@ -610,7 +610,7 @@ export default function ConsultationSummaryPage({
         </div>
 
         {consultation && (
-          <div className="grid grid-cols-3 gap-3 mt-3 pt-3 border-t border-white/30">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3 pt-3 border-t border-white/30">
             <div>
               <div className="text-xs text-muted-foreground mb-1">
                 {t("consultations.patient")}

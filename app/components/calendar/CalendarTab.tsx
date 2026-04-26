@@ -46,7 +46,11 @@ export function CalendarTab({
   appointments,
   onStatusChange,
 }: CalendarTabProps) {
-  const [view, setView] = useState<View>("week");
+  const isMobile =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(max-width: 767px)").matches;
+  const [view, setView] = useState<View>(isMobile ? "day" : "week");
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const byDate = appointments.reduce<Record<string, Appointment[]>>(
@@ -70,40 +74,55 @@ export function CalendarTab({
   return (
     <div className="flex flex-col gap-4">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => nav(-1)}>
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <span className="font-semibold text-sm min-w-[160px] text-center">
-            {view === "month"
-              ? `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`
-              : view === "week"
-                ? `Week of ${getWeekDates(currentDate)[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
-                : currentDate.toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                  })}
-          </span>
-          <Button variant="ghost" size="icon" onClick={() => nav(1)}>
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between md:flex-wrap gap-3 md:gap-2">
+        <div className="flex items-center gap-1 md:gap-2 justify-between md:justify-start">
+          <div className="flex items-center gap-1 md:gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => nav(-1)}
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="font-semibold text-sm md:min-w-[160px] text-center">
+              {view === "month"
+                ? `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`
+                : view === "week"
+                  ? `Week of ${getWeekDates(currentDate)[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+                  : currentDate.toLocaleDateString("en-US", {
+                      weekday: "long",
+                      month: "long",
+                      day: "numeric",
+                    })}
+            </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => nav(1)}
+              aria-label="Next"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setCurrentDate(new Date())}
-            className="text-xs"
+            className="text-xs min-h-[40px]"
           >
             Today
           </Button>
         </div>
-        <div className="flex gap-1 bg-muted rounded-lg p-1">
+        {/* View switcher — month/week hidden on mobile (not usable at 375px) */}
+        <div className="flex gap-1 bg-muted rounded-lg p-1 self-end md:self-auto">
           {(["month", "week", "day"] as View[]).map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
-              className={`px-3 py-1 text-xs rounded-md capitalize transition-colors ${
+              className={`px-3 py-1.5 text-xs rounded-md capitalize transition-colors min-h-[36px] ${
+                v !== "day" ? "hidden md:inline-flex items-center" : ""
+              } ${
                 view === v
                   ? "bg-background shadow-sm font-medium"
                   : "text-muted-foreground hover:text-foreground"
@@ -115,9 +134,9 @@ export function CalendarTab({
         </div>
       </div>
 
-      {/* Month view */}
+      {/* Month view (md+ only) */}
       {view === "month" && (
-        <div className="border border-border rounded-xl overflow-hidden">
+        <div className="hidden md:block border border-border rounded-xl overflow-hidden">
           <div className="grid grid-cols-7 border-b border-border">
             {DAYS_SHORT.map((d) => (
               <div
@@ -195,9 +214,9 @@ export function CalendarTab({
         </div>
       )}
 
-      {/* Week view */}
+      {/* Week view (md+ only) */}
       {view === "week" && (
-        <div className="border border-border rounded-xl overflow-hidden">
+        <div className="hidden md:block border border-border rounded-xl overflow-hidden">
           <div className="grid grid-cols-7">
             {getWeekDates(currentDate).map((d) => {
               const ymd = toYMD(d);

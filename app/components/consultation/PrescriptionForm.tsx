@@ -365,7 +365,10 @@ export default function PrescriptionForm({
                 <Plus className="ml-2 h-4 w-4" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[500px] p-0" align="start">
+            <PopoverContent
+              className="w-[calc(100vw-2rem)] sm:w-[500px] max-w-[500px] p-0"
+              align="start"
+            >
               <Command shouldFilter={false}>
                 <CommandInput
                   placeholder={t("searchInput")}
@@ -435,7 +438,7 @@ export default function PrescriptionForm({
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <Label htmlFor={`route-${medicine.id}`}>
                       {t("routeLabel")}

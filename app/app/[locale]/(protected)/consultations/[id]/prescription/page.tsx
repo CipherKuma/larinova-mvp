@@ -30,23 +30,23 @@ export default async function PrescriptionPage({
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-3 md:space-y-6 pb-24">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold text-foreground mb-2">
+        <h1 className="text-xl md:text-3xl font-semibold text-foreground mb-1 md:mb-2">
           {t("documents.createPrescription")}
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-xs md:text-base text-muted-foreground">
           {t("documents.consultationLabel")}: {consultation.consultation_code}
         </p>
       </div>
 
       {/* Consultation Summary Card */}
-      <div className="bg-white border border-border rounded-lg shadow-sm p-6">
-        <h2 className="text-xl font-semibold text-foreground mb-4">
+      <div className="bg-white border border-border rounded-lg shadow-sm p-4 md:p-6">
+        <h2 className="text-base md:text-xl font-semibold text-foreground mb-3 md:mb-4">
           {t("documents.consultationSummary")}
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
           <div>
             <p className="text-sm text-muted-foreground mb-1">
               {t("consultations.patient")}

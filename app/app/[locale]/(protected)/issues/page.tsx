@@ -17,10 +17,12 @@ export default async function MyIssuesPage({
     .order("updated_at", { ascending: false });
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">My issues</h1>
-        <Link href={`/${locale}/issues/new`}>
+    <div className="max-w-3xl mx-auto p-4 md:p-6 pb-24">
+      <div className="flex items-center justify-between gap-3 mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-semibold truncate">
+          My issues
+        </h1>
+        <Link href={`/${locale}/issues/new`} className="hidden md:inline-block">
           <Button>Report new issue</Button>
         </Link>
       </div>
@@ -59,6 +61,16 @@ export default async function MyIssuesPage({
           </div>
         )}
       </div>
+
+      {/* Mobile FAB */}
+      <Link
+        href={`/${locale}/issues/new`}
+        aria-label="Report new issue"
+        className="md:hidden fixed z-40 right-4 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+        style={{ bottom: "calc(72px + env(safe-area-inset-bottom))" }}
+      >
+        <span className="text-2xl leading-none">+</span>
+      </Link>
     </div>
   );
 }

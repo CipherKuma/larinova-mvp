@@ -13,9 +13,9 @@ export default async function IntakeSettingsPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight">
+    <div className="mx-auto w-full max-w-4xl px-4 md:px-6 py-4 md:py-10 pb-24">
+      <div className="mb-4 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-semibold tracking-tight">
           Intake template
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">

@@ -13,20 +13,20 @@ export default function VoiceAITestingPage() {
   const t = useTranslations("voiceAI");
 
   return (
-    <div className="max-w-6xl mx-auto space-y-4 md:space-y-6">
+    <div className="max-w-6xl mx-auto space-y-4 md:space-y-6 pb-24">
       {/* Header */}
       <div>
-        <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-display uppercase font-bold">
+        <h1 className="text-xl md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-display uppercase font-bold">
           {t("title")}
         </h1>
-        <p className="text-[9px] md:text-[10px] lg:text-xs xl:text-sm 2xl:text-base text-gray-600 mt-1 md:mt-2 uppercase">
+        <p className="text-xs md:text-[10px] lg:text-xs xl:text-sm 2xl:text-base text-gray-600 mt-1 md:mt-2 uppercase">
           {t("description")}
         </p>
       </div>
 
       {/* Provider Selection */}
       <div className="border border-black bg-white p-3 md:p-4 lg:p-6">
-        <div className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs 2xl:text-sm uppercase text-gray-600 mb-2 md:mb-3">
+        <div className="text-xs md:text-[9px] lg:text-[10px] xl:text-xs 2xl:text-sm uppercase text-gray-600 mb-2 md:mb-3">
           {t("selectProvider")}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
@@ -35,10 +35,10 @@ export default function VoiceAITestingPage() {
             variant={
               selectedProvider === "speechmatics" ? "default" : "outline"
             }
-            className="uppercase text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs"
+            className="uppercase text-xs md:text-[9px] lg:text-[10px] xl:text-xs min-h-[48px] flex flex-col items-center justify-center"
           >
             {t("speechmatics")}
-            <div className="text-[7px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
+            <div className="text-[10px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
               {t("arabicSupported")}
             </div>
           </Button>
@@ -46,10 +46,10 @@ export default function VoiceAITestingPage() {
           <Button
             onClick={() => setSelectedProvider("deepgram")}
             variant={selectedProvider === "deepgram" ? "default" : "outline"}
-            className="uppercase text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs"
+            className="uppercase text-xs md:text-[9px] lg:text-[10px] xl:text-xs min-h-[48px] flex flex-col items-center justify-center"
           >
             {t("deepgram")}
-            <div className="text-[7px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
+            <div className="text-[10px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
               {t("arabicNotSupported")}
             </div>
           </Button>
@@ -57,10 +57,10 @@ export default function VoiceAITestingPage() {
           <Button
             onClick={() => setSelectedProvider("openai")}
             variant={selectedProvider === "openai" ? "default" : "outline"}
-            className="uppercase text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs"
+            className="uppercase text-xs md:text-[9px] lg:text-[10px] xl:text-xs min-h-[48px] flex flex-col items-center justify-center"
           >
             {t("openaiWhisper")}
-            <div className="text-[7px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
+            <div className="text-[10px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
               {t("arabicSupported")}
             </div>
           </Button>
@@ -68,10 +68,10 @@ export default function VoiceAITestingPage() {
           <Button
             onClick={() => setSelectedProvider("assemblyai")}
             variant={selectedProvider === "assemblyai" ? "default" : "outline"}
-            className="uppercase text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs"
+            className="uppercase text-xs md:text-[9px] lg:text-[10px] xl:text-xs min-h-[48px] flex flex-col items-center justify-center"
           >
             {t("assemblyai")}
-            <div className="text-[7px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
+            <div className="text-[10px] md:text-[8px] lg:text-[9px] normal-case opacity-70">
               {t("arabicNotSupported")}
             </div>
           </Button>

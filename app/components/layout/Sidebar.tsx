@@ -113,7 +113,7 @@ export function Sidebar() {
       className="h-screen bg-card border-r border-border
         ltr:rounded-l-none ltr:rounded-tr-none
         rtl:rounded-r-none rtl:rounded-tl-none
-        flex flex-col shrink-0 overflow-hidden"
+        hidden md:flex flex-col shrink-0 overflow-hidden"
       animate={{
         width: open ? 256 : 80,
       }}

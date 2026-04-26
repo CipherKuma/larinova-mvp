@@ -114,13 +114,13 @@ export default function NewPatientPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-24">
+    <div className="max-w-4xl mx-auto space-y-3 md:space-y-6 pb-24">
       {/* Header */}
-      <div className="glass-card-strong p-6 border-l-4 border-primary">
-        <h1 className="text-2xl font-bold text-foreground mb-2">
+      <div className="glass-card-strong p-4 md:p-6 border-l-4 border-primary">
+        <h1 className="text-lg md:text-2xl font-bold text-foreground mb-1 md:mb-2">
           {t("patients.newPatientRegistration")}
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs md:text-sm text-muted-foreground">
           {t("patients.fillPatientInfo")}
         </p>
       </div>
@@ -134,7 +134,7 @@ export default function NewPatientPage() {
           </div>
         )}
 
-        <div className="p-6 space-y-8">
+        <div className="p-4 md:p-6 space-y-6 md:space-y-8">
           {/* Personal Information */}
           <div>
             <div className="mb-4">
@@ -284,15 +284,20 @@ export default function NewPatientPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="glass-card-strong px-6 py-4 border-t border-border flex justify-end gap-3">
+        <div className="glass-card-strong px-4 md:px-6 py-3 md:py-4 border-t border-border flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3">
           <Button
             type="button"
             variant="outline"
             onClick={() => router.push("/patients" as any)}
+            className="min-h-[44px] w-full sm:w-auto"
           >
             {t("common.cancel")}
           </Button>
-          <Button type="submit" disabled={loading} className="min-w-[140px]">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="min-h-[44px] w-full sm:w-auto sm:min-w-[140px]"
+          >
             {loading ? t("patients.creating") : t("patients.createPatient")}
           </Button>
         </div>

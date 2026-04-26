@@ -56,7 +56,40 @@ export function PatientTable({ patients }: PatientTableProps) {
 
   return (
     <div>
-      <div className="overflow-x-auto">
+      {/* Mobile: card list */}
+      <ul className="md:hidden divide-y divide-border border-y border-border bg-card">
+        {patients.map((patient) => (
+          <li key={patient.id}>
+            <button
+              type="button"
+              onClick={() => router.push(`/patients/${patient.id}` as any)}
+              className="w-full text-left px-4 py-3.5 min-h-[64px] active:bg-muted/40 flex items-center gap-3"
+            >
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-base font-semibold text-foreground truncate">
+                    {patient.full_name}
+                  </span>
+                  <Badge
+                    variant="outline"
+                    className="font-mono text-[10px] shrink-0"
+                  >
+                    {patient.patient_code}
+                  </Badge>
+                </div>
+                <div className="mt-0.5 text-xs text-muted-foreground truncate">
+                  {calculateAge(patient.date_of_birth)} {t("years")}
+                  {patient.gender ? ` · ${patient.gender}` : ""}
+                  {patient.blood_group ? ` · ${patient.blood_group}` : ""}
+                </div>
+              </div>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Desktop: dense table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-secondary">
             <tr className="border-b border-border">

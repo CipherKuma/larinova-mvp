@@ -316,34 +316,30 @@ export default function ConsultationPage({
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-24">
+    <div className="max-w-6xl mx-auto space-y-3 md:space-y-6 pb-24">
       {/* AI Prep Brief */}
       <PrepBriefBanner patientId={patientId} />
 
       {/* Header */}
-      <div className="glass-card-strong p-6 border-l-4 border-primary">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">
-              {t("consultations.consultationSession")}
-            </h1>
-          </div>
-          <div className="flex items-center gap-4">
-            {isRecording && consultationPhase === "recording" && (
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-                <span className="font-semibold text-sm text-foreground">
-                  {t("consultations.recording")}
-                </span>
-              </div>
-            )}
-          </div>
+      <div className="glass-card-strong p-4 md:p-6 border-l-4 border-primary">
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-lg md:text-3xl font-bold text-foreground truncate">
+            {t("consultations.consultationSession")}
+          </h1>
+          {isRecording && consultationPhase === "recording" && (
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-red-500 rounded-full animate-pulse" />
+              <span className="font-semibold text-xs md:text-sm text-foreground">
+                {t("consultations.recording")}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Session Info Card */}
-      <div className="glass-card p-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="glass-card p-4 md:p-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <div>
             <div className="text-xs text-muted-foreground mb-1">
               {t("consultations.startTime")}

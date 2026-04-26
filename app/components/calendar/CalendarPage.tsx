@@ -105,17 +105,19 @@ export function CalendarPage({ appUrl }: CalendarPageProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 md:gap-6">
       {/* Top bar */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-2xl font-bold text-foreground">Calendar</h1>
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between md:flex-wrap gap-3">
+        <h1 className="text-xl md:text-2xl font-bold text-foreground">
+          Calendar
+        </h1>
         {settings?.booking_handle && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
               onClick={handleCopy}
-              className="gap-2 text-xs"
+              className="gap-2 text-xs min-h-[40px]"
             >
               {copied ? (
                 <Check className="w-3 h-3 text-green-600" />
@@ -125,7 +127,11 @@ export function CalendarPage({ appUrl }: CalendarPageProps) {
               {copied ? "Copied!" : "Copy link"}
             </Button>
             <a href={bookingUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="gap-2 text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 text-xs min-h-[40px]"
+              >
                 <ExternalLink className="w-3 h-3" />
                 View booking page
               </Button>

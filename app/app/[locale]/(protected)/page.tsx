@@ -165,180 +165,265 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex gap-1.5 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 h-full">
-        <div className="w-[70%] glass-card animate-pulse" />
-        <div className="w-[30%] flex flex-col gap-1.5 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
-          <div className="flex-1 glass-card animate-pulse" />
-          <div className="flex-1 glass-card animate-pulse" />
+      <div className="flex flex-col gap-3 md:flex-row md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 md:h-full">
+        <div className="h-32 md:h-auto md:w-[70%] glass-card animate-pulse" />
+        <div className="md:w-[30%] flex flex-col gap-3 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
+          <div className="h-40 md:flex-1 glass-card animate-pulse" />
+          <div className="h-40 md:flex-1 glass-card animate-pulse" />
         </div>
       </div>
     );
   }
 
+  const tasksList = (
+    <div className="flex flex-col md:flex-1 md:overflow-hidden glass-card">
+      <div className="flex items-center justify-between p-3 border-b border-border flex-shrink-0">
+        <h2 className="text-sm font-semibold text-foreground">
+          {t("dashboard.latestTasks")}
+        </h2>
+        <span className="text-xs text-muted-foreground">
+          {sortedTasks.length}
+        </span>
+      </div>
+      <div className="md:flex-1 md:overflow-auto">
+        {sortedTasks.length > 0 ? (
+          <>
+            {/* Mobile: card list */}
+            <ul className="md:hidden divide-y divide-border">
+              {sortedTasks.map((task) => (
+                <li key={task.id}>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/tasks" as any)}
+                    className="w-full text-left px-3 py-3 min-h-[56px] active:bg-muted/40 flex items-start gap-3"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-foreground truncate">
+                          {task.title}
+                        </span>
+                        <Badge
+                          className={
+                            getPriorityColor(task.priority) +
+                            " text-[10px] shrink-0"
+                          }
+                        >
+                          {translatePriority(task.priority)}
+                        </Badge>
+                      </div>
+                      <div className="mt-0.5 text-xs text-muted-foreground truncate">
+                        {task.patient?.full_name ?? "—"}
+                        {task.due_date ? ` · ${formatDate(task.due_date)}` : ""}
+                      </div>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop: dense table */}
+            <table className="hidden md:table w-full">
+              <thead className="sticky top-0 bg-secondary">
+                <tr className="border-b border-border">
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("tasks.title")}
+                  </th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("tasks.priority")}
+                  </th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("tasks.patient")}
+                  </th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("tasks.dueDate")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedTasks.map((task) => (
+                  <tr
+                    key={task.id}
+                    className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                    onClick={() => router.push("/tasks" as any)}
+                  >
+                    <td className="p-2">
+                      <span className="text-xs font-medium text-foreground truncate block max-w-[120px]">
+                        {task.title}
+                      </span>
+                    </td>
+                    <td className="p-2">
+                      <Badge
+                        className={getPriorityColor(task.priority) + " text-xs"}
+                      >
+                        {translatePriority(task.priority)}
+                      </Badge>
+                    </td>
+                    <td className="p-2">
+                      <span className="text-xs text-foreground">
+                        {task.patient?.full_name || "-"}
+                      </span>
+                    </td>
+                    <td className="p-2">
+                      <span className="text-xs text-foreground">
+                        {task.due_date ? formatDate(task.due_date) : "-"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          <div className="flex items-center justify-center md:h-full py-8">
+            <div className="text-center">
+              <CheckCircle2 className="w-6 h-6 text-muted-foreground/30 mx-auto mb-2" />
+              <p className="text-xs text-muted-foreground">
+                {t("dashboard.noPendingTasks")}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const todayList = (
+    <div className="flex flex-col md:flex-1 md:overflow-hidden glass-card">
+      <div className="flex items-center justify-between p-3 border-b border-border flex-shrink-0">
+        <h2 className="text-sm font-semibold text-foreground">
+          {t("dashboard.todaySchedule")}
+        </h2>
+        <span className="text-xs text-muted-foreground">
+          {data?.todayConsultations?.length || 0}
+        </span>
+      </div>
+      <div className="md:flex-1 md:overflow-auto">
+        {data?.todayConsultations && data.todayConsultations.length > 0 ? (
+          <>
+            {/* Mobile: card list */}
+            <ul className="md:hidden divide-y divide-border">
+              {data.todayConsultations.map((c) => (
+                <li key={c.id}>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      router.push(`/consultations/${c.id}/summary` as any)
+                    }
+                    className="w-full text-left px-3 py-3 min-h-[56px] active:bg-muted/40 flex items-center justify-between gap-3"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-foreground truncate">
+                        {c.larinova_patients?.full_name ?? "—"}
+                      </div>
+                      <div className="mt-0.5 text-xs text-muted-foreground">
+                        {formatTime(c.start_time)}
+                      </div>
+                    </div>
+                    <Badge
+                      variant={getStatusVariant(c.status)}
+                      className="text-[10px] shrink-0"
+                    >
+                      {translateStatus(c.status)}
+                    </Badge>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop: dense table */}
+            <table className="hidden md:table w-full">
+              <thead className="sticky top-0 bg-secondary">
+                <tr className="border-b border-border">
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("patients.patientName")}
+                  </th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("consultations.time")}
+                  </th>
+                  <th className="text-left text-xs font-medium text-muted-foreground p-2">
+                    {t("tasks.status")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.todayConsultations.map((consultation) => (
+                  <tr
+                    key={consultation.id}
+                    className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                    onClick={() =>
+                      router.push(
+                        `/consultations/${consultation.id}/summary` as any,
+                      )
+                    }
+                  >
+                    <td className="p-2">
+                      <span className="text-xs font-medium text-foreground">
+                        {consultation.larinova_patients?.full_name ?? "—"}
+                      </span>
+                    </td>
+                    <td className="p-2">
+                      <span className="text-xs text-foreground">
+                        {formatTime(consultation.start_time)}
+                      </span>
+                    </td>
+                    <td className="p-2">
+                      <Badge
+                        variant={getStatusVariant(consultation.status)}
+                        className="text-xs"
+                      >
+                        {translateStatus(consultation.status)}
+                      </Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ) : (
+          <div className="flex items-center justify-center md:h-full py-8">
+            <div className="text-center">
+              <Calendar className="w-6 h-6 text-muted-foreground/30 mx-auto mb-2" />
+              <p className="text-xs text-muted-foreground">
+                {t("dashboard.noConsultationsToday")}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col gap-3 h-full">
+    <div className="flex flex-col gap-3 md:h-full">
       <FlaggedFollowUpAlert />
       <NextPatientCard />
 
-      <div className="flex gap-1.5 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 flex-1 min-h-0">
-        {/* Left: MedicalGPT (70%) */}
-        <div className="w-[70%] relative">
+      {/* Mobile: stacked Today → Tasks → Helena */}
+      {/* Desktop: 70/30 grid with Helena left, Tasks+Today right */}
+      <div className="flex flex-col gap-3 md:flex-row md:gap-2 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 md:flex-1 md:min-h-0">
+        {/* Mobile order: Today first, Tasks second */}
+        <div className="contents md:hidden">
+          {todayList}
+          {tasksList}
+        </div>
+
+        {/* Desktop: chat 70% */}
+        <div className="hidden md:block md:w-[70%] relative">
           <HelenaInlineChat />
         </div>
 
-        {/* Right: Tasks + Schedule (30%) */}
-        <div className="w-[30%] flex flex-col gap-1.5 md:gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
-          {/* Priority Tasks */}
-          <div className="flex-1 flex flex-col glass-card overflow-hidden">
-            <div className="flex items-center justify-between p-3 border-b border-border flex-shrink-0">
-              <h2 className="text-sm font-semibold text-foreground">
-                {t("dashboard.latestTasks")}
-              </h2>
-              <span className="text-xs text-muted-foreground">
-                {sortedTasks.length}
-              </span>
-            </div>
-            <div className="flex-1 overflow-auto">
-              {sortedTasks.length > 0 ? (
-                <table className="w-full">
-                  <thead className="sticky top-0 bg-secondary">
-                    <tr className="border-b border-border">
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("tasks.title")}
-                      </th>
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("tasks.priority")}
-                      </th>
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("tasks.patient")}
-                      </th>
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("tasks.dueDate")}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sortedTasks.map((task) => (
-                      <tr
-                        key={task.id}
-                        className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
-                        onClick={() => router.push("/tasks" as any)}
-                      >
-                        <td className="p-2">
-                          <span className="text-xs font-medium text-foreground truncate block max-w-[120px]">
-                            {task.title}
-                          </span>
-                        </td>
-                        <td className="p-2">
-                          <Badge
-                            className={
-                              getPriorityColor(task.priority) + " text-xs"
-                            }
-                          >
-                            {translatePriority(task.priority)}
-                          </Badge>
-                        </td>
-                        <td className="p-2">
-                          <span className="text-xs text-foreground">
-                            {task.patient?.full_name || "-"}
-                          </span>
-                        </td>
-                        <td className="p-2">
-                          <span className="text-xs text-foreground">
-                            {task.due_date ? formatDate(task.due_date) : "-"}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center py-4">
-                    <CheckCircle2 className="w-6 h-6 text-muted-foreground/30 mx-auto mb-2" />
-                    <p className="text-xs text-muted-foreground">
-                      {t("dashboard.noPendingTasks")}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        {/* Desktop: Tasks + Today 30% */}
+        <div className="hidden md:flex md:w-[30%] flex-col gap-2 lg:gap-3 xl:gap-4 2xl:gap-5">
+          {tasksList}
+          {todayList}
+        </div>
 
-          {/* Today's Schedule */}
-          <div className="flex-1 flex flex-col glass-card overflow-hidden">
-            <div className="flex items-center justify-between p-3 border-b border-border flex-shrink-0">
-              <h2 className="text-sm font-semibold text-foreground">
-                {t("dashboard.todaySchedule")}
-              </h2>
-              <span className="text-xs text-muted-foreground">
-                {data?.todayConsultations?.length || 0}
-              </span>
-            </div>
-            <div className="flex-1 overflow-auto">
-              {data?.todayConsultations &&
-              data.todayConsultations.length > 0 ? (
-                <table className="w-full">
-                  <thead className="sticky top-0 bg-secondary">
-                    <tr className="border-b border-border">
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("patients.patientName")}
-                      </th>
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("consultations.time")}
-                      </th>
-                      <th className="text-left text-xs font-medium text-muted-foreground p-2">
-                        {t("tasks.status")}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.todayConsultations.map((consultation) => (
-                      <tr
-                        key={consultation.id}
-                        className="border-b border-border hover:bg-muted/50 cursor-pointer transition-colors"
-                        onClick={() =>
-                          router.push(
-                            `/consultations/${consultation.id}/summary` as any,
-                          )
-                        }
-                      >
-                        <td className="p-2">
-                          <span className="text-xs font-medium text-foreground">
-                            {consultation.larinova_patients?.full_name ?? "—"}
-                          </span>
-                        </td>
-                        <td className="p-2">
-                          <span className="text-xs text-foreground">
-                            {formatTime(consultation.start_time)}
-                          </span>
-                        </td>
-                        <td className="p-2">
-                          <Badge
-                            variant={getStatusVariant(consultation.status)}
-                            className="text-xs"
-                          >
-                            {translateStatus(consultation.status)}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center py-4">
-                    <Calendar className="w-6 h-6 text-muted-foreground/30 mx-auto mb-2" />
-                    <p className="text-xs text-muted-foreground">
-                      {t("dashboard.noConsultationsToday")}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        {/* Mobile: Helena last, full-width, capped height */}
+        <div className="md:hidden h-[480px] relative">
+          <HelenaInlineChat />
         </div>
       </div>
+
       <TourGuide isOpen={showTour} onComplete={() => setShowTour(false)} />
     </div>
   );

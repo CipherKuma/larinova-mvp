@@ -13,11 +13,12 @@ export function AskAIFab({ patientId }: { patientId: string }) {
     <button
       type="button"
       onClick={() => router.push(`/?ask=${patientId}`)}
-      className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg hover:shadow-xl transition-shadow"
+      className="fixed right-4 md:right-6 bottom-[calc(72px+env(safe-area-inset-bottom))] md:bottom-6 z-30 flex items-center gap-2 rounded-full bg-primary px-4 md:px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg hover:shadow-xl transition-shadow min-h-[48px]"
       aria-label="Ask AI about this patient"
     >
       <Sparkles className="h-4 w-4" />
-      Ask AI about this patient
+      <span className="hidden sm:inline">Ask AI about this patient</span>
+      <span className="sm:hidden">Ask AI</span>
     </button>
   );
 }

@@ -508,52 +508,188 @@ export default function TasksPage() {
 
   return (
     <div>
-      <div className="glass-card">
+      <div className="md:glass-card">
         {/* Header */}
-        <div className="p-6 border-b border-border">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
+        <div className="px-1 md:px-6 pt-1 md:pt-6 pb-3 md:pb-4 md:border-b md:border-border">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <h1 className="text-xl md:text-2xl font-bold text-foreground truncate">
                 {t("tasks.title")}
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="hidden md:block text-sm text-muted-foreground mt-1">
                 {t("tasks.description")}
               </p>
             </div>
+            {/* Desktop add button — mobile uses FAB */}
             <Button
               onClick={startAddingNew}
               disabled={isAddingNew || !!editingTaskId}
               size="sm"
+              className="hidden md:inline-flex"
             >
               <Plus className="w-4 h-4 mr-2" />
               {t("tasks.addTask")}
             </Button>
           </div>
 
-          {/* Filters */}
-          <div className="flex gap-2 mt-4">
-            {(["all", "pending", "in_progress", "completed"] as const).map(
-              (status) => (
-                <Button
-                  key={status}
-                  onClick={() => setFilter(status)}
-                  variant={filter === status ? "default" : "outline"}
-                  size="sm"
-                >
-                  {status === "all" ? t("tasks.all") : t(`tasks.${status}`)}
-                  {status !== "all" && (
-                    <span className="ml-2 text-xs opacity-70">
-                      ({tasks.filter((t) => t.status === status).length})
-                    </span>
-                  )}
-                </Button>
-              ),
-            )}
+          {/* Filters — horizontal scroll on mobile */}
+          <div className="-mx-1 md:mx-0 mt-3 md:mt-4 overflow-x-auto">
+            <div className="flex gap-2 px-1 md:px-0 min-w-max">
+              {(["all", "pending", "in_progress", "completed"] as const).map(
+                (status) => (
+                  <Button
+                    key={status}
+                    onClick={() => setFilter(status)}
+                    variant={filter === status ? "default" : "outline"}
+                    size="sm"
+                    className="shrink-0 min-h-[40px]"
+                  >
+                    {status === "all" ? t("tasks.all") : t(`tasks.${status}`)}
+                    {status !== "all" && (
+                      <span className="ml-2 text-xs opacity-70">
+                        ({tasks.filter((t) => t.status === status).length})
+                      </span>
+                    )}
+                  </Button>
+                ),
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Table — always show even if empty */}
-        <div className="overflow-x-auto min-h-[300px]">
+        {/* Mobile card list (read-only) */}
+        <div className="md:hidden">
+          {filteredTasks.length === 0 && !isAddingNew ? (
+            <div className="flex flex-col items-center justify-center py-12 px-4">
+              <CheckSquare className="w-12 h-12 text-muted-foreground/30 mb-3" />
+              <p className="text-base text-foreground mb-1 text-center">
+                {filter === "all"
+                  ? t("dashboard.noPendingTasks")
+                  : t("tasks.noTasksFilter", {
+                      filter: t(`tasks.${filter}`),
+                    })}
+              </p>
+              {filter === "all" && (
+                <p className="text-xs text-muted-foreground text-center">
+                  {t("dashboard.allCaughtUp")}
+                </p>
+              )}
+            </div>
+          ) : (
+            <ul className="divide-y divide-border border-y border-border bg-card">
+              {filteredTasks.map((task) => (
+                <li key={task.id}>
+                  <div className="px-4 py-3.5 min-h-[68px] flex items-start gap-3 active:bg-muted/40">
+                    <button
+                      type="button"
+                      onClick={() => startEditing(task)}
+                      className="flex-1 min-w-0 text-left"
+                      aria-label={`Edit ${task.title}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-semibold text-foreground truncate">
+                          {task.title}
+                        </span>
+                        <Badge
+                          className={
+                            getPriorityColor(task.priority) +
+                            " text-[10px] shrink-0"
+                          }
+                        >
+                          {t(`tasks.${task.priority}` as any)}
+                        </Badge>
+                      </div>
+                      {task.description && (
+                        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                          {task.description}
+                        </p>
+                      )}
+                      <div className="mt-1.5 flex items-center gap-2 flex-wrap text-xs text-muted-foreground">
+                        <Badge
+                          variant={getStatusVariant(task.status)}
+                          className="text-[10px]"
+                        >
+                          {t(`tasks.${task.status}` as any)}
+                        </Badge>
+                        {task.patient?.full_name && (
+                          <span className="truncate">
+                            {task.patient.full_name}
+                          </span>
+                        )}
+                        {task.due_date && (
+                          <span
+                            className={
+                              isOverdue(task.due_date, task.status)
+                                ? "text-red-600"
+                                : ""
+                            }
+                          >
+                            {formatDate(task.due_date)}
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-10 w-10 p-0 -mr-2 shrink-0"
+                          aria-label={t("tasks.actions")}
+                        >
+                          <MoreVertical className="w-5 h-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {task.status !== "pending" && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleStatusChange(task.id, "pending")
+                            }
+                          >
+                            <Clock className="w-4 h-4 mr-2" />
+                            {t("tasks.markAsPending")}
+                          </DropdownMenuItem>
+                        )}
+                        {task.status !== "in_progress" && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleStatusChange(task.id, "in_progress")
+                            }
+                          >
+                            <Play className="w-4 h-4 mr-2" />
+                            {t("tasks.markAsInProgress")}
+                          </DropdownMenuItem>
+                        )}
+                        {task.status !== "completed" && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleStatusChange(task.id, "completed")
+                            }
+                          >
+                            <Check className="w-4 h-4 mr-2" />
+                            {t("tasks.markAsCompleted")}
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => confirmDelete(task)}
+                          className="text-red-600 focus:text-red-600"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          {t("common.delete")}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Desktop table */}
+        <div className="hidden md:block overflow-x-auto min-h-[300px]">
           <table className="w-full">
             <thead className="bg-secondary">
               <tr className="border-b border-border">
@@ -731,10 +867,10 @@ export default function TasksPage() {
           </table>
         </div>
 
-        {/* Add task row button at bottom */}
+        {/* Add task row button at bottom — desktop only */}
         {!isAddingNew && !editingTaskId && (
           <div
-            className="flex items-center gap-2 px-4 py-3 border-t border-border text-muted-foreground hover:bg-muted cursor-pointer transition-colors"
+            className="hidden md:flex items-center gap-2 px-4 py-3 border-t border-border text-muted-foreground hover:bg-muted cursor-pointer transition-colors"
             onClick={startAddingNew}
           >
             <Plus className="w-4 h-4" />
@@ -742,6 +878,201 @@ export default function TasksPage() {
           </div>
         )}
       </div>
+
+      {/* Mobile FAB — opens the mobile editor dialog */}
+      {!isAddingNew && !editingTaskId && (
+        <button
+          type="button"
+          onClick={startAddingNew}
+          aria-label={t("tasks.addTask")}
+          className="md:hidden fixed z-40 right-4 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+          style={{ bottom: "calc(72px + env(safe-area-inset-bottom))" }}
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+      )}
+
+      {/* Mobile add/edit dialog (md and below) */}
+      <Dialog
+        open={isAddingNew || !!editingTaskId}
+        onOpenChange={(open) => {
+          if (!open) cancelEditing();
+        }}
+      >
+        <DialogContent className="md:hidden max-w-[calc(100vw-1rem)] sm:max-w-md p-0 gap-0 max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader className="px-4 pt-4 pb-3 border-b border-border">
+            <DialogTitle className="text-base">
+              {editingTaskId ? t("common.edit") : t("tasks.addTask")}
+            </DialogTitle>
+          </DialogHeader>
+          <div
+            className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+            onKeyDown={handleKeyDown}
+          >
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">
+                {t("tasks.title")}
+              </label>
+              <Input
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                placeholder={t("tasks.enterTaskTitle")}
+                className="min-h-[44px]"
+                autoFocus
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">
+                  {t("tasks.priority")}
+                </label>
+                <Select
+                  value={formData.priority}
+                  onValueChange={(v) =>
+                    setFormData({ ...formData, priority: v })
+                  }
+                >
+                  <SelectTrigger className="min-h-[44px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PRIORITIES.map((p) => (
+                      <SelectItem key={p} value={p}>
+                        {t(`tasks.${p}` as any)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">
+                  {t("tasks.status")}
+                </label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(v) => setFormData({ ...formData, status: v })}
+                >
+                  <SelectTrigger className="min-h-[44px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STATUSES.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {t(`tasks.${s}` as any)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">
+                {t("tasks.taskType")}
+              </label>
+              <Select
+                value={formData.type}
+                onValueChange={(v) => setFormData({ ...formData, type: v })}
+              >
+                <SelectTrigger className="min-h-[44px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {TASK_TYPES.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {t(`tasks.${type}` as any)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">
+                {t("tasks.patient")}
+              </label>
+              <Select
+                value={formData.patient_id || "none"}
+                onValueChange={(v) =>
+                  setFormData({
+                    ...formData,
+                    patient_id: v === "none" ? "" : v,
+                  })
+                }
+              >
+                <SelectTrigger className="min-h-[44px]">
+                  <SelectValue placeholder={t("tasks.selectPatient")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">-</SelectItem>
+                  {patients.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.full_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">
+                {t("tasks.dueDate")}
+              </label>
+              <DatePicker
+                date={formData.due_date || undefined}
+                onDateChange={(date) =>
+                  setFormData({ ...formData, due_date: date || null })
+                }
+                placeholder={t("tasks.selectDueDate")}
+                className="min-h-[44px]"
+              />
+            </div>
+          </div>
+          <DialogFooter
+            className="flex flex-row gap-2 px-4 py-3 border-t border-border bg-card"
+            style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
+          >
+            {editingTaskId && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  const task = tasks.find((t) => t.id === editingTaskId);
+                  if (task) {
+                    cancelEditing();
+                    confirmDelete(task);
+                  }
+                }}
+                disabled={saving}
+                className="text-red-600 hover:text-red-700 hover:bg-red-500/10 mr-auto min-h-[44px]"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={cancelEditing}
+              disabled={saving}
+              className="min-h-[44px]"
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              type="button"
+              onClick={handleSave}
+              disabled={saving || !formData.title.trim()}
+              className="min-h-[44px]"
+            >
+              {saving ? "..." : t("common.save")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog

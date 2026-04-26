@@ -32,10 +32,12 @@ export default function NewIssuePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6">Report an issue</h1>
+    <div className="max-w-2xl mx-auto p-4 md:p-6 pb-24">
+      <h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">
+        Report an issue
+      </h1>
       <form onSubmit={onSubmit} className="space-y-4">
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="title">Title</Label>
           <Input
             id="title"
@@ -43,9 +45,10 @@ export default function NewIssuePage() {
             onChange={(e) => setTitle(e.target.value)}
             maxLength={140}
             placeholder="e.g. Recording stops after 10 seconds"
+            className="min-h-[44px] text-base md:text-sm"
           />
         </div>
-        <div>
+        <div className="space-y-1.5">
           <Label htmlFor="body">Description</Label>
           <textarea
             id="body"
@@ -54,7 +57,7 @@ export default function NewIssuePage() {
             rows={8}
             maxLength={5000}
             placeholder="What happened? What did you expect to happen? Steps to reproduce, if any."
-            className="w-full rounded-md border border-input bg-card px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-ring"
+            className="w-full rounded-md border border-input bg-card px-3 py-3 text-base md:text-sm focus-visible:ring-1 focus-visible:ring-ring"
           />
         </div>
         <Button
@@ -62,6 +65,7 @@ export default function NewIssuePage() {
           disabled={
             submitting || title.trim().length < 3 || body.trim().length < 1
           }
+          className="w-full sm:w-auto min-h-[44px]"
         >
           {submitting ? "Submitting…" : "File issue"}
         </Button>

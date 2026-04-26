@@ -63,18 +63,18 @@ export default async function PatientDetailPage({
   };
 
   return (
-    <div className="relative space-y-6 pb-24">
+    <div className="relative space-y-3 md:space-y-6 pb-24">
       {/* AI Narrative */}
       <PatientNarrativeCard patientId={id} />
 
       {/* Header Card */}
-      <div className="glass-card-strong p-6">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-3">
-              <User className="w-8 h-8 text-foreground" />
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">
+      <div className="glass-card-strong p-4 md:p-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3 mb-2 md:mb-3">
+              <User className="w-6 h-6 md:w-8 md:h-8 text-foreground shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-lg md:text-2xl font-bold text-foreground truncate">
                   {patientData.full_name}
                 </h1>
                 <div className="flex items-center gap-2 mt-1">
@@ -125,15 +125,7 @@ export default async function PatientDetailPage({
 
           <Link
             href={`/patients/${id}/consultation`}
-            className="
-              inline-flex items-center gap-2
-              px-4 py-2.5
-              bg-primary text-primary-foreground
-              rounded-xl
-              text-sm font-medium shadow-sm
-              hover:bg-primary/90 hover:shadow-md
-              transition-all duration-200
-            "
+            className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 md:py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-medium shadow-sm hover:bg-primary/90 hover:shadow-md transition-all duration-200 min-h-[44px]"
           >
             <Activity className="w-4 h-4" />
             {t("patients.newConsultation")}
@@ -144,40 +136,40 @@ export default async function PatientDetailPage({
       {/* Tabs Section */}
       <div className="glass-card-strong overflow-hidden">
         <Tabs defaultValue="health-records" className="w-full">
-          <TabsList className="w-full bg-secondary p-1 h-auto border-b border-border rounded-none justify-start gap-1">
+          <TabsList className="w-full bg-secondary p-1 h-auto border-b border-border rounded-none justify-start gap-1 overflow-x-auto md:overflow-visible flex-nowrap">
             <TabsTrigger
               value="health-records"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-1.5"
+              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
               {t("patients.healthRecords")}
             </TabsTrigger>
             <TabsTrigger
               value="consultations"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-1.5"
+              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
               {t("patients.consultations")}
             </TabsTrigger>
             <TabsTrigger
               value="prescriptions"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-1.5"
+              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
               {t("patients.prescriptions")}
             </TabsTrigger>
             <TabsTrigger
               value="insurance"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-1.5"
+              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
               {t("patients.insurance")}
             </TabsTrigger>
             <TabsTrigger
               value="follow-ups"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-1.5"
+              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
               Follow-ups
             </TabsTrigger>
           </TabsList>
 
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <TabsContent value="health-records" className="mt-0">
               <HealthRecordsView patientId={id} />
             </TabsContent>

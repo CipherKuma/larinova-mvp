@@ -94,13 +94,13 @@ export default function BillingClient() {
     <>
       <div className="glass-card">
         {/* Header + Current Plan */}
-        <div className="p-6 border-b border-border">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
+        <div className="p-4 md:p-6 border-b border-border">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <h1 className="text-lg md:text-2xl font-bold text-foreground truncate">
                 {t("billingSubscription")}
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-xs md:text-sm text-muted-foreground mt-1">
                 {t("manageYourPlan")}
               </p>
             </div>
@@ -208,8 +208,8 @@ export default function BillingClient() {
 
         {/* Pricing Cards */}
         {
-          <div className="p-6">
-            <div className="grid md:grid-cols-3 gap-4">
+          <div className="p-4 md:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               {/* Free */}
               <div
                 className={`rounded-2xl p-5 transition-all ${!isPro ? "bg-muted border-2 border-border" : "bg-secondary border border-border"}`}

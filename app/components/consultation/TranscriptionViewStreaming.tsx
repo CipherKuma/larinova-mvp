@@ -271,7 +271,7 @@ export function TranscriptionViewStreaming({
       <div className="border-b border-border p-2 md:p-2.5 lg:p-3 xl:p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-3 lg:gap-4">
           <div>
-            <h2 className="text-[10px] md:text-xs lg:text-sm xl:text-2xl font-display uppercase font-bold">
+            <h2 className="text-base md:text-xs lg:text-sm xl:text-2xl font-display uppercase font-bold">
               {t("realtimeTranscription")}
             </h2>
             <p className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-sm text-muted-foreground mt-0.5 md:mt-1 uppercase">
@@ -286,7 +286,7 @@ export function TranscriptionViewStreaming({
               <div className="relative">
                 <button
                   onClick={() => setShowLangDropdown(!showLangDropdown)}
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 border border-border rounded-md flex items-center gap-1 text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs font-semibold uppercase bg-card hover:bg-muted transition-colors"
+                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 border border-border rounded-md flex items-center gap-1 text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs font-semibold uppercase bg-card hover:bg-muted transition-colors"
                 >
                   {selectedLang?.label || "Tamil"}
                   <ChevronDown className="w-2.5 h-2.5 md:w-3 md:h-3" />
@@ -319,7 +319,7 @@ export function TranscriptionViewStreaming({
               <>
                 <Button
                   onClick={handleRegenerateReports}
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   <RefreshCw className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                   <span className="hidden lg:inline">
@@ -330,7 +330,7 @@ export function TranscriptionViewStreaming({
                 <Button
                   onClick={handleSkipToSummary}
                   variant="outline"
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   <CheckCircle className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                   <span className="hidden lg:inline">{t("skipToSummary")}</span>
@@ -347,7 +347,7 @@ export function TranscriptionViewStreaming({
                 <Button
                   onClick={startSession}
                   disabled={stt.isConnecting}
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   {stt.isConnecting ? (
                     <Loader2 className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2 animate-spin" />
@@ -368,7 +368,7 @@ export function TranscriptionViewStreaming({
               <Button
                 onClick={handlePause}
                 variant="outline"
-                className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
               >
                 <Pause className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                 {t("pause")}
@@ -381,7 +381,7 @@ export function TranscriptionViewStreaming({
                 <Button
                   onClick={handleResume}
                   variant="outline"
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   <Play className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                   <span className="hidden md:inline">{t("resume")}</span>
@@ -391,7 +391,7 @@ export function TranscriptionViewStreaming({
                 <Button
                   onClick={handleRestart}
                   variant="outline"
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-secondary border-border hover:bg-muted text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   <RotateCcw className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                   <span className="hidden md:inline">{t("restart")}</span>
@@ -400,7 +400,7 @@ export function TranscriptionViewStreaming({
 
                 <Button
                   onClick={handleEndConsultation}
-                  className="h-6 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-2 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
+                  className="min-h-[44px] md:min-h-0 md:h-7 lg:h-8 xl:h-10 2xl:h-12 px-3 md:px-3 lg:px-4 xl:px-6 font-semibold uppercase bg-primary hover:bg-primary/90 text-primary-foreground text-xs md:text-[8px] lg:text-[9px] xl:text-[10px] 2xl:text-xs"
                 >
                   <CheckCircle className="w-2.5 h-2.5 md:w-3 md:h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5 mr-1 md:mr-1.5 lg:mr-2" />
                   <span className="hidden xl:inline">

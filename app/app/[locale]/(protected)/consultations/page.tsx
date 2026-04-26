@@ -101,19 +101,23 @@ export default function ConsultationsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 md:space-y-6">
       {/* Header */}
-      <div className="glass-card p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">
+      <div className="md:glass-card md:p-6 px-1 md:px-6">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-xl md:text-2xl font-bold text-foreground truncate">
               {t("consultations.title")}
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="hidden md:block text-sm text-muted-foreground mt-1">
               {t("consultations.description")}
             </p>
           </div>
-          <Button onClick={() => router.push("/consultations/new" as any)}>
+          {/* Desktop button — mobile uses FAB */}
+          <Button
+            className="hidden md:inline-flex"
+            onClick={() => router.push("/consultations/new" as any)}
+          >
             <Plus className="w-4 h-4 mr-2" />
             {t("consultations.newConsultation")}
           </Button>
@@ -121,82 +125,122 @@ export default function ConsultationsPage() {
       </div>
 
       {/* Consultations List */}
-      <div className="glass-card">
-        <div className="p-4 border-b border-border">
+      <div className="md:glass-card">
+        <div className="hidden md:block p-4 border-b border-border">
           <h2 className="text-sm font-semibold text-foreground">
             {t("consultations.title")}
           </h2>
         </div>
 
         {consultations.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-secondary">
-                <tr className="border-b border-border">
-                  <th className="text-left text-sm font-medium text-muted-foreground p-4">
-                    {t("consultations.consultationCode")}
-                  </th>
-                  <th className="text-left text-sm font-medium text-muted-foreground p-4">
-                    {t("patients.patientName")}
-                  </th>
-                  <th className="text-left text-sm font-medium text-muted-foreground p-4">
-                    {t("consultations.date")}
-                  </th>
-                  <th className="text-left text-sm font-medium text-muted-foreground p-4">
-                    {t("consultations.chiefComplaint")}
-                  </th>
-                  <th className="text-left text-sm font-medium text-muted-foreground p-4">
-                    {t("tasks.status")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {consultations.map((consultation) => (
-                  <tr
-                    key={consultation.id}
-                    className="border-b border-border hover:bg-muted cursor-pointer transition-colors"
+          <>
+            {/* Mobile: card list */}
+            <ul className="md:hidden divide-y divide-border border-y border-border bg-card">
+              {consultations.map((c) => (
+                <li key={c.id}>
+                  <button
+                    type="button"
                     onClick={() =>
-                      router.push(
-                        `/consultations/${consultation.id}/summary` as any,
-                      )
+                      router.push(`/consultations/${c.id}/summary` as any)
                     }
+                    className="w-full text-left px-4 py-3.5 min-h-[68px] active:bg-muted/40 flex items-start gap-3"
                   >
-                    <td className="p-4">
-                      <span className="text-sm font-mono text-foreground">
-                        {consultation.consultation_code}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <div>
-                        <div className="text-sm font-medium text-foreground">
-                          {consultation.larinova_patients?.full_name ?? "—"}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {consultation.larinova_patients?.patient_code ?? ""}
-                        </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-semibold text-foreground truncate">
+                          {c.larinova_patients?.full_name ?? "—"}
+                        </span>
+                        <Badge
+                          variant={getStatusVariant(c.status)}
+                          className="text-[10px] shrink-0"
+                        >
+                          {c.status.replace("_", " ")}
+                        </Badge>
                       </div>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-2 text-sm text-foreground">
-                        <Calendar className="w-4 h-4" />
-                        {formatDateTime(consultation.start_time)}
+                      <div className="mt-0.5 text-xs text-muted-foreground truncate">
+                        {formatDateTime(c.start_time)}
                       </div>
-                    </td>
-                    <td className="p-4">
-                      <span className="text-sm text-foreground">
-                        {consultation.chief_complaint || "-"}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant={getStatusVariant(consultation.status)}>
-                        {consultation.status.replace("_", " ")}
-                      </Badge>
-                    </td>
+                      {c.chief_complaint && (
+                        <div className="mt-1 text-xs text-foreground/80 line-clamp-2">
+                          {c.chief_complaint}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop: dense table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-secondary">
+                  <tr className="border-b border-border">
+                    <th className="text-left text-sm font-medium text-muted-foreground p-4">
+                      {t("consultations.consultationCode")}
+                    </th>
+                    <th className="text-left text-sm font-medium text-muted-foreground p-4">
+                      {t("patients.patientName")}
+                    </th>
+                    <th className="text-left text-sm font-medium text-muted-foreground p-4">
+                      {t("consultations.date")}
+                    </th>
+                    <th className="text-left text-sm font-medium text-muted-foreground p-4">
+                      {t("consultations.chiefComplaint")}
+                    </th>
+                    <th className="text-left text-sm font-medium text-muted-foreground p-4">
+                      {t("tasks.status")}
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {consultations.map((consultation) => (
+                    <tr
+                      key={consultation.id}
+                      className="border-b border-border hover:bg-muted cursor-pointer transition-colors"
+                      onClick={() =>
+                        router.push(
+                          `/consultations/${consultation.id}/summary` as any,
+                        )
+                      }
+                    >
+                      <td className="p-4">
+                        <span className="text-sm font-mono text-foreground">
+                          {consultation.consultation_code}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <div>
+                          <div className="text-sm font-medium text-foreground">
+                            {consultation.larinova_patients?.full_name ?? "—"}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {consultation.larinova_patients?.patient_code ?? ""}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-2 text-sm text-foreground">
+                          <Calendar className="w-4 h-4" />
+                          {formatDateTime(consultation.start_time)}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <span className="text-sm text-foreground">
+                          {consultation.chief_complaint || "-"}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <Badge variant={getStatusVariant(consultation.status)}>
+                          {consultation.status.replace("_", " ")}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : (
           <div className="flex flex-col items-center justify-center py-12">
             <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-4" />
@@ -210,6 +254,19 @@ export default function ConsultationsPage() {
           </div>
         )}
       </div>
+
+      {/* Mobile FAB */}
+      <button
+        type="button"
+        onClick={() => router.push("/consultations/new" as any)}
+        aria-label={t("consultations.newConsultation")}
+        className="md:hidden fixed z-40 right-4 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+        style={{
+          bottom: "calc(72px + env(safe-area-inset-bottom))",
+        }}
+      >
+        <Plus className="w-6 h-6" />
+      </button>
     </div>
   );
 }

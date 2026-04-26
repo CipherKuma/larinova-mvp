@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "@/src/i18n/routing";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, User, UserPlus, Search } from "lucide-react";
+import { ArrowLeft, User, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
@@ -56,38 +56,38 @@ export default function NewConsultationPage() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-3 md:space-y-6">
       {/* Header */}
-      <div className="glass-card p-6">
-        <div className="flex items-center gap-4">
+      <div className="glass-card p-4 md:p-6">
+        <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => router.push("/consultations" as any)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 -ml-2 min-h-[40px]"
           >
             <ArrowLeft className="w-4 h-4" />
             {t("consultations.title")}
           </Button>
         </div>
-        <div className="mt-4">
-          <h1 className="text-2xl font-bold text-foreground">
+        <div className="mt-3 md:mt-4">
+          <h1 className="text-lg md:text-2xl font-bold text-foreground">
             {t("consultations.newConsultation")}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-xs md:text-sm text-muted-foreground mt-1">
             {t("consultations.choosePatientType")}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
         {/* Existing Patient */}
-        <div className="glass-card p-6 flex flex-col gap-4">
+        <div className="glass-card p-4 md:p-6 flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
               <User className="w-5 h-5 text-primary" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-base font-semibold text-foreground">
                 {t("consultations.existingPatient")}
               </h2>
@@ -98,12 +98,11 @@ export default function NewConsultationPage() {
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               placeholder={t("consultations.searchPatientPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
+              className="min-h-[44px] text-base md:text-sm"
             />
           </div>
 
@@ -143,12 +142,12 @@ export default function NewConsultationPage() {
         </div>
 
         {/* New Patient */}
-        <div className="glass-card p-6 flex flex-col gap-4">
+        <div className="glass-card p-4 md:p-6 flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
               <UserPlus className="w-5 h-5 text-green-500" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-base font-semibold text-foreground">
                 {t("consultations.newPatientOption")}
               </h2>
@@ -165,7 +164,7 @@ export default function NewConsultationPage() {
           </div>
 
           <Button
-            className="w-full"
+            className="w-full min-h-[44px]"
             onClick={() => router.push("/consultations/new/record" as any)}
           >
             <UserPlus className="w-4 h-4 mr-2" />

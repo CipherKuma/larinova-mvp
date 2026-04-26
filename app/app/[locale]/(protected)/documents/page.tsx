@@ -223,7 +223,7 @@ export default function DocumentsPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-120px)] flex gap-0 overflow-hidden rounded-lg">
+    <div className="h-[calc(100dvh-180px)] md:h-[calc(100vh-120px)] flex gap-0 overflow-hidden rounded-lg">
       {/* Sidebar */}
       <div
         className={`w-44 min-[1200px]:w-56 flex-shrink-0 glass-card rounded-none border-r border-border overflow-y-auto hidden min-[800px]:block ${

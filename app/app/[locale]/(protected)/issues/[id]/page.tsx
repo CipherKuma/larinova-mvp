@@ -25,9 +25,9 @@ export default async function IssueDetail({
     .order("created_at", { ascending: true });
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
+    <div className="max-w-3xl mx-auto p-4 md:p-6 space-y-4 md:space-y-6 pb-24">
       <div>
-        <h1 className="text-2xl font-semibold">{issue.title}</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">{issue.title}</h1>
         <div className="text-xs text-muted-foreground mt-1">
           {new Date(issue.created_at).toLocaleString()} · status: {issue.status}{" "}
           · priority: {issue.priority}
