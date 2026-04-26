@@ -403,113 +403,158 @@ function generateAlphaWelcomeHtml({
 }): string {
   const name = escHtml(firstName);
   const dashboardUrl = "https://app.larinova.com";
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Arial, sans-serif;
-      line-height: 1.6; color: #1a1a1a; background: #f4f4f2;
-    }
-    .wrapper { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,.06); }
-    .hero { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); padding: 48px 40px 40px; text-align: center; position: relative; }
-    .hero .brand { color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 32px; }
-    .hero .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.08); color: #d4d4d4; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.12); }
-    .hero h1 { color: #fff; font-size: 30px; font-weight: 600; line-height: 1.25; margin-top: 24px; letter-spacing: -0.5px; }
-    .body { padding: 40px; }
-    .lede { font-size: 16px; color: #2a2a2a; line-height: 1.7; margin-bottom: 32px; }
-    .lede strong { color: #0a0a0a; font-weight: 600; }
-    .panel { background: #fafaf9; border: 1px solid #ececea; border-radius: 10px; padding: 24px 28px; margin: 0 0 32px; }
-    .panel .label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8a8a86; margin-bottom: 6px; }
-    .panel .headline { font-size: 17px; font-weight: 600; color: #0a0a0a; margin-bottom: 12px; letter-spacing: -0.2px; }
-    .panel .desc { font-size: 14px; color: #4a4a48; line-height: 1.65; }
-    .next-list { margin: 0 0 32px; padding: 0; list-style: none; }
-    .next-list li { padding: 14px 0; border-bottom: 1px solid #f0efed; display: flex; gap: 14px; align-items: flex-start; }
-    .next-list li:last-child { border-bottom: none; }
-    .next-list .num { flex: 0 0 24px; height: 24px; border-radius: 50%; background: #0a0a0a; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-    .next-list .text { flex: 1; font-size: 14px; color: #2a2a2a; line-height: 1.55; }
-    .next-list .text strong { color: #0a0a0a; font-weight: 600; }
-    .cta-row { text-align: center; margin: 32px 0 28px; }
-    .cta { display: inline-block; padding: 14px 32px; background: #0a0a0a; color: #fff !important; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600; letter-spacing: 0.2px; }
-    .video-tile { display: block; text-decoration: none; color: inherit; margin: 0 0 32px; position: relative; }
-    .video-tile img { border-radius: 10px; }
-    .video-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-    .video-play-button { width: 64px; height: 64px; border-radius: 50%; background: rgba(10,10,10,0.92); color: #fff; font-size: 22px; line-height: 64px; text-align: center; box-shadow: 0 6px 24px rgba(0,0,0,0.35); padding-left: 4px; }
-    .video-caption { text-align: center; font-size: 12px; color: #8a8a86; margin-top: 10px; letter-spacing: 0.3px; }
-    .signoff { padding: 28px 0 0; border-top: 1px solid #f0efed; }
-    .signoff p { font-size: 14px; color: #2a2a2a; line-height: 1.7; margin-bottom: 12px; }
-    .signoff p strong { color: #0a0a0a; }
-    .signoff .sig { font-size: 14px; color: #0a0a0a; font-weight: 600; margin-top: 16px; }
-    .signoff .sig-sub { font-size: 12px; color: #8a8a86; font-weight: 500; margin-top: 2px; }
-    .footer { padding: 24px 40px; background: #fafaf9; border-top: 1px solid #ececea; text-align: center; font-size: 12px; color: #8a8a86; }
-    .footer a { color: #4a4a48; text-decoration: none; }
-    @media (max-width: 600px) {
-      .hero { padding: 36px 24px 28px; }
-      .hero h1 { font-size: 24px; }
-      .body { padding: 28px 24px; }
-      .panel { padding: 20px; }
-      .footer { padding: 20px 24px; }
-    }
-  </style>
-  </head>
-<body>
-<div class="wrapper">
-  <div class="hero">
-    <div class="brand">LARINOVA</div>
-    <div class="badge">Alpha Access</div>
-    <h1>Welcome aboard, Dr. ${name}.</h1>
-  </div>
-  <div class="body">
-    <p class="lede">You're among the very first doctors shaping Larinova. Genuinely — thank you. We built this so you can spend your consult with the patient, not your screen.</p>
+  const videoUrl = "https://www.youtube.com/watch?v=XA01CrBcoq0";
+  const videoThumb = "https://app.larinova.com/email/welcome-video-thumb.png";
 
-    <div class="panel">
-      <div class="label">Your Alpha Access</div>
-      <div class="headline">30 days of Pro, on us.</div>
-      <div class="desc">Unlimited consultations. Every feature unlocked — multilingual recording, instant SOAP notes, ICD-10 coding, prescriptions, and Helena, your AI assistant.</div>
-    </div>
+  // Brand palette mirrors the app theme:
+  //   --background: hsl(224 54% 8%)   → #0a1224 (deep blue-black)
+  //   --primary:    hsl(160 84% 39%)  → #10b079 (emerald)
+  // Emerald 50/600/700 derived for shadows + hovers.
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome to Larinova</title>
+</head>
+<body style="margin:0; padding:0; background:#f4f5f7; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; color:#1a1a1a; line-height:1.6;">
 
-    <ol class="next-list">
-      <li>
-        <div class="num">1</div>
-        <div class="text"><strong>Record your first consultation.</strong> Tap record, speak naturally in your patient's language, and watch the structured notes appear.</div>
-      </li>
-      <li>
-        <div class="num">2</div>
-        <div class="text"><strong>Generate the prescription &amp; SOAP note.</strong> One tap — fully editable, ready to print or share over WhatsApp.</div>
-      </li>
-      <li>
-        <div class="num">3</div>
-        <div class="text"><strong>Tell us what's missing.</strong> Reply to this email any time. Bugs, ideas, frustrations — they all go straight to us.</div>
-      </li>
-    </ol>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f5f7; padding:32px 16px;">
+  <tr>
+    <td align="center">
 
-    <div class="cta-row">
-      <a class="cta" href="${dashboardUrl}">Open Larinova</a>
-    </div>
+      <!-- ╭─ wrapper ─╮ -->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 4px 24px rgba(10,18,36,0.06);">
 
-    <a href="https://www.youtube.com/watch?v=XA01CrBcoq0" class="video-tile">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <!-- ╭─ hero (brand-color) ─╮ -->
         <tr>
-          <td style="position: relative; padding: 0; line-height: 0;">
-            <img src="https://img.youtube.com/vi/XA01CrBcoq0/maxresdefault.jpg" alt="A quick hello from Gabriel" width="100%" style="display: block; width: 100%; max-width: 100%; height: auto; border-radius: 10px;" />
-            <div class="video-play-overlay">
-              <div class="video-play-button">▶</div>
-            </div>
+          <td style="background:#0a1224; background-image:linear-gradient(135deg,#0a1224 0%,#0f1f3d 100%); padding:44px 40px 40px; text-align:center;">
+            <div style="color:#ffffff; font-size:12px; font-weight:700; letter-spacing:5px; text-transform:uppercase; opacity:0.78; margin-bottom:24px;">LARINOVA</div>
+            <div style="display:inline-block; padding:6px 14px; border-radius:999px; background:rgba(16,176,121,0.18); color:#34d8a0; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; border:1px solid rgba(16,176,121,0.32);">Alpha Access</div>
+            <div style="color:#ffffff; font-size:30px; font-weight:600; line-height:1.25; margin-top:24px; letter-spacing:-0.5px;">Welcome aboard, Dr. ${name}.</div>
           </td>
         </tr>
-      </table>
-      <div class="video-caption">A quick hello from Gabriel · 40 sec</div>
-    </a>
 
-    <div class="signoff">
-      <p>Larinova exists because clinicians like you are willing to try something new. We don't take that lightly.</p>
-      <p>If anything feels off — even a small thing — please tell us. The next 30 days are yours to shape.</p>
-      <div class="sig">— Gabriel</div>
-      <div class="sig-sub">Founder, Larinova</div>
-    </div>
-  </div>
-  <div class="footer"><strong>Larinova</strong> — AI medical scribe<br><a href="mailto:hello@larinova.com">hello@larinova.com</a> &nbsp;·&nbsp; <a href="https://larinova.com">larinova.com</a></div>
-</div>
-</body></html>`;
+        <!-- ╭─ body ─╮ -->
+        <tr>
+          <td style="padding:36px 40px 32px;">
+
+            <p style="margin:0 0 28px; font-size:16px; color:#2a2a2a; line-height:1.7;">
+              You're among the very first doctors shaping Larinova. Genuinely — thank you. We built this so you can spend your consult with the patient, not your screen.
+            </p>
+
+            <!-- alpha access panel -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f0fdf6; border:1px solid #c7f0db; border-radius:10px; margin:0 0 32px;">
+              <tr>
+                <td style="padding:22px 24px;">
+                  <div style="font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#10b079; margin-bottom:6px;">Your Alpha Access</div>
+                  <div style="font-size:18px; font-weight:600; color:#0a1224; margin-bottom:10px; letter-spacing:-0.2px;">30 days of Pro, on us.</div>
+                  <div style="font-size:14px; color:#3d4f56; line-height:1.65;">Unlimited consultations. Every feature unlocked — multilingual recording, instant SOAP notes, ICD-10 coding, prescriptions, and Helena, your AI assistant.</div>
+                </td>
+              </tr>
+            </table>
+
+            <!-- numbered next-steps (table-based, Gmail-safe) -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 32px;">
+              <tr>
+                <td style="padding:14px 0; border-bottom:1px solid #eef0f3;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td valign="top" width="40" style="padding:0 14px 0 0; vertical-align:top;">
+                        <div style="width:28px; height:28px; line-height:28px; border-radius:50%; background:#10b079; color:#ffffff; font-size:12px; font-weight:700; text-align:center;">1</div>
+                      </td>
+                      <td valign="top" style="font-size:14px; color:#2a2a2a; line-height:1.6;">
+                        <strong style="color:#0a1224; font-weight:600;">Record your first consultation.</strong> Tap record, speak naturally in your patient's language, and watch the structured notes appear.
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:14px 0; border-bottom:1px solid #eef0f3;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td valign="top" width="40" style="padding:0 14px 0 0; vertical-align:top;">
+                        <div style="width:28px; height:28px; line-height:28px; border-radius:50%; background:#10b079; color:#ffffff; font-size:12px; font-weight:700; text-align:center;">2</div>
+                      </td>
+                      <td valign="top" style="font-size:14px; color:#2a2a2a; line-height:1.6;">
+                        <strong style="color:#0a1224; font-weight:600;">Generate the prescription &amp; SOAP note.</strong> One tap — fully editable, ready to print or share over WhatsApp.
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:14px 0;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td valign="top" width="40" style="padding:0 14px 0 0; vertical-align:top;">
+                        <div style="width:28px; height:28px; line-height:28px; border-radius:50%; background:#10b079; color:#ffffff; font-size:12px; font-weight:700; text-align:center;">3</div>
+                      </td>
+                      <td valign="top" style="font-size:14px; color:#2a2a2a; line-height:1.6;">
+                        <strong style="color:#0a1224; font-weight:600;">Tell us what's missing.</strong> Reply to this email any time. Bugs, ideas, frustrations — they all go straight to us.
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <!-- CTA -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 36px;">
+              <tr>
+                <td align="center">
+                  <a href="${dashboardUrl}" style="display:inline-block; padding:14px 36px; background:#10b079; color:#ffffff; text-decoration:none; border-radius:8px; font-size:14px; font-weight:600; letter-spacing:0.2px; box-shadow:0 4px 12px rgba(16,176,121,0.3);">Open Larinova</a>
+                </td>
+              </tr>
+            </table>
+
+            <!-- video tile (composite thumbnail with baked-in play button) -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
+              <tr>
+                <td align="center">
+                  <a href="${videoUrl}" style="display:block; text-decoration:none; line-height:0;">
+                    <img src="${videoThumb}" alt="A quick hello from Gabriel" width="520" style="display:block; width:100%; max-width:520px; height:auto; border-radius:12px; border:1px solid #eef0f3;" />
+                  </a>
+                  <div style="font-size:12px; color:#6a7681; margin-top:12px; letter-spacing:0.2px; line-height:1.4;">A quick hello from Gabriel · 40 sec</div>
+                </td>
+              </tr>
+            </table>
+
+            <!-- signoff -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #eef0f3;">
+              <tr>
+                <td style="padding:28px 0 0;">
+                  <p style="margin:0 0 12px; font-size:14px; color:#2a2a2a; line-height:1.7;">Larinova exists because clinicians like you are willing to try something new. We don't take that lightly.</p>
+                  <p style="margin:0 0 16px; font-size:14px; color:#2a2a2a; line-height:1.7;">If anything feels off — even a small thing — please tell us. The next 30 days are yours to shape.</p>
+                  <div style="font-size:14px; color:#0a1224; font-weight:600;">— Gabriel</div>
+                  <div style="font-size:12px; color:#6a7681; font-weight:500; margin-top:2px;">Founder, Larinova</div>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <!-- ╭─ footer ─╮ -->
+        <tr>
+          <td style="padding:22px 40px; background:#f8fafc; border-top:1px solid #eef0f3; text-align:center; font-size:12px; color:#6a7681; line-height:1.5;">
+            <strong style="color:#3d4f56;">Larinova</strong> — AI medical scribe<br />
+            <a href="mailto:hello@larinova.com" style="color:#3d4f56; text-decoration:none;">hello@larinova.com</a>
+            &nbsp;·&nbsp;
+            <a href="https://larinova.com" style="color:#3d4f56; text-decoration:none;">larinova.com</a>
+          </td>
+        </tr>
+
+      </table>
+      <!-- ╰─ wrapper ─╯ -->
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>`;
 }
 
 // ─── Appointment Confirmation to Booker ────────────────────────────────────
