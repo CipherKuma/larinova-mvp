@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { checkConsultationLimit } from "@/lib/subscription";
+import { trackMilestone } from "@/lib/analytics/server";
 
 export async function POST(request: Request) {
   try {
@@ -131,6 +132,11 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    trackMilestone("consultation_started", {
+      userId: user.id,
+      properties: { consultation_id: consultation.id, doctor_id: doctor.id },
+    });
 
     return NextResponse.json({
       success: true,

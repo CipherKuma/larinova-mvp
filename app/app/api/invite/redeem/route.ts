@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { redeemInviteCode } from "@/lib/invite";
 import { sendAlphaWelcomeEmail } from "@/lib/resend/email";
+import { trackMilestone } from "@/lib/analytics/server";
 
 const Body = z.object({
   code: z.string().trim().min(6).max(40),
@@ -47,6 +48,16 @@ export async function POST(req: Request) {
       console.error("[invite/redeem] email send failed:", e);
       // RPC is the source of truth; redemption stands.
     }
+  }
+
+  if (!result.already_redeemed) {
+    trackMilestone("invite_redeemed", {
+      userId: user.id,
+      properties: {
+        code: parsed.code.toUpperCase(),
+        period_end: result.period_end,
+      },
+    });
   }
 
   return NextResponse.json({

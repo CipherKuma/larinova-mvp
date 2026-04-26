@@ -8,6 +8,7 @@ import {
   verifyWebhookSignature,
 } from "@/lib/razorpay-helpers";
 import { notify } from "@/lib/notify";
+import { trackMilestone } from "@/lib/analytics/server";
 
 type RazorpayEventPayload = {
   event: string;
@@ -117,9 +118,53 @@ export async function POST(req: Request) {
     switch (eventName) {
       case "subscription.activated":
         await onSubscriptionActivated(supabase, event);
+        {
+          const subId = event.payload?.subscription?.entity?.id;
+          const row = subId ? await findSubscriptionRow(supabase, subId) : null;
+          const doctor = row
+            ? await findDoctorRow(supabase, row.doctor_id)
+            : null;
+          if (doctor?.id) {
+            const { data: docUser } = await supabase
+              .from("larinova_doctors")
+              .select("user_id")
+              .eq("id", doctor.id)
+              .maybeSingle();
+            trackMilestone("payment_succeeded", {
+              userId: docUser?.user_id ?? null,
+              properties: {
+                event_type: eventName,
+                subscription_id: subId,
+                doctor_id: doctor.id,
+              },
+            });
+          }
+        }
         break;
       case "subscription.charged":
         await onSubscriptionCharged(supabase, event);
+        {
+          const subId = event.payload?.subscription?.entity?.id;
+          const row = subId ? await findSubscriptionRow(supabase, subId) : null;
+          const doctor = row
+            ? await findDoctorRow(supabase, row.doctor_id)
+            : null;
+          if (doctor?.id) {
+            const { data: docUser } = await supabase
+              .from("larinova_doctors")
+              .select("user_id")
+              .eq("id", doctor.id)
+              .maybeSingle();
+            trackMilestone("payment_succeeded", {
+              userId: docUser?.user_id ?? null,
+              properties: {
+                event_type: eventName,
+                subscription_id: subId,
+                doctor_id: doctor.id,
+              },
+            });
+          }
+        }
         break;
       case "subscription.halted":
       case "subscription.cancelled":
