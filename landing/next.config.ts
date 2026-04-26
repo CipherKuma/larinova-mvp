@@ -63,21 +63,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      // /admin lives in the app now — landing routes redirect to it.
-      {
-        source: "/admin",
-        destination: "https://app.larinova.com/in/admin/surveys",
-        permanent: false,
-      },
-      {
-        source: "/admin/:path*",
-        destination: "https://app.larinova.com/in/admin/surveys",
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
