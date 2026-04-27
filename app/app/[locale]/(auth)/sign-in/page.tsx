@@ -69,16 +69,17 @@ export default function SignInPage() {
     if (!doctor) {
       await supabase.from("larinova_doctors").insert({
         user_id: user.id,
-        full_name:
-          user.user_metadata?.full_name ||
-          user.email?.split("@")[0] ||
-          "Doctor",
+        full_name: user.user_metadata?.full_name ?? null,
         email: user.email!,
         locale: locale === "id" ? "id" : "in",
         onboarding_completed: false,
       });
-      router.push("/onboarding");
-    } else if (!doctor.onboarding_completed) {
+    }
+
+    // Claim the invite code now that we're authenticated. Best-effort.
+    await fetch("/api/invite/claim", { method: "POST" }).catch(() => {});
+
+    if (!doctor || !doctor.onboarding_completed) {
       router.push("/onboarding");
     } else {
       toast.success(t("welcomeBackToast"), {

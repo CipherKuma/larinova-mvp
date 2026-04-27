@@ -222,6 +222,14 @@
       "popularPulmonology": "Pulmonologi",
       "popularSurgery": "Bedah"
     },
+    "nameStep": {
+      "title": "Siapa nama Anda?",
+      "subtitle": "Nama Anda muncul pada setiap resep yang Anda tandatangani",
+      "firstName": "Nama depan",
+      "lastName": "Nama belakang",
+      "usedOnDocuments": "Digunakan pada resep, surat rujukan, dan komunikasi pasien.",
+      "errorNotSignedIn": "Sesi Anda berakhir. Silakan masuk kembali."
+    },
     "motivationStep": {
       "title": "Apa yang membawa Anda ke sini?",
       "subtitle": "Pilih semua yang sesuai dengan Anda",

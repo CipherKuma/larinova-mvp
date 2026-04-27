@@ -45,6 +45,12 @@ export async function proxy(request: NextRequest) {
     ? pathnameLocale
     : routing.defaultLocale;
 
+  // Demo routes (used to capture cinematic stills for the hero/promo videos)
+  // bypass auth + onboarding entirely — they're public, hardcoded UI shells.
+  if (pathname.includes("/demo/")) {
+    return intlResponse;
+  }
+
   // Use the intlResponse as base to preserve locale headers
   let supabaseResponse = intlResponse;
 
@@ -94,11 +100,32 @@ export async function proxy(request: NextRequest) {
   // Define public routes
   const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
   const isPublicRoute = [
+    "/access",
     "/sign-in",
     "/sign-up",
     "/verify-otp",
     "/auth/callback",
   ].includes(pathWithoutLocale);
+
+  // Pre-auth invite-code gate: unauthed visitors hitting sign-in / sign-up /
+  // OTP verify / auth callback MUST first prove they have a valid invite code
+  // by entering it at /access. The /api/invite/validate endpoint sets a
+  // larinova_invite_token httpOnly cookie which we check here.
+  const requiresInviteToken = [
+    "/sign-in",
+    "/sign-up",
+    "/verify-otp",
+    "/auth/callback",
+  ].includes(pathWithoutLocale);
+  if (
+    !user &&
+    requiresInviteToken &&
+    !request.cookies.get("larinova_invite_token")?.value
+  ) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = `/${locale}/access`;
+    return NextResponse.redirect(redirectUrl);
+  }
 
   // Admin gate: gate /admin and /api/admin to the allowlist.
   //   - Unauthenticated visitors → redirect to sign-in (so the legit
@@ -137,7 +164,9 @@ export async function proxy(request: NextRequest) {
     // Check if onboarding is completed
     const { data: doctorData, error: doctorError } = await supabase
       .from("larinova_doctors")
-      .select("onboarding_completed, locale, invite_code_redeemed_at")
+      .select(
+        "onboarding_completed, locale, invite_code_claimed_at, invite_code_redeemed_at",
+      )
       .eq("user_id", user.id)
       .single();
 
@@ -149,21 +178,26 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    // Invite-code gate: not-yet-onboarded users must redeem before reaching
-    // /onboarding. Already-onboarded users are grandfathered (skip this gate).
+    // Invite-code gate: an authed user without a claim hasn't cleared the
+    // access gate. If they still have a token cookie, they're mid-flow and
+    // /api/invite/claim hasn't fired yet — let them proceed; the auth
+    // callback will run claim shortly. Otherwise bounce them to /access.
     if (
       !doctorData.onboarding_completed &&
-      !doctorData.invite_code_redeemed_at &&
-      !pathname.includes("/redeem")
+      !doctorData.invite_code_claimed_at &&
+      !request.cookies.get("larinova_invite_token")?.value &&
+      !pathname.includes("/access")
     ) {
-      redirectUrl.pathname = `/${locale}/redeem`;
+      redirectUrl.pathname = `/${locale}/access`;
       return NextResponse.redirect(redirectUrl);
     }
 
-    // If onboarding is not completed, redirect to onboarding — but never
-    // pull the user OFF /redeem; they need to redeem first (the gate above
-    // already routes unredeemed users here).
-    if (!doctorData.onboarding_completed && !pathname.includes("/redeem")) {
+    // If onboarding is not completed, redirect to onboarding
+    if (
+      !doctorData.onboarding_completed &&
+      !pathname.includes("/access") &&
+      !pathname.includes("/redeem")
+    ) {
       redirectUrl.pathname = `/${locale}/onboarding`;
       return NextResponse.redirect(redirectUrl);
     }

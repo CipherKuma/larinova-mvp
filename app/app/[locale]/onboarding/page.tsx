@@ -5,6 +5,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { ParticleDust } from "@/components/onboarding/ParticleDust";
 import { ProgressBar } from "@/components/onboarding/ProgressBar";
+import { StepName } from "@/components/onboarding/StepName";
 import { StepMotivation } from "@/components/onboarding/StepMotivation";
 import { StepSpecialty } from "@/components/onboarding/StepSpecialty";
 import { StepRegistration } from "@/components/onboarding/StepRegistration";
@@ -32,28 +33,34 @@ export default function OnboardingPage() {
 
   const stepImages: Record<number, { src: string; alt: string }> = {
     1: {
+      // Step 1 (name) reuses the credentials/profile image — the visual
+      // matches "tell us who you are" better than a blank slot.
+      src: asset("onboarding/step5-registration.jpg"),
+      alt: "Medical credentials verification",
+    },
+    2: {
       src: asset("onboarding/step1-motivation.jpg"),
       alt: "Doctor overwhelmed with paperwork",
     },
-    2: {
+    3: {
       src: asset("onboarding/step2-specialty.jpg"),
       alt: "Medical professional with stethoscope",
     },
-    3: {
+    4: {
       src: asset("onboarding/step3-demo.jpg"),
       alt: "Doctor using voice technology",
     },
-    4: {
+    5: {
       src: asset("onboarding/step4-prescription.jpg"),
       alt: "Digital prescription generation",
     },
-    5: {
+    6: {
       src: asset("onboarding/step5-registration.jpg"),
       alt: "Medical credentials verification",
     },
   };
 
-  const totalSteps = 6;
+  const totalSteps = 7;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -87,10 +94,11 @@ export default function OnboardingPage() {
         return;
       }
 
+      // Persist specialty + locale; consume_invite_code RPC sets
+      // onboarding_completed atomically alongside the invite consumption.
       const updateData = {
         specialization: specialty,
         locale: locale,
-        onboarding_completed: true,
       };
 
       // Try update first — signup flow creates the doctor record
@@ -106,10 +114,7 @@ export default function OnboardingPage() {
           .from("larinova_doctors")
           .insert({
             user_id: user.id,
-            full_name:
-              user.user_metadata?.full_name ||
-              user.email?.split("@")[0] ||
-              "Doctor",
+            full_name: user.user_metadata?.full_name ?? null,
             email: user.email!,
             ...updateData,
           });
@@ -120,6 +125,33 @@ export default function OnboardingPage() {
         }
       }
 
+      // Consume the invite code — this is the moment the code becomes
+      // permanently used. Also sets onboarding_completed = true atomically.
+      try {
+        const consumeRes = await fetch("/api/invite/consume", {
+          method: "POST",
+        });
+        if (!consumeRes.ok) {
+          const body = await consumeRes.json().catch(() => ({}));
+          console.error(
+            "[onboarding] consume_invite_code failed:",
+            body?.error,
+          );
+          // Fall back to flipping onboarding_completed manually so the user
+          // isn't stuck — the invite-code state may need admin attention.
+          await supabase
+            .from("larinova_doctors")
+            .update({ onboarding_completed: true })
+            .eq("user_id", user.id);
+        }
+      } catch (err) {
+        console.error("[onboarding] consume request failed:", err);
+        await supabase
+          .from("larinova_doctors")
+          .update({ onboarding_completed: true })
+          .eq("user_id", user.id);
+      }
+
       window.location.href = `/${locale}`;
     } catch (error) {
       console.error("Error completing onboarding:", error);
@@ -127,7 +159,7 @@ export default function OnboardingPage() {
     }
   }, [specialty, locale]);
 
-  const isCelebration = step === 6;
+  const isCelebration = step === 7;
   const currentImage = stepImages[step];
 
   return (
@@ -178,27 +210,35 @@ export default function OnboardingPage() {
             {/* Form content — matches image padding so actions align with image bottom */}
             <div className="flex-1 min-h-0 flex flex-col px-6 lg:px-8 xl:px-12 pb-10 xl:pb-14">
               <div className="w-full max-w-xl flex-1 min-h-0 flex flex-col">
-                {step === 1 && <StepMotivation onContinue={() => setStep(2)} />}
-                {step === 2 && (
+                {step === 1 && (
+                  <StepName
+                    onContinue={(fn, ln) => {
+                      setDoctorName(`${fn} ${ln}`);
+                      setStep(2);
+                    }}
+                  />
+                )}
+                {step === 2 && <StepMotivation onContinue={() => setStep(3)} />}
+                {step === 3 && (
                   <StepSpecialty
                     onContinue={(s) => {
                       setSpecialty(s);
-                      setStep(3);
-                    }}
-                    onBack={() => setStep(1)}
-                  />
-                )}
-                {step === 3 && (
-                  <StepMagic
-                    onContinue={(transcript, soap) => {
-                      if (transcript) setSoapTranscript(transcript);
-                      if (soap) setSoapNote(soap);
                       setStep(4);
                     }}
                     onBack={() => setStep(2)}
                   />
                 )}
                 {step === 4 && (
+                  <StepMagic
+                    onContinue={(transcript, soap) => {
+                      if (transcript) setSoapTranscript(transcript);
+                      if (soap) setSoapNote(soap);
+                      setStep(5);
+                    }}
+                    onBack={() => setStep(3)}
+                  />
+                )}
+                {step === 5 && (
                   <StepPrescription
                     doctorName={doctorName}
                     degrees={regData.degrees}
@@ -206,17 +246,17 @@ export default function OnboardingPage() {
                     registrationCouncil={regData.registrationCouncil}
                     soapTranscript={soapTranscript}
                     soapNote={soapNote}
-                    onContinue={() => setStep(5)}
-                    onBack={() => setStep(3)}
+                    onContinue={() => setStep(6)}
+                    onBack={() => setStep(4)}
                   />
                 )}
-                {step === 5 && (
+                {step === 6 && (
                   <StepRegistration
                     onContinue={(data) => {
                       setRegData(data);
-                      setStep(6);
+                      setStep(7);
                     }}
-                    onBack={() => setStep(4)}
+                    onBack={() => setStep(5)}
                   />
                 )}
               </div>

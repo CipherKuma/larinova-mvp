@@ -47,19 +47,24 @@ export default function AuthCallbackPage() {
         .single();
 
       if (!doctor) {
-        // New user — create minimal doctor profile, then go to onboarding
+        // New user — create minimal doctor profile (name will be captured
+        // in onboarding step 1, so don't fabricate one from the email
+        // prefix). full_name is intentionally NULL.
         await supabase.from("larinova_doctors").insert({
           user_id: user.id,
-          full_name:
-            user.user_metadata?.full_name ||
-            user.email?.split("@")[0] ||
-            "Doctor",
+          full_name: user.user_metadata?.full_name ?? null,
           email: user.email!,
           locale: locale === "id" ? "id" : "in",
           onboarding_completed: false,
         });
-        router.push(`/${locale}/onboarding`);
-      } else if (!doctor.onboarding_completed) {
+      }
+
+      // Claim the invite code now that we're authenticated. Best-effort —
+      // the proxy will bounce the user to /access on the next nav if this
+      // fails (e.g. cookie expired between code entry and OTP verify).
+      await fetch("/api/invite/claim", { method: "POST" }).catch(() => {});
+
+      if (!doctor || !doctor.onboarding_completed) {
         router.push(`/${locale}/onboarding`);
       } else {
         router.push(`/${locale}`);

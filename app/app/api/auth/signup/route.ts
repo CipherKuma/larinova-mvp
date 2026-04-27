@@ -133,6 +133,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Claim the invite code if a token cookie is present. Best-effort —
+    // signup with password sets the session immediately, so the user-scoped
+    // RPC call below acts on the new auth.uid().
+    try {
+      const cookieStore = await import("next/headers").then((m) => m.cookies());
+      const code = (await cookieStore).get("larinova_invite_token")?.value;
+      if (code) {
+        await supabase.rpc("claim_invite_code", { p_code: code.toUpperCase() });
+      }
+    } catch (err) {
+      console.error("[signup] claim_invite_code failed:", err);
+      // Non-fatal — proxy will bounce the user to /access on next nav.
+    }
+
     return NextResponse.json({
       success: true,
       user: {

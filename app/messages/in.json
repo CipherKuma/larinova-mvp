@@ -222,6 +222,14 @@
       "popularPulmonology": "Pulmonology",
       "popularSurgery": "Surgery"
     },
+    "nameStep": {
+      "title": "What should we call you?",
+      "subtitle": "Your name appears on every prescription you sign",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "usedOnDocuments": "Used on prescriptions, referral letters, and patient communications.",
+      "errorNotSignedIn": "Your session expired. Please sign in again."
+    },
     "motivationStep": {
       "title": "What brings you here?",
       "subtitle": "Select everything that resonates",
