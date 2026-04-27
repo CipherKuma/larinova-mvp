@@ -1,4 +1,15 @@
 {
+  "access": {
+    "title": "Use your invite link or code",
+    "subtitle": "Tap Get Started in your invite email, or paste the invite code below. Both take you to the same signup flow.",
+    "label": "Invite code",
+    "placeholder": "LARINOVA-XXXXX",
+    "submit": "Continue",
+    "submitting": "Checking...",
+    "errorInvalid": "That code is invalid or has already been used.",
+    "errorMalformed": "Code looks malformed. Check the email we sent and try again.",
+    "errorUnknown": "Something went wrong. Please try again."
+  },
   "redeem": {
     "title": "Enter your invite code",
     "subtitle": "Larinova is invite-only during alpha. Paste the code we sent you to unlock 30 days of Pro.",

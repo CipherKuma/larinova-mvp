@@ -1,4 +1,15 @@
 {
+  "access": {
+    "title": "Gunakan tautan atau kode undangan",
+    "subtitle": "Ketuk Get Started di email undangan Anda, atau tempel kode undangan di bawah. Keduanya membuka alur pendaftaran yang sama.",
+    "label": "Kode undangan",
+    "placeholder": "LARINOVA-XXXXX",
+    "submit": "Lanjutkan",
+    "submitting": "Memeriksa...",
+    "errorInvalid": "Kode ini tidak valid atau sudah digunakan.",
+    "errorMalformed": "Format kode tidak benar. Periksa email yang kami kirim dan coba lagi.",
+    "errorUnknown": "Terjadi kesalahan. Silakan coba lagi."
+  },
   "redeem": {
     "title": "Masukkan kode undangan Anda",
     "subtitle": "Larinova bersifat undangan selama alpha. Tempel kode yang kami kirimkan untuk membuka 30 hari Pro.",
