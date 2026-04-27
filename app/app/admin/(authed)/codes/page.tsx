@@ -1,10 +1,18 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServiceClient } from "@supabase/supabase-js";
 import { InviteDoctorModal } from "./InviteDoctorModal";
 
 export const dynamic = "force-dynamic";
 
+// Service-role read. larinova_invite_codes has RLS enabled with no SELECT
+// policy, so the user-JWT client returns nothing — even for an admin.
+// The /admin/(authed) layout gates this page on requireAdmin() before we
+// get here, so the privileged read is authorized.
 async function fetchCodes() {
-  const supabase = await createClient();
+  const supabase = createServiceClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } },
+  );
   const { data: codes } = await supabase
     .from("larinova_invite_codes")
     .select(
