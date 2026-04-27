@@ -43,6 +43,7 @@ export async function POST(req: Request) {
       await sendAlphaWelcomeEmail({
         to: user.email,
         fullName: doctor?.full_name ?? null,
+        code: parsed.code.toUpperCase(),
       });
     } catch (e) {
       console.error("[invite/redeem] email send failed:", e);

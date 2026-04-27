@@ -29,6 +29,60 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
+  // ADMIN — short-circuit BEFORE next-intl. Admin lives at root /admin
+  // (no locale prefix); next-intl would otherwise rewrite it to
+  // /in/admin and we'd lose the admin gating. Doctor sign-in / invite
+  // gate / onboarding NEVER apply to admin URLs.
+  const adminPathname = request.nextUrl.pathname;
+  const isAdminPath =
+    adminPathname === "/admin" ||
+    adminPathname.startsWith("/admin/") ||
+    adminPathname.startsWith("/api/admin/");
+  if (isAdminPath) {
+    const adminPublicPaths = ["/admin/sign-in", "/api/admin/check-email"];
+    const isAdminPublic = adminPublicPaths.some(
+      (p) => adminPathname === p || adminPathname.startsWith(p + "/"),
+    );
+    if (isAdminPublic) {
+      return NextResponse.next();
+    }
+    // Authed-admin check needs the supabase session — set it up minimally.
+    let preAuthResponse = NextResponse.next();
+    const adminSupabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              preAuthResponse.cookies.set(name, value, options),
+            );
+          },
+        },
+      },
+    );
+    const {
+      data: { user: adminUser },
+    } = await adminSupabase.auth.getUser();
+    const { isAdminEmail } = await import("@/lib/admin");
+    if (!adminUser) {
+      if (adminPathname.startsWith("/api/admin/")) {
+        return new NextResponse(null, { status: 401 });
+      }
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/admin/sign-in";
+      redirectUrl.searchParams.set("next", adminPathname);
+      return NextResponse.redirect(redirectUrl);
+    }
+    if (!isAdminEmail(adminUser.email)) {
+      return new NextResponse(null, { status: 404 });
+    }
+    return preAuthResponse;
+  }
+
   // Handle next-intl routing first
   const intlResponse = intlMiddleware(request);
 
@@ -126,43 +180,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // Admin gate: /admin (root, no locale) and /api/admin/* are isolated
-  // from the doctor flow entirely — separate sign-in, no invite-code
-  // gate, no onboarding gate, no locale prefix.
-  //   - /admin/sign-in + /api/admin/check-email → public (anyone can
-  //     hit them; the actual admin email check happens server-side)
-  //   - /admin/* + /api/admin/* (other) → require an authed admin user
-  //   - Unauthed → redirect to /admin/sign-in (NOT the doctor sign-in)
-  //   - Authed non-admin → 404 (hide existence)
-  //   - Authed admin → pass through immediately, skipping every other
-  //     gate (invite, onboarding, locale)
-  const isAdminPath =
-    pathname === "/admin" ||
-    pathname.startsWith("/admin/") ||
-    pathname.startsWith("/api/admin/");
-  if (isAdminPath) {
-    const { isAdminEmail } = await import("@/lib/admin");
-    const adminPublicPaths = ["/admin/sign-in", "/api/admin/check-email"];
-    const isAdminPublic = adminPublicPaths.some(
-      (p) => pathname === p || pathname.startsWith(p + "/"),
-    );
-    if (isAdminPublic) {
-      return supabaseResponse;
-    }
-    if (!user) {
-      if (pathname.startsWith("/api/admin/")) {
-        return new NextResponse(null, { status: 401 });
-      }
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/admin/sign-in";
-      redirectUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(redirectUrl);
-    }
-    if (!isAdminEmail(user.email)) {
-      return new NextResponse(null, { status: 404 });
-    }
-    return supabaseResponse;
-  }
+  // (admin gating handled at the top of the proxy, before next-intl)
 
   // If user is not authenticated and trying to access protected route
   if (!user && !isPublicRoute && !pathname.includes("/api")) {
