@@ -3,7 +3,7 @@
 import { Link, useRouter } from "@/src/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import {
-  Calendar,
+  Users,
   FileText,
   HelpCircle,
   CreditCard,
@@ -101,7 +101,7 @@ export function MobileMoreSheet({ open, onClose }: Props) {
   };
 
   const items: { href: string; icon: LucideIcon; label: string }[] = [
-    { href: "/calendar", icon: Calendar, label: t("navigation.calendar") },
+    { href: "/patients", icon: Users, label: t("navigation.patients") },
     { href: "/documents", icon: FileText, label: t("navigation.documents") },
     { href: "/issues", icon: HelpCircle, label: "Issues" },
   ];
@@ -118,7 +118,7 @@ export function MobileMoreSheet({ open, onClose }: Props) {
       {open && (
         <>
           <motion.div
-            className="md:hidden fixed inset-0 z-50 bg-foreground/40 backdrop-blur-[2px]"
+            className="md:hidden fixed inset-0 z-50 bg-black/55 backdrop-blur-[2px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -195,36 +195,8 @@ export function MobileMoreSheet({ open, onClose }: Props) {
 
             <div className="h-px bg-border/60 mx-4 my-2" />
 
-            {/* Region switcher */}
-            <div className="px-4 py-2">
-              <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2 px-1">
-                Region
-              </div>
-              <div className="flex gap-2">
-                {REGIONS.map((r) => {
-                  const active = r.code === locale;
-                  return (
-                    <button
-                      key={r.code}
-                      onClick={() => switchRegion(r.code)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium border transition-colors min-h-[48px] ${
-                        active
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border bg-background text-foreground active:bg-muted/40"
-                      }`}
-                    >
-                      <span className="text-base leading-none">{r.flag}</span>
-                      <span>{r.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="h-px bg-border/60 mx-4 my-2" />
-
             {/* Logout */}
-            <div className="px-2 pb-3">
+            <div className="px-2 pb-2">
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-red-600 active:bg-red-500/10 min-h-[48px]"
@@ -232,6 +204,37 @@ export function MobileMoreSheet({ open, onClose }: Props) {
                 <LogOut className="w-5 h-5" />
                 <span>{t("common.logout")}</span>
               </button>
+            </div>
+
+            {/* Subtle region switcher — text-only footer, low emphasis */}
+            <div className="px-4 pb-3 flex items-center justify-center gap-3">
+              {REGIONS.map((r, i) => {
+                const active = r.code === locale;
+                return (
+                  <span key={r.code} className="flex items-center gap-3">
+                    <button
+                      onClick={() => switchRegion(r.code)}
+                      className={`text-[11px] tracking-wide ${
+                        active
+                          ? "text-muted-foreground/80 font-medium"
+                          : "text-muted-foreground/50 hover:text-muted-foreground/80"
+                      }`}
+                      aria-label={`Switch region to ${r.label}`}
+                      aria-pressed={active}
+                    >
+                      {r.label}
+                    </button>
+                    {i < REGIONS.length - 1 && (
+                      <span
+                        aria-hidden
+                        className="text-muted-foreground/30 text-[11px]"
+                      >
+                        ·
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
             </div>
           </motion.div>
         </>

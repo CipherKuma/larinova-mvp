@@ -4,7 +4,7 @@ import { Link, usePathname } from "@/src/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import {
   Home,
-  Users,
+  Calendar,
   Stethoscope,
   CheckSquare,
   Menu,
@@ -40,10 +40,10 @@ export function MobileBottomNav() {
       match: (p, l) => isOnPath(p, l, "/"),
     },
     {
-      href: "/patients",
-      icon: Users,
-      label: t("navigation.patients"),
-      match: (p, l) => isOnPath(p, l, "/patients"),
+      href: "/calendar",
+      icon: Calendar,
+      label: t("navigation.calendar"),
+      match: (p, l) => isOnPath(p, l, "/calendar"),
     },
     {
       href: "/consultations",
@@ -59,7 +59,7 @@ export function MobileBottomNav() {
     },
   ];
 
-  const moreActive = ["/calendar", "/documents", "/issues", "/settings"].some(
+  const moreActive = ["/patients", "/documents", "/issues", "/settings"].some(
     (p) => isOnPath(pathname, locale, p),
   );
 
