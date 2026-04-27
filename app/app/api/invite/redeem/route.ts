@@ -31,10 +31,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: result.error }, { status });
   }
 
-  // The welcome-with-invite-code email is sent at admin invite-time
-  // (POST /api/admin/codes/invite). The doctor has already received it
-  // before reaching this redemption step, so we DON'T re-send here —
-  // avoids duplicate-email noise.
+  // The welcome email is sent at admin invite-time. The doctor has already
+  // received it before reaching this redemption step, so we do not re-send here.
 
   if (!result.already_redeemed) {
     trackMilestone("invite_redeemed", {

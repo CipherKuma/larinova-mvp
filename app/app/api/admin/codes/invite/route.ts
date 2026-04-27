@@ -71,8 +71,8 @@ export async function POST(req: Request) {
     );
   }
 
-  // Send the invite email. RPC is best-effort for now: if email fails the
-  // code stays in the table (admin can copy from /admin/codes and resend).
+  // Send the invite email. Delivery is best-effort for now: if email fails the
+  // invite stays in the Doctors table, where admin can copy the code if needed.
   const sent = await sendAlphaWelcomeEmail({
     to: body.email,
     fullName: `${body.firstName} ${body.lastName}`,
