@@ -147,7 +147,7 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
 
     maxDurationTimerRef.current = setTimeout(() => {
       if (!stoppingRef.current) handleStopStreaming();
-    }, 30000);
+    }, 120000);
   };
 
   const handleStopStreaming = useCallback(async () => {
@@ -205,7 +205,7 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
 
       maxDurationTimerRef.current = setTimeout(() => {
         if (!stoppingRef.current) handleStopBatch();
-      }, 30000);
+      }, 120000);
     } catch (err: unknown) {
       const error = err as Error;
       if (

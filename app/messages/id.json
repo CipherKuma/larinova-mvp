@@ -243,7 +243,10 @@
       "hint0": "Mulai konsultasi pertama Anda",
       "hint1": "Tambahkan pasien pertama Anda",
       "hint2": "Jelajahi asisten Helena AI",
-      "takingToDashboard": "Membawa Anda ke dasbor..."
+      "takingToDashboard": "Membawa Anda ke dasbor...",
+      "savingProfile": "Menyimpan profil Anda",
+      "activatingAccount": "Mengaktifkan akun Anda",
+      "preparingDashboard": "Menyiapkan dasbor Anda"
     },
     "prescriptionStep": {
       "title": "Resep Anda, siap dicetak",

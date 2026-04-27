@@ -243,7 +243,10 @@
       "hint0": "Start your first consultation",
       "hint1": "Add your first patient",
       "hint2": "Explore Helena AI assistant",
-      "takingToDashboard": "Taking you to your dashboard..."
+      "takingToDashboard": "Taking you to your dashboard...",
+      "savingProfile": "Saving your profile",
+      "activatingAccount": "Activating your account",
+      "preparingDashboard": "Preparing your dashboard"
     },
     "prescriptionStep": {
       "title": "Your prescriptions, ready to print",

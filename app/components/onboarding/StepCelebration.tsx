@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
@@ -9,6 +9,17 @@ interface StepCelebrationProps {
   specialty: string;
   onComplete: () => void;
 }
+
+// Visual progress phases, sized so the bar fills in ~2.5s minimum even if
+// the actual onComplete work returns instantly. If the RPC takes longer,
+// the bar parks at 100% on the last phase until navigation kicks in.
+const PHASES = [
+  { id: "saving", target: 32, durationMs: 700 },
+  { id: "activating", target: 68, durationMs: 800 },
+  { id: "loading", target: 100, durationMs: 700 },
+] as const;
+
+type PhaseId = (typeof PHASES)[number]["id"];
 
 type ParticleShape = "circle" | "rect" | "star";
 
@@ -230,13 +241,65 @@ export function StepCelebration({
     };
   }, []);
 
-  // Auto-redirect after 3s
+  // Real-feeling progress: kick off onComplete IMMEDIATELY (the actual work
+  // — DB writes, invite consume RPC, navigation) and in parallel animate a
+  // phased progress bar so the doctor sees something happening. If the work
+  // finishes before the bar does, navigation cuts the animation short. If
+  // the work takes longer than ~2.5s, the bar parks at 100% on the last
+  // phase ("Preparing your dashboard…") until navigation kicks in.
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase] = useState<PhaseId>("saving");
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+    onComplete();
+
+    let cancelled = false;
+    const start = Date.now();
+    const totalDuration = PHASES.reduce((sum, p) => sum + p.durationMs, 0);
+
+    const tick = () => {
+      if (cancelled) return;
+      const elapsed = Date.now() - start;
+      // Find the active phase based on elapsed time
+      let acc = 0;
+      let activePhase: PhaseId = PHASES[PHASES.length - 1].id;
+      let pct = 100;
+      for (const p of PHASES) {
+        if (elapsed < acc + p.durationMs) {
+          activePhase = p.id;
+          const phaseStartPct =
+            PHASES.findIndex((x) => x.id === p.id) === 0
+              ? 0
+              : PHASES[PHASES.findIndex((x) => x.id === p.id) - 1].target;
+          const phaseElapsed = elapsed - acc;
+          pct =
+            phaseStartPct +
+            ((p.target - phaseStartPct) * phaseElapsed) / p.durationMs;
+          break;
+        }
+        acc += p.durationMs;
+      }
+      setProgress(Math.min(100, Math.round(pct)));
+      setPhase(activePhase);
+      if (elapsed < totalDuration) {
+        requestAnimationFrame(tick);
+      }
+    };
+
+    const id = requestAnimationFrame(tick);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(id);
+    };
+    // onComplete is intentionally not in deps — we want this to run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const phaseLabel: Record<PhaseId, string> = {
+    saving: t("savingProfile"),
+    activating: t("activatingAccount"),
+    loading: t("preparingDashboard"),
+  };
 
   const words = t("readyDr", { name: doctorName }).split(" ");
 
@@ -287,14 +350,33 @@ export function StepCelebration({
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2 }}
-          className="text-xs text-muted-foreground/50 mt-8"
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8, duration: 0.4 }}
+          className="mt-10 mx-auto max-w-xs"
         >
-          {t("takingToDashboard")}
-        </motion.p>
+          <div className="flex items-center justify-between mb-2 text-xs">
+            <span className="text-foreground/70">{phaseLabel[phase]}</span>
+            <span className="font-mono tabular-nums text-foreground/50">
+              {progress}%
+            </span>
+          </div>
+          <div
+            className="h-1.5 w-full rounded-full bg-foreground/10 overflow-hidden"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label={phaseLabel[phase]}
+          >
+            <motion.div
+              className="h-full bg-gradient-to-r from-primary to-emerald-300"
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.2, ease: "linear" }}
+            />
+          </div>
+        </motion.div>
       </div>
     </div>
   );
