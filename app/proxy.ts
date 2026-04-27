@@ -7,21 +7,20 @@ import { routing } from "./src/i18n/routing";
 const intlMiddleware = createIntlMiddleware(routing);
 
 export async function proxy(request: NextRequest) {
-  // Root path "/" — internally rewrite to the geo-appropriate sign-in page
-  // so the URL stays "/" but the content comes from the existing
-  // [locale]/(auth)/sign-in page. Payment-gateway verifiers (Razorpay)
-  // and SEO crawlers get a 200 with the real sign-in UI, no redirect.
-  // After the user signs in / signs up, the sign-in page navigates to
-  // /in/... or /id/... for the authenticated product flow.
+  // Root path "/" — redirect (NOT rewrite) to the geo-appropriate sign-in
+  // page so the proxy re-runs on the new URL and the invite-code access
+  // gate fires. With a rewrite the proxy returns early and unauthed
+  // visitors saw the sign-in form directly, bypassing /access entirely.
+  // Razorpay / SEO crawlers follow 307 redirects fine.
   if (request.nextUrl.pathname === "/") {
     const country =
       request.headers.get("x-vercel-ip-country") ||
       request.headers.get("cf-ipcountry") ||
       null;
     const targetLocale = country === "ID" ? "id" : "in";
-    const rewriteUrl = request.nextUrl.clone();
-    rewriteUrl.pathname = `/${targetLocale}/sign-in`;
-    const response = NextResponse.rewrite(rewriteUrl);
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = `/${targetLocale}/sign-in`;
+    const response = NextResponse.redirect(redirectUrl);
     response.cookies.set("larinova_locale", targetLocale, {
       maxAge: 60 * 60 * 24 * 365,
       path: "/",

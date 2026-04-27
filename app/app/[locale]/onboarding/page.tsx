@@ -126,7 +126,12 @@ export default function OnboardingPage() {
       }
 
       // Consume the invite code — this is the moment the code becomes
-      // permanently used. Also sets onboarding_completed = true atomically.
+      // permanently used. The RPC sets onboarding_completed = true
+      // atomically alongside consumed_at, so we DO NOT update that flag
+      // ourselves. If consume fails the user must clear the access gate
+      // before they can finish — falling back to UPDATE here would let
+      // anyone bypass the invite system, which is exactly the bug we
+      // are guarding against.
       try {
         const consumeRes = await fetch("/api/invite/consume", {
           method: "POST",
@@ -137,19 +142,26 @@ export default function OnboardingPage() {
             "[onboarding] consume_invite_code failed:",
             body?.error,
           );
-          // Fall back to flipping onboarding_completed manually so the user
-          // isn't stuck — the invite-code state may need admin attention.
-          await supabase
-            .from("larinova_doctors")
-            .update({ onboarding_completed: true })
-            .eq("user_id", user.id);
+          if (body?.error === "no_active_claim") {
+            // No claim yet — they bypassed the access gate somehow.
+            // Send them back to /access to enter a code first.
+            window.location.href = `/${locale}/access`;
+            return;
+          }
+          // Other failures: bubble up. Don't silently flip the flag.
+          savingRef.current = false;
+          alert(
+            "We couldn't finalize your account. Please try again or contact support.",
+          );
+          return;
         }
       } catch (err) {
         console.error("[onboarding] consume request failed:", err);
-        await supabase
-          .from("larinova_doctors")
-          .update({ onboarding_completed: true })
-          .eq("user_id", user.id);
+        savingRef.current = false;
+        alert(
+          "We couldn't finalize your account. Please try again or contact support.",
+        );
+        return;
       }
 
       window.location.href = `/${locale}`;
