@@ -38,9 +38,12 @@ if (!fnMatch) {
   console.error("Could not extract generateAlphaWelcomeHtml from email.ts");
   process.exit(1);
 }
+const sampleCode = process.env.SAMPLE_CODE || "LARINOVA-A7K9";
 let html = fnMatch[1]
   .replace(/\$\{name\}/g, escHtml(firstName))
+  .replace(/\$\{codeSafe\}/g, escHtml(sampleCode))
   .replace(/\$\{dashboardUrl\}/g, "https://app.larinova.com")
+  .replace(/\$\{accessUrl\}/g, `https://app.larinova.com/in/access?invite=${encodeURIComponent(sampleCode)}`)
   .replace(/\$\{videoUrl\}/g, "https://www.youtube.com/watch?v=XA01CrBcoq0")
   .replace(/\$\{videoThumb\}/g, "/welcome-video-thumb.png");
 

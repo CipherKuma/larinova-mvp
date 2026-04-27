@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { CodeGenerateModal } from "./CodeGenerateModal";
+import { InviteDoctorModal } from "./InviteDoctorModal";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,10 @@ export default async function CodesPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Invite codes</h1>
-        <CodeGenerateModal />
+        <div className="flex items-center gap-2">
+          <CodeGenerateModal />
+          <InviteDoctorModal />
+        </div>
       </div>
       <div className="rounded-lg border border-border bg-card overflow-hidden">
         <table className="w-full text-sm">

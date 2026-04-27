@@ -539,8 +539,11 @@ function generateAlphaWelcomeHtml({
         <tr>
           <td class="dm-body" style="padding:36px 40px 32px;">
 
+            <p class="dm-text" style="margin:0 0 18px; font-size:16px; color:#2a2a2a; line-height:1.7;">
+              Hi Dr. ${name},
+            </p>
             <p class="dm-text" style="margin:0 0 28px; font-size:16px; color:#2a2a2a; line-height:1.7;">
-              I added you personally to the alpha. Genuinely — thank you for trying this. We built Larinova so you can spend your consult with the patient, not your screen.
+              I added you to the Larinova alpha myself. Genuinely — thank you for being open to trying something this early. I built this because too many doctors I know finish their day at 9 PM still typing notes from a 3 PM consult. I want that hour of your life back.
             </p>
 
             <!-- invite code box (the headline ask) -->
@@ -620,6 +623,11 @@ function generateAlphaWelcomeHtml({
               </tr>
             </table>
 
+            <!-- personal hello note above the video -->
+            <p class="dm-text" style="margin:8px 0 14px; font-size:14px; color:#3d4f56; line-height:1.6; text-align:center;">
+              I recorded a quick hello — 40 seconds, just me saying thanks and what to try first.
+            </p>
+
             <!-- video tile (composite thumbnail with baked-in play button) -->
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
               <tr>
@@ -636,8 +644,8 @@ function generateAlphaWelcomeHtml({
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-signoff-border" style="border-top:1px solid #eef0f3;">
               <tr>
                 <td style="padding:28px 0 0;">
-                  <p class="dm-text" style="margin:0 0 12px; font-size:14px; color:#2a2a2a; line-height:1.7;">Larinova exists because clinicians like you are willing to try something new. We don't take that lightly.</p>
-                  <p class="dm-text" style="margin:0 0 16px; font-size:14px; color:#2a2a2a; line-height:1.7;">If anything feels off — even a small thing — please tell us. The next 30 days are yours to shape.</p>
+                  <p class="dm-text" style="margin:0 0 12px; font-size:14px; color:#2a2a2a; line-height:1.7;">If anything feels off — even a small thing — just hit reply. I'll be on the other side of every email. The next 30 days are yours to shape.</p>
+                  <p class="dm-text" style="margin:0 0 16px; font-size:14px; color:#2a2a2a; line-height:1.7;">Welcome aboard.</p>
                   <div class="dm-text-strong" style="font-size:14px; color:#0a1224; font-weight:600;">— Gabriel</div>
                   <div class="dm-text-muted" style="font-size:12px; color:#6a7681; font-weight:500; margin-top:2px;">Founder, Larinova</div>
                 </td>
