@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   if (!isAdminEmail(parsed.email)) {
     return NextResponse.json({ error: "not_admin" }, { status: 403 });
   }
+  const email = parsed.email.toLowerCase();
 
   const sb = createServiceClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,8 +32,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "lookup_failed" }, { status: 500 });
   }
   const found = list.users.find(
-    (u) => u.email?.toLowerCase() === parsed.email.toLowerCase(),
+    (u) => u.email?.toLowerCase() === email,
   );
+  if (!found) {
+    const { error: createError } = await sb.auth.admin.createUser({
+      email,
+      email_confirm: true,
+      user_metadata: { role: "admin" },
+    });
+    if (createError) {
+      return NextResponse.json(
+        { error: "admin_user_create_failed" },
+        { status: 500 },
+      );
+    }
+    return NextResponse.json({ hasPassword: false });
+  }
 
   // Auth users created via password sign-up have an "encrypted_password"
   // backing — but the admin SDK doesn't surface it. Use last_sign_in_at +
