@@ -21,7 +21,6 @@ Ship the India OPD platform end-to-end: booking → intake → AI-prepared consu
 
 ## Open
 - Razorpay dashboard login deferred (user will provide keys/plan IDs later)
-- DNS for `patient.larinova.com` subdomain pending
 - MSG91 DLT template approvals need to be filed (for v1.1 SMS)
 - Meta WhatsApp Business Verification — paperwork to file (GST cert, business registration), gates v1.1 WhatsApp
 - 5 pilot doctor emails to be added to `PRO_WHITELIST`

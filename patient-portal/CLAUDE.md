@@ -22,7 +22,7 @@ Plus: `/login` (magic-link) + `/auth/callback` (OTP exchange).
 - Mobile-first, single-column, no chrome (no sidebar, no top nav).
 - `max-w-md` on forms, `max-w-2xl` on content.
 - Large tap targets (44px minimum).
-- System dark/light mode via `prefers-color-scheme`.
+- Dark theme only — same brand palette as the doctor app and landing (background `#0a0f1e`, primary `#10b981`, fonts Inter/Outfit/IBM Plex Mono). See `app/globals.css`.
 - No i18n for v1 (English only). Spec says `in` locale only; `id` deferred.
 - Auth gate lives in `proxy.ts` (Next 16 renamed `middleware.ts` → `proxy.ts`).
 
