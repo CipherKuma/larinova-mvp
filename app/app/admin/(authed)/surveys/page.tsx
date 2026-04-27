@@ -12,8 +12,9 @@ export default async function SurveysPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-end">
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-semibold">Survey responses</h1>
         <a
           className="text-sm underline text-muted-foreground hover:text-foreground"
           href="/api/admin/surveys/export"

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -57,46 +56,32 @@ function isThisWeek(iso: string) {
   return new Date(iso) >= new Date(Date.now() - 7 * 86_400_000);
 }
 
-// ─── chart palette ────────────────────────────────────────────────────────────
+// Chart palette pulls from the theme via CSS variables. Recharts can't read
+// CSS vars directly, so we use the resolved hex equivalents that match
+// the dark theme token values.
+const PRIMARY = "#10b981"; // primary (emerald)
+const ACCENT_BLUE = "#3b82f6";
+const ACCENT_TEAL = "#0d9488";
 
-const EMERALD = "#10b981";
-const BLUE = "#3b82f6";
-const TEAL = "#0d9488";
-
-const FADE_UP: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.07,
-      duration: 0.4,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  }),
-};
-
-// ─── custom tooltip ───────────────────────────────────────────────────────────
+// ─── tooltip — themed ────────────────────────────────────────────────────────
 
 const ChartTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border border-white/10 bg-[#0d1117]/90 px-3 py-2 text-xs backdrop-blur-md shadow-xl">
-      <p className="text-white/60 mb-0.5 max-w-[180px] truncate">
+    <div className="rounded-md border border-border bg-card px-3 py-2 text-xs shadow-md">
+      <p className="text-muted-foreground mb-0.5 max-w-[180px] truncate">
         {payload[0].payload.name}
       </p>
-      <p className="font-mono text-emerald-400 font-semibold">
+      <p className="font-mono text-primary font-semibold">
         {payload[0].value} response{payload[0].value !== 1 ? "s" : ""}
       </p>
     </div>
   );
 };
 
-// ─── HorizBar ────────────────────────────────────────────────────────────────
-
 function HorizBar({
   data,
-  color = EMERALD,
+  color = PRIMARY,
   maxItems = 10,
 }: {
   data: { name: string; count: number }[];
@@ -106,8 +91,8 @@ function HorizBar({
   const rows = data.slice(0, maxItems);
   if (!rows.length)
     return (
-      <p className="text-center text-xs text-white/20 py-8 font-mono">
-        NO DATA YET
+      <p className="text-center text-xs text-muted-foreground py-8">
+        No data yet
       </p>
     );
   const h = Math.max(rows.length * 38 + 30, 80);
@@ -120,7 +105,8 @@ function HorizBar({
       >
         <XAxis
           type="number"
-          tick={{ fill: "#ffffff30", fontSize: 10, fontFamily: "monospace" }}
+          tick={{ fill: "currentColor", fontSize: 10 }}
+          className="text-muted-foreground/60"
           axisLine={false}
           tickLine={false}
           allowDecimals={false}
@@ -129,7 +115,8 @@ function HorizBar({
           type="category"
           dataKey="name"
           width={190}
-          tick={{ fill: "#94a3b8", fontSize: 11 }}
+          tick={{ fill: "currentColor", fontSize: 11 }}
+          className="text-muted-foreground"
           axisLine={false}
           tickLine={false}
           tickFormatter={(v: string) =>
@@ -138,15 +125,9 @@ function HorizBar({
         />
         <Tooltip
           content={<ChartTooltip />}
-          cursor={{ fill: "rgba(255,255,255,0.03)" }}
+          cursor={{ fill: "rgba(255,255,255,0.04)" }}
         />
-        <Bar
-          dataKey="count"
-          radius={[0, 4, 4, 0]}
-          isAnimationActive
-          animationDuration={800}
-          animationEasing="ease-out"
-        >
+        <Bar dataKey="count" radius={[0, 4, 4, 0]}>
           {rows.map((_, i) => (
             <Cell
               key={i}
@@ -160,35 +141,6 @@ function HorizBar({
   );
 }
 
-// ─── primitives ───────────────────────────────────────────────────────────────
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <div className="h-3.5 w-0.5 rounded-full bg-emerald-500/70" />
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
-        {children}
-      </span>
-    </div>
-  );
-}
-
-function GlassCard({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`rounded-xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm p-5 ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
 function ChartCard({
   title,
   children,
@@ -197,46 +149,39 @@ function ChartCard({
   children: React.ReactNode;
 }) {
   return (
-    <GlassCard>
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/35 mb-4">
+    <div className="rounded-lg border border-border bg-card p-4">
+      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
         {title}
       </p>
       {children}
-    </GlassCard>
+    </div>
   );
 }
-
-// ─── metric card ─────────────────────────────────────────────────────────────
 
 function MetricCard({
   label,
   value,
-  accent = false,
-  i,
 }: {
   label: string;
   value: string | number;
-  accent?: boolean;
-  i: number;
 }) {
   return (
-    <motion.div
-      custom={i}
-      variants={FADE_UP}
-      initial="hidden"
-      animate="visible"
-      className="group relative rounded-xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm px-5 py-4 overflow-hidden hover:border-emerald-500/20 transition-colors duration-300"
-    >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_70%)]" />
-      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/30 mb-2">
+    <div className="rounded-lg border border-border bg-card px-4 py-3">
+      <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
         {label}
       </p>
-      <p
-        className={`font-mono text-3xl font-bold leading-none ${accent ? "text-emerald-400" : "text-white"}`}
-      >
+      <p className="text-2xl font-semibold text-foreground tabular-nums">
         {value}
       </p>
-    </motion.div>
+    </div>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-sm font-semibold text-foreground/80 mb-3">
+      {children}
+    </h2>
   );
 }
 
@@ -264,102 +209,64 @@ export default function AdminDashboard({
   );
 
   return (
-    <div className="min-h-screen bg-[#060610] text-white">
-      {/* Pulse line */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent animate-pulse" />
+    <div className="space-y-8">
+      {/* Metrics */}
+      <section>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <MetricCard label="Total" value={total} />
+          <MetricCard label="Today" value={today} />
+          <MetricCard label="This week" value={thisWeek} />
+          <MetricCard
+            label="India · Indonesia"
+            value={`${india} · ${indonesia}`}
+          />
+        </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex items-start justify-between"
-        >
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight text-white">
-              Discovery Survey
-            </h1>
-            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/25 mt-1">
-              Admin · localhost only
-            </p>
-          </div>
-          <span className="font-mono text-xs border border-emerald-500/25 bg-emerald-500/8 text-emerald-400 px-3 py-1.5 rounded-full">
-            {total} response{total !== 1 ? "s" : ""}
-          </span>
-        </motion.div>
+      {/* Pain points */}
+      <section>
+        <SectionLabel>Pain points</SectionLabel>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <ChartCard title="Problems cited">
+            <HorizBar data={problemsData} color={PRIMARY} />
+          </ChartCard>
+          <ChartCard title="Top priorities">
+            <HorizBar data={prioritiesData} color={ACCENT_TEAL} />
+          </ChartCard>
+        </div>
+      </section>
 
-        {/* Metrics */}
-        <section>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <MetricCard i={0} label="Total" value={total} />
-            <MetricCard i={1} label="Today" value={today} accent={today > 0} />
-            <MetricCard i={2} label="This week" value={thisWeek} />
-            <MetricCard
-              i={3}
-              label="🇮🇳 India · 🇮🇩 Indonesia"
-              value={`${india} · ${indonesia}`}
-            />
-          </div>
-        </section>
+      {/* Patterns */}
+      <section>
+        <SectionLabel>Doctor profile patterns</SectionLabel>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <ChartCard title="Specialization">
+            <HorizBar data={specData} color={PRIMARY} />
+          </ChartCard>
+          <ChartCard title="Cities (top 10)">
+            <HorizBar data={cityData} color={ACCENT_BLUE} />
+          </ChartCard>
+          <ChartCard title="Patients per day">
+            <HorizBar data={patientsData} color={ACCENT_BLUE} />
+          </ChartCard>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <ChartCard title="Paperwork time per day">
+            <HorizBar data={paperworkData} color={ACCENT_TEAL} />
+          </ChartCard>
+          <ChartCard title="Current data storage methods">
+            <HorizBar data={storageData} color={ACCENT_TEAL} />
+          </ChartCard>
+        </div>
+      </section>
 
-        {/* Pain Points */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <SectionLabel>Pain Points</SectionLabel>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <ChartCard title="Problems cited">
-              <HorizBar data={problemsData} color={EMERALD} />
-            </ChartCard>
-            <ChartCard title="Top priorities">
-              <HorizBar data={prioritiesData} color={TEAL} />
-            </ChartCard>
-          </div>
-        </motion.section>
-
-        {/* Patterns */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          <SectionLabel>Doctor Profile Patterns</SectionLabel>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <ChartCard title="Specialization">
-              <HorizBar data={specData} color={EMERALD} />
-            </ChartCard>
-            <ChartCard title="Cities (top 10)">
-              <HorizBar data={cityData} color={BLUE} />
-            </ChartCard>
-            <ChartCard title="Patients per day">
-              <HorizBar data={patientsData} color={BLUE} />
-            </ChartCard>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-            <ChartCard title="Paperwork time per day">
-              <HorizBar data={paperworkData} color={TEAL} />
-            </ChartCard>
-            <ChartCard title="Current data storage methods">
-              <HorizBar data={storageData} color={TEAL} />
-            </ChartCard>
-          </div>
-        </motion.section>
-
-        {/* Table */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <SectionLabel>All Submissions ({total})</SectionLabel>
-          <GlassCard>
-            <SubmissionsTable responses={responses} />
-          </GlassCard>
-        </motion.section>
-      </div>
+      {/* Submissions table */}
+      <section>
+        <SectionLabel>All submissions ({total})</SectionLabel>
+        <div className="rounded-lg border border-border bg-card overflow-hidden">
+          <SubmissionsTable responses={responses} />
+        </div>
+      </section>
     </div>
   );
 }
