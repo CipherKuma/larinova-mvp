@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HealthRecordsView from "@/components/patients/HealthRecordsView";
 import ConsultationsView from "@/components/patients/ConsultationsView";
-import InsuranceView from "@/components/patients/InsuranceView";
 import PrescriptionsView from "@/components/patients/PrescriptionsView";
 import { PatientNarrativeCard } from "@/components/patients/patient-narrative-card";
 import { FollowUpThreadView } from "@/components/patients/follow-up-thread-view";
@@ -156,12 +155,6 @@ export default async function PatientDetailPage({
               {t("patients.prescriptions")}
             </TabsTrigger>
             <TabsTrigger
-              value="insurance"
-              className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
-            >
-              {t("patients.insurance")}
-            </TabsTrigger>
-            <TabsTrigger
               value="follow-ups"
               className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm text-sm px-3 py-2 min-h-[40px] shrink-0"
             >
@@ -180,10 +173,6 @@ export default async function PatientDetailPage({
 
             <TabsContent value="prescriptions" className="mt-0">
               <PrescriptionsView patientId={id} />
-            </TabsContent>
-
-            <TabsContent value="insurance" className="mt-0">
-              <InsuranceView patientId={id} />
             </TabsContent>
 
             <TabsContent value="follow-ups" className="mt-0">
