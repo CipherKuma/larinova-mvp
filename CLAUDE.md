@@ -1,6 +1,6 @@
 # Larinova
 
-AI medical scribe for doctors in India and Indonesia. Records doctor-patient consultations in the local language, then auto-generates SOAP notes, ICD-10 codes, and prescriptions.
+End-to-end OPD platform for Indian doctors. Patients book online, complete an AI-guided intake, and arrive with the doctor already holding a Prep Brief. During the consult, Larinova transcribes Tamil/Hindi/English speech and produces SOAP notes, ICD-10 codes, and a signed prescription in real time. After the visit, summaries and prescriptions go out by email (SMS + WhatsApp in v1.1), and a wellness agent follows up at days 1, 3, and 7. Indonesia ships the same OPD landing in parallel; the Indonesia app is scribe-only for now.
 
 This repo holds both the code and the ops material, split into subdirs so they can have different MCP configs. The rule: **Gmail/WhatsApp MCPs live inside `ops/`**, so they only load when your CWD is inside that subdir. Code sessions at the repo root (or in `app/`, `landing/`, `patient-portal/`) never see them. See `ops/CLAUDE.md`.
 
@@ -8,7 +8,7 @@ This repo holds both the code and the ops material, split into subdirs so they c
 - **Name**: Larinova (formerly Kosyn)
 - **Domain**: larinova.com
 - **Emails**: hello@larinova.com (primary), contact@larinova.com (secondary)
-- **Tagline**: "AI Medical Scribe for Doctors"
+- **Tagline**: "The OPD assistant for Indian doctors"
 - **Founder**: Gabriel Antony Xaviour
 
 ## Directory structure

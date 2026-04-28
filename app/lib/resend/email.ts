@@ -230,7 +230,7 @@ function generateSummaryEmailHtml({
 <div class="wrapper">
   <div class="header">
     <h1>Larinova</h1>
-    <p>AI Medical Scribe — Consultation Summary</p>
+    <p>Consultation Summary</p>
   </div>
   <div class="body">
     <div class="greeting">
@@ -271,7 +271,7 @@ function generateSummaryEmailHtml({
       <div class="section-body">• Follow all instructions given by your doctor\n• Contact your doctor if symptoms worsen\n• Keep this email for your medical records</div>
     </div>
   </div>
-  <div class="footer"><strong>Larinova — AI Medical Scribe</strong><br>Your medical data is encrypted and private &nbsp;·&nbsp; larinova.com</div>
+  <div class="footer"><strong>Larinova — OPD Assistant for Indian Doctors</strong><br>Your medical data is encrypted and private &nbsp;·&nbsp; larinova.com</div>
 </div>
 </body></html>`;
 }
@@ -331,7 +331,7 @@ function generatePrescriptionEmailHtml({
 <div class="wrapper">
   <div class="header">
     <h1>Larinova</h1>
-    <p>AI Medical Scribe — Prescription</p>
+    <p>Prescription</p>
   </div>
   <div class="body">
     <div class="greeting">
@@ -395,7 +395,7 @@ function generatePrescriptionEmailHtml({
       <div class="section-body">• Take medications exactly as prescribed\n• Complete the full course even if you feel better\n• Report any side effects to your doctor immediately\n• Store medications as directed on the packaging\n• Keep this prescription for your records</div>
     </div>
   </div>
-  <div class="footer"><strong>Larinova — AI Medical Scribe</strong><br>Your medical data is encrypted and private &nbsp;·&nbsp; larinova.com</div>
+  <div class="footer"><strong>Larinova — OPD Assistant for Indian Doctors</strong><br>Your medical data is encrypted and private &nbsp;·&nbsp; larinova.com</div>
 </div>
 </body></html>`;
 }
@@ -646,7 +646,7 @@ function generateAlphaWelcomeHtml({
         <!-- ╭─ footer ─╮ -->
         <tr>
           <td class="dm-footer" style="padding:22px 40px; background:#f8fafc; border-top:1px solid #eef0f3; text-align:center; font-size:12px; color:#6a7681; line-height:1.5;">
-            <strong style="color:#3d4f56;">Larinova</strong> — AI medical scribe<br />
+            <strong style="color:#3d4f56;">Larinova</strong> — OPD assistant for Indian doctors<br />
             <a href="mailto:hello@larinova.com" style="color:#3d4f56; text-decoration:none;">hello@larinova.com</a>
             &nbsp;·&nbsp;
             <a href="https://larinova.com" style="color:#3d4f56; text-decoration:none;">larinova.com</a>

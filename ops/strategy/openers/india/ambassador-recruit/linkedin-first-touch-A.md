@@ -24,7 +24,7 @@ Hi [Name] — saw your work in the [background/industry] space in Tamil Nadu. I'
 
 Thanks for connecting, [Name].
 
-I'm building Larinova — India's first AI medical scribe with full Tamil clinical support, built on Sarvam AI. We're opening a commission ambassador program for healthcare professionals with doctor networks in Tamil Nadu.
+I'm building Larinova — the OPD assistant for Indian doctors. Booking, AI-guided intake, pre-consult Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated wellness follow-up — powered by Sarvam AI. We're opening a commission ambassador program for healthcare professionals with doctor networks in Tamil Nadu.
 
 Doctors save 90 minutes per day on documentation — easy to demonstrate.
 

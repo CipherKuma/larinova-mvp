@@ -11,10 +11,10 @@ export function Footer({ locale }: FooterProps) {
   const c = localeContent[locale].footer;
 
   return (
-    <footer className="relative overflow-hidden border-t border-border pt-16 pb-32 sm:pb-20">
+    <footer className="relative overflow-hidden border-t border-border pt-16 pb-8">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex flex-col items-start justify-between gap-10 md:flex-row">
-          <div>
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-5 lg:col-span-6">
             <div className="flex items-center gap-2 mb-3">
               <Image
                 src="/larinova-icon.png"
@@ -50,89 +50,88 @@ export function Footer({ locale }: FooterProps) {
             </div>
           </div>
 
-          <div className="flex gap-16">
-            <div>
-              <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                {c.sections.product}
-              </h4>
-              <ul className="space-y-2 text-sm text-foreground/60">
-                <li>
-                  <a
-                    href="#features"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.features}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#pricing"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.pricing}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#how-it-works"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.howItWorks}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/blog"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.blog}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`/${locale}/discovery-survey`}
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {locale === "id" ? "Survei Dokter" : "Doctor Survey"}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                {c.sections.company}
-              </h4>
-              <ul className="space-y-2 text-sm text-foreground/60">
-                <li>
-                  <a
-                    href="mailto:hello@larinova.com"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.about}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="mailto:hello@larinova.com"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.contact}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/privacy"
-                    className="transition-colors hover:text-foreground"
-                  >
-                    {c.links.privacy}
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div className="md:col-span-4 lg:col-span-3">
+            <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              {c.sections.product}
+            </h4>
+            <ul className="space-y-2 text-sm text-foreground/60">
+              <li>
+                <a
+                  href="#features"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.features}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#pricing"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.pricing}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#how-it-works"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.howItWorks}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.blog}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`/${locale}/discovery-survey`}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {locale === "id" ? "Survei Dokter" : "Doctor Survey"}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-3 lg:col-span-3">
+            <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              {c.sections.company}
+            </h4>
+            <ul className="space-y-2 text-sm text-foreground/60">
+              <li>
+                <a
+                  href="mailto:hello@larinova.com"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.about}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:hello@larinova.com"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.contact}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/privacy"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {c.links.privacy}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col-reverse items-start justify-between gap-6 border-t border-border pt-8 sm:flex-row sm:items-end">
+        <div className="mt-12 flex flex-col-reverse items-start justify-between gap-6 border-t border-border pt-6 sm:flex-row sm:items-center">
           <div className="font-mono text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Larinova. {c.copyright}
           </div>
@@ -146,15 +145,15 @@ export function Footer({ locale }: FooterProps) {
               : "Listening across India"}
           </div>
         </div>
-      </div>
 
-      {/* Closing wordmark moment — subtle gradient swash */}
-      <div
-        aria-hidden
-        className="pointer-events-none -mt-2 select-none overflow-hidden text-center"
-      >
-        <div className="font-display text-[12vw] font-bold leading-[0.85] tracking-[-0.04em] text-transparent [background:linear-gradient(180deg,rgba(16,185,129,0.10)_0%,rgba(16,185,129,0.01)_100%)] bg-clip-text">
-          Larinova
+        {/* Closing wordmark moment — subtle gradient swash */}
+        <div
+          aria-hidden
+          className="pointer-events-none mt-8 select-none overflow-hidden"
+        >
+          <div className="font-display text-[14vw] font-bold leading-[0.85] tracking-[-0.04em] text-transparent [background:linear-gradient(180deg,rgba(16,185,129,0.22)_0%,rgba(16,185,129,0.04)_100%)] bg-clip-text">
+            Larinova
+          </div>
         </div>
       </div>
     </footer>

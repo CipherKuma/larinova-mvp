@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import PageBackdrop from "@/components/PageBackdrop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,10 @@ export default function RootLayout({
       lang="en"
       className={`dark grain h-full antialiased ${inter.variable} ${outfit.variable} ${ibmPlexMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <PageBackdrop />
+        {children}
+      </body>
     </html>
   );
 }

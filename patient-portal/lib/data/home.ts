@@ -22,6 +22,7 @@ export type RecentPrescription = {
 
 export type HomeData = {
   email: string;
+  patientName: string | null;
   upcoming: UpcomingAppointment | null;
   prescription: RecentPrescription | null;
 };
@@ -54,7 +55,7 @@ export async function loadHomeData(
 
   const { data: patient } = await supabase
     .from("larinova_patients")
-    .select("id")
+    .select("id, full_name")
     .eq("email", email)
     .limit(1)
     .maybeSingle();
@@ -70,7 +71,13 @@ export async function loadHomeData(
     prescription = (rx?.[0] ?? null) as RecentPrescription | null;
   }
 
-  return { email, upcoming, prescription };
+  return {
+    email,
+    patientName:
+      (patient as { full_name?: string | null } | null)?.full_name ?? null,
+    upcoming,
+    prescription,
+  };
 }
 
 export function formatApptTime(

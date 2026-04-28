@@ -27,7 +27,6 @@ export default function PdfDownload({
         window.open(data.signedUrl, "_blank", "noopener,noreferrer");
         return;
       }
-      // Fallback: main app PDF export endpoint
       if (signErr) {
         window.open(
           `${MAIN_APP_URL}/api/prescriptions/${prescriptionId}/pdf`,
@@ -48,20 +47,45 @@ export default function PdfDownload({
   }
 
   return (
-    <section className="space-y-2 rounded-2xl border border-foreground/10 p-5">
-      <h2 className="text-sm font-medium uppercase tracking-wide text-foreground/60">
-        Download
-      </h2>
+    <section className="flex flex-col items-start gap-4 rounded-2xl border border-foreground/10 bg-card/45 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="space-y-1">
+        <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/55">
+          Take it with you
+        </h2>
+        <p className="text-sm text-foreground/80">
+          Print or save the prescription as a PDF — handy at the pharmacy.
+        </p>
+      </div>
       <button
         type="button"
         onClick={onDownload}
         disabled={busy}
-        className="inline-flex h-11 items-center rounded-lg bg-foreground px-5 text-sm font-medium text-background disabled:opacity-60"
+        className="inline-flex h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(16,185,129,0.5)] transition hover:brightness-110 disabled:opacity-60"
       >
-        {busy ? "Preparing…" : "Download PDF"}
+        {busy ? (
+          "Preparing…"
+        ) : (
+          <>
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download PDF
+          </>
+        )}
       </button>
       {error && (
-        <p role="alert" className="text-sm text-red-500">
+        <p role="alert" className="text-sm text-red-400">
           {error}
         </p>
       )}

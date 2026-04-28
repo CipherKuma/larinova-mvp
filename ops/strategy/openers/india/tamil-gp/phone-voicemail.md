@@ -15,9 +15,9 @@ placeholders:
 
 # Voicemail Script
 
-Hi Dr. [Name], this is Gabriel from Larinova. I'm calling because we've built the first AI medical scribe that supports Tamil clinical documentation — your consultations, your patient's language, structured notes automatically.
+Hi Dr. [Name], this is Gabriel from Larinova. I'm calling because we've built the first OPD assistant for Indian doctors — patient booking, AI-guided intake before every consult, real-time SOAP notes in Tamil, and automated follow-up at days 1, 3, and 7. Your patients, your language, structured care end to end.
 
-Doctors in our early access are saving 90 minutes a day on documentation. The first month is completely free, no credit card.
+Doctors in our early access are saving 90 minutes a day on documentation alone. The first month is completely free, no credit card.
 
 I'll send you a quick message on WhatsApp with a 60-second demo. Looking forward to connecting — thank you, Doctor.
 

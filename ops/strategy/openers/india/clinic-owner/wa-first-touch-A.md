@@ -22,7 +22,7 @@ Hi [Name], I'm Gabriel — founder of Larinova.
 
 [Personalization Hook]
 
-Larinova is India's only AI scribe with full support for all 22 Indian languages including Tamil — built for Chennai clinics. For a clinic with [number] doctors, you're looking at 90 minutes saved per doctor per day, worth ₹[monthly ROI] per month across your team.
+Larinova is the OPD assistant for Indian doctors — booking, AI-guided intake, a 60-second Prep Brief before every consult, real-time SOAP notes in Tamil/Hindi/English, and automated wellness follow-up. Built for Chennai clinics, the only Indian-language platform of its kind. For a clinic with [number] doctors, you're looking at 90 minutes saved per doctor per day, worth ₹[monthly ROI] per month across your team.
 
 Free 1 month for the whole team. Can I send a quick proposal?
 

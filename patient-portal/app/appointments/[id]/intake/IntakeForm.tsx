@@ -63,12 +63,31 @@ export default function IntakeForm({
     return (
       <div
         role="status"
-        className="rounded-xl border border-foreground/10 bg-foreground/[0.03] p-5 text-base"
+        className="overflow-hidden rounded-2xl border border-primary/25 bg-primary/[0.05] p-6"
       >
-        <p className="font-medium">Thank you.</p>
-        <p className="mt-1 text-foreground/70">
-          Your doctor will review this before your visit.
-        </p>
+        <div className="flex items-start gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </span>
+          <div>
+            <p className="font-display text-lg font-semibold">Thank you.</p>
+            <p className="mt-1 text-sm leading-relaxed text-foreground/70">
+              Your doctor will read this before you walk in. You can edit your
+              answers anytime before the visit.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -76,38 +95,65 @@ export default function IntakeForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4"
+      className="space-y-5"
       aria-label="Intake form"
     >
-      {questions.map((q) => (
-        <label key={q.key} className="block">
-          <span className="text-sm font-medium">{q.label}</span>
+      {questions.map((q, idx) => (
+        <div key={q.key} className="space-y-2">
+          <label
+            htmlFor={`intake-${q.key}`}
+            className="flex items-center gap-2 text-sm font-medium text-foreground/85"
+          >
+            <span className="font-mono text-[10px] tabular-nums tracking-wide text-foreground/40">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            {q.label}
+          </label>
           {q.type === "textarea" ? (
             <textarea
+              id={`intake-${q.key}`}
               {...register(q.key)}
               rows={3}
-              className="mt-1 block w-full rounded-lg border border-foreground/15 bg-transparent px-4 py-3 text-base outline-none transition focus:border-foreground/40"
+              placeholder="Type your answer…"
+              className="block w-full resize-y rounded-xl border border-foreground/12 bg-card/40 px-4 py-3 text-sm text-foreground placeholder:text-foreground/30 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
             />
           ) : (
             <input
+              id={`intake-${q.key}`}
               type="text"
               {...register(q.key)}
-              className="mt-1 block w-full rounded-lg border border-foreground/15 bg-transparent px-4 py-3 text-base outline-none transition focus:border-foreground/40"
+              placeholder="Type your answer…"
+              className="block w-full rounded-xl border border-foreground/12 bg-card/40 px-4 py-3 text-sm text-foreground placeholder:text-foreground/30 outline-none transition focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
             />
           )}
-        </label>
+        </div>
       ))}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-foreground px-4 text-base font-medium text-background disabled:opacity-60"
+        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_8px_24px_-8px_rgba(16,185,129,0.5)] transition hover:brightness-110 disabled:opacity-60 sm:w-auto"
       >
         {isSubmitting ? "Submitting…" : "Submit intake"}
+        {!isSubmitting && (
+          <svg
+            viewBox="0 0 24 24"
+            className="h-3.5 w-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M5 12h14" />
+            <path d="m13 5 7 7-7 7" />
+          </svg>
+        )}
       </button>
 
       {state.kind === "error" && (
-        <p role="alert" className="text-sm text-red-500">
+        <p role="alert" className="text-sm text-red-400">
           {state.message}
         </p>
       )}

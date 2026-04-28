@@ -8,7 +8,7 @@
 
 ## 1. Snapshot
 
-Larinova is an AI medical scribe + full-stack clinical management platform. Primary market: **Indonesia** (180k+ doctors, no AI scribe competitor). Parallel market: **India** (1.1M doctors, Eka.Care is the only AI competitor — English/Hindi only).
+Larinova is an end-to-end OPD platform for Indian doctors — booking, AI-guided intake, pre-consult Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated wellness follow-up — with the AI medical scribe sitting at the centre of the consult. Primary market: **India** (1.1M doctors; Eka.Care is the only AI competitor and it's English/Hindi only with no OPD orchestration). Parallel market: **Indonesia** (180k+ doctors, no AI scribe competitor) — Indonesia ships the same OPD landing while the in-app product remains scribe-only in v1 (intake, follow-up dispatcher, and patient portal deferred for ID).
 
 **Founder-led, agent-augmented, bootstrap.**
 
@@ -39,9 +39,9 @@ Larinova is an AI medical scribe + full-stack clinical management platform. Prim
 **One-liner (ID):** "Larinova — aplikasi lengkap untuk dokter Indonesia, otomatis bikin catatan medis pakai AI, full Bahasa Indonesia."
 
 ### India
-> *The only EMR platform with clinical-grade AI scribe support across all 22 Indian languages. For the 1.1M doctors working in Tamil, Telugu, Bengali, Marathi, and beyond who are underserved by English-primary alternatives. Powered by Sarvam AI, ABDM-native, half the price of Eka.Care.*
+> *The most advanced OPD assistant for Indian doctors. One platform for booking, AI-guided intake, a 60-second Prep Brief before every consult, real-time SOAP notes and prescriptions in Tamil/Hindi/English, and automated wellness follow-up at days 1, 3, and 7. Powered by Sarvam AI, ABDM-native, half the price of Eka.Care — and the only OPD orchestration platform built for solo practice.*
 
-**One-liner (EN):** "Larinova — India's first AI-native EHR with clinical support in all 22 Indian languages."
+**One-liner (EN):** "Larinova — the OPD assistant for Indian doctors. Booking, intake, prep, consult, and follow-up in one place."
 
 ---
 

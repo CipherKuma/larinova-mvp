@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/src/i18n/routing";
 import BetaTranslationBanner from "@/components/layout/BetaTranslationBanner";
 import { SwRegister } from "@/components/pwa/sw-register";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 
 export function generateStaticParams() {
@@ -35,6 +36,7 @@ export default async function LocaleLayout({
       <AnalyticsProvider />
       {children}
       <SwRegister />
+      <InstallPrompt />
     </NextIntlClientProvider>
   );
 }

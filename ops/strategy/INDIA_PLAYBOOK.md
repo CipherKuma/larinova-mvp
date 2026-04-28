@@ -23,12 +23,12 @@ When generating India-market content, Claude should:
 **Stage:** Early-stage SaaS, pre-revenue, currently in launch phase
 **Founder:** Gabriel Antony Xaviour — Chennai-based, Tamil-speaking (assumed; Gabriel to correct if inaccurate)
 **Market:** India — Chennai-first, then all major Indian cities at Day 90+
-**Product category:** Healthcare SaaS — full clinic/hospital management + AI-native automation
+**Product category:** End-to-end OPD platform for Indian doctors — booking, AI-guided intake, pre-consult Prep Brief, real-time multilingual SOAP notes, and automated wellness follow-up.
 
 **India positioning:**
-> *The only EMR platform with clinical-grade AI scribe support across all 22 Indian languages. For the 1.1M doctors working in Tamil, Telugu, Bengali, Marathi, and beyond who are underserved by English-primary alternatives. Powered by Sarvam AI, ABDM-native, half the price of Eka.Care.*
+> *The most advanced OPD assistant for Indian doctors. One platform for booking, AI-guided intake, a 60-second Prep Brief before every consult, real-time SOAP notes and prescriptions in Tamil/Hindi/English, and automated wellness follow-up at days 1, 3, and 7. Powered by Sarvam AI, ABDM-native, half the price of Eka.Care — and the only OPD orchestration platform built for solo practice.*
 
-**One-liner (EN):** "Larinova — India's first AI-native EHR with clinical support in all 22 Indian languages."
+**One-liner (EN):** "Larinova — the OPD assistant for Indian doctors. Booking, intake, prep, consult, and follow-up in one place."
 
 **Tamil tagline:** "உங்கள் நோயாளி பேசும் மொழியில்" *(In the language your patient speaks)*
 
@@ -36,17 +36,22 @@ When generating India-market content, Claude should:
 
 ## 3. Product
 
-Larinova is an all-in-one practice management and AI-powered documentation platform built for Indian healthcare professionals. Unlike Eka.Care — which is a scribe-only product in English and Hindi — Larinova is full-stack and multilingual.
+Larinova is an end-to-end OPD platform for Indian doctors. Where Eka.Care is a scribe-only product in English and Hindi, Larinova orchestrates the entire outpatient journey — booking, intake, pre-consult prep, the consult itself (with multilingual scribe at the centre), and post-consult wellness follow-up — and does it natively in Tamil, Hindi, and English.
 
 ### Core Modules
 
-**Practice Management**
-- Patient records and history management
-- Appointment scheduling and consultation tracking
-- Task management for doctors and clinic staff
-- Full operational management layer (comparable to a healthcare-specific ERP)
+**Patient-facing OPD flow** *(the orchestration layer Eka.Care lacks)*
+- Public booking page; patients pick a slot and self-confirm via email/SMS/WhatsApp
+- AI-guided intake form — patient fills before the consult, AI follows up for missing details, lab uploads accepted
+- Post-consult dispatcher — sends summary + signed prescription via email (SMS + WhatsApp in v1.1)
+- Wellness follow-up agent — checks in at days 1, 3, and 7, classifies replies, escalates to the doctor only when something needs attention
 
-**AI Scribe**
+**Pre-consult AI**
+- Reads the patient's intake, prior history, and uploads
+- Hands the doctor a 60-second Prep Brief the moment the patient arrives
+- Highlights red flags and prior medications
+
+**AI Scribe (the consult itself)**
 - Real-time transcription and summarization of doctor-patient consultations
 - Automatic SOAP note and medical document generation from spoken consultations
 - Supports all 22 Indian languages via **Sarvam AI** — the primary technical differentiator
@@ -68,13 +73,16 @@ Larinova is an all-in-one practice management and AI-powered documentation platf
 | Dimension | Eka.Care | Larinova |
 |---|---|---|
 | Languages | English + Hindi only | All 22 Indian languages (Sarvam AI) |
-| Product scope | AI scribe only | Full clinic management + AI scribe |
+| Product scope | AI scribe only | End-to-end OPD platform: booking, intake, prep, consult scribe, follow-up |
+| Patient booking + intake | None | Public booking page + AI-guided intake form |
+| Pre-consult Prep Brief | None | 60-second AI brief on every patient before they walk in |
+| Wellness follow-up | None | Conversational agent at days 1, 3, 7 (email today; SMS + WhatsApp v1.1) |
 | ABDM native | Partial | Full ABDM / ABHA integration |
 | Price | Higher (see §8) | ~10% less at comparable tier |
 | Tamil support | None | Clinical-grade Tamil AI |
 | Telugu / Bengali / Marathi | None | Supported via Sarvam AI |
 
-**The moat:** Tamil-language doctors have no AI scribe option anywhere. Larinova is the only one.
+**The moat:** Eka.Care stops at the consult; Larinova orchestrates the entire OPD around it. Tamil-language doctors get the only multilingual scribe on the market and a booking-to-follow-up platform built around it — there's no competing offer anywhere.
 
 ---
 
@@ -218,15 +226,15 @@ This is the message that unlocks India. English EMRs lose clinical nuance when a
 |---|---|
 | English EMR misses Tamil symptom nuance — mental translation breaks clinical accuracy | Clinical-grade Tamil AI via Sarvam AI — understands context, not just phonetics |
 | 90 min/day typing notes after 30+ patients | AI writes the note during consultation — review and sign off in under 5 minutes |
-| Paying Eka.Care premium for English-only scribe with no clinic management | Full clinic management + Tamil AI scribe, 10% less than Eka.Care |
+| Paying Eka.Care premium for English-only scribe with no booking or follow-up | Full OPD platform + Tamil-native scribe, 10% less than Eka.Care |
 | ABDM compliance pressure with no clear path | ABDM / ABHA native — no integration work needed |
-| Fragmented tools: separate scheduling + EMR + document apps | All-in-one: records, appointments, AI scribe, document generation |
+| Fragmented tools: separate booking, intake, EMR, scribe, follow-up apps | One platform: booking, intake, prep, consult scribe, dispatcher, wellness follow-up |
 
 ### Competitive Comparison — Eka.Care
 
 Eka.Care is the only direct competitor in India. 65K+ doctors on platform as of 2025. Key weaknesses:
 - English and Hindi only — no Tamil, Telugu, Bengali, Marathi, Kannada support
-- AI scribe only — no full clinic management, no ABDM-native integration
+- AI scribe only — no patient booking, no AI intake, no Prep Brief, no follow-up agent, no ABDM-native integration
 - Premium pricing with limited language coverage
 
 Gabriel's counter: "If your patients speak Tamil, Eka.Care doesn't work for you. Larinova does."
@@ -250,7 +258,7 @@ Gabriel's counter: "If your patients speak Tamil, Eka.Care doesn't work for you.
 > 14 days free, no card. Can I send a 60-second Tamil demo?
 
 ### WhatsApp — Cold Prospect (Tamil specialist)
-> Hi Dr. [Name], I'm Gabriel — founder of Larinova. We built the first AI medical scribe for Tamil-speaking doctors. Your patient describes symptoms in Tamil; Larinova transcribes, extracts ICD-10 codes, and drafts a prescription — automatically.
+> Hi Dr. [Name], I'm Gabriel — founder of Larinova. We built the first OPD assistant for Tamil-speaking doctors: patients book online, fill an AI-guided intake before they arrive, and during the consult Larinova transcribes Tamil and drafts SOAP notes, ICD-10 codes, and a prescription automatically. After the visit, an agent follows up with the patient on day 1, 3, and 7.
 >
 > Free 14-day trial. Can I send a quick demo video?
 
@@ -259,7 +267,7 @@ Gabriel's counter: "If your patients speak Tamil, Eka.Care doesn't work for you.
 > *(In the language your patient speaks — it listens, writes, saves.)*
 
 ### WhatsApp — Eka.Care aware prospect
-> Hi Dr. [Name], I'm Gabriel from Larinova — you may have seen Eka.Care. We do the same AI scribe but in Tamil, and include full clinic management at a lower price. No English-only limitation.
+> Hi Dr. [Name], I'm Gabriel from Larinova — you may have seen Eka.Care. We do the same scribe but in Tamil, and we wrap it inside a full OPD platform: patient booking, AI-guided intake, a Prep Brief before each consult, and automated wellness follow-up. Lower price, no English-only limitation.
 >
 > 14-day free trial, no card. Worth a quick demo?
 

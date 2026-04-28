@@ -81,9 +81,9 @@ export default function LoginForm({ next }: { next: string }) {
         </p>
       )}
 
-      <p className="pt-2 text-xs leading-relaxed text-foreground/55">
-        New here? Your doctor booked your appointment — use the same email they
-        have on file.
+      <p className="rounded-lg border border-foreground/8 bg-foreground/[0.02] px-4 py-3 text-xs leading-relaxed text-foreground/60">
+        <span className="font-medium text-foreground/80">First time here?</span>{" "}
+        Use the same email your doctor used to book your appointment.
       </p>
     </form>
   );

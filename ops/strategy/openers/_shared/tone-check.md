@@ -13,7 +13,7 @@ Run this before sending any template. Takes 60 seconds. If any box is unchecked,
 - [ ] **No fabricated context** — no "as we discussed", "as I mentioned", "you expressed interest"
 - [ ] **Placeholders filled** — no `[brackets]` left in the message
 - [ ] **App link correct** — any link used is https://app.larinova.com, not an old domain
-- [ ] **Tagline correct** — if tagline appears, it reads "AI Medical Scribe for Doctors", NOT "Clinic Management & AI Platform"
+- [ ] **Tagline correct** — if tagline appears: India = "OPD Assistant for Indian Doctors"; Indonesia = "AI Medical Scribe for Doctors" (Indonesia app remains scribe-only in v1). NOT "Clinic Management & AI Platform" or any other variant.
 - [ ] **No paid conversion ask** — message does not ask them to pay, subscribe, or upgrade (free-trial phase only)
 - [ ] **Send time** — it is 07:00–08:00 or 19:00–20:00 local time (not 09:00–12:00 clinical hours)
 

@@ -22,7 +22,7 @@ export function emailShell(title: string, inner: string): string {
   </div>
   <div style="padding:28px 32px;line-height:1.65;font-size:14px;">${inner}</div>
   <div style="padding:18px 32px;border-top:1px solid #eee;text-align:center;font-size:11px;color:#aaa;">
-    <strong style="color:#666;">Larinova — AI Medical Scribe</strong><br>
+    <strong style="color:#666;">Larinova — OPD Assistant for Indian Doctors</strong><br>
     Your medical data is encrypted and private · larinova.com
   </div>
 </div>
