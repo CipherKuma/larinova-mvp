@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { PCM_WORKLET_SOURCE } from "@/lib/stt/pcm-worklet-source";
 
 interface UseSarvamStreamingSTTOptions {
   // Omit for onboarding sessions — token is issued under "onboarding" purpose
@@ -314,11 +315,22 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       console.log(
         "[stt] AudioContext.sampleRate =",
         audioCtx.sampleRate,
-        "loading worklet...",
+        "loading worklet from blob URL...",
       );
-      await audioCtx.audioWorklet.addModule(
-        "/audio-worklet/sarvam-pcm-processor.js",
-      );
+      // Load the worklet from a Blob URL rather than /audio-worklet/*.js.
+      // The Serwist service worker was intercepting that path and returning
+      // 406 (likely a defaultCache mismatch on request.destination =
+      // "audioworklet"); a blob: URL is same-origin but never goes through
+      // the SW fetch handler.
+      const workletBlob = new Blob([PCM_WORKLET_SOURCE], {
+        type: "application/javascript",
+      });
+      const workletBlobUrl = URL.createObjectURL(workletBlob);
+      try {
+        await audioCtx.audioWorklet.addModule(workletBlobUrl);
+      } finally {
+        URL.revokeObjectURL(workletBlobUrl);
+      }
       console.log("[stt] worklet loaded ✅");
       const source = audioCtx.createMediaStreamSource(stream);
       sourceNodeRef.current = source;
