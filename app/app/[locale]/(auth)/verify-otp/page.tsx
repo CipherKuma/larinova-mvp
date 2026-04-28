@@ -22,6 +22,8 @@ export default function VerifyOtpPage() {
   const searchParams = useSearchParams();
   const locale = params.locale as string;
   const phone = searchParams.get("phone") || "";
+  const email = searchParams.get("email") || "";
+  const mode: "email" | "phone" = email ? "email" : "phone";
   const t = useTranslations();
   const supabase = createClient();
 
@@ -43,6 +45,45 @@ export default function VerifyOtpPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otp]);
+
+  // After successful OTP verification, ensure the doctor row exists, claim
+  // any pending invite, and route to onboarding (or home if already done).
+  const handlePostLogin = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: doctor } = await supabase
+      .from("larinova_doctors")
+      .select("onboarding_completed")
+      .eq("user_id", user.id)
+      .single();
+
+    if (!doctor) {
+      // The signup API normally creates this. This is a defensive fallback
+      // for users who arrived via /sign-in without ever going through
+      // /sign-up — they get a minimal row and finish profile in onboarding.
+      await supabase.from("larinova_doctors").insert({
+        user_id: user.id,
+        email: user.email!,
+        locale: locale === "id" ? "id" : "in",
+        onboarding_completed: false,
+      });
+    }
+
+    // Best-effort invite claim. Cookie set on /access; ignored if absent.
+    await fetch("/api/invite/claim", { method: "POST" }).catch(() => {});
+
+    if (!doctor || !doctor.onboarding_completed) {
+      router.push("/onboarding");
+    } else {
+      toast.success(t("auth.welcomeBackToast"), {
+        description: t("auth.takingToDashboard"),
+      });
+      router.push("/");
+    }
+  };
 
   const handleChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value)) return;
@@ -83,27 +124,26 @@ export default function VerifyOtpPage() {
 
     setLoading(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: `+91${phone}`,
-        token,
-        type: "sms",
-      });
+      const { error } =
+        mode === "email"
+          ? await supabase.auth.verifyOtp({ email, token, type: "email" })
+          : await supabase.auth.verifyOtp({
+              phone: `+91${phone}`,
+              token,
+              type: "sms",
+            });
 
       if (error) {
         toast.error(t("auth.invalidOtp"), {
-        description: t("auth.invalidOtpDescription"),
-      });
+          description: t("auth.invalidOtpDescription"),
+        });
         setOtp(Array(6).fill(""));
         inputRefs.current[0]?.focus();
         setLoading(false);
         return;
       }
 
-      toast.success(t("auth.welcomeBackToast"), {
-        description: t("auth.signInSuccessful"),
-      });
-
-      router.push("/onboarding");
+      await handlePostLogin();
     } catch {
       toast.error(t("auth.unexpectedError"), {
         description: t("auth.unexpectedErrorOccurred"),
@@ -116,14 +156,21 @@ export default function VerifyOtpPage() {
     if (resendTimer > 0) return;
 
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: `+91${phone}`,
-      });
+      const { error } =
+        mode === "email"
+          ? await supabase.auth.signInWithOtp({
+              email,
+              options: {
+                shouldCreateUser: false,
+                emailRedirectTo: `${window.location.origin}/${locale}/auth/callback`,
+              },
+            })
+          : await supabase.auth.signInWithOtp({ phone: `+91${phone}` });
 
       if (error) {
         toast.error(t("auth.unexpectedError"), {
-        description: error.message,
-      });
+          description: error.message,
+        });
         return;
       }
 
@@ -161,7 +208,10 @@ export default function VerifyOtpPage() {
           {t("auth.verifyOtp")}
         </h2>
         <p className="text-muted-foreground">{t("auth.enterOtp")}</p>
-        {phone && (
+        {mode === "email" && email && (
+          <p className="text-sm text-muted-foreground mt-1">{email}</p>
+        )}
+        {mode === "phone" && phone && (
           <p className="text-sm text-muted-foreground mt-1">+91 {phone}</p>
         )}
       </div>

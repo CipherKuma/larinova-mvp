@@ -27,7 +27,6 @@ type SignUpFormValues = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   phoneNumber?: string;
 };
 
@@ -54,7 +53,6 @@ export default function SignUpPage() {
       .string()
       .min(1, { message: t("auth.emailRequired") })
       .email({ message: t("auth.invalidEmail") }),
-    password: z.string().min(8, { message: t("auth.passwordMin") }),
     phoneNumber: z
       .string()
       .optional()
@@ -69,7 +67,6 @@ export default function SignUpPage() {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
       phoneNumber: "",
     },
   });
@@ -102,137 +99,60 @@ export default function SignUpPage() {
     setLoading(true);
 
     try {
-      console.log("[SIGNUP-UI] Starting sign up process for:", data.email);
-
-      // Call server-side API to handle signup
+      // 1. Server creates the auth user (no password) + doctor row.
       const response = await fetch("/api/auth/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: data.email,
-          password: data.password,
           firstName: data.firstName.trim(),
           lastName: data.lastName.trim(),
           phoneNumber: data.phoneNumber,
         }),
       });
-
       const result = await response.json();
 
-      console.log("[SIGNUP-UI] API Response:", {
-        ok: response.ok,
-        status: response.status,
-        hasError: !!result.error,
-        errorType: result.errorType,
-      });
-
       if (!response.ok || result.error) {
-        console.log("[SIGNUP-UI] Signup failed (expected error):", {
-          errorType: result.errorType,
-          error: result.error,
-        });
-
-        // Handle specific error types
         if (result.errorType === "USER_ALREADY_EXISTS") {
-          console.log(
-            "[SIGNUP-UI] User already exists, redirecting to sign-in",
-          );
-
           toast.error(t("auth.accountAlreadyExists"), {
             description: t("auth.accountExistsSignIn"),
           });
-
           setLoading(false);
-
-          // Redirect to sign-in page after a short delay
-          setTimeout(() => {
-            router.push("/sign-in");
-          }, 2000);
-
+          setTimeout(() => router.push("/sign-in"), 2000);
           return;
         }
-
-        // Other errors - show toast
         toast.error(t("auth.signUpFailed"), {
           description: result.error || t("auth.unableToCreateAccount"),
         });
-
         setLoading(false);
         return;
       }
 
-      console.log("[SIGNUP-UI] Sign up successful, attempting auto sign-in");
-
-      // Sign in the user after successful signup
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      // 2. Send the email OTP. shouldCreateUser:false because the user was
+      // just created by the API — Supabase will issue an OTP to the existing
+      // (already confirmed) account.
+      const { error: otpError } = await supabase.auth.signInWithOtp({
         email: data.email,
-        password: data.password,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/${locale}/auth/callback`,
+        },
       });
-
-      if (signInError) {
-        console.log(
-          "[SIGNUP-UI] Auto sign-in failed after signup (expected):",
-          {
-            message: signInError.message,
-            status: signInError.status,
-            code: (signInError as any).code,
-          },
-        );
-
-        // Check if it's an email confirmation error
-        if (
-          signInError.message?.toLowerCase().includes("email not confirmed") ||
-          signInError.message?.toLowerCase().includes("email confirmation") ||
-          signInError.message?.toLowerCase().includes("verify")
-        ) {
-          console.log("[SIGNUP-UI] Email verification required");
-
-          toast.success(t("auth.accountCreatedVerifyEmail"), {
-            description: t("auth.checkInboxToVerify"),
-          });
-
-          setLoading(false);
-          // Don't redirect - let them see the message
-          return;
-        }
-
-        // Other sign-in errors - redirect to sign-in page
-        console.log(
-          "[SIGNUP-UI] Other sign-in error, redirecting to sign-in page",
-        );
-
-        toast.success(t("auth.accountCreated"), {
-          description: t("auth.accountCreatedSignIn"),
+      if (otpError) {
+        toast.error(t("auth.failedToSendLink"), {
+          description: otpError.message,
         });
-
         setLoading(false);
-        router.push("/sign-in");
         return;
       }
 
-      console.log(
-        "[SIGNUP-UI] Auto sign-in successful, redirecting to home page",
-      );
-
-      toast.success(t("auth.welcomeSignUp"), {
-        description: t("auth.accountCreatedSuccessfully"),
-      });
-
-      // Redirect to onboarding
-      router.push("/onboarding");
+      // 3. Hand off to the verify-otp page. Email mode.
+      router.push(`/verify-otp?email=${encodeURIComponent(data.email)}`);
     } catch (error: unknown) {
-      // Only truly unexpected errors reach here now
-      console.log("[SIGNUP-UI] Unexpected error during signup:", {
-        error,
-        message: error instanceof Error ? error.message : "Unknown error",
-      });
-
+      console.error("[SIGNUP-UI] Unexpected error during signup:", error);
       toast.error(t("auth.unexpectedError"), {
         description: t("auth.unexpectedErrorOccurred"),
       });
-
       setLoading(false);
     }
   };
@@ -319,26 +239,6 @@ export default function SignUpPage() {
                   <Input
                     type="email"
                     placeholder={t("auth.email")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-sm font-medium">
-                  {t("auth.password")}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder={t("auth.password")}
                     {...field}
                   />
                 </FormControl>

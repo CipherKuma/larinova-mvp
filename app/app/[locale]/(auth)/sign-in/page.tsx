@@ -12,20 +12,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
-type Step =
-  | "email"
-  | "password"
-  | "verify-email-otp"
-  | "set-password"
-  | "phone"
-  | "buttons";
+type Step = "email" | "verify-email-otp" | "phone" | "buttons";
 
 export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [resendTimer, setResendTimer] = useState(0);
@@ -90,7 +82,8 @@ export default function SignInPage() {
     }
   };
 
-  // Step 1: User enters email, we check if they exist
+  // Step 1: User enters email → always send email OTP. Passwords are no
+  // longer used; OAuth (Google) sits next to this on the same screen.
   const handleEmailContinue = async () => {
     if (!email || !email.includes("@")) {
       toast.error(t("invalidEmailTitle"), {
@@ -101,23 +94,7 @@ export default function SignInPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/check-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const { exists, onboardingCompleted } = await res.json();
-
-      if (exists && onboardingCompleted) {
-        // Returning user with completed onboarding — ask for password
-        setStep("password");
-      } else if (exists && !onboardingCompleted) {
-        // Existing user but didn't finish onboarding — send magic link to resume
-        await sendMagicLink();
-      } else {
-        // New user — send magic link
-        await sendMagicLink();
-      }
+      await sendMagicLink();
     } catch {
       toast.error(t("unexpectedError"), {
         description: t("unexpectedErrorOccurred"),
@@ -208,40 +185,6 @@ export default function SignInPage() {
     }
   };
 
-  // Step 2a: Returning user enters password
-  const handlePasswordSubmit = async () => {
-    if (!password) return;
-
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        if (error.message?.toLowerCase().includes("invalid")) {
-          toast.error(t("wrongPassword"), {
-            description: t("invalidCredentials"),
-          });
-        } else {
-          toast.error(t("loginFailed"), {
-            description: error.message,
-          });
-        }
-        setLoading(false);
-        return;
-      }
-
-      await handlePostLogin();
-    } catch {
-      toast.error(t("loginFailed"), {
-        description: t("unexpectedErrorOccurred"),
-      });
-      setLoading(false);
-    }
-  };
-
   // Google OAuth
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -324,18 +267,14 @@ export default function SignInPage() {
       {/* Heading */}
       <div className="text-left mb-8">
         <h2 className="text-2xl font-bold text-foreground mb-2">
-          {step === "password"
-            ? t("welcomeBack")
-            : step === "verify-email-otp"
-              ? t("checkYourEmail")
-              : t("getStartedShort")}
+          {step === "verify-email-otp"
+            ? t("checkYourEmail")
+            : t("getStartedShort")}
         </h2>
         <p className="text-muted-foreground text-sm">
-          {step === "password"
-            ? t("enterPasswordToContinue")
-            : step === "verify-email-otp"
-              ? t("weSentCodeTo", { email })
-              : t("aiPoweredTagline")}
+          {step === "verify-email-otp"
+            ? t("weSentCodeTo", { email })
+            : t("aiPoweredTagline")}
         </p>
       </div>
 
@@ -429,56 +368,6 @@ export default function SignInPage() {
               Soon
             </span>
           </Button>
-        </div>
-      )}
-
-      {/* Password Step (returning user) */}
-      {step === "password" && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 border border-border/50 text-sm">
-            <span className="text-muted-foreground">
-              {t("emailColonDisplay")}
-            </span>
-            <span className="text-foreground font-medium truncate">
-              {email}
-            </span>
-            <button
-              onClick={() => {
-                setStep("email");
-                setPassword("");
-              }}
-              className="ml-auto text-xs text-primary hover:underline flex-shrink-0"
-            >
-              {t("change")}
-            </button>
-          </div>
-          <div>
-            <label className="text-sm font-medium mb-1.5 block">
-              {t("password")}
-            </label>
-            <Input
-              type="password"
-              placeholder={t("passwordPlaceholder")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handlePasswordSubmit()}
-              autoFocus
-            />
-          </div>
-          <Button
-            onClick={handlePasswordSubmit}
-            disabled={loading || !password}
-            className="w-full"
-            size="lg"
-          >
-            {loading ? t("signingIn") : t("signIn")}
-          </Button>
-          <button
-            onClick={sendMagicLink}
-            className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {t("forgotPasswordMagicLink")}
-          </button>
         </div>
       )}
 
