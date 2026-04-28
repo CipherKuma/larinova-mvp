@@ -20,10 +20,12 @@ export async function generateMetadata({
   const { locale } = await params;
 
   if (locale === "id") {
+    const title = "Survei Diskoveri — Gratis 1 Bulan Larinova";
+    const description =
+      "Bantu kami kenali tantangan harian praktek Anda dan dapatkan akses gratis 1 bulan ke seluruh platform OPD Larinova: booking, intake AI, Prep Brief, catatan SOAP real-time, dan tindak lanjut otomatis.";
     return {
-      title: "Survei Diskoveri — Gratis 1 Bulan",
-      description:
-        "Bantu kami kenali tantangan sehari-hari Anda dan dapatkan akses gratis 1 bulan ke Larinova.",
+      title,
+      description,
       alternates: {
         canonical: `${SITE_URL}/id/discovery-survey`,
         languages: {
@@ -32,13 +34,23 @@ export async function generateMetadata({
           "x-default": `${SITE_URL}/in/discovery-survey`,
         },
       },
+      openGraph: {
+        title,
+        description,
+        url: `${SITE_URL}/id/discovery-survey`,
+        locale: "id_ID",
+        type: "website",
+      },
+      robots: { index: false, follow: true },
     };
   }
 
+  const title = "Discovery Survey — 1 Month Free Larinova";
+  const description =
+    "Tell us about your day-to-day clinic workflow and get 1 month of free access to the full Larinova OPD platform: patient booking, AI-guided intake, pre-consult Prep Briefs, real-time SOAP notes, ICD-10 coding, prescriptions, and automated follow-up.";
   return {
-    title: "Discovery Survey — Get 1 Month Free",
-    description:
-      "Help us understand your day-to-day challenges and get 1 month free access to Larinova.",
+    title,
+    description,
     alternates: {
       canonical: `${SITE_URL}/in/discovery-survey`,
       languages: {
@@ -47,6 +59,14 @@ export async function generateMetadata({
         "x-default": `${SITE_URL}/in/discovery-survey`,
       },
     },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/in/discovery-survey`,
+      locale: "en_IN",
+      type: "website",
+    },
+    robots: { index: false, follow: true },
   };
 }
 

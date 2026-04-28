@@ -5,8 +5,15 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Book a Discovery Call",
   description:
-    "Schedule a free 30-minute call to see how Larinova can streamline your clinical documentation workflow.",
+    "Book a free 30-minute call to see Larinova in action — the end-to-end OPD platform with patient booking, AI intake, real-time SOAP notes in Tamil/Hindi/Bahasa/English, ICD-10 coding, AI prescriptions, and automated follow-up. HIPAA-ready, free 1-month trial.",
   alternates: { canonical: "https://larinova.com/book" },
+  openGraph: {
+    title: "Book a Discovery Call | Larinova",
+    description:
+      "See the end-to-end OPD platform that books, intakes, briefs, transcribes, prescribes, and follows up — in one tool. HIPAA-ready.",
+    url: "https://larinova.com/book",
+    type: "website",
+  },
 };
 
 export default function BookPage() {

@@ -7,6 +7,9 @@ import {
   generateBreadcrumbJsonLd,
 } from "@/lib/structured-data";
 import { SITE_URL, SITE_NAME } from "@/lib/metadata";
+import { BLOG_POSTS_ID } from "@/data/blog-posts-id";
+
+const ID_SLUGS = new Set(BLOG_POSTS_ID.map((p) => p.slug));
 import { BlogHeader } from "@/components/blog/BlogHeader";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { BlogCard } from "@/components/blog/BlogCard";
@@ -29,6 +32,9 @@ export async function generateMetadata({
     return { title: "Post Not Found" };
   }
 
+  const isId = ID_SLUGS.has(post.slug);
+  const ogLocale = isId ? "id_ID" : "en_IN";
+
   return {
     title: post.title,
     description: post.excerpt,
@@ -40,7 +46,7 @@ export async function generateMetadata({
       description: post.excerpt,
       url: `${SITE_URL}/blog/${post.slug}`,
       siteName: SITE_NAME,
-      locale: "en_IN",
+      locale: ogLocale,
       type: "article",
       publishedTime: new Date(post.date).toISOString(),
       authors: [post.author],

@@ -25,8 +25,9 @@ import { FAQS_ID } from "@/data/faqs-id";
 import {
   generateFAQPageJsonLd,
   generateSoftwareApplicationJsonLd,
+  generateMedicalBusinessJsonLd,
 } from "@/lib/structured-data";
-import { SITE_URL, SITE_NAME } from "@/lib/metadata";
+import { SITE_URL, SITE_NAME, KEYWORDS_IN, KEYWORDS_ID } from "@/lib/metadata";
 import { type Locale, content as localeContent } from "@/data/locale-content";
 
 interface PageProps {
@@ -45,21 +46,16 @@ export async function generateMetadata({
   const { locale } = await params;
 
   if (locale === "id") {
+    const title = "Larinova | Platform OPD lengkap untuk dokter Indonesia";
+    const description =
+      "Platform OPD end-to-end untuk dokter Indonesia: booking online, intake pasien terpandu AI, Prep Brief pra-konsultasi, catatan SOAP real-time dalam Bahasa Indonesia/Jawa/Inggris, kode ICD-10 otomatis, resep AI, dan tindak lanjut wellness lewat email, SMS, dan WhatsApp. HIPAA-ready, terenkripsi end-to-end.";
+    const ogDescription =
+      "Booking, intake, Prep Brief, catatan SOAP, ICD-10, resep, dan follow-up — satu platform untuk seluruh OPD Anda. HIPAA-ready.";
+
     return {
-      title: "Larinova | Platform OPD untuk Dokter Indonesia",
-      description:
-        "Platform OPD bertenaga AI untuk dokter Indonesia. Booking, intake terpandu AI, Prep Brief pra-konsultasi, catatan SOAP real-time dalam Bahasa Indonesia/Jawa/Inggris, dan tindak lanjut wellness otomatis.",
-      keywords: [
-        "platform OPD",
-        "asisten OPD dokter",
-        "transkripsi medis Indonesia",
-        "catatan SOAP",
-        "tindak lanjut pasien",
-        "dokumentasi klinis",
-        "Larinova",
-        "dokter Indonesia",
-        "aplikasi dokter",
-      ],
+      title,
+      description,
+      keywords: KEYWORDS_ID,
       alternates: {
         canonical: `${SITE_URL}/id`,
         languages: {
@@ -69,9 +65,8 @@ export async function generateMetadata({
         },
       },
       openGraph: {
-        title: "Larinova | Platform OPD untuk Dokter Indonesia",
-        description:
-          "Asisten OPD paling canggih untuk dokter Indonesia. Lebih banyak pasien, lebih sedikit ketikan. Resep dan tindak lanjut lewat email, SMS, dan WhatsApp.",
+        title,
+        description: ogDescription,
         url: `${SITE_URL}/id`,
         siteName: SITE_NAME,
         locale: "id_ID",
@@ -79,30 +74,23 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        title: "Larinova | Platform OPD untuk Dokter Indonesia",
-        description:
-          "Platform OPD AI untuk dokter Indonesia: booking, intake, Prep Brief, catatan SOAP real-time, dan tindak lanjut otomatis.",
+        title,
+        description: ogDescription,
       },
     };
   }
 
   // Default: India locale
+  const title = "Larinova | End-to-end OPD platform for Indian doctors";
+  const description =
+    "The complete OPD platform for Indian doctors: online patient booking, AI-guided intake, pre-consult Prep Briefs, real-time SOAP notes in Tamil/Hindi/English (with code-mixing), automatic ICD-10 coding, AI-drafted prescriptions, and automated wellness follow-up via email, SMS, and WhatsApp. HIPAA-ready, end-to-end encrypted.";
+  const ogDescription =
+    "Booking, intake, Prep Brief, real-time SOAP notes, ICD-10, prescriptions, and follow-up — one platform for your entire OPD. HIPAA-ready.";
+
   return {
-    title: "Larinova | OPD Platform for Indian Doctors",
-    description:
-      "The AI-powered OPD platform for Indian doctors. Booking, AI-guided intake, pre-consult Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated wellness follow-up — one platform.",
-    keywords: [
-      "OPD platform",
-      "OPD assistant for doctors",
-      "Tamil medical transcription",
-      "AI patient intake",
-      "SOAP notes",
-      "Indian healthcare AI",
-      "Sarvam AI",
-      "clinical documentation",
-      "Larinova",
-      "patient follow-up India",
-    ],
+    title,
+    description,
+    keywords: KEYWORDS_IN,
     alternates: {
       canonical: `${SITE_URL}/in`,
       languages: {
@@ -112,9 +100,8 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: "Larinova | OPD Platform for Indian Doctors",
-      description:
-        "The most advanced OPD assistant for Indian doctors. See more patients. Type less. Send prescriptions and follow-ups by email, SMS, and WhatsApp.",
+      title,
+      description: ogDescription,
       url: `${SITE_URL}/in`,
       siteName: SITE_NAME,
       locale: "en_IN",
@@ -122,9 +109,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: "Larinova | OPD Platform for Indian Doctors",
-      description:
-        "AI-powered OPD platform for Indian doctors: booking, intake, Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated follow-up.",
+      title,
+      description: ogDescription,
     },
   };
 }
@@ -167,6 +153,12 @@ export default async function LocaleLandingPage({ params }: PageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(generateSoftwareApplicationJsonLd()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateMedicalBusinessJsonLd()),
           }}
         />
       </main>

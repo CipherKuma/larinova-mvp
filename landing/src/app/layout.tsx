@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import {
   Outfit,
@@ -10,7 +10,12 @@ import {
   Manrope,
 } from "next/font/google";
 import "./globals.css";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/metadata";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  TWITTER_HANDLE,
+} from "@/lib/metadata";
 import {
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
@@ -59,27 +64,69 @@ const manrope = Manrope({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#0a0f1e",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Larinova | OPD Platform for Indian Doctors",
+    default: "Larinova | End-to-end OPD platform for doctors",
     template: "%s | Larinova",
   },
   description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "health",
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
+  },
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      "en-IN": `${SITE_URL}/in`,
+      id: `${SITE_URL}/id`,
+      "x-default": `${SITE_URL}/in`,
+    },
   },
   openGraph: {
     siteName: SITE_NAME,
     type: "website",
+    url: SITE_URL,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Larinova — End-to-end OPD platform for doctors",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
-  other: {
-    "theme-color": "#0a0f1e",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 

@@ -10,14 +10,23 @@ import { SITE_NAME, SITE_URL } from "@/lib/metadata";
 export const metadata: Metadata = {
   title: "Field notes",
   description:
-    "Insights on AI medical scribing, Indian and Indonesian healthcare, and building for doctors who speak Tamil, Hindi, Bahasa, and English.",
-  alternates: { canonical: `${SITE_URL}/blog` },
+    "Insights on building an end-to-end OPD platform for Indian and Indonesian doctors — patient booking, AI intake, code-mixed medical transcription (Tamil, Hindi, Bahasa), HIPAA-ready clinical workflows, and automated patient follow-up.",
+  alternates: {
+    canonical: `${SITE_URL}/blog`,
+    languages: {
+      "en-IN": `${SITE_URL}/blog`,
+      id: `${SITE_URL}/blog`,
+      "x-default": `${SITE_URL}/blog`,
+    },
+  },
   openGraph: {
     title: "Field notes | Larinova",
-    description: "Building AI that understands how doctors actually speak.",
+    description:
+      "Notes on building Larinova — the end-to-end OPD platform for doctors in India and Indonesia.",
     url: `${SITE_URL}/blog`,
     siteName: SITE_NAME,
     locale: "en_IN",
+    alternateLocale: ["id_ID"],
     type: "website",
   },
 };
