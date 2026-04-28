@@ -23,6 +23,7 @@ export default function OnboardingPage() {
     degrees?: string;
     registrationNumber?: string;
     registrationCouncil?: string;
+    clinicName?: string;
   }>({});
   const [doctorName, setDoctorName] = useState("Doctor");
   const [soapTranscript, setSoapTranscript] = useState("");
@@ -99,6 +100,10 @@ export default function OnboardingPage() {
       const updateData = {
         specialization: specialty,
         locale: locale,
+        degrees: regData.degrees?.trim() || null,
+        registration_number: regData.registrationNumber?.trim() || null,
+        registration_council: regData.registrationCouncil?.trim() || null,
+        clinic_name: regData.clinicName?.trim() || null,
       };
 
       // Try update first — signup flow creates the doctor record
@@ -169,7 +174,7 @@ export default function OnboardingPage() {
       console.error("Error completing onboarding:", error);
       savingRef.current = false;
     }
-  }, [specialty, locale]);
+  }, [specialty, locale, regData]);
 
   const isCelebration = step === 7;
   const currentImage = stepImages[step];
@@ -254,18 +259,23 @@ export default function OnboardingPage() {
                   <StepPrescription
                     doctorName={doctorName}
                     degrees={regData.degrees}
+                    clinicName={regData.clinicName}
                     registrationNumber={regData.registrationNumber}
                     registrationCouncil={regData.registrationCouncil}
                     soapTranscript={soapTranscript}
                     soapNote={soapNote}
+                    onDoctorDetailsChange={(data) =>
+                      setRegData((prev) => ({ ...prev, ...data }))
+                    }
                     onContinue={() => setStep(6)}
                     onBack={() => setStep(4)}
                   />
                 )}
                 {step === 6 && (
                   <StepRegistration
+                    initialData={regData}
                     onContinue={(data) => {
-                      setRegData(data);
+                      setRegData((prev) => ({ ...prev, ...data }));
                       setStep(7);
                     }}
                     onBack={() => setStep(5)}

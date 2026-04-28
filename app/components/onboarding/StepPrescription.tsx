@@ -23,10 +23,15 @@ interface PrescriptionData {
 interface StepPrescriptionProps {
   doctorName: string;
   degrees?: string;
+  clinicName?: string;
   registrationNumber?: string;
   registrationCouncil?: string;
   soapTranscript?: string;
   soapNote?: Record<string, string> | null;
+  onDoctorDetailsChange?: (data: {
+    degrees?: string;
+    clinicName?: string;
+  }) => void;
   onContinue: () => void;
   onBack: () => void;
 }
@@ -97,10 +102,12 @@ function EditableField({
 export function StepPrescription({
   doctorName,
   degrees,
+  clinicName,
   registrationNumber,
   registrationCouncil,
   soapTranscript,
   soapNote,
+  onDoctorDetailsChange,
   onContinue,
   onBack,
 }: StepPrescriptionProps) {
@@ -112,6 +119,18 @@ export function StepPrescription({
   const [prescription, setPrescription] = useState<PrescriptionData | null>(
     null,
   );
+  const [editableDegrees, setEditableDegrees] = useState(degrees || "");
+  const [editableClinicName, setEditableClinicName] = useState(
+    clinicName || "",
+  );
+
+  useEffect(() => {
+    setEditableDegrees(degrees || "");
+  }, [degrees]);
+
+  useEffect(() => {
+    setEditableClinicName(clinicName || "");
+  }, [clinicName]);
 
   const fallback: PrescriptionData = {
     patient_name: locale === "id" ? "Siti Rahayu" : "Ravi Kumar",
@@ -196,6 +215,24 @@ export function StepPrescription({
   }, []);
 
   const rx = prescription || fallback;
+  const degreeText = editableDegrees || t("yourDegrees");
+  const clinicText = editableClinicName || t("yourClinic");
+
+  const updateDoctorDetails = (next: {
+    degrees?: string;
+    clinicName?: string;
+  }) => {
+    const merged = {
+      degrees: next.degrees ?? editableDegrees,
+      clinicName: next.clinicName ?? editableClinicName,
+    };
+    setEditableDegrees(merged.degrees);
+    setEditableClinicName(merged.clinicName);
+    onDoctorDetailsChange?.({
+      degrees: merged.degrees.trim() || undefined,
+      clinicName: merged.clinicName.trim() || undefined,
+    });
+  };
 
   // Updater helpers
   const updateField = (key: keyof PrescriptionData, value: string) => {
@@ -220,7 +257,6 @@ export function StepPrescription({
     try {
       const html2pdf = (await import("html2pdf.js")).default;
 
-      const degreeText = degrees || t("yourDegrees");
       const regNum = registrationNumber || t("yourRegNumber");
       const council = registrationCouncil || t("yourCouncil");
 
@@ -239,7 +275,7 @@ export function StepPrescription({
           <div style="border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 16px;">
             <p style="font-size: 18px; font-weight: bold; margin: 0;">Dr. ${doctorName}, ${degreeText}</p>
             <p style="font-size: 13px; color: #555; margin: 4px 0 0;">Reg No: ${regNum} (${council})</p>
-            <p style="font-size: 13px; font-style: italic; color: #999; margin: 4px 0 0;">${t("yourClinic")}</p>
+            <p style="font-size: 13px; font-style: italic; color: #999; margin: 4px 0 0;">${clinicText}</p>
           </div>
           <div style="display: flex; gap: 24px; font-size: 13px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
             <div><span style="color: #888;">${t("labelName")}</span><p style="margin: 2px 0; font-weight: 500;">${rx.patient_name}</p></div>
@@ -330,13 +366,11 @@ export function StepPrescription({
               <div className="border-b-2 border-foreground pb-3 mb-4">
                 <p className="text-lg font-bold text-foreground">
                   Dr. {doctorName},{" "}
-                  {degrees ? (
-                    degrees
-                  ) : (
-                    <span className="italic text-muted-foreground font-normal">
-                      {t("yourDegrees")}
-                    </span>
-                  )}
+                  <EditableField
+                    value={degreeText}
+                    onChange={(v) => updateDoctorDetails({ degrees: v })}
+                    inputClassName="min-w-28"
+                  />
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Reg No:{" "}
@@ -358,7 +392,11 @@ export function StepPrescription({
                   )
                 </p>
                 <p className="text-sm italic text-muted-foreground/60">
-                  {t("yourClinic")}
+                  <EditableField
+                    value={clinicText}
+                    onChange={(v) => updateDoctorDetails({ clinicName: v })}
+                    inputClassName="min-w-40"
+                  />
                 </p>
               </div>
 

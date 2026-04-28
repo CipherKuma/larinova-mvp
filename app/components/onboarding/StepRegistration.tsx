@@ -24,23 +24,32 @@ interface KKIResult {
 }
 
 interface StepRegistrationProps {
+  initialData?: {
+    degrees?: string;
+    clinicName?: string;
+  };
   onContinue: (data: {
     degrees?: string;
     registrationNumber?: string;
     registrationCouncil?: string;
+    clinicName?: string;
   }) => void;
   onBack: () => void;
 }
 
 export function StepRegistration({
+  initialData,
   onContinue,
   onBack,
 }: StepRegistrationProps) {
   const locale = useLocale();
   const t = useTranslations("onboarding.step5");
+  const tp = useTranslations("onboarding");
   const tc = useTranslations("common");
 
   const [regNumber, setRegNumber] = useState("");
+  const [degrees, setDegrees] = useState(initialData?.degrees || "");
+  const [clinicName, setClinicName] = useState(initialData?.clinicName || "");
   const [loading, setLoading] = useState(false);
   const [doctors, setDoctors] = useState<NMCDoctor[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState<NMCDoctor | null>(null);
@@ -79,6 +88,7 @@ export function StepRegistration({
 
         if (data.found && data.doctor) {
           setSelectedDoctor(data.doctor);
+          if (data.doctor.degree) setDegrees(data.doctor.degree);
           setDoctors(data.doctors || []);
         } else if (data.found && data.doctors?.length > 0) {
           setDoctors(data.doctors);
@@ -108,30 +118,41 @@ export function StepRegistration({
 
       if (data.found && data.doctor) {
         setSelectedDoctor(data.doctor);
+        if (data.doctor.degree) setDegrees(data.doctor.degree);
       } else {
         setSelectedDoctor(doctor);
+        if (doctor.degree) setDegrees(doctor.degree);
       }
     } catch {
       setSelectedDoctor(doctor);
+      if (doctor.degree) setDegrees(doctor.degree);
     } finally {
       setDetailLoading(false);
     }
   };
 
   const handleContinue = () => {
+    const manualDetails = {
+      degrees: degrees.trim() || undefined,
+      clinicName: clinicName.trim() || undefined,
+    };
+
     if (isIndonesia && kkiResult) {
       onContinue({
         registrationNumber: kkiResult.registrationNumber,
+        ...manualDetails,
       });
     } else if (selectedDoctor) {
       onContinue({
-        degrees: selectedDoctor.degree || undefined,
+        degrees: manualDetails.degrees || selectedDoctor.degree || undefined,
         registrationNumber: selectedDoctor.registrationNo || regNumber,
         registrationCouncil: selectedDoctor.council || undefined,
+        clinicName: manualDetails.clinicName,
       });
     } else {
       onContinue({
         registrationNumber: regNumber || undefined,
+        ...manualDetails,
       });
     }
   };
@@ -404,6 +425,36 @@ export function StepRegistration({
               </motion.div>
             )}
         </AnimatePresence>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-6 rounded-xl border border-border/50 bg-muted/10 p-4"
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="text-sm font-medium mb-1.5 block text-foreground">
+                {tp("degrees")}
+              </label>
+              <Input
+                value={degrees}
+                onChange={(e) => setDegrees(e.target.value)}
+                placeholder={tp("degreesPlaceholder")}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block text-foreground">
+                {tp("clinicName")}
+              </label>
+              <Input
+                value={clinicName}
+                onChange={(e) => setClinicName(e.target.value)}
+                placeholder={tp("clinicNamePlaceholder")}
+              />
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Actions — pinned bottom */}
