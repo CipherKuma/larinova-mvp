@@ -208,6 +208,8 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     transcriptRef.current = "";
 
     try {
+      console.log("[stt] start →", { consultationId, languageCode, mode });
+
       // 1. Get the proxy URL + JWT from the server. consultationId is omitted
       // for onboarding sessions; the server treats that as purpose=onboarding.
       const tokenRes = await fetch("/api/consultation/stt-token", {
@@ -215,14 +217,17 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(consultationId ? { consultationId } : {}),
       });
+      console.log("[stt] token endpoint status:", tokenRes.status);
       if (!tokenRes.ok) {
         const errBody = await tokenRes.json().catch(() => ({}));
+        console.error("[stt] token endpoint failed:", errBody);
         throw new Error(errBody?.error || "Failed to get STT token");
       }
       const { token, wsUrl } = (await tokenRes.json()) as {
         token: string;
         wsUrl: string;
       };
+      console.log("[stt] got token, wsUrl =", wsUrl);
 
       // 2. Get mic
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -246,25 +251,49 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         vad_signals: "true",
         input_audio_codec: "pcm_s16le",
       });
+      console.log(
+        "[stt] opening WS to",
+        wsUrl,
+        "with params",
+        Array.from(params.keys()).filter((k) => k !== "token"),
+      );
       const ws = new WebSocket(`${wsUrl}?${params.toString()}`);
       ws.binaryType = "arraybuffer";
       wsRef.current = ws;
 
       const wsReady = new Promise<void>((resolve, reject) => {
-        ws.addEventListener("open", () => resolve(), { once: true });
+        const timeoutId = setTimeout(() => {
+          console.error("[stt] WS open timeout after 10s");
+          reject(new Error("STT WebSocket open timed out"));
+        }, 10000);
+        ws.addEventListener(
+          "open",
+          () => {
+            clearTimeout(timeoutId);
+            console.log("[stt] WS open ✅");
+            resolve();
+          },
+          { once: true },
+        );
         ws.addEventListener(
           "error",
-          () => reject(new Error("STT WebSocket error")),
+          (ev) => {
+            clearTimeout(timeoutId);
+            console.error("[stt] WS error event:", ev);
+            reject(new Error("STT WebSocket error"));
+          },
           { once: true },
         );
       });
 
       ws.addEventListener("message", (ev) => {
         if (typeof ev.data === "string") {
+          console.log("[stt] ← server msg:", ev.data.slice(0, 200));
           handleServerMessage(ev.data);
         }
       });
       ws.addEventListener("close", (ev) => {
+        console.log("[stt] WS close:", ev.code, ev.reason);
         if (mountedRef.current) {
           setState((s) => ({
             ...s,
@@ -282,9 +311,15 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       // 4. Set up audio pipeline: mic → AudioContext → AudioWorklet
       const audioCtx = new AudioContext();
       audioCtxRef.current = audioCtx;
+      console.log(
+        "[stt] AudioContext.sampleRate =",
+        audioCtx.sampleRate,
+        "loading worklet...",
+      );
       await audioCtx.audioWorklet.addModule(
         "/audio-worklet/sarvam-pcm-processor.js",
       );
+      console.log("[stt] worklet loaded ✅");
       const source = audioCtx.createMediaStreamSource(stream);
       sourceNodeRef.current = source;
       const workletNode = new AudioWorkletNode(
@@ -302,11 +337,20 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       );
       workletNodeRef.current = workletNode;
 
+      let frameCount = 0;
       workletNode.port.onmessage = (e: MessageEvent<ArrayBuffer>) => {
         if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
           return;
         }
         const audioBase64 = pcmToBase64(e.data);
+        if (frameCount === 0)
+          console.log(
+            "[stt] sending first PCM frame, bytes =",
+            e.data.byteLength,
+          );
+        frameCount++;
+        if (frameCount % 50 === 0)
+          console.log(`[stt] sent ${frameCount} frames`);
         wsRef.current.send(
           JSON.stringify({
             type: "transcribe",
@@ -337,6 +381,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         }));
       }
     } catch (err: unknown) {
+      console.error("[stt] start() failed:", err);
       cleanup();
       const error = err as Error;
       const isPermission =
