@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseSarvamStreamingSTTOptions {
-  consultationId: string;
+  // Omit for onboarding sessions — token is issued under "onboarding" purpose
+  // when consultationId is not provided.
+  consultationId?: string;
   languageCode?: string;
   mode?: "transcribe" | "translate" | "verbatim" | "translit" | "codemix";
   onTranscript?: (text: string, isFinal: boolean) => void;
@@ -66,6 +68,9 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   const workletNodeRef = useRef<AudioWorkletNode | null>(null);
   const sourceNodeRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const transcriptRef = useRef<string>("");
+  // Mirrors detected language from server `language_code` field. Compatible
+  // with the older useSarvamSTT hook so consumers can read the same ref.
+  const detectedLanguageRef = useRef<string | null>(null);
   const startTimeRef = useRef<number>(0);
   const durationTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mountedRef = useRef(true);
@@ -162,6 +167,10 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         transcriptRef.current = transcriptRef.current
           ? `${transcriptRef.current} ${trimmed}`
           : trimmed;
+        const lang =
+          (msg.language_code as string | undefined) ||
+          (data?.language_code as string | undefined);
+        if (lang) detectedLanguageRef.current = lang;
         if (mountedRef.current) {
           setState((s) => ({
             ...s,
@@ -199,11 +208,12 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     transcriptRef.current = "";
 
     try {
-      // 1. Get the proxy URL + JWT from the server
+      // 1. Get the proxy URL + JWT from the server. consultationId is omitted
+      // for onboarding sessions; the server treats that as purpose=onboarding.
       const tokenRes = await fetch("/api/consultation/stt-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ consultationId }),
+        body: JSON.stringify(consultationId ? { consultationId } : {}),
       });
       if (!tokenRes.ok) {
         const errBody = await tokenRes.json().catch(() => ({}));
@@ -380,5 +390,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     stop,
     resetTranscript,
     streamRef,
+    transcriptRef,
+    detectedLanguageRef,
   };
 }

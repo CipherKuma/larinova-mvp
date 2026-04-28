@@ -14,33 +14,36 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json().catch(() => ({}));
     const consultationId = body?.consultationId as string | undefined;
-    if (!consultationId) {
-      return NextResponse.json(
-        { error: "consultationId required" },
-        { status: 400 },
-      );
-    }
+    const purpose: "consultation" | "onboarding" = consultationId
+      ? "consultation"
+      : "onboarding";
 
-    // Verify the consultation belongs to this doctor and is in progress
-    const { data: doctor } = await supabase
-      .from("larinova_doctors")
-      .select("id")
-      .eq("user_id", user.id)
-      .single();
-    if (!doctor) {
-      return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
-    }
+    // Consultation flow: verify the doctor owns the consult.
+    // Onboarding flow: just authenticated user is enough — no consult exists yet.
+    if (purpose === "consultation") {
+      const { data: doctor } = await supabase
+        .from("larinova_doctors")
+        .select("id")
+        .eq("user_id", user.id)
+        .single();
+      if (!doctor) {
+        return NextResponse.json(
+          { error: "Doctor not found" },
+          { status: 404 },
+        );
+      }
 
-    const { data: consultation } = await supabase
-      .from("larinova_consultations")
-      .select("id, doctor_id, status")
-      .eq("id", consultationId)
-      .single();
-    if (!consultation || consultation.doctor_id !== doctor.id) {
-      return NextResponse.json(
-        { error: "Consultation not found" },
-        { status: 404 },
-      );
+      const { data: consultation } = await supabase
+        .from("larinova_consultations")
+        .select("id, doctor_id, status")
+        .eq("id", consultationId)
+        .single();
+      if (!consultation || consultation.doctor_id !== doctor.id) {
+        return NextResponse.json(
+          { error: "Consultation not found" },
+          { status: 404 },
+        );
+      }
     }
 
     const proxyUrl = process.env.STT_PROXY_URL;
@@ -52,8 +55,9 @@ export async function POST(request: NextRequest) {
     }
 
     const token = await issueSttProxyToken({
-      consultationId,
+      purpose,
       userId: user.id,
+      consultationId,
       ttlSeconds: 30 * 60,
     });
 

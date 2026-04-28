@@ -5,9 +5,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Square } from "lucide-react";
 import { useSarvamSTT } from "@/hooks/useSarvamSTT";
+import { useSarvamStreamingSTT } from "@/hooks/useSarvamStreamingSTT";
 import type { SOAPNote } from "@/lib/sarvam/types";
 import { useTranslations, useLocale } from "next-intl";
 import { ListeningOrb } from "@/components/consultation/ListeningOrb";
+
+const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING === "true";
 
 type Phase = "prompt" | "recording" | "processing" | "results";
 
@@ -34,8 +37,20 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
   );
   const stoppingRef = useRef(false);
 
-  // India: Sarvam streaming (3s chunks, real-time transcript)
-  const stt = useSarvamSTT({ languageCode: "unknown", locale });
+  // India: Sarvam streaming. Both hooks are unconditionally called to keep
+  // React's hook order stable; the inactive one never does any work since
+  // start() is what triggers the mic / WS / fetch.
+  // - When NEXT_PUBLIC_STT_STREAMING=true: use the WebSocket path with
+  //   server-side VAD, same as the consult flow. No consultationId yet
+  //   (doctor is being onboarded), so the token is issued under the
+  //   "onboarding" purpose.
+  // - When the flag is off: fall back to the REST 3s-chunk path.
+  const restStt = useSarvamSTT({ languageCode: "unknown", locale });
+  const streamingStt = useSarvamStreamingSTT({
+    languageCode: "unknown",
+    mode: "codemix",
+  });
+  const stt = STREAMING_ENABLED ? streamingStt : restStt;
 
   // Indonesia: batch recording (record everything, transcribe at end)
   const batchStreamRef = useRef<MediaStream | null>(null);
