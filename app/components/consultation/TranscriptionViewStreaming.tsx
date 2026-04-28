@@ -67,6 +67,11 @@ export function TranscriptionViewStreaming({
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
   const sessionStartTime = useRef<number>(0);
   const pausedRef = useRef(false);
+  // Parallel MediaRecorder captures the full consult audio so we can hand
+  // it to the Sarvam Batch API for real audio-based diarization at the end
+  // of the visit. The streaming WS path consumes PCM that we can't replay.
+  const audioRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   const handleTranscript = useCallback(
     (text: string, isFinal: boolean) => {
@@ -152,6 +157,59 @@ export function TranscriptionViewStreaming({
   });
   const stt = STREAMING_ENABLED ? streamingStt : restStt;
 
+  // Start the parallel full-audio recorder as soon as the STT pipeline has
+  // a live MediaStream. Stops + flushes when STT stops.
+  useEffect(() => {
+    const stream = stt.streamRef.current;
+    if (
+      stt.isRecording &&
+      stream &&
+      stream.active &&
+      !audioRecorderRef.current
+    ) {
+      try {
+        const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+          ? "audio/webm;codecs=opus"
+          : "audio/webm";
+        const recorder = new MediaRecorder(stream, { mimeType: mime });
+        audioChunksRef.current = [];
+        recorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunksRef.current.push(e.data);
+        };
+        recorder.start(1000);
+        audioRecorderRef.current = recorder;
+      } catch (err) {
+        console.error("[consult] full-audio recorder failed to start:", err);
+      }
+    }
+  }, [stt.isRecording, stt.streamRef]);
+
+  const finalizeAudioBlob = useCallback((): Promise<Blob | null> => {
+    return new Promise((resolve) => {
+      const recorder = audioRecorderRef.current;
+      if (!recorder) {
+        resolve(null);
+        return;
+      }
+      const finish = () => {
+        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        audioChunksRef.current = [];
+        audioRecorderRef.current = null;
+        resolve(blob.size > 0 ? blob : null);
+      };
+      if (recorder.state === "inactive") {
+        finish();
+        return;
+      }
+      recorder.onstop = finish;
+      try {
+        recorder.stop();
+      } catch {
+        finish();
+      }
+    });
+  }, []);
+
   // Auto-scroll to latest transcript
   useEffect(() => {
     if (transcriptContainerRef.current) {
@@ -208,10 +266,23 @@ export function TranscriptionViewStreaming({
     setReportFailed(false);
     setError(null);
 
+    // Pull the full audio off the parallel MediaRecorder before stt.stop()
+    // tears down the underlying MediaStream tracks.
+    const audioBlob = await finalizeAudioBlob();
+
     try {
+      const formData = new FormData();
+      if (audioBlob) {
+        formData.append(
+          "audio",
+          audioBlob,
+          `consultation-${consultationId}.webm`,
+        );
+      }
+
       const diarizeResponse = await fetch(
         `/api/consultations/${consultationId}/diarize`,
-        { method: "POST" },
+        { method: "POST", body: audioBlob ? formData : undefined },
       );
 
       if (!diarizeResponse.ok) {
@@ -231,7 +302,13 @@ export function TranscriptionViewStreaming({
       setReportFailed(true);
       setIsGeneratingReport(false);
     }
-  }, [handleStop, consultationId, router, onDiarizationComplete]);
+  }, [
+    handleStop,
+    consultationId,
+    router,
+    onDiarizationComplete,
+    finalizeAudioBlob,
+  ]);
 
   const handleRegenerateReports = useCallback(async () => {
     setIsGeneratingReport(true);
