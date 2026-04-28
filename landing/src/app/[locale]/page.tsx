@@ -7,6 +7,7 @@ import { Hero } from "@/components/Hero";
 import { HeroIndia } from "@/components/HeroIndia";
 import { WarpField } from "@/components/WarpField";
 import { Problem } from "@/components/Problem";
+import { InlineCTA } from "@/components/InlineCTA";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Features } from "@/components/Features";
 import { FeaturesIndia } from "@/components/FeaturesIndia";
@@ -146,8 +147,10 @@ export default async function LocaleLandingPage({ params }: PageProps) {
       <main className="relative z-10">
         {isOpd ? <HeroIndia locale={l} /> : <Hero locale={l} />}
         <Problem locale={l} />
+        <InlineCTA locale={l} variant="afterProblem" />
         {!isOpd && <HowItWorks locale={l} />}
         {isOpd ? <FeaturesIndia locale={l} /> : <Features locale={l} />}
+        <InlineCTA locale={l} variant="afterDemo" />
         <Trust locale={l} />
         <PoweredBySarvam locale={l} />
         {isOpd ? <PricingIndia locale={l} /> : <Pricing locale={l} />}

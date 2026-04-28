@@ -139,6 +139,11 @@ export interface LandingContent {
     headlinePost: string;
     stats: StatContent[];
   };
+  inlineCta: {
+    afterProblem: string;
+    afterDemo: string;
+    href: string;
+  };
   howItWorks: {
     sectionLabel: string;
     headlinePre: string;
@@ -378,6 +383,11 @@ export const content: Record<Locale, LandingContent> = {
         { value: "22+", label: "Indian languages spoken in consultations" },
         { value: "0", label: "AI scribes built for Indian languages" },
       ],
+    },
+    inlineCta: {
+      afterProblem: "Sound familiar? Start your free month",
+      afterDemo: "Ready to try it in your clinic? Start free",
+      href: "/in/discovery-survey",
     },
     howItWorks: {
       sectionLabel: "How It Works",
@@ -825,6 +835,11 @@ export const content: Record<Locale, LandingContent> = {
           label: "AI scribe yang dibangun untuk Bahasa Indonesia",
         },
       ],
+    },
+    inlineCta: {
+      afterProblem: "Terdengar familiar? Mulai uji coba gratis",
+      afterDemo: "Siap mencobanya di klinik Anda? Mulai gratis",
+      href: "/id/discovery-survey",
     },
     howItWorks: {
       sectionLabel: "Cara Kerja",
