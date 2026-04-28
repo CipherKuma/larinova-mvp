@@ -36,7 +36,7 @@ export function StepName({ onContinue }: StepNameProps) {
         .from("larinova_doctors")
         .select("first_name, last_name, full_name")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       let f = doctor?.first_name ?? "";
       let l = doctor?.last_name ?? "";

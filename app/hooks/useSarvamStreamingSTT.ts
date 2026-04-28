@@ -75,6 +75,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   const startTimeRef = useRef<number>(0);
   const durationTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mountedRef = useRef(true);
+  const waitForTranscriptResolversRef = useRef<Array<() => void>>([]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -107,11 +108,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     streamRef.current?.getTracks().forEach((t) => t.stop());
     streamRef.current = null;
     if (wsRef.current && wsRef.current.readyState <= 1) {
-      try {
-        wsRef.current.send(JSON.stringify({ type: "flush" }));
-      } catch {
-        // ignore
-      }
       try {
         wsRef.current.close(1000, "client done");
       } catch {
@@ -180,6 +176,8 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
           }));
         }
         onTranscript?.(trimmed, true);
+        waitForTranscriptResolversRef.current.forEach((resolve) => resolve());
+        waitForTranscriptResolversRef.current = [];
         return;
       }
 
@@ -209,8 +207,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     transcriptRef.current = "";
 
     try {
-      console.log("[stt] start →", { consultationId, languageCode, mode });
-
       // 1. Get the proxy URL + JWT from the server. consultationId is omitted
       // for onboarding sessions; the server treats that as purpose=onboarding.
       const tokenRes = await fetch("/api/consultation/stt-token", {
@@ -218,17 +214,14 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(consultationId ? { consultationId } : {}),
       });
-      console.log("[stt] token endpoint status:", tokenRes.status);
       if (!tokenRes.ok) {
         const errBody = await tokenRes.json().catch(() => ({}));
-        console.error("[stt] token endpoint failed:", errBody);
         throw new Error(errBody?.error || "Failed to get STT token");
       }
       const { token, wsUrl } = (await tokenRes.json()) as {
         token: string;
         wsUrl: string;
       };
-      console.log("[stt] got token, wsUrl =", wsUrl);
 
       // 2. Get mic
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -251,27 +244,20 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         high_vad_sensitivity: "true",
         vad_signals: "true",
         input_audio_codec: "pcm_s16le",
+        flush_signal: "true",
       });
-      console.log(
-        "[stt] opening WS to",
-        wsUrl,
-        "with params",
-        Array.from(params.keys()).filter((k) => k !== "token"),
-      );
       const ws = new WebSocket(`${wsUrl}?${params.toString()}`);
       ws.binaryType = "arraybuffer";
       wsRef.current = ws;
 
       const wsReady = new Promise<void>((resolve, reject) => {
         const timeoutId = setTimeout(() => {
-          console.error("[stt] WS open timeout after 10s");
           reject(new Error("STT WebSocket open timed out"));
         }, 10000);
         ws.addEventListener(
           "open",
           () => {
             clearTimeout(timeoutId);
-            console.log("[stt] WS open ✅");
             resolve();
           },
           { once: true },
@@ -280,7 +266,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
           "error",
           (ev) => {
             clearTimeout(timeoutId);
-            console.error("[stt] WS error event:", ev);
             reject(new Error("STT WebSocket error"));
           },
           { once: true },
@@ -289,12 +274,12 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
 
       ws.addEventListener("message", (ev) => {
         if (typeof ev.data === "string") {
-          console.log("[stt] ← server msg:", ev.data.slice(0, 200));
           handleServerMessage(ev.data);
         }
       });
       ws.addEventListener("close", (ev) => {
-        console.log("[stt] WS close:", ev.code, ev.reason);
+        waitForTranscriptResolversRef.current.forEach((resolve) => resolve());
+        waitForTranscriptResolversRef.current = [];
         if (mountedRef.current) {
           setState((s) => ({
             ...s,
@@ -312,11 +297,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       // 4. Set up audio pipeline: mic → AudioContext → AudioWorklet
       const audioCtx = new AudioContext();
       audioCtxRef.current = audioCtx;
-      console.log(
-        "[stt] AudioContext.sampleRate =",
-        audioCtx.sampleRate,
-        "loading worklet from blob URL...",
-      );
       // Load the worklet from a Blob URL rather than /audio-worklet/*.js.
       // The Serwist service worker was intercepting that path and returning
       // 406 (likely a defaultCache mismatch on request.destination =
@@ -331,7 +311,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       } finally {
         URL.revokeObjectURL(workletBlobUrl);
       }
-      console.log("[stt] worklet loaded ✅");
       const source = audioCtx.createMediaStreamSource(stream);
       sourceNodeRef.current = source;
       const workletNode = new AudioWorkletNode(
@@ -349,26 +328,18 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       );
       workletNodeRef.current = workletNode;
 
-      let frameCount = 0;
       workletNode.port.onmessage = (e: MessageEvent<ArrayBuffer>) => {
         if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
           return;
         }
         const audioBase64 = pcmToBase64(e.data);
-        if (frameCount === 0)
-          console.log(
-            "[stt] sending first PCM frame, bytes =",
-            e.data.byteLength,
-          );
-        frameCount++;
-        if (frameCount % 50 === 0)
-          console.log(`[stt] sent ${frameCount} frames`);
         wsRef.current.send(
           JSON.stringify({
-            type: "transcribe",
-            audio: audioBase64,
-            sample_rate: TARGET_SAMPLE_RATE,
-            encoding: "audio/pcm_s16le",
+            audio: {
+              data: audioBase64,
+              sample_rate: TARGET_SAMPLE_RATE,
+              encoding: "audio/pcm_s16le",
+            },
           }),
         );
       };
@@ -393,7 +364,6 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         }));
       }
     } catch (err: unknown) {
-      console.error("[stt] start() failed:", err);
       cleanup();
       const error = err as Error;
       const isPermission =
@@ -423,8 +393,60 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     state.isConnecting,
   ]);
 
-  const stop = useCallback(() => {
-    cleanup();
+  const waitForFinalTranscript = useCallback((timeoutMs = 2500) => {
+    return new Promise<void>((resolve) => {
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeoutId);
+        resolve();
+      };
+      const timeoutId = setTimeout(done, timeoutMs);
+      waitForTranscriptResolversRef.current.push(done);
+    });
+  }, []);
+
+  const stop = useCallback(async () => {
+    if (durationTimerRef.current) {
+      clearInterval(durationTimerRef.current);
+      durationTimerRef.current = null;
+    }
+    try {
+      workletNodeRef.current?.disconnect();
+    } catch {
+      // ignore
+    }
+    workletNodeRef.current = null;
+    try {
+      sourceNodeRef.current?.disconnect();
+    } catch {
+      // ignore
+    }
+    sourceNodeRef.current = null;
+    if (audioCtxRef.current && audioCtxRef.current.state !== "closed") {
+      audioCtxRef.current.close().catch(() => {});
+    }
+    audioCtxRef.current = null;
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      try {
+        wsRef.current.send(JSON.stringify({ type: "flush" }));
+      } catch {
+        // ignore
+      }
+    }
+    await waitForFinalTranscript();
+    if (wsRef.current && wsRef.current.readyState <= WebSocket.OPEN) {
+      try {
+        wsRef.current.close(1000, "client done");
+      } catch {
+        // ignore
+      }
+    }
+    wsRef.current = null;
     if (mountedRef.current) {
       setState((s) => ({
         ...s,
@@ -434,7 +456,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         speaking: false,
       }));
     }
-  }, [cleanup]);
+  }, [waitForFinalTranscript]);
 
   const resetTranscript = useCallback(() => {
     transcriptRef.current = "";

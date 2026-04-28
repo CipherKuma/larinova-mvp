@@ -4,6 +4,7 @@
 Ship the India OPD platform end-to-end: booking → intake → AI-prepared consult → recorded consult → email wellness follow-up (SMS + WhatsApp follow-ups land in v1.1). Doctor pays via Razorpay Live; 5 pilot doctors whitelisted as alpha pro. Patient journey works over Email today; optional patient portal at `patient.larinova.com`. Indonesia ships the same OPD landing in parallel; Indonesia *app* (Xendit, Deepgram tuning, ID patient portal) deferred.
 
 ## Decided
+- **2026-04-28 hotfix:** Onboarding StepMagic must use Sarvam's raw WebSocket message shape (`audio.data/sample_rate/encoding`) and explicit `flush_signal=true` so Stop finalizes the transcript before SOAP generation. First-time onboarding doctor profile reads must tolerate a missing `larinova_doctors` row without surfacing Supabase 406 noise.
 - **Tiering:** Free = 20 consultations/month; Pro = unlimited. Whitelist array in `lib/subscription.ts` upgrades emails on login.
 - **Pilot:** 5 doctors whitelisted pro from day one; receive alpha welcome banner + email.
 - **Pricing:** IN ₹999/mo + ₹9,990/yr (save ₹1,998); ID IDR 299k/mo + IDR 2.99M/yr (display-only); default USD $20/$200.

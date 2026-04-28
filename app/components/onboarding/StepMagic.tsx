@@ -174,7 +174,7 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
       maxDurationTimerRef.current = null;
     }
 
-    stt.stop();
+    await stt.stop();
     const finalTranscript = stt.transcriptRef.current;
     setTranscript(finalTranscript);
     await generateSoap(finalTranscript);
