@@ -89,6 +89,22 @@ export async function POST(request: Request) {
       }
       authUserId = data.user.id;
       authUserEmail = data.user.email ?? email;
+
+      // admin.createUser does NOT establish a session on the SSR Supabase
+      // client. Sign in server-side now so cookies are set and the
+      // user-scoped RPC `claim_invite_code` (which reads auth.uid()) works.
+      // Without this, the invite stays unclaimed and the doctor is stuck
+      // on the default free tier instead of getting their pro grant.
+      const { error: signInErr } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInErr) {
+        console.error(
+          "[signup] post-create signInWithPassword failed:",
+          signInErr.message,
+        );
+      }
     } else {
       const { data, error } = await supabase.auth.signUp({
         email,
