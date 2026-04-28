@@ -16,8 +16,11 @@ import {
 } from "lucide-react";
 import { SARVAM_LANGUAGES, type SarvamLanguageCode } from "@/lib/sarvam/types";
 import { useSarvamSTT } from "@/hooks/useSarvamSTT";
+import { useSarvamStreamingSTT } from "@/hooks/useSarvamStreamingSTT";
 import { useTranslations } from "next-intl";
 import { ListeningOrb } from "@/components/consultation/ListeningOrb";
+
+const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING === "true";
 
 interface Transcript {
   id: string;
@@ -132,11 +135,22 @@ export function TranscriptionViewStreaming({
     }
   }, []);
 
-  const stt = useSarvamSTT({
+  // Both hooks are unconditionally called to keep React's hook order
+  // stable across renders; only the active one ever does real work since
+  // `start()` is what kicks off the mic / WS / fetch.
+  const restStt = useSarvamSTT({
     languageCode: language,
     onTranscript: handleTranscript,
     onError: handleSTTError,
   });
+  const streamingStt = useSarvamStreamingSTT({
+    consultationId,
+    languageCode: language,
+    mode: "codemix",
+    onTranscript: handleTranscript,
+    onError: handleSTTError,
+  });
+  const stt = STREAMING_ENABLED ? streamingStt : restStt;
 
   // Auto-scroll to latest transcript
   useEffect(() => {
