@@ -203,13 +203,13 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
 
           <div className="flex-shrink-0 px-6 lg:px-8 xl:px-12 pb-6">
             <div className="w-full max-w-xl">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+              <h1 className="text-[1.7rem] sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 text-balance leading-[1.12]">
                 {content.meta.heading}{" "}
                 <span className="text-gradient">
                   {content.meta.headingAccent}
                 </span>
               </h1>
-              <p className="text-base text-muted-foreground">
+              <p className="text-base text-foreground/70 leading-relaxed">
                 {content.meta.subtitle}
               </p>
             </div>
@@ -229,7 +229,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         required
                         value={form.name}
                         onChange={(e) => update("name", e.target.value)}
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                     <Field
@@ -242,7 +242,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         onChange={(e) =>
                           update("specialization", e.target.value)
                         }
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                     <Field
@@ -253,7 +253,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         required
                         value={form.clinic}
                         onChange={(e) => update("clinic", e.target.value)}
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                     <Field
@@ -264,7 +264,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         required
                         value={form.city}
                         onChange={(e) => update("city", e.target.value)}
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                     <Field
@@ -277,7 +277,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         inputMode="tel"
                         value={form.whatsapp}
                         onChange={(e) => update("whatsapp", e.target.value)}
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                     <Field label={content.sections.personal.fields.email}>
@@ -285,7 +285,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                         type="email"
                         value={form.email}
                         onChange={(e) => update("email", e.target.value)}
-                        className="h-11"
+                        className="h-11 border-white/10 bg-white/[0.03] focus-visible:border-primary/60 focus-visible:ring-primary/40"
                       />
                     </Field>
                   </div>
@@ -430,7 +430,7 @@ export function DiscoveryForm({ content }: { content: DiscoveryFormContent }) {
                       onChange={(e) => update("tellUsMore", e.target.value)}
                       placeholder={content.sections.more.placeholder}
                       rows={4}
-                      className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-base md:text-sm placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] resize-none"
+                      className="w-full rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-base md:text-sm placeholder:text-foreground/40 focus-visible:border-primary/60 focus-visible:ring-primary/40 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] resize-none"
                     />
                   </QuestionGroup>
                 </Section>
@@ -534,13 +534,17 @@ function Section({
 }) {
   return (
     <section>
-      <div className="flex items-center gap-3 mb-5 pb-3 border-b border-border">
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-bold">
+      <div className="flex items-center gap-3 mb-5 pb-3 border-b border-white/[0.08]">
+        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold shadow-[0_4px_14px_-4px_rgba(16,185,129,0.6)]">
           {number}
         </span>
-        <h2 className="text-lg md:text-xl font-semibold text-foreground">
+        <h2 className="text-lg md:text-xl font-semibold text-foreground tracking-tight">
           {title}
         </h2>
+        <span
+          aria-hidden
+          className="ml-auto h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent"
+        />
       </div>
       <div className="space-y-6">{children}</div>
     </section>
@@ -558,9 +562,13 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-sm font-medium text-muted-foreground mb-1.5">
+      <span className="block text-sm font-medium text-foreground/80 mb-1.5">
         {label}
-        {required && <span className="text-primary ml-0.5">*</span>}
+        {required && (
+          <span className="text-rose-400 ml-1" aria-hidden>
+            *
+          </span>
+        )}
       </span>
       {children}
     </label>

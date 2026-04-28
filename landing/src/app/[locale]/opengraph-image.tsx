@@ -10,12 +10,12 @@ export default async function OgImage({ params }: Props) {
   const isId = locale === "id";
 
   const tagline = isId
-    ? "AI Medical Scribe untuk Dokter Indonesia"
-    : "AI Medical Scribe for Indian Doctors";
+    ? "Platform OPD untuk Dokter Indonesia"
+    : "OPD Platform for Indian Doctors";
 
   const sub = isId
-    ? "Indonesia + Jawa + Inggris | Real-time SOAP Notes | Built on Deepgram"
-    : "Tamil + Hindi + English | Real-time SOAP Notes | Built on Sarvam AI";
+    ? "Booking · Intake · Prep · Konsultasi · Tindak Lanjut — Indonesia, Jawa, Inggris"
+    : "Booking · Intake · Prep · Consult · Follow-up — Tamil, Hindi, English";
 
   return new ImageResponse(
     <div

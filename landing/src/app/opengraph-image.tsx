@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Larinova - AI Medical Scribe for Indian Doctors";
+export const alt = "Larinova - OPD Platform for Indian Doctors";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -118,7 +118,7 @@ export default function OgImage() {
           lineHeight: 1.4,
         }}
       >
-        AI Medical Scribe for Indian Doctors
+        The OPD Platform for Indian Doctors
       </p>
 
       {/* Sub tagline */}
@@ -129,7 +129,7 @@ export default function OgImage() {
           marginTop: 12,
         }}
       >
-        Tamil + Hindi + English | Real-time SOAP Notes | Built on Sarvam AI
+        Booking · Intake · Prep · Consult · Follow-up — Tamil, Hindi, English
       </p>
     </div>,
     { ...size },

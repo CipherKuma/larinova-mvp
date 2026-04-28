@@ -15,7 +15,7 @@ const fields = [
 
 export function PhaseVisualIntake() {
   return (
-    <div className="relative w-full max-w-md rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-sm">
+    <div className="relative w-full max-w-md rounded-2xl border border-border/80 bg-card/85 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center justify-between">
         <div>
           <div className="font-mono text-[10px] uppercase tracking-widest text-sky-400">

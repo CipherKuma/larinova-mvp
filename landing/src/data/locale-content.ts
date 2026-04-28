@@ -684,8 +684,8 @@ export const content: Record<Locale, LandingContent> = {
   id: {
     opd: {
       hero: {
-        headline: "Asisten poliklinik paling canggih untuk dokter Indonesia.",
-        sub: "Lebih banyak pasien. Lebih sedikit menulis. Kirim resep dan tindak lanjut lewat email, SMS, dan WhatsApp.",
+        headline: "Asisten OPD tercanggih untuk dokter Indonesia.",
+        sub: "Lebih banyak pasien. Lebih sedikit menulis. Resep dan tindak lanjut otomatis lewat email, SMS, dan WhatsApp.",
         ctaPrimary: "Minta akses",
         ctaPrimaryHref: "/id/discovery-survey",
         ctaSecondary: "Lihat cara kerjanya",
@@ -698,7 +698,7 @@ export const content: Record<Locale, LandingContent> = {
         phases: [
           {
             num: "01",
-            label: "BOOKING",
+            label: "PEMESANAN",
             verb: "Halaman booking Anda,",
             noun: "siap dalam 60 detik.",
             desc: "Bagikan satu tautan. Pasien memilih jadwal, mengisi data kontak, dan menerima konfirmasi otomatis lewat email, SMS, dan WhatsApp.",
@@ -706,7 +706,7 @@ export const content: Record<Locale, LandingContent> = {
           },
           {
             num: "02",
-            label: "INTAKE",
+            label: "PENDAFTARAN",
             verb: "Pasien mengisi formulir Anda.",
             noun: "Bukan formulir kami.",
             desc: "Rancang pertanyaan yang benar-benar Anda butuhkan. Pasien menjawab sebelum konsultasi, mengunggah hasil lab dan foto. AI menanyakan detail yang kurang sehingga Anda tidak perlu.",
@@ -822,7 +822,7 @@ export const content: Record<Locale, LandingContent> = {
         },
         {
           value: "0",
-          label: "AI scribe yang dibangun untuk bahasa Indonesia",
+          label: "AI scribe yang dibangun untuk Bahasa Indonesia",
         },
       ],
     },
@@ -995,7 +995,7 @@ export const content: Record<Locale, LandingContent> = {
       stats: [
         { val: "4+", label: "bahasa" },
         { val: "<500ms", label: "latensi" },
-        { val: "Native", label: "campuran bahasa" },
+        { val: "Asli", label: "campuran bahasa" },
         { val: "Medis", label: "kosakata" },
       ],
     },

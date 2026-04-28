@@ -24,25 +24,25 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
   useGSAP(
     () => {
       if (!opd) return;
-      const cards = sectionRef.current?.querySelectorAll(".pricing-card");
-      if (!cards) return;
-      cards.forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1,
-            y: 0,
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const cards = sectionRef.current?.querySelectorAll(".pricing-card");
+        if (!cards) return;
+        cards.forEach((card, i) => {
+          gsap.from(card, {
+            opacity: 0,
+            y: 32,
             duration: 0.7,
             delay: i * 0.12,
             ease: "power3.out",
+            immediateRender: false,
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 75%",
+              start: "top 85%",
               toggleActions: "play none none none",
             },
-          },
-        );
+          });
+        });
       });
     },
     { scope: sectionRef, dependencies: [opd] },
@@ -54,31 +54,39 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
 
   return (
     <section ref={sectionRef} id="pricing" className="relative py-28 sm:py-32">
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12 text-center">
-          <span className="mb-4 inline-block font-mono text-xs uppercase tracking-widest text-primary">
+          <span className="mb-4 inline-block font-mono text-[11px] uppercase tracking-[0.3em] text-primary">
             {pricing.sectionLabel}
           </span>
-          <h2 className="font-display text-3xl font-bold leading-[1.1] text-foreground sm:text-4xl md:text-5xl">
+          <h2 className="text-balance font-display text-3xl font-bold leading-[1.04] tracking-[-0.02em] text-foreground sm:text-4xl md:text-5xl lg:text-[3.5rem]">
             {pricing.headlinePre}{" "}
             <span className="text-gradient">{pricing.headlineAccent}</span>
           </h2>
         </div>
 
-        {/* Billing toggle */}
-        <div className="mb-12 flex justify-center">
+        {/* Billing toggle — sliding pill segmented control */}
+        <div className="mb-14 flex justify-center">
           <div
             role="tablist"
             aria-label="Billing interval"
-            className="inline-flex items-center rounded-full border border-border bg-card/50 p-1"
+            className="relative inline-flex items-center rounded-full border border-border bg-card/50 p-1"
           >
+            <span
+              aria-hidden
+              className={`absolute top-1 bottom-1 left-1 rounded-full bg-primary shadow-[0_8px_24px_-8px_rgba(16,185,129,0.55)] transition-transform duration-300 ease-out motion-reduce:transition-none ${
+                isYearly ? "translate-x-full" : "translate-x-0"
+              }`}
+              style={{ width: "calc(50% - 0.25rem)" }}
+            />
             <button
               role="tab"
+              type="button"
               aria-selected={!isYearly}
               onClick={() => setInterval("month")}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
+              className={`relative z-10 rounded-full px-6 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                 !isYearly
-                  ? "bg-primary text-primary-foreground"
+                  ? "text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -86,17 +94,18 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
             </button>
             <button
               role="tab"
+              type="button"
               aria-selected={isYearly}
               onClick={() => setInterval("year")}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
+              className={`relative z-10 inline-flex items-center gap-2 rounded-full px-6 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                 isYearly
-                  ? "bg-primary text-primary-foreground"
+                  ? "text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {pricing.yearlyLabel}
               <span
-                className={`ml-2 rounded-full px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
+                className={`rounded-full px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
                   isYearly
                     ? "bg-primary-foreground/15 text-primary-foreground"
                     : "bg-emerald-500/15 text-emerald-400"
@@ -109,7 +118,7 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
         </div>
 
         {/* Tier cards */}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
           {/* Free */}
           <div className="pricing-card rounded-2xl border border-border bg-card/50 p-8">
             <h3 className="mb-2 font-display text-xl font-bold text-foreground">
@@ -140,7 +149,7 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
             </ul>
             <a
               href={pricing.free.ctaHref}
-              className="block w-full rounded-full border border-border py-3 text-center text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:text-primary"
+              className="block w-full rounded-full border border-border py-3 text-center text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               {pricing.free.cta}
             </a>
@@ -199,7 +208,7 @@ export function PricingIndia({ locale }: PricingIndiaProps) {
           </div>
           <a
             href={pricing.enterpriseHref}
-            className="shrink-0 rounded-full border border-primary/40 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary/10"
+            className="shrink-0 rounded-full border border-primary/40 px-5 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {pricing.enterpriseCta}
           </a>

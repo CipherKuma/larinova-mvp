@@ -10,7 +10,7 @@ export function PhaseVisualPrep() {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-        className="rounded-2xl border border-border bg-card/70 p-6 shadow-[0_20px_60px_-20px_rgba(168,85,247,0.25)] backdrop-blur-sm"
+        className="rounded-2xl border border-border/80 bg-card/85 p-6 shadow-[0_20px_60px_-20px_rgba(168,85,247,0.25)] backdrop-blur-sm"
       >
         <div className="mb-4 flex items-start justify-between">
           <div>

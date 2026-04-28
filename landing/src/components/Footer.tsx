@@ -11,7 +11,7 @@ export function Footer({ locale }: FooterProps) {
   const c = localeContent[locale].footer;
 
   return (
-    <footer className="border-t border-border py-16">
+    <footer className="relative overflow-hidden border-t border-border pt-16 pb-32 sm:pb-20">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col items-start justify-between gap-10 md:flex-row">
           <div>
@@ -105,7 +105,7 @@ export function Footer({ locale }: FooterProps) {
               <ul className="space-y-2 text-sm text-foreground/60">
                 <li>
                   <a
-                    href="#features"
+                    href="mailto:hello@larinova.com"
                     className="transition-colors hover:text-foreground"
                   >
                     {c.links.about}
@@ -132,8 +132,29 @@ export function Footer({ locale }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-border pt-6 text-center font-mono text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Larinova. {c.copyright}
+        <div className="mt-16 flex flex-col-reverse items-start justify-between gap-6 border-t border-border pt-8 sm:flex-row sm:items-end">
+          <div className="font-mono text-xs text-muted-foreground">
+            &copy; {new Date().getFullYear()} Larinova. {c.copyright}
+          </div>
+          <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inset-0 inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            {locale === "id"
+              ? "Mendengarkan di Indonesia"
+              : "Listening across India"}
+          </div>
+        </div>
+      </div>
+
+      {/* Closing wordmark moment — subtle gradient swash */}
+      <div
+        aria-hidden
+        className="pointer-events-none -mt-2 select-none overflow-hidden text-center"
+      >
+        <div className="font-display text-[12vw] font-bold leading-[0.85] tracking-[-0.04em] text-transparent [background:linear-gradient(180deg,rgba(16,185,129,0.10)_0%,rgba(16,185,129,0.01)_100%)] bg-clip-text">
+          Larinova
         </div>
       </div>
     </footer>

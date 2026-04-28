@@ -62,7 +62,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Larinova | AI Medical Scribe",
+    default: "Larinova | OPD Platform for Indian Doctors",
     template: "%s | Larinova",
   },
   description: SITE_DESCRIPTION,

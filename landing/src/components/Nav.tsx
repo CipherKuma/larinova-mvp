@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+// itshover registry returns 404 for menu/x/chevron/arrow/check (verified 2026-04-28); lucide is the documented fallback per ui-rules.
 import Image from "next/image";
 import { type Locale, content as localeContent } from "@/data/locale-content";
 
@@ -51,10 +52,7 @@ export function Nav({ locale }: NavProps) {
               height={48}
               className="h-12 w-12 object-contain"
             />
-            <span
-              className="text-xl font-semibold text-white tracking-tight"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
+            <span className="font-display text-xl font-semibold tracking-tight text-white">
               Larinova
             </span>
           </div>
@@ -102,13 +100,29 @@ export function Nav({ locale }: NavProps) {
 
           <a
             href={`/${locale}/discovery-survey`}
-            className="hidden rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 sm:block"
+            className="group hidden items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-semibold text-foreground transition-all hover:border-primary/50 hover:bg-primary/10 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:inline-flex"
           >
-            {c.cta}
+            <span>{c.cta}</span>
+            <svg
+              aria-hidden
+              viewBox="0 0 20 20"
+              className="h-3.5 w-3.5 opacity-70 transition-transform group-hover:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 10h10" />
+              <path d="m11 5 5 5-5 5" />
+            </svg>
           </a>
           <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -123,7 +137,7 @@ export function Nav({ locale }: NavProps) {
                 key={link}
                 href={linkHrefs[link] ?? `#${link.toLowerCase()}`}
                 onClick={() => setOpen(false)}
-                className="font-mono text-sm uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+                className="py-2 font-mono text-base uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link}
               </a>

@@ -1,8 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
-import { Clock, Globe, BotOff } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -10,11 +8,11 @@ import { type Locale, content as localeContent } from "@/data/locale-content";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ICONS = [Clock, Globe, BotOff];
-
 interface ProblemProps {
   locale: Locale;
 }
+
+const ACCENT_TOKENS = ["#f59e0b", "#0ea5e9", "#a855f7"];
 
 export function Problem({ locale }: ProblemProps) {
   const c = localeContent[locale].problem;
@@ -22,25 +20,43 @@ export function Problem({ locale }: ProblemProps) {
 
   useGSAP(
     () => {
-      const items = sectionRef.current?.querySelectorAll(".stat-item");
-      if (!items) return;
-      items.forEach((item, i) => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const items = sectionRef.current?.querySelectorAll(".stat-item");
+        if (!items) return;
+        items.forEach((item, i) => {
+          const num = item.querySelector(".stat-num");
+          const label = item.querySelector(".stat-label");
+          const rule = item.querySelector(".stat-rule");
+          const tl = gsap.timeline({
+            defaults: { immediateRender: false },
             scrollTrigger: {
               trigger: item,
-              start: "top 85%",
+              start: "top 90%",
               toggleActions: "play none none none",
             },
-            delay: i * 0.15,
-          },
-        );
+            delay: i * 0.12,
+          });
+          if (rule)
+            tl.from(rule, {
+              scaleX: 0,
+              transformOrigin: "left",
+              duration: 0.55,
+              ease: "power3.out",
+            });
+          if (num)
+            tl.from(
+              num,
+              { opacity: 0, y: 36, duration: 0.7, ease: "power3.out" },
+              "-=0.35",
+            );
+          if (label)
+            tl.from(
+              label,
+              { opacity: 0, y: 12, duration: 0.45, ease: "power3.out" },
+              "-=0.45",
+            );
+        });
       });
     },
     { scope: sectionRef },
@@ -49,39 +65,44 @@ export function Problem({ locale }: ProblemProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative py-32 overflow-hidden bg-background"
+      className="relative overflow-hidden bg-background py-24 sm:py-28 md:py-32"
     >
-      <Image
-        src="/images/paperwork.jpg"
-        alt=""
-        fill
-        className="object-cover opacity-[0.06] grayscale"
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 30%, rgba(245,158,11,0.07) 0%, transparent 55%)",
+        }}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <h2 className="mb-20 text-center font-display text-3xl font-bold text-foreground md:text-4xl">
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <h2 className="mb-20 max-w-3xl text-balance font-display text-3xl font-bold leading-[1.04] tracking-[-0.02em] text-foreground sm:text-4xl md:text-5xl lg:text-[3.5rem]">
           {c.headline} <span className="text-gradient">{c.headlineAccent}</span>{" "}
           {c.headlinePost}
         </h2>
 
-        <div className="grid gap-16 md:grid-cols-3 md:gap-8">
+        <dl className="grid gap-y-14 sm:grid-cols-3 sm:gap-x-10 sm:gap-y-0">
           {c.stats.map((stat, i) => {
-            const Icon = ICONS[i];
+            const accent = ACCENT_TOKENS[i] ?? ACCENT_TOKENS[0];
             return (
-              <div key={stat.value} className="stat-item text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                  <Icon className="h-6 w-6 text-primary" />
-                </div>
-                <div className="font-display text-5xl font-bold text-foreground sm:text-6xl md:text-7xl lg:text-[120px] lg:leading-none">
+              <div key={stat.value} className="stat-item">
+                <div
+                  className="stat-rule mb-6 h-px w-16 origin-left"
+                  style={{ backgroundColor: accent }}
+                />
+                <dd
+                  className="stat-num font-display text-[clamp(3.5rem,8vw,5.5rem)] font-bold leading-[0.92] tracking-[-0.04em] text-foreground"
+                  style={{ color: accent }}
+                >
                   {stat.value}
-                </div>
-                <p className="mt-4 font-mono text-sm text-muted-foreground">
+                </dd>
+                <dt className="stat-label mt-5 max-w-[22ch] min-h-[3.5rem] text-base leading-relaxed text-foreground/75 sm:text-lg">
                   {stat.label}
-                </p>
+                </dt>
               </div>
             );
           })}
-        </div>
+        </dl>
       </div>
     </section>
   );

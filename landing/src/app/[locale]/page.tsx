@@ -45,14 +45,15 @@ export async function generateMetadata({
 
   if (locale === "id") {
     return {
-      title: "Larinova | AI Medical Scribe untuk Dokter Indonesia",
+      title: "Larinova | Platform OPD untuk Dokter Indonesia",
       description:
-        "AI medical scribe yang memahami Bahasa Indonesia, Jawa, dan Inggris. Transkripsi konsultasi real-time, catatan SOAP, resep - didukung Deepgram AI.",
+        "Platform OPD bertenaga AI untuk dokter Indonesia. Booking, intake terpandu AI, Prep Brief pra-konsultasi, catatan SOAP real-time dalam Bahasa Indonesia/Jawa/Inggris, dan tindak lanjut wellness otomatis.",
       keywords: [
-        "AI medical scribe",
+        "platform OPD",
+        "asisten OPD dokter",
         "transkripsi medis Indonesia",
         "catatan SOAP",
-        "Deepgram AI",
+        "tindak lanjut pasien",
         "dokumentasi klinis",
         "Larinova",
         "dokter Indonesia",
@@ -67,9 +68,9 @@ export async function generateMetadata({
         },
       },
       openGraph: {
-        title: "Larinova | AI Medical Scribe untuk Dokter Indonesia",
+        title: "Larinova | Platform OPD untuk Dokter Indonesia",
         description:
-          "Pasien Anda berbicara Bahasa Indonesia. Scribe Anda juga harus bisa.",
+          "Asisten OPD paling canggih untuk dokter Indonesia. Lebih banyak pasien, lebih sedikit ketikan. Resep dan tindak lanjut lewat email, SMS, dan WhatsApp.",
         url: `${SITE_URL}/id`,
         siteName: SITE_NAME,
         locale: "id_ID",
@@ -77,27 +78,29 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        title: "Larinova | AI Medical Scribe untuk Dokter Indonesia",
+        title: "Larinova | Platform OPD untuk Dokter Indonesia",
         description:
-          "AI medical scribe yang memahami Bahasa Indonesia. Transkripsi real-time, catatan SOAP, resep.",
+          "Platform OPD AI untuk dokter Indonesia: booking, intake, Prep Brief, catatan SOAP real-time, dan tindak lanjut otomatis.",
       },
     };
   }
 
   // Default: India locale
   return {
-    title: "Larinova | AI Medical Scribe for Indian Doctors",
+    title: "Larinova | OPD Platform for Indian Doctors",
     description:
-      "AI-powered medical scribe that understands Tamil, Hindi, and English. Real-time consultation transcription, SOAP notes, prescriptions - built on Sarvam AI.",
+      "The AI-powered OPD platform for Indian doctors. Booking, AI-guided intake, pre-consult Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated wellness follow-up — one platform.",
     keywords: [
-      "AI medical scribe",
+      "OPD platform",
+      "OPD assistant for doctors",
       "Tamil medical transcription",
+      "AI patient intake",
       "SOAP notes",
       "Indian healthcare AI",
       "Sarvam AI",
       "clinical documentation",
       "Larinova",
-      "medical scribe India",
+      "patient follow-up India",
     ],
     alternates: {
       canonical: `${SITE_URL}/in`,
@@ -108,9 +111,9 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: "Larinova | AI Medical Scribe for Indian Doctors",
+      title: "Larinova | OPD Platform for Indian Doctors",
       description:
-        "Your patients speak Tamil. Your scribe should too. AI-powered medical documentation for Indian doctors.",
+        "The most advanced OPD assistant for Indian doctors. See more patients. Type less. Send prescriptions and follow-ups by email, SMS, and WhatsApp.",
       url: `${SITE_URL}/in`,
       siteName: SITE_NAME,
       locale: "en_IN",
@@ -118,9 +121,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: "Larinova | AI Medical Scribe for Indian Doctors",
+      title: "Larinova | OPD Platform for Indian Doctors",
       description:
-        "AI medical scribe that understands Tamil, Hindi, and English. Real-time transcription, SOAP notes, prescriptions.",
+        "AI-powered OPD platform for Indian doctors: booking, intake, Prep Brief, real-time SOAP notes in Tamil/Hindi/English, and automated follow-up.",
     },
   };
 }

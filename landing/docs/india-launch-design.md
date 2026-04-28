@@ -1,7 +1,7 @@
 # Larinova AI — India Launch Landing Page Design
 
 **Date:** 2026-03-18
-**Status:** Approved
+**Status:** SUPERSEDED — see `docs/superpowers/specs/2026-04-23-india-opd-platform-design.md`. The scribe-only hero captured here was replaced by the OPD reframe in late April 2026; live copy now lives in `landing/src/data/locale-content.ts` under the `opd:` block.
 **Branch:** `india-launch`
 
 ---

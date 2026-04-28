@@ -7,6 +7,19 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Bail out for screenshot capture and reduced-motion preferences —
+    // Lenis-managed scroll confuses Playwright's fullPage walker and
+    // overrides user motion settings.
+    const wantsReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const inCaptureMode =
+      typeof window !== "undefined" &&
+      (new URLSearchParams(window.location.search).has("capture") ||
+        document.documentElement.dataset.capture === "1");
+    if (wantsReducedMotion || inCaptureMode) {
+      return;
+    }
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
