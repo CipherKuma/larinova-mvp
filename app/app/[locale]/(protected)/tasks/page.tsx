@@ -108,6 +108,7 @@ export default function TasksPage() {
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [formData, setFormData] = useState<InlineFormData>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const saveInFlightRef = useRef(false);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   // Delete confirmation state
@@ -181,7 +182,9 @@ export default function TasksPage() {
   };
 
   const handleSave = async () => {
+    if (saveInFlightRef.current) return;
     if (!formData.title.trim()) return;
+    saveInFlightRef.current = true;
     setSaving(true);
     try {
       const payload: any = {
@@ -223,6 +226,7 @@ export default function TasksPage() {
         description: t("tasks.failedToSaveTask"),
       });
     } finally {
+      saveInFlightRef.current = false;
       setSaving(false);
     }
   };
