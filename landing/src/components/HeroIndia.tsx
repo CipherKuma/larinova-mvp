@@ -1,9 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { type Locale, content as localeContent } from "@/data/locale-content";
+import { DeferredVideo } from "./DeferredVideo";
 
 interface HeroIndiaProps {
   locale: Locale;
@@ -11,84 +9,16 @@ interface HeroIndiaProps {
 
 export function HeroIndia({ locale }: HeroIndiaProps) {
   const opd = localeContent[locale].opd;
-  const sectionRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      if (!opd) return;
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const words = headlineRef.current?.querySelectorAll(".word");
-        if (words && words.length) {
-          gsap.from(words, {
-            opacity: 0,
-            y: 32,
-            duration: 0.75,
-            stagger: 0.04,
-            ease: "power4.out",
-          });
-        }
-        if (subRef.current) {
-          gsap.from(subRef.current, {
-            opacity: 0,
-            y: 20,
-            duration: 0.9,
-            delay: 0.5,
-            ease: "power3.out",
-          });
-        }
-        if (ctaRef.current) {
-          gsap.from(ctaRef.current, {
-            opacity: 0,
-            y: 20,
-            duration: 0.9,
-            delay: 0.65,
-            ease: "power3.out",
-          });
-        }
-        if (videoRef.current) {
-          gsap.from(videoRef.current, {
-            opacity: 0,
-            y: 30,
-            scale: 0.97,
-            duration: 1.0,
-            delay: 0.85,
-            ease: "power3.out",
-          });
-        }
-        if (glowRef.current) {
-          gsap.to(glowRef.current, {
-            scale: 1.15,
-            opacity: 0.85,
-            duration: 4,
-            yoyo: true,
-            repeat: -1,
-            ease: "sine.inOut",
-          });
-        }
-      });
-    },
-    { scope: sectionRef, dependencies: [opd] },
-  );
 
   if (!opd) return null;
   const { hero } = opd;
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative flex min-h-[calc(100svh)] items-center justify-center overflow-hidden pt-24 pb-16 lg:min-h-screen"
-    >
+    <section className="relative flex min-h-[calc(100svh)] items-center justify-center overflow-hidden pt-24 pb-16 lg:min-h-screen">
       {/* Animated radial gradient glow — breathes behind headline */}
       <div
-        ref={glowRef}
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="hero-glow-pulse pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
           width: "1100px",
           height: "1100px",
@@ -115,12 +45,13 @@ export function HeroIndia({ locale }: HeroIndiaProps) {
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-12 px-6 lg:flex-row lg:items-center lg:gap-16">
         <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
-          <h1
-            ref={headlineRef}
-            className="max-w-[14ch] font-display text-[2rem] font-bold leading-[1.02] tracking-[-0.025em] text-balance text-foreground sm:max-w-[22ch] sm:text-[3.25rem] md:max-w-[26ch] md:text-[3.75rem] lg:max-w-none lg:text-[4rem] xl:text-[4.5rem]"
-          >
+          <h1 className="max-w-[14ch] font-display text-[2rem] font-bold leading-[1.02] tracking-[-0.025em] text-balance text-foreground sm:max-w-[22ch] sm:text-[3.25rem] md:max-w-[26ch] md:text-[3.75rem] lg:max-w-none lg:text-[4rem] xl:text-[4.5rem]">
             {hero.headline.split(" ").map((word, i) => (
-              <span key={i} className="word inline-block">
+              <span
+                key={i}
+                className="hero-rise inline-block"
+                style={{ animationDelay: `${i * 40}ms` }}
+              >
                 {word}
                 {i < hero.headline.split(" ").length - 1 ? " " : ""}
               </span>
@@ -128,15 +59,15 @@ export function HeroIndia({ locale }: HeroIndiaProps) {
           </h1>
 
           <p
-            ref={subRef}
-            className="mt-6 max-w-xl text-base leading-relaxed text-foreground/75 sm:text-lg md:text-xl"
+            className="hero-rise mt-6 max-w-xl text-base leading-relaxed text-foreground/75 sm:text-lg md:text-xl"
+            style={{ animationDelay: "460ms" }}
           >
             {hero.sub}
           </p>
 
           <div
-            ref={ctaRef}
-            className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center lg:justify-start"
+            className="hero-rise mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center lg:justify-start"
+            style={{ animationDelay: "600ms" }}
           >
             <a
               href={hero.ctaPrimaryHref}
@@ -184,19 +115,18 @@ export function HeroIndia({ locale }: HeroIndiaProps) {
 
         {/* Right column: cinematic hero loop (Higgsfield + Kling) */}
         <div
-          ref={videoRef}
-          className="flex w-full flex-1 flex-col items-center lg:items-end lg:justify-end"
+          className="hero-rise flex w-full flex-1 flex-col items-center lg:items-end lg:justify-end"
+          style={{ animationDelay: "720ms" }}
           data-slot="hero-loop"
         >
           <div className="relative aspect-video w-full max-w-[320px] overflow-hidden rounded-2xl border border-border/50 bg-card shadow-[0_30px_80px_-20px_rgba(16,185,129,0.35)] sm:max-w-[420px] md:max-w-[520px] lg:max-w-[640px] xl:max-w-[700px]">
-            <video
+            <DeferredVideo
               src="/videos/hero-loop.mp4"
               className="h-full w-full object-cover"
               autoPlay
               loop
               muted
               playsInline
-              preload="auto"
               aria-label="Larinova product loop"
             />
             {/* Subtle inner ring */}

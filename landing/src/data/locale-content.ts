@@ -248,17 +248,17 @@ export const content: Record<Locale, LandingContent> = {
   in: {
     opd: {
       hero: {
-        headline: "The most advanced OPD assistant for Indian doctors.",
-        sub: "See more patients. Type less. Send prescriptions and follow-ups by email, SMS, and WhatsApp.",
+        headline: "Run your OPD from consultation to follow-up.",
+        sub: "Larinova helps Indian doctors capture consultations, generate clinical notes, prepare prescriptions, manage tasks, and support patients after they leave the clinic.",
         ctaPrimary: "Request access",
         ctaPrimaryHref: "/in/discovery-survey",
-        ctaSecondary: "See how it works",
+        ctaSecondary: "See the OPD workflow",
         ctaSecondaryHref: "#opd-journey",
       },
       features: {
         sectionLabel: "The journey",
         headlinePre: "One OPD.",
-        headlineAccent: "Five moments you never think about again.",
+        headlineAccent: "One workflow before, during, and after each consult.",
         phases: [
           {
             num: "01",
@@ -358,12 +358,12 @@ export const content: Record<Locale, LandingContent> = {
     },
     hero: {
       languages: ["தமிழ்", "हिन्दी", "తెలుగు"],
-      headline: "Your patients speak Tamil. Your scribe should too.",
-      languageTriggerWord: "Tamil.",
+      headline: "A modern OPD workflow for Indian doctors.",
+      languageTriggerWord: "OPD.",
       subtitle:
-        "AI medical scribe that listens to your consultations in Tamil, Hindi, or English - and generates structured clinical notes in real-time.",
+        "Capture consults, prepare notes and prescriptions, manage tasks, and follow up with patients in one clinic workflow built for Indian OPDs.",
       ctaPrimary: "Request access",
-      ctaSecondary: "See How It Works",
+      ctaSecondary: "See the OPD workflow",
       featureTags: [
         "Tamil · Hindi · English",
         "SOAP notes",
@@ -381,12 +381,15 @@ export const content: Record<Locale, LandingContent> = {
       stats: [
         { value: "2+", label: "Hours lost daily to documentation" },
         { value: "22+", label: "Indian languages spoken in consultations" },
-        { value: "0", label: "AI scribes built for Indian languages" },
+        {
+          value: "0",
+          label: "OPD workflows built for Indian-language consults",
+        },
       ],
     },
     inlineCta: {
-      afterProblem: "Sound familiar? Start your free month",
-      afterDemo: "Ready to try it in your clinic? Start free",
+      afterProblem: "Sound familiar? Request OPD access",
+      afterDemo: "Ready to try the OPD workflow? Request access",
       href: "/in/discovery-survey",
     },
     howItWorks: {
@@ -655,13 +658,13 @@ export const content: Record<Locale, LandingContent> = {
     },
     finalCta: {
       headline: "Ready to reclaim your time?",
-      body: "Join doctors across Tamil Nadu who are spending less time on paperwork and more time with patients.",
+      body: "Bring consult capture, clinical notes, prescriptions, tasks, and patient follow-up into one OPD workflow.",
       cta: "Request access",
       note: "Fill a 2-minute survey · We email you an access code",
     },
     footer: {
       description:
-        "AI medical scribe for Indian doctors. Real-time transcription in Tamil, Hindi, and English.",
+        "Modern OPD workflow for Indian doctors, from consultation capture to patient follow-up.",
       poweredByText: "Powered by",
       provider: "sarvam",
       sections: {
@@ -694,17 +697,17 @@ export const content: Record<Locale, LandingContent> = {
   id: {
     opd: {
       hero: {
-        headline: "Asisten OPD tercanggih untuk dokter Indonesia.",
-        sub: "Lebih banyak pasien. Lebih sedikit menulis. Resep dan tindak lanjut otomatis lewat email, SMS, dan WhatsApp.",
+        headline: "Kelola OPD dari konsultasi sampai tindak lanjut.",
+        sub: "Larinova membantu dokter Indonesia menangkap konsultasi, membuat catatan klinis, menyiapkan resep, mengelola tugas, dan mendukung pasien setelah keluar dari klinik.",
         ctaPrimary: "Minta akses",
         ctaPrimaryHref: "/id/discovery-survey",
-        ctaSecondary: "Lihat cara kerjanya",
+        ctaSecondary: "Lihat alur OPD",
         ctaSecondaryHref: "#opd-journey",
       },
       features: {
         sectionLabel: "Perjalanannya",
         headlinePre: "Satu poliklinik.",
-        headlineAccent: "Lima momen yang tak perlu Anda pikirkan lagi.",
+        headlineAccent: "Satu alur sebelum, saat, dan setelah konsultasi.",
         phases: [
           {
             num: "01",
@@ -804,12 +807,12 @@ export const content: Record<Locale, LandingContent> = {
     },
     hero: {
       languages: ["Indonesia", "Jawa", "Sunda"],
-      headline: "Pasien Anda berbicara Indonesia. Scribe Anda juga harus bisa.",
-      languageTriggerWord: "Indonesia.",
+      headline: "Alur OPD modern untuk dokter Indonesia.",
+      languageTriggerWord: "OPD.",
       subtitle:
-        "AI medical scribe yang mendengarkan konsultasi Anda dalam Bahasa Indonesia, Jawa, atau Inggris - dan menghasilkan catatan klinis terstruktur secara real-time.",
+        "Tangkap konsultasi, siapkan catatan dan resep, kelola tugas, dan tindak lanjuti pasien dalam satu alur klinik untuk OPD Indonesia.",
       ctaPrimary: "Minta akses",
-      ctaSecondary: "Lihat Cara Kerjanya",
+      ctaSecondary: "Lihat alur OPD",
       featureTags: [
         "Indonesia · Jawa · Inggris",
         "Catatan SOAP",
@@ -832,13 +835,13 @@ export const content: Record<Locale, LandingContent> = {
         },
         {
           value: "0",
-          label: "AI scribe yang dibangun untuk Bahasa Indonesia",
+          label: "Alur OPD untuk konsultasi berbahasa Indonesia",
         },
       ],
     },
     inlineCta: {
-      afterProblem: "Terdengar familiar? Mulai uji coba gratis",
-      afterDemo: "Siap mencobanya di klinik Anda? Mulai gratis",
+      afterProblem: "Terdengar familiar? Minta akses OPD",
+      afterDemo: "Siap mencoba alur OPD? Minta akses",
       href: "/id/discovery-survey",
     },
     howItWorks: {
@@ -1095,13 +1098,13 @@ export const content: Record<Locale, LandingContent> = {
     },
     finalCta: {
       headline: "Siap menghemat waktu Anda?",
-      body: "Bergabung dengan dokter di seluruh Indonesia yang menghabiskan lebih sedikit waktu untuk administrasi dan lebih banyak waktu bersama pasien.",
+      body: "Satukan pencatatan konsultasi, catatan klinis, resep, tugas, dan tindak lanjut pasien dalam satu alur OPD.",
       cta: "Minta akses",
       note: "Isi survei 2 menit · Kami kirim kode akses lewat email",
     },
     footer: {
       description:
-        "AI medical scribe untuk dokter Indonesia. Transkripsi real-time dalam Bahasa Indonesia, Jawa, dan Inggris.",
+        "Alur OPD modern untuk dokter Indonesia, dari pencatatan konsultasi sampai tindak lanjut pasien.",
       poweredByText: "Didukung oleh",
       provider: "deepgram",
       sections: {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import LoginForm from "./LoginForm";
 
 export const dynamic = "force-dynamic";
@@ -52,7 +53,7 @@ export default async function LoginPage({
         />
 
         <div className="relative w-full max-w-md space-y-9">
-          <a
+          <Link
             href="/"
             className="group flex items-center gap-2.5 text-base font-semibold tracking-tight"
           >
@@ -71,7 +72,7 @@ export default async function LoginPage({
               </svg>
             </span>
             <span className="font-display">Larinova</span>
-          </a>
+          </Link>
 
           <div className="space-y-3">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-primary">

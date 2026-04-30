@@ -63,13 +63,13 @@ test.describe("auth + onboarding", () => {
       await expect(page.getByPlaceholder(/first name/i)).toBeVisible();
       await expect(page.getByPlaceholder(/last name/i)).toBeVisible();
       await expect(page.getByPlaceholder(/email/i).first()).toBeVisible();
-      await expect(page.getByPlaceholder(/password/i).first()).toBeVisible();
+      await expect(page.getByPlaceholder(/password/i)).toHaveCount(0);
       await expect(
         page.getByRole("button", { name: /sign up/i }),
       ).toBeVisible();
     });
 
-    test("sign-up blocks submission when password is too short", async ({
+    test("sign-up does not ask for a password", async ({
       page,
       baseURL,
     }) => {
@@ -77,17 +77,7 @@ test.describe("auth + onboarding", () => {
       await page.goto("/in/sign-up");
       await page.waitForLoadState("networkidle");
 
-      await page.getByPlaceholder(/first name/i).fill("Test");
-      await page.getByPlaceholder(/last name/i).fill("Doctor");
-      await page.getByPlaceholder(/email/i).first().fill("test@example.com");
-      await page
-        .getByPlaceholder(/password/i)
-        .first()
-        .fill("short");
-      await page.getByRole("button", { name: /sign up/i }).click();
-
-      // Form should not navigate on validation failure.
-      await expect(page).toHaveURL(/\/in\/sign-up/);
+      await expect(page.getByPlaceholder(/password/i)).toHaveCount(0);
     });
 
     test("sign-up blocks submission on invalid email", async ({
@@ -101,10 +91,6 @@ test.describe("auth + onboarding", () => {
       await page.getByPlaceholder(/first name/i).fill("Test");
       await page.getByPlaceholder(/last name/i).fill("Doctor");
       await page.getByPlaceholder(/email/i).first().fill("not-an-email");
-      await page
-        .getByPlaceholder(/password/i)
-        .first()
-        .fill("LongEnoughPass123");
       await page.getByRole("button", { name: /sign up/i }).click();
 
       await expect(page).toHaveURL(/\/in\/sign-up/);
@@ -221,6 +207,6 @@ test.describe("auth + onboarding", () => {
     const res = await page.goto("/in/patients");
     await page.waitForLoadState("networkidle");
     expect(res).not.toBeNull();
-    await expect(page).toHaveURL(/\/in\/access/);
+    await expect(page).toHaveURL(/\/in\/sign-in/);
   });
 });

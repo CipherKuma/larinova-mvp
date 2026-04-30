@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -58,18 +59,18 @@ export function Blog({ locale }: BlogProps) {
               {c.headline}
             </h2>
           </div>
-          <a
+          <Link
             href="/blog"
             className="hidden items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary sm:flex"
           >
             {c.viewAll}
             <ArrowRight className="h-3.5 w-3.5" />
-          </a>
+          </Link>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
-            <a
+            <Link
               key={post.title}
               href={`/blog/${post.slug}`}
               className="blog-card group overflow-hidden rounded-xl border border-white/[0.06] bg-card/30 transition-all hover:border-primary/20"
@@ -97,17 +98,17 @@ export function Blog({ locale }: BlogProps) {
                   {post.excerpt}
                 </p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 
-        <a
+        <Link
           href="/blog"
           className="mt-8 flex items-center justify-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-primary sm:hidden"
         >
           {c.viewAll}
           <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        </Link>
       </div>
     </section>
   );

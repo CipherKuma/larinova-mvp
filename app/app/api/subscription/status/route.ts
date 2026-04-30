@@ -49,17 +49,23 @@ export async function GET() {
       periodEnd > now;
 
     const features: AIFeature[] = ["summary", "medical_codes", "helena_chat"];
-    const usage: Record<string, { used: number; limit: number }> = {};
+    const [featureUsage, consultationsUsed] = await Promise.all([
+      Promise.all(
+        features.map(async (feature) => ({
+          feature,
+          used: await getUsageCount(doctor.id, feature),
+        })),
+      ),
+      getMonthlyConsultationCount(doctor.id),
+    ]);
 
-    for (const feature of features) {
-      const used = await getUsageCount(doctor.id, feature);
+    const usage: Record<string, { used: number; limit: number }> = {};
+    for (const { feature, used } of featureUsage) {
       usage[feature] = {
         used,
         limit: isPro ? Infinity : FREE_TIER_LIMITS[feature],
       };
     }
-
-    const consultationsUsed = await getMonthlyConsultationCount(doctor.id);
     usage.consultations = {
       used: consultationsUsed,
       limit: isPro ? Infinity : FREE_TIER_CONSULTATION_LIMIT,

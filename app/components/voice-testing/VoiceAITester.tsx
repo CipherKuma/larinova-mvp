@@ -8,6 +8,7 @@ import { DeepgramTranscriber } from "./providers/DeepgramTranscriber";
 import { OpenAITranscriber } from "./providers/OpenAITranscriber";
 import { AssemblyAITranscriber } from "./providers/AssemblyAITranscriber";
 import { SarvamTranscriber } from "./providers/SarvamTranscriber";
+import { SpeechmaticsProviders } from "./SpeechmaticsProviders";
 
 type AIProvider =
   | "openai"
@@ -47,7 +48,11 @@ export function VoiceAITester({ provider }: VoiceAITesterProps) {
 
     switch (provider) {
       case "speechmatics":
-        return <SpeechmaticsTranscriber {...commonProps} />;
+        return (
+          <SpeechmaticsProviders>
+            <SpeechmaticsTranscriber {...commonProps} />
+          </SpeechmaticsProviders>
+        );
       case "deepgram":
         return <DeepgramTranscriber {...commonProps} />;
       case "openai":

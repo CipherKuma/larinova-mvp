@@ -151,7 +151,7 @@ export default function BlogPage() {
                 Nothing published yet
               </h3>
               <p className="mt-3 text-sm text-foreground/65">
-                We're heads-down building. Updates land here once a week.
+                We&apos;re heads-down building. Updates land here once a week.
               </p>
             </div>
           )}

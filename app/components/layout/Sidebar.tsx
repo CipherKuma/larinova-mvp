@@ -16,7 +16,6 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { sharedAsset } from "@/lib/locale-asset";
-import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { useSidebar } from "./SidebarContext";
 import { useLocale, useTranslations } from "next-intl";
@@ -40,62 +39,32 @@ export function Sidebar() {
   const { isCollapsed, setIsCollapsed } = useSidebar();
 
   useEffect(() => {
-    fetchDoctorInfo();
-    fetchPlan();
-  }, []);
-
-  const fetchPlan = async () => {
-    try {
-      const res = await fetch("/api/subscription/status");
-      if (res.ok) {
+    let cancelled = false;
+    async function fetchShell() {
+      try {
+        const res = await fetch("/api/user/shell");
+        if (res.status === 401) {
+          router.push("/sign-in");
+          return;
+        }
+        if (!res.ok) return;
         const data = await res.json();
-        setPlan(data.subscription?.plan ?? "free");
+        if (cancelled) return;
+        setDoctor(data.doctor ?? null);
+        setPlan(data.plan ?? "free");
+      } catch {
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-    } catch {}
-  };
-
-  const fetchDoctorInfo = async () => {
-    try {
-      const supabase = createClient();
-
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        router.push("/sign-in");
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from("larinova_doctors")
-        .select("full_name, specialization, locale")
-        .eq("user_id", user.id)
-        .single();
-
-      if (error && error.code === "PGRST116") {
-        console.error("[SIDEBAR] Doctor profile not found for user:", user.id);
-        setDoctor(null);
-        return;
-      } else if (error) {
-        console.error("[SIDEBAR] Error fetching doctor:", {
-          message: error.message,
-          code: error.code,
-          details: error.details,
-          hint: error.hint,
-        });
-        throw error;
-      }
-
-      setDoctor(data);
-    } catch (error) {
-      console.error("[SIDEBAR] Unexpected error:", error);
-    } finally {
-      setLoading(false);
     }
-  };
+    fetchShell();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const handleLogout = async () => {
+    const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/sign-in");

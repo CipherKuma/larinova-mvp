@@ -226,8 +226,10 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    // If trying to access auth routes but onboarding is complete, redirect to dashboard
-    if (isPublicRoute) {
+    // If trying to access auth routes after onboarding is complete, redirect to dashboard.
+    // Incomplete users must be allowed to remain on public access/redeem/auth
+    // routes; otherwise /access can bounce to /in and back into /access.
+    if (isPublicRoute && doctorData.onboarding_completed) {
       const preferredLocale = doctorData.locale || locale;
       redirectUrl.pathname = `/${preferredLocale}`;
       return NextResponse.redirect(redirectUrl);

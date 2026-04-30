@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import { z } from "zod";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
+import { isMissingAnalyticsStoreError } from "@/lib/analytics/errors";
 
 const EventSchema = z.object({
   event_type: z.enum(["pageview", "click", "milestone"]),
@@ -86,6 +87,9 @@ export async function POST(req: Request) {
   const sb = adminClient();
   const { error } = await sb.from("larinova_events").insert(rows);
   if (error) {
+    if (isMissingAnalyticsStoreError(error)) {
+      return new NextResponse(null, { status: 204 });
+    }
     console.error("[analytics/ingest] insert failed:", error.message);
     return new NextResponse(null, { status: 500 });
   }

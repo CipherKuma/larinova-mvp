@@ -28,6 +28,7 @@ export default async function PatientsPage() {
   const { data: patients, error } = await supabase
     .from("larinova_patients")
     .select("id, patient_code, full_name, email, date_of_birth, blood_group")
+    .eq("created_by_doctor_id", doctor.id)
     .order("created_at", { ascending: false });
 
   if (error) {

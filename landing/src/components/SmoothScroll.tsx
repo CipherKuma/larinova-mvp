@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
+  const lenisRef = useRef<{
+    destroy: () => void;
+    raf: (time: number) => void;
+  } | null>(null);
 
   useEffect(() => {
     // Bail out for screenshot capture and reduced-motion preferences —
@@ -20,36 +22,57 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     if (wantsReducedMotion || inCaptureMode) {
       return;
     }
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-    lenisRef.current = lenis;
+    let disposed = false;
+    let rafId = 0;
+    let removeClickListener: (() => void) | undefined;
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    const start = () => {
+      void import("lenis").then(({ default: Lenis }) => {
+        if (disposed) return;
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
+        lenisRef.current = lenis;
 
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const anchor = target.closest("a[href^='#']") as HTMLAnchorElement | null;
-      if (!anchor) return;
-      const hash = anchor.getAttribute("href");
-      if (!hash || hash === "#") return;
-      const el = document.querySelector(hash);
-      if (!el) return;
-      e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -80, duration: 1.5 });
+        function raf(time: number) {
+          lenis.raf(time);
+          rafId = requestAnimationFrame(raf);
+        }
+        rafId = requestAnimationFrame(raf);
+
+        const handleAnchorClick = (e: MouseEvent) => {
+          const target = e.target as HTMLElement;
+          const anchor = target.closest(
+            "a[href^='#']",
+          ) as HTMLAnchorElement | null;
+          if (!anchor) return;
+          const hash = anchor.getAttribute("href");
+          if (!hash || hash === "#") return;
+          const el = document.querySelector(hash);
+          if (!el) return;
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: -80, duration: 1.5 });
+        };
+
+        document.addEventListener("click", handleAnchorClick);
+        removeClickListener = () =>
+          document.removeEventListener("click", handleAnchorClick);
+      });
     };
 
-    document.addEventListener("click", handleAnchorClick);
+    const idle = window.requestIdleCallback
+      ? window.requestIdleCallback(start, { timeout: 1800 })
+      : window.setTimeout(start, 900);
 
     return () => {
-      document.removeEventListener("click", handleAnchorClick);
-      lenis.destroy();
+      disposed = true;
+      if (typeof idle === "number") window.clearTimeout(idle);
+      else window.cancelIdleCallback?.(idle);
+      cancelAnimationFrame(rafId);
+      removeClickListener?.();
+      lenisRef.current?.destroy();
     };
   }, []);
 

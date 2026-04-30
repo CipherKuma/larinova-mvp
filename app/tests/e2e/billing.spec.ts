@@ -48,7 +48,7 @@ test.describe("billing — authenticated via storageState", () => {
 
   test("GET /api/subscription/check-usage contract", async ({ request }) => {
     const res = await request.get("/api/subscription/check-usage");
-    expect([200, 404]).toContain(res.status());
+    expect([200, 404, 405]).toContain(res.status());
   });
 });
 

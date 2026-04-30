@@ -12,7 +12,15 @@ const transcript = [
   },
 ];
 
-const bars = Array.from({ length: 28 }, (_, i) => i);
+const bars = Array.from({ length: 28 }, (_, i) => {
+  const base = 0.25 + ((i * 7) % 9) / 18;
+  return {
+    id: i,
+    scaleY: [base, 0.35 + ((i * 5) % 11) / 17, 0.3 + ((i * 3) % 8) / 16],
+    duration: 0.7 + ((i * 4) % 8) * 0.05,
+    delay: i * 0.03,
+  };
+});
 
 export function PhaseVisualConsult() {
   return (
@@ -35,21 +43,15 @@ export function PhaseVisualConsult() {
         </div>
 
         <div className="flex h-10 items-center justify-between gap-0.5 overflow-hidden">
-          {bars.map((i) => (
+          {bars.map((bar) => (
             <motion.span
-              key={i}
+              key={bar.id}
               className="block w-1 rounded-sm bg-amber-400"
-              animate={{
-                scaleY: [
-                  0.4 + Math.random() * 0.6,
-                  0.2 + Math.random() * 0.8,
-                  0.3 + Math.random() * 0.7,
-                ],
-              }}
+              animate={{ scaleY: bar.scaleY }}
               transition={{
-                duration: 0.7 + Math.random() * 0.5,
+                duration: bar.duration,
                 repeat: Infinity,
-                delay: i * 0.03,
+                delay: bar.delay,
                 ease: "easeInOut",
               }}
               style={{ height: "100%", transformOrigin: "center" }}

@@ -23,7 +23,7 @@ export function WarpField({ className = "" }: { className?: string }) {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = 0;
     let height = 0;
     const stars: Star[] = [];

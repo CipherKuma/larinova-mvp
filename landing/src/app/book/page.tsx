@@ -147,14 +147,14 @@ export default function BookPage() {
 
           {/* Reassurance line */}
           <p className="mt-10 text-center text-sm text-foreground/55">
-            Can't find a time?{" "}
+            Can&apos;t find a time?{" "}
             <a
               href="mailto:hello@larinova.com"
               className="text-primary underline-offset-4 hover:underline"
             >
               Email hello@larinova.com
             </a>{" "}
-            and we'll work around your schedule.
+            and we&apos;ll work around your schedule.
           </p>
         </div>
       </main>

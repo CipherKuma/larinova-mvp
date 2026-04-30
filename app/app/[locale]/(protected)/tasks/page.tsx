@@ -40,7 +40,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
-import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
 interface Patient {
@@ -118,36 +117,10 @@ export default function TasksPage() {
 
   const fetchTasks = useCallback(async () => {
     try {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data: doctor } = await supabase
-        .from("larinova_doctors")
-        .select("id")
-        .eq("user_id", user.id)
-        .single();
-      if (!doctor) return;
-
-      const { data, error } = await supabase
-        .from("larinova_tasks")
-        .select(
-          `
-          *,
-          patient:larinova_patients!larinova_tasks_patient_id_fkey(
-            full_name,
-            patient_code
-          )
-        `,
-        )
-        .eq("assigned_to", doctor.id)
-        .order("priority", { ascending: false })
-        .order("due_date", { ascending: true });
-
-      if (error) throw error;
-      setTasks(data || []);
+      const response = await fetch("/api/tasks?limit=100");
+      if (!response.ok) throw new Error("Failed to fetch tasks");
+      const data = await response.json();
+      setTasks(data.tasks || []);
     } catch (error) {
       console.error("Error fetching tasks:", error);
       toast.error(t("tasks.error"), {
@@ -160,18 +133,10 @@ export default function TasksPage() {
 
   const fetchPatients = useCallback(async () => {
     try {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from("larinova_patients")
-        .select("id, full_name, patient_code")
-        .order("full_name");
-      if (error) throw error;
-      setPatients(data || []);
+      const response = await fetch("/api/patients?limit=500");
+      if (!response.ok) throw new Error("Failed to fetch patients");
+      const data = await response.json();
+      setPatients(data.patients || []);
     } catch (error) {
       console.error("Error fetching patients:", error);
     }

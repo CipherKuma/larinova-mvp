@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from "react";
 
+const waveformBars = Array.from({ length: 40 }, (_, i) => ({
+  id: i,
+  height: 24 + ((i * 37) % 56),
+  delay: i * 50,
+}));
+
 export function VoiceRecorderUI() {
   const [isRecording, setIsRecording] = useState(true);
   const [time, setTime] = useState(0);
@@ -20,13 +26,6 @@ export function VoiceRecorderUI() {
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
-
-  // Generate random heights for waveform bars
-  const waveformBars = Array.from({ length: 40 }, (_, i) => ({
-    id: i,
-    height: Math.random() * 60 + 20,
-    delay: i * 50,
-  }));
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-xl border border-border/50 w-full max-w-sm mx-auto">

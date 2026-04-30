@@ -1,14 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
-import {
-  Outfit,
-  Inter,
-  IBM_Plex_Mono,
-  Space_Grotesk,
-  Sora,
-  Plus_Jakarta_Sans,
-  Manrope,
-} from "next/font/google";
+import { Outfit, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import {
   SITE_URL,
@@ -37,30 +29,6 @@ const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-ibm-plex-mono",
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-  display: "swap",
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -142,15 +110,9 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
-      className={[
-        outfit.variable,
-        inter.variable,
-        ibmPlexMono.variable,
-        spaceGrotesk.variable,
-        sora.variable,
-        plusJakartaSans.variable,
-        manrope.variable,
-      ].join(" ")}
+      className={[outfit.variable, inter.variable, ibmPlexMono.variable].join(
+        " ",
+      )}
     >
       <body className="grain">
         <script

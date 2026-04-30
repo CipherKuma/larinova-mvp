@@ -172,6 +172,7 @@ test.describe("public booking funnel", () => {
           booker_phone: "9999900000",
           booker_age: 34,
           booker_gender: "female",
+          reason: "Follow-up consultation",
           chief_complaint: "Persistent cough",
         },
       },

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/src/i18n/routing";
 import { useTranslations } from "next-intl";
-import { createClient } from "@/lib/supabase/client";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
@@ -59,49 +58,22 @@ export default function NewPatientPage() {
         throw new Error(t("patients.genderRequired"));
       }
 
-      const supabase = createClient();
+      const response = await fetch("/api/patients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          date_of_birth: dateOfBirth.toISOString().split("T")[0],
+        }),
+      });
 
-      // Get current user
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error(t("patients.notAuthenticated"));
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || t("patients.failedToCreatePatient"));
       }
 
-      // Get doctor profile
-      const { data: doctor } = await supabase
-        .from("larinova_doctors")
-        .select("id")
-        .eq("user_id", user.id)
-        .single();
-
-      if (!doctor) {
-        throw new Error(t("patients.doctorProfileNotFound"));
-      }
-
-      // Create patient
-      const { data, error: insertError } = await supabase
-        .from("larinova_patients")
-        .insert([
-          {
-            ...formData,
-            date_of_birth: dateOfBirth.toISOString().split("T")[0],
-            created_by_doctor_id: doctor.id,
-          },
-        ])
-        .select()
-        .single();
-
-      if (insertError) {
-        console.error("Supabase insert error:", insertError);
-        throw new Error(
-          insertError.message || t("patients.failedToCreatePatient"),
-        );
-      }
-
-      // Redirect to patient detail page
-      router.push(`/patients/${data.id}` as any);
+      const data = await response.json();
+      router.push(`/patients/${data.patient.id}` as any);
     } catch (err) {
       console.error("Error creating patient:", err);
       setError(

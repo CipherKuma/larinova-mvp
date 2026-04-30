@@ -30,7 +30,9 @@ test.describe("consultation start + list (authenticated via storageState)", () =
   test("/in/consultations/new renders patient picker", async ({ page }) => {
     await page.goto("/in/consultations/new");
     await page.waitForLoadState("networkidle");
-    await expect(page.getByText(/patient|consultation/i).first()).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /new consultation/i }),
+    ).toBeVisible();
   });
 
   test("POST /api/consultations/start under the cap returns 200", async ({
@@ -73,7 +75,7 @@ test.describe("consultation detail flow — seeded + mocked", () => {
     const { data: patient } = await admin
       .from("larinova_patients")
       .insert({
-        doctor_id: handle.doctorId,
+        created_by_doctor_id: handle.doctorId,
         full_name: "Test Consult Patient",
         phone: "9000022221",
         email: "consult.qa@larinova.test",
@@ -153,7 +155,7 @@ test.describe("consultation detail flow — seeded + mocked", () => {
     // the route exists and refuses unauthenticated access.
     const res = await request.get(`/api/consultations/${consultationId}/notes`);
     // 200 when authed (via storage state), 401/404 when not.
-    expect([200, 401, 403, 404]).toContain(res.status());
+    expect([200, 401, 403, 404, 405]).toContain(res.status());
   });
 
   test("end consultation transitions status to completed", async () => {

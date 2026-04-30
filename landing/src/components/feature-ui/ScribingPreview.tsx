@@ -2,15 +2,20 @@
 
 import { useState, useEffect } from "react";
 
-export function ScribingPreview() {
-  const [isRecording, setIsRecording] = useState(true);
-  const [textIndex, setTextIndex] = useState(0);
+const transcriptPhrases = [
+  "Patient reports chest pain...",
+  "Started two days ago...",
+  "Radiating to left arm...",
+];
 
-  const transcriptPhrases = [
-    "Patient reports chest pain...",
-    "Started two days ago...",
-    "Radiating to left arm...",
-  ];
+const waveformBars = Array.from({ length: 24 }, (_, i) => ({
+  id: i,
+  delay: i * 40,
+  scale: 0.35 + ((i * 11) % 13) / 20,
+}));
+
+export function ScribingPreview() {
+  const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,12 +23,6 @@ export function ScribingPreview() {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-
-  // Generate waveform bars
-  const waveformBars = Array.from({ length: 24 }, (_, i) => ({
-    id: i,
-    delay: i * 40,
-  }));
 
   return (
     <div className="h-full w-full p-4 flex flex-col justify-center">
@@ -37,10 +36,8 @@ export function ScribingPreview() {
             className="w-1 bg-gradient-to-t from-primary to-accent rounded-full"
             style={{
               height: "100%",
-              animation: isRecording
-                ? `waveform 0.6s ease-in-out ${bar.delay}ms infinite alternate`
-                : "none",
-              transform: `scaleY(${0.3 + Math.random() * 0.7})`,
+              animation: `waveform 0.6s ease-in-out ${bar.delay}ms infinite alternate`,
+              transform: `scaleY(${bar.scale})`,
             }}
           />
         ))}

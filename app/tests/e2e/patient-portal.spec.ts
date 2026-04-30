@@ -23,11 +23,14 @@ async function portalReachable(
   request: import("@playwright/test").APIRequestContext,
 ) {
   try {
-    const res = await request.get(PORTAL_URL, {
+    const res = await request.get(`${PORTAL_URL}/login`, {
       timeout: 2_000,
       failOnStatusCode: false,
     });
-    return res.status() < 500;
+    if (res.status() >= 500) return false;
+    const body = await res.text().catch(() => "");
+    if (/basement\.studio|showcase/i.test(body)) return false;
+    return /patient/i.test(body) && /email|magic|login|sign in/i.test(body);
   } catch {
     return false;
   }
@@ -109,7 +112,10 @@ test.describe("patient portal — RLS contract via admin", () => {
     const { data: patient } = await admin
       .from("larinova_patients")
       .insert({
-        doctor_id: handle.doctorId,
+        created_by_doctor_id: handle.doctorId,
+        patient_code: `E2E-${Date.now().toString(36)}-${Math.random()
+          .toString(36)
+          .slice(2, 8)}`,
         full_name: "Portal Patient",
         email: "portal.patient@larinova.test",
         phone: "9000088888",
@@ -121,18 +127,26 @@ test.describe("patient portal — RLS contract via admin", () => {
 
     const start = new Date(Date.now() + 48 * 60 * 60 * 1000);
     const end = new Date(start.getTime() + 30 * 60 * 1000);
+    const appointmentDate = start.toISOString().slice(0, 10);
+    const startTime = start.toTimeString().slice(0, 8);
+    const endTime = end.toTimeString().slice(0, 8);
     const { data: appt } = await admin
       .from("larinova_appointments")
       .insert({
         doctor_id: handle.doctorId,
         patient_id: patientId,
-        start_time: start.toISOString(),
-        end_time: end.toISOString(),
-        status: "scheduled",
+        appointment_date: appointmentDate,
+        start_time: startTime,
+        end_time: endTime,
+        status: "confirmed",
         type: "in_person",
         booker_name: "Portal Patient",
         booker_email: "portal.patient@larinova.test",
         booker_phone: "9000088888",
+        booker_age: 36,
+        booker_gender: "female",
+        reason: "Portal check",
+        chief_complaint: "RLS smoke test",
         locale: "in",
       })
       .select("id")
@@ -157,7 +171,7 @@ test.describe("patient portal — RLS contract via admin", () => {
       .eq("id", appointmentId)
       .single();
     expect(data?.booker_email).toBe("portal.patient@larinova.test");
-    expect(data?.status).toBe("scheduled");
+    expect(data?.status).toBe("confirmed");
   });
 
   test("portal's main app intake-submissions endpoint rejects unauthenticated writes", async ({

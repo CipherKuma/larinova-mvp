@@ -3,24 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 const LOCALE_COOKIE = "larinova_locale";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
-const BYPASS_PREFIXES = [
-  "/in",
-  "/id",
-  "/blog",
-  "/book",
-  "/api",
-  "/_next",
-  "/favicon",
-  "/images",
-  "/videos",
-  "/sarvam",
-  "/larinova",
-];
-
-function shouldBypass(pathname: string): boolean {
-  return BYPASS_PREFIXES.some((prefix) => pathname.startsWith(prefix));
-}
-
 function detectLocale(request: NextRequest): "in" | "id" {
   const vercelCountry = request.headers.get("x-vercel-ip-country");
   if (vercelCountry === "ID") return "id";

@@ -5,9 +5,8 @@
 // with `LANDING_URL=http://localhost:3001` to run against a local landing
 // dev server.
 //
-// Pricing assertions (`₹999` / `₹9,990`) and CTA targets
-// (`app.larinova.com/in/signup`) are the contract surface — if those change,
-// the test must change with them.
+// Pricing assertions (`₹999` / `₹9,990`) and request-access CTA targets are
+// the contract surface — if those change, the test must change with them.
 
 import { test, expect } from "@playwright/test";
 
@@ -37,7 +36,9 @@ test.describe("landing", () => {
       .first();
     await expect(cta).toBeVisible();
     const href = await cta.getAttribute("href");
-    expect(href ?? "").toMatch(/app\.larinova\.com|\/signup|\/sign-up/i);
+    expect(href ?? "").toMatch(
+      /app\.larinova\.com|\/signup|\/sign-up|\/discovery-survey/i,
+    );
   });
 
   test("/id Indonesia landing still renders (non-regression)", async ({

@@ -5,7 +5,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { HeroIndia } from "@/components/HeroIndia";
-import { WarpField } from "@/components/WarpField";
+import { DeferredWarpField } from "@/components/DeferredWarpField";
 import { Problem } from "@/components/Problem";
 import { InlineCTA } from "@/components/InlineCTA";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -128,7 +128,7 @@ export default async function LocaleLandingPage({ params }: PageProps) {
 
   return (
     <SmoothScroll>
-      <WarpField className="fixed inset-0 z-0" />
+      <DeferredWarpField className="fixed inset-0 z-0" />
       <Nav locale={l} />
       <main className="relative z-10">
         {isOpd ? <HeroIndia locale={l} /> : <Hero locale={l} />}

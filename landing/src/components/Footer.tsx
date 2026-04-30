@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { type Locale, content as localeContent } from "@/data/locale-content";
 
 interface FooterProps {
@@ -80,20 +81,20 @@ export function Footer({ locale }: FooterProps) {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/blog"
                   className="transition-colors hover:text-foreground"
                 >
                   {c.links.blog}
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href={`/${locale}/discovery-survey`}
                   className="transition-colors hover:text-foreground"
                 >
                   {locale === "id" ? "Survei Dokter" : "Doctor Survey"}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -120,12 +121,12 @@ export function Footer({ locale }: FooterProps) {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/privacy"
                   className="transition-colors hover:text-foreground"
                 >
                   {c.links.privacy}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

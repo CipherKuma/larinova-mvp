@@ -137,7 +137,7 @@ export async function cleanupDoctor(
     ["larinova_subscriptions", "doctor_id"],
     ["larinova_intake_templates", "doctor_id"],
     ["larinova_intake_submissions", "doctor_id"],
-    ["larinova_patients", "doctor_id"],
+    ["larinova_patients", "created_by_doctor_id"],
     ["larinova_follow_up_threads", "doctor_id"],
   ] as const;
   for (const [table, col] of cascades) {

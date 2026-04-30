@@ -1,11 +1,10 @@
 // Invite-code redemption E2E
 //
 // Covers:
-//   - New user (not onboarded, no redemption) is redirected to /redeem on
+//   - New user (not onboarded) is redirected to /onboarding on
 //     any protected route.
-//   - Submitting an invalid code shows an error and stays on /redeem.
-//   - Submitting a valid code grants 30 days of Pro and redirects to
-//     /onboarding.
+//   - The invite redemption API rejects invalid codes.
+//   - The invite redemption API accepts a valid code and grants 30 days of Pro.
 //   - An already-onboarded user is grandfathered (never sees /redeem).
 //   - A user that has already redeemed (but not yet onboarded) is bounced
 //     from /redeem to /onboarding.
@@ -50,7 +49,7 @@ test.describe("invite-code redemption", () => {
     codes = [];
   });
 
-  test("new not-onboarded user is redirected to /redeem after sign-in", async ({
+  test("new not-onboarded user is redirected to onboarding after sign-in", async ({
     page,
     baseURL,
   }) => {
@@ -64,10 +63,10 @@ test.describe("invite-code redemption", () => {
     await signInViaMagicLink(page, handle.email, baseURL, "in");
     await page.goto("/in");
     await page.waitForLoadState("networkidle");
-    await expect(page).toHaveURL(/\/in\/redeem(\?|$)/);
+    await expect(page).toHaveURL(/\/in\/onboarding(\?|$)/);
   });
 
-  test("invalid code shows error and stays on /redeem", async ({
+  test("invalid code is rejected by the redeem API", async ({
     page,
     baseURL,
   }) => {
@@ -79,15 +78,15 @@ test.describe("invite-code redemption", () => {
     handles.push(handle);
 
     await signInViaMagicLink(page, handle.email, baseURL, "in");
-    await page.goto("/in/redeem");
-    await page.waitForLoadState("networkidle");
-    await page.getByLabel(/invite code/i).fill("NEVER-A-REAL-CODE-XYZ");
-    await page.getByRole("button", { name: /redeem/i }).click();
-    await expect(page.getByRole("alert")).toBeVisible({ timeout: 10_000 });
-    await expect(page).toHaveURL(/\/in\/redeem(\?|$)/);
+    const res = await page.request.post("/api/invite/redeem", {
+      data: { code: "NEVER-A-REAL-CODE-XYZ" },
+    });
+    expect(res.status()).toBe(400);
+    const body = await res.json();
+    expect(body.error).toBeTruthy();
   });
 
-  test("valid code grants 30-day Pro and redirects to /onboarding", async ({
+  test("valid code grants 30-day Pro through the redeem API", async ({
     page,
     baseURL,
   }) => {
@@ -112,11 +111,10 @@ test.describe("invite-code redemption", () => {
     }
 
     await signInViaMagicLink(page, handle.email, baseURL, "in");
-    await page.goto("/in/redeem");
-    await page.waitForLoadState("networkidle");
-    await page.getByLabel(/invite code/i).fill(code);
-    await page.getByRole("button", { name: /redeem/i }).click();
-    await page.waitForURL(/\/in\/onboarding(\?|$)/, { timeout: 15_000 });
+    const res = await page.request.post("/api/invite/redeem", {
+      data: { code },
+    });
+    expect(res.status(), await res.text()).toBe(200);
 
     const { data: sub } = await admin
       .from("larinova_subscriptions")

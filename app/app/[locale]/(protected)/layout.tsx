@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileTopBar } from "@/components/layout/MobileTopBar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
@@ -14,27 +12,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect(`/${locale}/sign-in`);
-  }
-
-  // Verify doctor profile exists
-  const { data: doctor } = await supabase
-    .from("larinova_doctors")
-    .select("id")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if (!doctor) {
-    redirect(`/${locale}/onboarding`);
-  }
+  await params;
 
   return (
     <ClientProviders>

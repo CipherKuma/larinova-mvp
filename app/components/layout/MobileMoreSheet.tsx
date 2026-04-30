@@ -14,7 +14,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { motion, AnimatePresence } from "motion/react";
 
 interface Props {
@@ -41,28 +40,20 @@ export function MobileMoreSheet({ open, onClose }: Props) {
 
   useEffect(() => {
     if (!open) return;
+    let cancelled = false;
     (async () => {
       try {
-        const supabase = createClient();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (!user) return;
-        const { data } = await supabase
-          .from("larinova_doctors")
-          .select("full_name, specialization")
-          .eq("user_id", user.id)
-          .single();
-        if (data) setDoctor(data);
-        try {
-          const res = await fetch("/api/subscription/status");
-          if (res.ok) {
-            const j = await res.json();
-            setPlan(j.subscription?.plan ?? "free");
-          }
-        } catch {}
+        const res = await fetch("/api/user/shell");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        if (data.doctor) setDoctor(data.doctor);
+        setPlan(data.plan ?? "free");
       } catch {}
     })();
+    return () => {
+      cancelled = true;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -77,6 +68,7 @@ export function MobileMoreSheet({ open, onClose }: Props) {
   }, [open, onClose]);
 
   const handleLogout = async () => {
+    const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
     await supabase.auth.signOut();
     onClose();

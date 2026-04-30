@@ -28,6 +28,7 @@ test.describe("dashboard (authenticated)", () => {
     // dashboard markers and both must exist on a successful render.
     const markers = page
       .getByText(/today.?s schedule|welcome back|next patient|my tasks/i)
+      .filter({ visible: true })
       .first();
     await expect(markers).toBeVisible({ timeout: 15_000 });
   });
@@ -39,7 +40,8 @@ test.describe("dashboard (authenticated)", () => {
     await page.waitForLoadState("networkidle");
     // The card title "Next patient" OR the empty-state copy renders.
     const card = page
-      .getByText(/next patient|no upcoming appointments/i)
+      .getByText(/next patient|no more patients scheduled|no upcoming appointments/i)
+      .filter({ visible: true })
       .first();
     await expect(card).toBeVisible({ timeout: 15_000 });
   });

@@ -17,8 +17,9 @@ const syncSteps = [
 
 export function EHRSyncUI() {
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
   const [synced, setSynced] = useState(false);
+  const currentStep =
+    progress < 25 ? 0 : progress < 50 ? 1 : progress < 75 ? 2 : 3;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,13 +35,6 @@ export function EHRSyncUI() {
 
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    if (progress < 25) setCurrentStep(0);
-    else if (progress < 50) setCurrentStep(1);
-    else if (progress < 75) setCurrentStep(2);
-    else setCurrentStep(3);
-  }, [progress]);
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-xl border border-border/50 w-full max-w-sm mx-auto">
@@ -62,13 +56,13 @@ export function EHRSyncUI() {
               />
             </svg>
           </div>
-          <span className="text-foreground text-sm font-medium">Push to EHR</span>
+          <span className="text-foreground text-sm font-medium">
+            Push to EHR
+          </span>
         </div>
         <span
           className={`text-xs px-2.5 py-1 rounded-full font-medium transition-all ${
-            synced
-              ? "bg-accent/10 text-accent"
-              : "bg-blue-100 text-blue-700"
+            synced ? "bg-accent/10 text-accent" : "bg-blue-100 text-blue-700"
           }`}
         >
           {synced ? "Complete!" : "Syncing..."}
@@ -129,8 +123,12 @@ export function EHRSyncUI() {
       {/* Progress Bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-muted-foreground text-xs font-medium">Upload Progress</span>
-          <span className="text-foreground text-sm font-mono font-semibold">{progress}%</span>
+          <span className="text-muted-foreground text-xs font-medium">
+            Upload Progress
+          </span>
+          <span className="text-foreground text-sm font-mono font-semibold">
+            {progress}%
+          </span>
         </div>
         <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
           <div
@@ -152,8 +150,8 @@ export function EHRSyncUI() {
                   index < currentStep
                     ? "bg-accent"
                     : index === currentStep
-                    ? "bg-primary animate-pulse"
-                    : "bg-secondary"
+                      ? "bg-primary animate-pulse"
+                      : "bg-secondary"
                 }`}
               >
                 {index < currentStep ? (
@@ -178,13 +176,17 @@ export function EHRSyncUI() {
               </div>
               <span
                 className={`text-sm ${
-                  index <= currentStep ? "text-foreground font-medium" : "text-muted-foreground"
+                  index <= currentStep
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground"
                 }`}
               >
                 {step.label}
               </span>
               {index < currentStep && (
-                <span className="text-accent text-xs ml-auto font-medium">Done</span>
+                <span className="text-accent text-xs ml-auto font-medium">
+                  Done
+                </span>
               )}
             </div>
           ))}

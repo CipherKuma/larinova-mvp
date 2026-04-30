@@ -79,10 +79,15 @@ test.describe("patient detail rendering", () => {
     const { data: patient, error } = await admin
       .from("larinova_patients")
       .insert({
-        doctor_id: handle.doctorId,
+        created_by_doctor_id: handle.doctorId,
+        patient_code: `E2E-${Date.now().toString(36)}-${Math.random()
+          .toString(36)
+          .slice(2, 8)}`,
         full_name: "Asha Kumar",
         phone: "9876500001",
         email: "asha.test@larinova.test",
+        gender: "female",
+        date_of_birth: "1990-06-15",
       })
       .select("id")
       .single();
@@ -99,7 +104,7 @@ test.describe("patient detail rendering", () => {
     await cleanupDoctor(admin, handle);
   });
 
-  test("detail page renders tabs (health records / prescriptions / insurance)", async ({
+  test("detail page renders tabs (health records / consultations / prescriptions)", async ({
     page,
     baseURL,
   }) => {
@@ -116,7 +121,6 @@ test.describe("patient detail rendering", () => {
     await expect(
       page.getByRole("tab", { name: /prescriptions/i }),
     ).toBeVisible();
-    await expect(page.getByRole("tab", { name: /insurance/i })).toBeVisible();
 
     // Switch to prescriptions tab, ensure content panel renders.
     await page.getByRole("tab", { name: /prescriptions/i }).click();
@@ -156,14 +160,38 @@ test.describe("patient list search filters client-side", () => {
     });
 
     const rows = [
-      { full_name: "Raj Mehta", phone: "9000000001" },
-      { full_name: "Priya Singh", phone: "9000000002" },
-      { full_name: "Amit Shah", phone: "9000000003" },
+      {
+        full_name: "Raj Mehta",
+        phone: "9000000001",
+        email: "raj.test@larinova.test",
+        gender: "male",
+        date_of_birth: "1984-01-10",
+      },
+      {
+        full_name: "Priya Singh",
+        phone: "9000000002",
+        email: "priya.test@larinova.test",
+        gender: "female",
+        date_of_birth: "1988-03-20",
+      },
+      {
+        full_name: "Amit Shah",
+        phone: "9000000003",
+        email: "amit.test@larinova.test",
+        gender: "male",
+        date_of_birth: "1979-08-05",
+      },
     ];
     for (const r of rows) {
       const { data, error } = await admin
         .from("larinova_patients")
-        .insert({ doctor_id: handle.doctorId, ...r })
+        .insert({
+          created_by_doctor_id: handle.doctorId,
+          patient_code: `E2E-${Date.now().toString(36)}-${Math.random()
+            .toString(36)
+            .slice(2, 8)}`,
+          ...r,
+        })
         .select("id")
         .single();
       if (!error && data) patientIds.push(data.id);
@@ -186,12 +214,12 @@ test.describe("patient list search filters client-side", () => {
     await page.goto("/in/patients");
     await page.waitForLoadState("networkidle");
 
-    await expect(page.getByText(/Raj Mehta/).first()).toBeVisible();
+    await expect(page.getByRole("row", { name: /Raj Mehta/ })).toBeVisible();
 
     const search = page.getByPlaceholder(/search by name or patient code/i);
     await search.fill("priya");
 
-    await expect(page.getByText(/Priya Singh/).first()).toBeVisible();
-    await expect(page.getByText(/Raj Mehta/)).toHaveCount(0);
+    await expect(page.getByRole("row", { name: /Priya Singh/ })).toBeVisible();
+    await expect(page.getByRole("row", { name: /Raj Mehta/ })).toHaveCount(0);
   });
 });

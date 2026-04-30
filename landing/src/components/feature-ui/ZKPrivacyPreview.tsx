@@ -1,64 +1,31 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 const charset =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 const dataItems = ["Patient ID: JD-4829", "DOB: 03/15/1985", "Diagnosis: ****"];
 
-function EncryptedText({
-  text,
-  isEncrypting,
-}: {
-  text: string;
-  isEncrypting: boolean;
-}) {
-  const [displayText, setDisplayText] = useState(text);
-  const [encryptedCount, setEncryptedCount] = useState(0);
+function EncryptedText({ text }: { text: string }) {
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    if (isEncrypting) {
-      // Encrypting animation
-      const interval = setInterval(() => {
-        setEncryptedCount((prev) => {
-          if (prev >= text.length) return prev;
-          return prev + 1;
-        });
-      }, 40);
+    const interval = window.setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 50);
+    return () => window.clearInterval(interval);
+  }, []);
 
-      const scrambleInterval = setInterval(() => {
-        setDisplayText((prev) => {
-          return text
-            .split("")
-            .map((char, i) => {
-              if (i < encryptedCount) {
-                return charset[Math.floor(Math.random() * charset.length)];
-              }
-              return char;
-            })
-            .join("");
-        });
-      }, 50);
+  const encryptedCount = Math.min(text.length, tick);
+  const displayText = text
+    .split("")
+    .map((char, i) => {
+      if (i >= encryptedCount) return char;
+      return charset[(i * 17 + tick * 5) % charset.length];
+    })
+    .join("");
 
-      return () => {
-        clearInterval(interval);
-        clearInterval(scrambleInterval);
-      };
-    } else {
-      setEncryptedCount(0);
-      setDisplayText(text);
-    }
-  }, [isEncrypting, text, encryptedCount]);
-
-  return (
-    <span
-      className={
-        isEncrypting ? "text-primary font-mono" : "text-muted-foreground"
-      }
-    >
-      {displayText}
-    </span>
-  );
+  return <span className="font-mono text-primary">{displayText}</span>;
 }
 
 export function ZKPrivacyPreview() {
@@ -66,26 +33,32 @@ export function ZKPrivacyPreview() {
   const [isEncrypted, setIsEncrypted] = useState(false);
 
   useEffect(() => {
+    const timeouts: number[] = [];
+
     const cycle = () => {
-      // Start encrypting
       setIsEncrypting(true);
       setIsEncrypted(false);
 
-      // After encryption completes
-      setTimeout(() => {
-        setIsEncrypted(true);
+      timeouts.push(
+        window.setTimeout(() => {
+          setIsEncrypted(true);
 
-        // Reset after showing encrypted state
-        setTimeout(() => {
-          setIsEncrypting(false);
-          setIsEncrypted(false);
-        }, 1500);
-      }, 1200);
+          timeouts.push(
+            window.setTimeout(() => {
+              setIsEncrypting(false);
+              setIsEncrypted(false);
+            }, 1500),
+          );
+        }, 1200),
+      );
     };
 
-    cycle();
-    const interval = setInterval(cycle, 4000);
-    return () => clearInterval(interval);
+    timeouts.push(window.setTimeout(cycle, 250));
+    const interval = window.setInterval(cycle, 4000);
+    return () => {
+      window.clearInterval(interval);
+      timeouts.forEach((timeout) => window.clearTimeout(timeout));
+    };
   }, []);
 
   return (
@@ -106,7 +79,7 @@ export function ZKPrivacyPreview() {
                 {"•".repeat(item.length)}
               </span>
             ) : isEncrypting ? (
-              <EncryptedText text={item} isEncrypting={isEncrypting} />
+              <EncryptedText key={item} text={item} />
             ) : (
               <span className="text-muted-foreground">{item}</span>
             )}
