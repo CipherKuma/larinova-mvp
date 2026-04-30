@@ -1,0 +1,1722 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova — Investor Deck for Sundar Venkatraman</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #0d3349;
+        --navy-mid: #1a4a66;
+        --navy-light: #e8eef3;
+        --orange: #b84e18;
+        --orange-light: #fff3ec;
+        --orange-dark: #8a3810;
+        --ink: #14141c;
+        --ink-mid: #444455;
+        --ink-light: #777788;
+        --rule: #e2e2ee;
+      }
+
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        background: #fff;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        width: 210mm;
+        height: 297mm;
+        padding: 18mm 18mm;
+        background: #fff;
+        break-after: page;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .page:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .eyebrow {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .slide-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 14px;
+      }
+      .slide-title em {
+        color: var(--orange);
+        font-style: normal;
+      }
+      .slide-sub {
+        font-size: 14px;
+        color: var(--ink-mid);
+        line-height: 1.55;
+        margin-bottom: 24px;
+        max-width: 95%;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 12mm;
+        left: 18mm;
+        right: 18mm;
+        display: flex;
+        justify-content: space-between;
+        font-size: 9px;
+        color: var(--ink-light);
+        border-top: 1px solid var(--rule);
+        padding-top: 8px;
+      }
+      .footer .footer-mark {
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      /* ─────── SLIDE 1: COVER ─────── */
+      .cover {
+        padding: 0;
+        background: var(--navy);
+        color: #fff;
+        justify-content: space-between;
+      }
+      .cover-top {
+        padding: 36mm 22mm 0 22mm;
+      }
+      .cover-eyebrow {
+        font-size: 11px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 26px;
+      }
+      .cover-wordmark {
+        font-size: 64px;
+        font-weight: 300;
+        color: #fff;
+        letter-spacing: -0.025em;
+        line-height: 1;
+        margin-bottom: 14px;
+      }
+      .cover-tagline {
+        font-size: 18px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.4;
+        max-width: 75%;
+        margin-bottom: 30px;
+      }
+      .cover-tagline em {
+        color: #ffb887;
+        font-style: normal;
+      }
+
+      .cover-stats {
+        display: flex;
+        gap: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 16px 0 22px 0;
+      }
+      .cover-stat {
+        flex: 1;
+        padding-right: 18px;
+      }
+      .cover-stat:last-child {
+        padding-right: 0;
+      }
+      .cover-stat-num {
+        font-size: 26px;
+        font-weight: 800;
+        color: #ffb887;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .cover-stat-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.78);
+        line-height: 1.4;
+      }
+
+      .cover-bottom {
+        background: #07202e;
+        padding: 22px 22mm;
+        font-size: 10.5px;
+        color: rgba(255, 255, 255, 0.78);
+        line-height: 1.65;
+      }
+      .cover-bottom strong {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* ─────── PROBLEM ─────── */
+      .problem-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+      .problem-card {
+        background: var(--navy-light);
+        border-left: 3px solid var(--navy);
+        padding: 14px 16px;
+      }
+      .problem-card-num {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .problem-card-label {
+        font-size: 12px;
+        color: var(--ink-mid);
+        line-height: 1.5;
+      }
+      .quote-block {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.55;
+        padding: 16px 20px;
+        background: var(--orange-light);
+        border-left: 3px solid var(--orange);
+      }
+      .quote-block em {
+        color: var(--orange-dark);
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      /* ─────── SOLUTION ─────── */
+      .flow-row {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin: 18px 0 24px 0;
+      }
+      .flow-step {
+        flex: 1;
+        padding: 14px 12px;
+        border-top: 3px solid var(--orange);
+        background: #fafafa;
+        border-right: 1px solid var(--rule);
+      }
+      .flow-step:last-child {
+        border-right: none;
+      }
+      .flow-step-num {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .flow-step-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 4px;
+        line-height: 1.2;
+      }
+      .flow-step-desc {
+        font-size: 10.5px;
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+
+      .moat-callout {
+        background: var(--navy);
+        color: #fff;
+        padding: 18px 22px;
+        border-radius: 4px;
+        margin-top: 14px;
+      }
+      .moat-callout-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: #ffb887;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .moat-callout-text {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: #fff;
+      }
+
+      /* ─────── WHERE WE STAND ─────── */
+      .stand-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .stand-card {
+        padding: 14px 16px;
+        border: 1px solid var(--rule);
+        border-top: 3px solid var(--navy);
+      }
+      .stand-card.orange {
+        border-top-color: var(--orange);
+      }
+      .stand-card-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--ink-light);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .stand-card-value {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+      .stand-card.orange .stand-card-value {
+        color: var(--orange);
+      }
+      .stand-card-desc {
+        font-size: 11px;
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+
+      .next30 {
+        background: var(--navy-light);
+        padding: 14px 18px;
+        border-left: 3px solid var(--navy);
+        margin-top: 10px;
+      }
+      .next30-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .next30-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .next30-list li {
+        font-size: 12px;
+        color: var(--ink-mid);
+        line-height: 1.55;
+        margin-bottom: 4px;
+        padding-left: 14px;
+        position: relative;
+      }
+      .next30-list li::before {
+        content: "→";
+        color: var(--navy);
+        font-weight: 700;
+        position: absolute;
+        left: 0;
+      }
+
+      /* ─────── PRODUCT ─────── */
+      .product-flow {
+        background: #fafafa;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 18px 20px;
+        margin-bottom: 16px;
+      }
+      .product-flow-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .product-mock {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .product-mock-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        background: #fff;
+        border: 1px solid var(--rule);
+        border-radius: 3px;
+        font-size: 11.5px;
+      }
+      .product-mock-time {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        width: 64px;
+        flex-shrink: 0;
+      }
+      .product-mock-text {
+        color: var(--ink-mid);
+        line-height: 1.4;
+      }
+      .product-mock-text strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ─────── COMPETITION ─────── */
+      .vs-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        margin-bottom: 16px;
+      }
+      .vs-table th {
+        background: var(--navy);
+        color: #fff;
+        padding: 8px 10px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .vs-table th.larinova-col {
+        background: var(--orange);
+      }
+      .vs-table td {
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: top;
+        line-height: 1.45;
+        color: var(--ink-mid);
+      }
+      .vs-table td.lar {
+        color: var(--orange-dark);
+        font-weight: 600;
+      }
+      .vs-table td.dim {
+        color: var(--ink-light);
+      }
+      .vs-table tr:last-child td {
+        border-bottom: none;
+      }
+      .vs-table td.metric {
+        font-weight: 600;
+        color: var(--ink);
+        width: 26%;
+      }
+
+      /* ─────── BUSINESS MODEL ─────── */
+      .unit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .unit-card {
+        text-align: left;
+        padding: 16px 18px;
+        background: #fafafa;
+        border-top: 3px solid var(--navy);
+      }
+      .unit-card.orange {
+        border-top-color: var(--orange);
+      }
+      .unit-card-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--ink-light);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .unit-card-value {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.1;
+        margin-bottom: 4px;
+      }
+      .unit-card.orange .unit-card-value {
+        color: var(--orange);
+      }
+      .unit-card-desc {
+        font-size: 10.5px;
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+
+      /* ─────── INDONESIA ─────── */
+      .id-callout {
+        background: var(--navy);
+        color: #fff;
+        padding: 22px 24px;
+        border-radius: 4px;
+        margin-bottom: 18px;
+      }
+      .id-callout h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #ffb887;
+        margin-bottom: 8px;
+      }
+      .id-callout p {
+        font-size: 12px;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.88);
+        margin-bottom: 0;
+      }
+
+      /* ─────── ROADMAP ─────── */
+      .roadmap {
+        margin-bottom: 18px;
+      }
+      .roadmap-row {
+        display: flex;
+        gap: 16px;
+        padding: 12px 14px;
+        border-left: 3px solid var(--orange);
+        background: #fafafa;
+        margin-bottom: 8px;
+      }
+      .roadmap-month {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        width: 80px;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .roadmap-text {
+        font-size: 12px;
+        color: var(--ink-mid);
+        line-height: 1.55;
+      }
+      .roadmap-text strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ─────── TEAM ─────── */
+      .bio-card {
+        padding: 18px 22px;
+        border: 1px solid var(--rule);
+        border-left: 4px solid var(--orange);
+        margin-bottom: 14px;
+      }
+      .bio-name {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 4px;
+      }
+      .bio-role {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--orange);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .bio-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .bio-list li {
+        font-size: 11.5px;
+        color: var(--ink-mid);
+        line-height: 1.55;
+        margin-bottom: 5px;
+        padding-left: 14px;
+        position: relative;
+      }
+      .bio-list li::before {
+        content: "·";
+        color: var(--orange);
+        font-weight: 800;
+        font-size: 16px;
+        position: absolute;
+        left: 4px;
+        top: -2px;
+      }
+      .bio-list li strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .bio-quote {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--orange-dark);
+        font-style: italic;
+        line-height: 1.5;
+        padding-left: 14px;
+        border-left: 2px solid var(--orange);
+        margin-top: 12px;
+      }
+
+      .cap-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        margin-top: 12px;
+      }
+      .cap-table th {
+        background: var(--navy);
+        color: #fff;
+        padding: 7px 10px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .cap-table td {
+        padding: 7px 10px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .cap-table td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+      }
+      .cap-table tr.total td {
+        border-top: 2px solid var(--navy);
+        border-bottom: none;
+        font-weight: 700;
+        color: var(--navy);
+      }
+
+      /* ─────── RISKS ─────── */
+      .risk-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        margin-bottom: 14px;
+      }
+      .risk-table th {
+        background: var(--ink);
+        color: #fff;
+        padding: 7px 10px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .risk-table td {
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: top;
+        line-height: 1.5;
+        color: var(--ink-mid);
+      }
+      .risk-table td.risk-name {
+        font-weight: 600;
+        color: var(--ink);
+        width: 35%;
+      }
+      .risk-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* ─────── ASK ─────── */
+      .ask-hero {
+        background: var(--navy);
+        color: #fff;
+        padding: 28px 28px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .ask-hero-num {
+        font-size: 40px;
+        font-weight: 800;
+        color: #ffb887;
+        line-height: 1;
+        margin-bottom: 10px;
+        letter-spacing: -0.02em;
+      }
+      .ask-hero-text {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.92);
+        line-height: 1.5;
+      }
+      .ask-hero-text strong {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .uof-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+      }
+      .uof-table th {
+        background: var(--orange);
+        color: #fff;
+        padding: 7px 10px;
+        text-align: left;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .uof-table th.right {
+        text-align: right;
+      }
+      .uof-table td {
+        padding: 6px 10px;
+        border-bottom: 1px solid var(--rule);
+        font-size: 11px;
+        color: var(--ink-mid);
+      }
+      .uof-table td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .uof-table tr.total td {
+        border-top: 2px solid var(--orange);
+        border-bottom: none;
+        font-weight: 700;
+        color: var(--orange-dark);
+        padding-top: 8px;
+      }
+
+      .closing-card {
+        margin-top: 18px;
+        padding: 14px 18px;
+        background: var(--orange-light);
+        border-left: 3px solid var(--orange);
+      }
+      .closing-card p {
+        font-size: 12px;
+        line-height: 1.55;
+        color: var(--ink-mid);
+        margin-bottom: 4px;
+      }
+      .closing-card strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ════════════════════════════════════════════════
+         SLIDE 1 — COVER
+         ════════════════════════════════════════════════ -->
+    <div class="page cover">
+      <div class="cover-top">
+        <p class="cover-eyebrow">Investor brief · Confidential · April 2026</p>
+        <h1 class="cover-wordmark">Larinova</h1>
+        <p class="cover-tagline">
+          The OPD assistant for Indian doctors —<br />
+          <em>Tamil-native, AI-powered, end-to-end.</em>
+        </p>
+
+        <div class="cover-stats">
+          <div class="cover-stat">
+            <div class="cover-stat-num">1.1M</div>
+            <div class="cover-stat-label">
+              Doctors in India · only one English/Hindi competitor
+            </div>
+          </div>
+          <div class="cover-stat">
+            <div class="cover-stat-num">22</div>
+            <div class="cover-stat-label">
+              Indian languages, Tamil-first · zero alternatives
+            </div>
+          </div>
+          <div class="cover-stat">
+            <div class="cover-stat-num">90 min</div>
+            <div class="cover-stat-label">
+              Per day saved per doctor on documentation
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cover-bottom">
+        <strong>Prepared for</strong>&nbsp;&nbsp;Mr. Sundar Venkatraman, CEO ·
+        APAR Innosys LLP, Chennai<br />
+        <strong>By</strong>&nbsp;&nbsp;Gabriel Antony Xaviour, Founder &amp; CEO
+        · Larinova Private Limited<br />
+        <strong>The ask</strong>&nbsp;&nbsp;₹75 Lakh for 10% equity at ₹7.5 Cr
+        post-money valuation
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 2 — PROBLEM
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">The problem</p>
+      <h2 class="slide-title">
+        Indian doctors are losing 90 minutes a day to a typewriter —
+        <em>and the patient's language to translation.</em>
+      </h2>
+      <p class="slide-sub">
+        Every Indian GP sees 30+ patients a day. Every consultation generates a
+        SOAP note, an ICD-10 code, and a prescription that has to be typed into
+        an EMR designed in English. Tamil-speaking patients describe symptoms in
+        Tamil. The doctor mentally translates as they type. Clinical nuance is
+        lost in that translation.
+      </p>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-card-num">90 min/day</div>
+          <div class="problem-card-label">
+            Typed manually after 30+ consultations — a full hour and a half
+            stolen from patients or from going home
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-num">22 languages</div>
+          <div class="problem-card-label">
+            Spoken by Indian patients in OPDs every day. Existing AI EMRs
+            support only English and Hindi.
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-num">~65K doctors</div>
+          <div class="problem-card-label">
+            On Eka.Care today — the only AI scribe in India. English / Hindi
+            only. Scribe-only, no booking, no follow-up.
+          </div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-num">5 disconnected apps</div>
+          <div class="problem-card-label">
+            Most clinics juggle separate tools for booking, intake, EMR, scribe,
+            and follow-up — none of them talk to each other
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <em
+          >The Tamil-language clinical fidelity gap is not a feature — it is a
+          clinical accuracy problem.</em
+        >
+        Mental translation under time pressure produces worse notes, worse
+        prescriptions, and worse outcomes. No platform in the Indian market
+        today closes that gap.
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">2 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 3 — SOLUTION
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">The solution</p>
+      <h2 class="slide-title">
+        One platform for the entire OPD — <em>booking to follow-up.</em>
+      </h2>
+      <p class="slide-sub">
+        Larinova is the only end-to-end OPD platform for Indian doctors.
+        Patients book online, complete an AI-guided intake before they arrive,
+        and the doctor walks in with a 60-second Prep Brief in hand. During the
+        consult, Larinova transcribes Tamil / Hindi / English speech and
+        generates SOAP notes, ICD-10 codes, and a signed prescription in real
+        time. After the visit, an agent follows up at days 1, 3, and 7.
+      </p>
+
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-step-num">01 · Book</div>
+          <div class="flow-step-name">Online booking</div>
+          <div class="flow-step-desc">
+            Patient picks a slot from a public page. Self-confirms by email.
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">02 · Intake</div>
+          <div class="flow-step-name">AI-guided form</div>
+          <div class="flow-step-desc">
+            Patient fills before arrival. AI follows up for missing details. Lab
+            uploads accepted.
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">03 · Prep</div>
+          <div class="flow-step-name">60-sec Prep Brief</div>
+          <div class="flow-step-desc">
+            Doctor sees red flags, prior meds, intake summary the moment patient
+            walks in.
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">04 · Consult</div>
+          <div class="flow-step-name">Tamil-native scribe</div>
+          <div class="flow-step-desc">
+            Real-time SOAP notes, ICD-10 codes, signed prescription — Tamil /
+            Hindi / English.
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">05 · Follow-up</div>
+          <div class="flow-step-name">Wellness agent</div>
+          <div class="flow-step-desc">
+            Conversational check-ins on day 1, 3, 7. Escalates to doctor only
+            when needed.
+          </div>
+        </div>
+      </div>
+
+      <div class="moat-callout">
+        <div class="moat-callout-label">The moat</div>
+        <div class="moat-callout-text">
+          The only OPD platform that speaks Tamil — and the cheapest AI medical
+          scribe in the world. ABDM / ABHA native. DPDP Act 2023 compliant.
+          Powered by Sarvam AI's Indic models.
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">3 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 4 — PRODUCT
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">The product</p>
+      <h2 class="slide-title">
+        A doctor's full clinic day, <em>in 9 minutes of total admin.</em>
+      </h2>
+      <p class="slide-sub">
+        Larinova replaces the 90 minutes of post-consult documentation with a
+        90-second review-and-sign per patient. The doctor speaks naturally —
+        Tamil, Hindi, English, or mixed. Larinova handles the rest. Live in
+        production at <strong>app.larinova.com</strong> — Sundar can sign up and
+        try it himself.
+      </p>
+
+      <div class="product-flow">
+        <div class="product-flow-title">
+          A typical Tamil consult — what the doctor experiences
+        </div>
+        <div class="product-mock">
+          <div class="product-mock-row">
+            <div class="product-mock-time">9:58 AM</div>
+            <div class="product-mock-text">
+              Patient arrives. <strong>Prep Brief</strong> is on doctor's screen
+              — symptoms, prior meds, two flagged red flags.
+            </div>
+          </div>
+          <div class="product-mock-row">
+            <div class="product-mock-time">10:00 AM</div>
+            <div class="product-mock-text">
+              Consult begins. Doctor presses <strong>Start Recording</strong>.
+              Larinova listens in Tamil.
+            </div>
+          </div>
+          <div class="product-mock-row">
+            <div class="product-mock-time">10:11 AM</div>
+            <div class="product-mock-text">
+              Consult ends.
+              <strong>SOAP note, ICD-10 code, and prescription</strong> appear
+              on screen — in English, drafted from the Tamil conversation.
+            </div>
+          </div>
+          <div class="product-mock-row">
+            <div class="product-mock-time">10:13 AM</div>
+            <div class="product-mock-text">
+              Doctor reviews, edits one line, signs. Patient leaves with a
+              <strong>signed Rx via email</strong>. Total admin:
+              <strong>under 2 min</strong>.
+            </div>
+          </div>
+          <div class="product-mock-row">
+            <div class="product-mock-time">+1 day</div>
+            <div class="product-mock-text">
+              <strong>Wellness agent</strong> checks in with the patient: "How
+              are you feeling today?" Replies are classified — only flagged ones
+              reach the doctor.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        Every line above is <em>live in production today</em>. Larinova is a
+        Progressive Web App — works on every doctor's phone or tablet, no
+        install required. Service worker verified, offline fallback wired.
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">4 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 5 — WHERE WE STAND TODAY (PROOF)
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">Where we stand today</p>
+      <h2 class="slide-title">
+        Day 7 since incorporation. <em>Real users on a live product.</em>
+      </h2>
+      <p class="slide-sub">
+        Larinova Private Limited was incorporated on 22 April 2026. We are
+        deliberately presenting Day 7 numbers honestly — small, real, and
+        growing fast — rather than inflated metrics that would not survive
+        Sundar's fact check. Here is exactly what is true, as of today.
+      </p>
+
+      <div class="stand-grid">
+        <div class="stand-card orange">
+          <div class="stand-card-label">Active alpha doctors</div>
+          <div class="stand-card-value">5 onboarded</div>
+          <div class="stand-card-desc">
+            All Tamil-speaking, Chennai-based. Whitelisted as alpha pro.
+            Co-building weekly with founder.
+          </div>
+        </div>
+        <div class="stand-card orange">
+          <div class="stand-card-label">Hospital pipeline</div>
+          <div class="stand-card-value">2–3 inbound</div>
+          <div class="stand-card-desc">
+            Expected to onboard within the next 30 days. Multi-doctor
+            deployments, enterprise wedge.
+          </div>
+        </div>
+        <div class="stand-card">
+          <div class="stand-card-label">Product status</div>
+          <div class="stand-card-value">100% live</div>
+          <div class="stand-card-desc">
+            Booking, AI intake, Prep Brief, Tamil scribe, follow-up agent — all
+            in production at app.larinova.com.
+          </div>
+        </div>
+        <div class="stand-card">
+          <div class="stand-card-label">Pricing locked</div>
+          <div class="stand-card-value">₹999 / mo</div>
+          <div class="stand-card-desc">
+            Pro tier, billed monthly or ₹9,990/yr. ~10% under Eka.Care for a
+            fuller product.
+          </div>
+        </div>
+        <div class="stand-card">
+          <div class="stand-card-label">Tamil clinical AI</div>
+          <div class="stand-card-value">Operational</div>
+          <div class="stand-card-desc">
+            Live via Sarvam AI's Indic models. Only platform in India shipping
+            this in production today.
+          </div>
+        </div>
+        <div class="stand-card">
+          <div class="stand-card-label">Cap table</div>
+          <div class="stand-card-value">100% founders</div>
+          <div class="stand-card-desc">
+            Gabriel 90% / Father 10% (governance). Zero outside money. Zero
+            advisor equity. Zero SAFE notes.
+          </div>
+        </div>
+      </div>
+
+      <div class="next30">
+        <div class="next30-label">What we commit to in the next 30 days</div>
+        <ul class="next30-list">
+          <li>
+            <strong>8–10 active paying doctors</strong> (from 5 today, all on
+            Pro tier conversion after free-trial use)
+          </li>
+          <li>
+            <strong>First hospital pilot signed</strong> — multi-doctor
+            deployment in Chennai
+          </li>
+          <li>
+            <strong>First Indonesian doctor onboarded</strong> as cross-border
+            proof
+          </li>
+          <li>
+            <strong>SH-7 filed</strong> to raise authorised capital — share
+            allotment process readied for Sundar's funds
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">5 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 6 — MARKET
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">The market</p>
+      <h2 class="slide-title">
+        The largest underserved healthcare-software market on earth —
+        <em>and we have a language no one else speaks.</em>
+      </h2>
+      <p class="slide-sub">
+        The Indian medical-software market is dominated by clinic-management
+        tools (Practo, Clinikk, Healthplix) and a single English / Hindi AI
+        scribe (Eka.Care). None of them serve Tamil-, Telugu-, Bengali-, or
+        Marathi-speaking practices. The opportunity is not the 1.1 million
+        doctors — it is the half of them who speak a language no current AI EMR
+        understands.
+      </p>
+
+      <table class="vs-table">
+        <thead>
+          <tr>
+            <th style="width: 32%">Segment</th>
+            <th style="width: 22%">Doctors</th>
+            <th>Currently served by</th>
+            <th>Larinova fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">
+              Tamil-speaking doctors (TN, Puducherry, parts of KA)
+            </td>
+            <td>~140,000</td>
+            <td class="dim">Nobody — English EMRs only</td>
+            <td class="lar">Day-1 wedge. Home advantage. ICP #1.</td>
+          </tr>
+          <tr>
+            <td class="metric">Telugu / Bengali / Marathi (AP, TS, WB, MH)</td>
+            <td>~280,000</td>
+            <td class="dim">Nobody</td>
+            <td class="lar">
+              Year-2 expansion via Sarvam — same product, different language.
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Hindi-speaking (UP, MP, BR, RJ, DL)</td>
+            <td>~390,000</td>
+            <td>Eka.Care (scribe only)</td>
+            <td class="lar">Compete on full OPD stack + price.</td>
+          </tr>
+          <tr>
+            <td class="metric">English-primary (urban metros)</td>
+            <td>~300,000</td>
+            <td>Eka.Care, Practo, Healthplix</td>
+            <td>Year-3+ — not the wedge.</td>
+          </tr>
+          <tr>
+            <td class="metric"><strong>India total addressable</strong></td>
+            <td><strong>~1.1M</strong></td>
+            <td>Fragmented — none cover Tamil clinically</td>
+            <td class="lar">
+              <strong>Larinova owns the language wedge.</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="quote-block">
+        At <strong>₹999 / month per doctor</strong>, capturing just the 140K
+        Tamil market gives Larinova an addressable revenue ceiling of
+        <em>~₹168 Cr / year</em>. We do not need to win every doctor — capturing
+        5% of the Tamil segment alone is ~₹8.4 Cr ARR.
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">6 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 7 — COMPETITION + MOAT
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">Competition · Moat</p>
+      <h2 class="slide-title">
+        No competitor does what we do — <em>at any price, in any market.</em>
+      </h2>
+
+      <table class="vs-table" style="margin-top: 12px">
+        <thead>
+          <tr>
+            <th style="width: 22%">Dimension</th>
+            <th class="larinova-col" style="width: 22%">Larinova</th>
+            <th style="width: 22%">Eka.Care (India)</th>
+            <th>Nuance / Suki / Abridge (US)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Languages</td>
+            <td class="lar">
+              Tamil + Hindi + English (all 22 via Sarvam roadmap)
+            </td>
+            <td>English + Hindi only</td>
+            <td class="dim">English only</td>
+          </tr>
+          <tr>
+            <td class="metric">Product scope</td>
+            <td class="lar">
+              Full OPD: booking + intake + Prep Brief + scribe + follow-up
+            </td>
+            <td>Scribe only</td>
+            <td class="dim">Scribe only</td>
+          </tr>
+          <tr>
+            <td class="metric">Patient booking</td>
+            <td class="lar">Public booking page, self-confirm</td>
+            <td class="dim">None</td>
+            <td class="dim">None</td>
+          </tr>
+          <tr>
+            <td class="metric">Pre-consult AI</td>
+            <td class="lar">60-sec Prep Brief on every patient</td>
+            <td class="dim">None</td>
+            <td class="dim">None</td>
+          </tr>
+          <tr>
+            <td class="metric">Wellness follow-up</td>
+            <td class="lar">Conversational agent on day 1, 3, 7</td>
+            <td class="dim">None</td>
+            <td class="dim">None</td>
+          </tr>
+          <tr>
+            <td class="metric">ABDM / ABHA native</td>
+            <td class="lar">Full</td>
+            <td>Partial</td>
+            <td class="dim">Not applicable</td>
+          </tr>
+          <tr>
+            <td class="metric">Price per doctor</td>
+            <td class="lar">₹999 / month</td>
+            <td>~₹1,100 / month</td>
+            <td class="dim">$208 – $830 / month (₹17K – ₹70K)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="moat-callout">
+        <div class="moat-callout-label">The structural moat</div>
+        <div class="moat-callout-text">
+          Tamil-native clinical AI is not a feature competitors can flip a
+          switch on — it requires integration with Sarvam's Indic models and
+          clinical-domain training. Eka.Care has chosen English/Hindi for three
+          years and shows no roadmap signal otherwise. We are the only
+          full-OPD-stack platform in the Indian market — the moat is product
+          breadth + language depth + pricing leadership simultaneously.
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">7 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 8 — BUSINESS MODEL + UNIT ECON
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">Business model · Unit economics</p>
+      <h2 class="slide-title">
+        A SaaS that becomes profitable per-doctor on the first paid month.
+      </h2>
+      <p class="slide-sub">
+        Larinova is a per-doctor monthly subscription. ₹999 / month for
+        unlimited consultations on the Pro tier; a free tier capped at 20
+        consultations per month feeds top-of-funnel and converts to paid as
+        usage scales. Cost to serve is dominated by AI inference (Sarvam STT +
+        Anthropic LLM), which we route through our own Claude Service
+        infrastructure to cap unit cost.
+      </p>
+
+      <div class="unit-grid">
+        <div class="unit-card orange">
+          <div class="unit-card-label">ARPU per doctor</div>
+          <div class="unit-card-value">₹11,988</div>
+          <div class="unit-card-desc">
+            Annual recurring revenue per Pro doctor at ₹999/mo (or ₹9,990/yr at
+            the discounted annual rate).
+          </div>
+        </div>
+        <div class="unit-card orange">
+          <div class="unit-card-label">Gross margin</div>
+          <div class="unit-card-value">~85%</div>
+          <div class="unit-card-desc">
+            Cost to serve ~₹150/mo per doctor (Sarvam + Anthropic + Supabase +
+            Vercel infra), all variable.
+          </div>
+        </div>
+        <div class="unit-card orange">
+          <div class="unit-card-label">CAC payback</div>
+          <div class="unit-card-value">&lt; 1 month</div>
+          <div class="unit-card-desc">
+            ₹1,500 ambassador commission per activation + ₹2,500 on paid →
+            recovered in first paid month.
+          </div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-card-label">Path to ₹1 Cr ARR</div>
+          <div class="unit-card-value">~840 doctors</div>
+          <div class="unit-card-desc">
+            At ₹999/mo Pro. Achievable in 14–18 months with the funded GTM
+            motion.
+          </div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-card-label">Path to ₹10 Cr ARR</div>
+          <div class="unit-card-value">~8,400 doctors</div>
+          <div class="unit-card-desc">
+            ~0.8% of India's 1.1M doctors. Year 3 target with hospital-tier
+            expansion.
+          </div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-card-label">Hospital tier ACV</div>
+          <div class="unit-card-value">₹3 – 12 L</div>
+          <div class="unit-card-desc">
+            Mid-size hospital (15–60 doctors). One signed deal = 8–25 individual
+            conversions.
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <em>Industrial-CEO test:</em> at 85% gross margin, ₹999/mo per seat,
+        sub-1-month CAC payback, Larinova has the unit economics of a
+        category-leading SaaS — even before we layer on hospital-tier deals.
+        Profitability per doctor begins on day 30.
+      </div>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">8 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 9 — INDONESIA
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">Indonesia · The second engine</p>
+      <h2 class="slide-title">
+        India is primary. Indonesia is <em>validated optionality.</em>
+      </h2>
+      <p class="slide-sub">
+        India is Larinova's first market and remains the focus of this round.
+        But the same Larinova landing page is live in Bahasa Indonesia at
+        <strong>larinova.com/id</strong>, and the opportunity in Indonesia is
+        structurally even cleaner: 180,000+ doctors and zero direct AI scribe
+        competitor. We treat it as the second engine — designed to validate a
+        cross-border thesis without diluting India focus.
+      </p>
+
+      <div class="id-callout">
+        <h3>Why Indonesia is the cleanest second market in healthcare AI</h3>
+        <p>
+          Indonesian clinic management software (Klinik Pintar, Assist.id,
+          Trustmedis) costs Rp 250K–3M/month and does scheduling and records —
+          but <strong>none auto-generate clinical notes</strong>. There is no
+          Bahasa-native AI scribe in the Indonesian market today. The closest
+          entrant — Medow Health AI from Singapore — has not launched in
+          Indonesia. Global premium scribes (Nuance, Suki) cost $200–$830/month
+          per doctor and have no Bahasa support. Larinova at
+          <strong>IDR 299K/month (~$18)</strong> is structurally uncatchable on
+          price + language.
+        </p>
+      </div>
+
+      <table class="vs-table">
+        <thead>
+          <tr>
+            <th>Market signal</th>
+            <th>Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Doctors in Indonesia</td>
+            <td>~180,000</td>
+          </tr>
+          <tr>
+            <td class="metric">Direct AI scribe competitors</td>
+            <td class="lar">0</td>
+          </tr>
+          <tr>
+            <td class="metric">Larinova price vs. global premium scribes</td>
+            <td class="lar">82 – 99% cheaper per doctor</td>
+          </tr>
+          <tr>
+            <td class="metric">
+              Larinova price vs. local clinic software (Klinik Pintar etc.)
+            </td>
+            <td class="lar">~50% cheaper, with capabilities they don't have</td>
+          </tr>
+          <tr>
+            <td class="metric">Indonesia funded scope this round</td>
+            <td>₹8 L of ₹75 L (~11%) — proof, not full launch</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">9 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 10 — ROADMAP + RISKS
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">12-month roadmap · Risks</p>
+      <h2 class="slide-title">Concrete milestones. <em>Honest risks.</em></h2>
+
+      <div class="roadmap">
+        <div class="roadmap-row">
+          <div class="roadmap-month">Month 1–3</div>
+          <div class="roadmap-text">
+            <strong>50 paying Chennai doctors</strong> · 3 Chennai clinic deals
+            · first hospital pilot signed · ambassador program live with Bala +
+            2 founding ambassadors
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="roadmap-month">Month 4–6</div>
+          <div class="roadmap-text">
+            <strong>120 paying doctors</strong> · 2 hospital deployments · ₹1.4
+            L MRR · Indonesia first 5–10 paying doctors as cross-border proof
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="roadmap-month">Month 7–9</div>
+          <div class="roadmap-text">
+            <strong>250 paying doctors</strong> · 5 hospital deals signed ·
+            expansion to Coimbatore + Madurai · first strategic hire (BD or
+            engineering)
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="roadmap-month">Month 10–12</div>
+          <div class="roadmap-text">
+            <strong>500 paying doctors</strong> · ~₹50 L ARR · break-even line
+            of sight · Series Seed conversation initiated at
+            <strong>₹25–50 Cr post-money</strong> — 5–10× markup for Sundar
+          </div>
+        </div>
+      </div>
+
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th style="width: 35%">Risk</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="risk-name">Eka.Care adds Tamil</td>
+            <td>
+              Tamil-native from day 1; deeper ABDM moat + full OPD stack they do
+              not have; Tamil clinic relationships locked in by then
+            </td>
+          </tr>
+          <tr>
+            <td class="risk-name">Solo founder bus factor</td>
+            <td>
+              This raise funds the first strategic hire by month 9; AI
+              augmentation already de-risks single-person execution
+            </td>
+          </tr>
+          <tr>
+            <td class="risk-name">Doctor adoption slow</td>
+            <td>
+              Co-build weekly with 5 alpha doctors; free trial removes friction;
+              ambassador program creates peer pull
+            </td>
+          </tr>
+          <tr>
+            <td class="risk-name">Indonesia regulatory delays</td>
+            <td>
+              India is primary, Indonesia is upside not load-bearing — round
+              closes regardless of Indonesia trajectory
+            </td>
+          </tr>
+          <tr>
+            <td class="risk-name">AI infra costs exceed revenue</td>
+            <td>
+              ~85% gross margin even today; Claude Service caps unit cost; free
+              vs Pro tier controls runaway usage
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">10 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 11 — TEAM + CAP TABLE
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">Team · Cap table</p>
+      <h2 class="slide-title">
+        A solo, full-time, AI-augmented founder —
+        <em>with a four-year track record of shipping.</em>
+      </h2>
+
+      <div class="bio-card">
+        <div class="bio-name">Gabriel Antony Xaviour</div>
+        <div class="bio-role">Founder &amp; CEO · 22 · Chennai</div>
+        <ul class="bio-list">
+          <li>
+            <strong
+              >Bachelor of Engineering, Electronics &amp; Communication</strong
+            >
+            — Loyola-ICAM College of Engineering &amp; Technology (LICET),
+            Chennai
+          </li>
+          <li>
+            <strong>70+ hackathon wins in four years</strong> across AI, Web3,
+            and consumer software — top-decile competitive product builder in
+            India
+          </li>
+          <li>
+            <strong>Founding Engineer at RPS AI</strong> (San Francisco) —
+            backed by Orange DAO, Delphi Ventures, TRIVE Singapore, UF Venture;
+            raised millions across early rounds
+          </li>
+          <li>
+            <strong>Solutions Engineer at Marlin Protocol</strong> (Dubai) —
+            trusted execution environments and privacy compute infrastructure
+          </li>
+          <li>
+            <strong>Engineer at Rax Tech</strong> (Chennai) — IoT, software, and
+            e-surveillance; ₹20–40 Cr/year revenue; founded and run by his
+            parents
+          </li>
+          <li>
+            <strong>Solo, full-time, AI-augmented</strong> — building Larinova
+            end-to-end, technical and commercial, with Claude as a force
+            multiplier across engineering, sales, and operations
+          </li>
+        </ul>
+        <div class="bio-quote">
+          "The biggest battle in technology right now is healthcare AI. I want
+          to win it from India."
+        </div>
+      </div>
+
+      <p
+        style="
+          font-size: 11px;
+          color: var(--ink-mid);
+          line-height: 1.55;
+          margin-bottom: 4px;
+        "
+      >
+        <strong style="color: var(--ink)"
+          >Father (Antony Xaviour, DIN 01646014)</strong
+        >
+        — co-founding subscriber on the Memorandum of Association, holds 10% as
+        a governance shareholder. CEO of Rax Tech in his own right; no
+        operational or advisory role in Larinova.
+        <strong style="color: var(--ink)">Bala (Balachandar Seeman)</strong> —
+        independent BD partner on commission-only structure; no equity.
+      </p>
+
+      <table class="cap-table">
+        <thead>
+          <tr>
+            <th>Holder</th>
+            <th>Role</th>
+            <th class="num" style="text-align: right">Pre-round</th>
+            <th class="num" style="text-align: right">Post-round</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gabriel Antony Xaviour</td>
+            <td>Founder &amp; CEO</td>
+            <td class="num">90.0%</td>
+            <td class="num">81.0%</td>
+          </tr>
+          <tr>
+            <td>Antony Xaviour</td>
+            <td>Co-founding shareholder (governance only)</td>
+            <td class="num">10.0%</td>
+            <td class="num">9.0%</td>
+          </tr>
+          <tr>
+            <td>Sundar Venkatraman</td>
+            <td>Lead angel — new this round</td>
+            <td class="num">—</td>
+            <td class="num">10.0%</td>
+          </tr>
+          <tr class="total">
+            <td colspan="2">Total</td>
+            <td class="num">100.0%</td>
+            <td class="num">100.0%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <span>Larinova · Investor brief for Mr. Sundar Venkatraman</span>
+        <span class="footer-mark">11 / 12</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         SLIDE 12 — THE ASK
+         ════════════════════════════════════════════════ -->
+    <div class="page">
+      <p class="eyebrow">The ask</p>
+      <h2 class="slide-title">
+        ₹75 Lakh for 10% equity.
+        <em>22 months to a Series Seed at 5–10× markup.</em>
+      </h2>
+
+      <div class="ask-hero">
+        <div class="ask-hero-num">₹75,00,000</div>
+        <div class="ask-hero-text">
+          <strong>For 10% equity</strong> &nbsp;·&nbsp;
+          <strong>at ₹7.5 Cr post-money valuation</strong><br />
+          22 months runway &nbsp;·&nbsp; clean equity, no SAFE, no
+          convertible<br />
+          Funds land into Larinova Pvt Ltd current account post SH-7 capital
+          increase (~10 days)
+        </div>
+      </div>
+
+      <table class="uof-table">
+        <thead>
+          <tr>
+            <th>Use of funds — ₹75L over 22 months</th>
+            <th class="right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder runway (₹1L/mo × 22 months)</td>
+            <td class="num">₹22 L</td>
+          </tr>
+          <tr>
+            <td>Hospital BD travel + Bala commissions</td>
+            <td class="num">₹10 L</td>
+          </tr>
+          <tr>
+            <td>First strategic hire (month 9–12)</td>
+            <td class="num">₹12 L</td>
+          </tr>
+          <tr>
+            <td>Indonesia market entry (proof, not full launch)</td>
+            <td class="num">₹8 L</td>
+          </tr>
+          <tr>
+            <td>Marketing + content + brand video production</td>
+            <td class="num">₹6 L</td>
+          </tr>
+          <tr>
+            <td>AI inference + infra (Sarvam, Anthropic, Supabase, Vercel)</td>
+            <td class="num">₹6 L</td>
+          </tr>
+          <tr>
+            <td>Compliance + legal (GST, DPDP, HPR, MSME, ToS)</td>
+            <td class="num">₹4 L</td>
+          </tr>
+          <tr>
+            <td>Tools + subscriptions (Claude, Cursor, Linear, etc.)</td>
+            <td class="num">₹3 L</td>
+          </tr>
+          <tr>
+            <td>Buffer for unknowns</td>
+            <td class="num">₹4 L</td>
+          </tr>
+          <tr class="total">
+            <td>Total</td>
+            <td class="num">₹75 L</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="closing-card">
+        <p>
+          <strong>What this commits us to:</strong> 500 paying doctors, ~₹50 L
+          ARR, line of sight to break-even, Series Seed conversation at ₹25–50
+          Cr post-money — by Month 12.
+        </p>
+        <p>
+          <strong>Why Sundar:</strong> the cheque comes from a relationship that
+          already exists — APAR Innosys has trusted Rax Tech for years. Larinova
+          is the next chapter from the same family, with measurably better unit
+          economics and a 50× larger market. Sundar gets first-mover position
+          before Larinova's Series Seed.
+        </p>
+        <p style="margin-top: 10px">
+          <strong>Next step:</strong> Sundar's review &amp; counter. We are
+          ready to sign within 7 days of agreed terms.
+        </p>
+      </div>
+
+      <div class="footer">
+        <span
+          >Larinova Private Limited · CIN U62012TN2026PTC192444 ·
+          larinova.com</span
+        >
+        <span class="footer-mark">12 / 12</span>
+      </div>
+    </div>
+  </body>
+</html>

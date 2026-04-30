@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova — Use of Funds Appendix</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      @page {
+        size: A4 portrait;
+        margin: 22mm 22mm 18mm 22mm;
+        @bottom-center {
+          content: "Larinova · Appendix B — Use of Funds & Quarterly Plan · Confidential";
+          font-family: "Inter", sans-serif;
+          font-size: 8pt;
+          color: #888;
+        }
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #0d3349;
+        --navy-light: #e8eef3;
+        --orange: #b84e18;
+        --orange-light: #fff3ec;
+        --orange-dark: #8a3810;
+        --ink: #14141c;
+        --ink-mid: #3a3a52;
+        --ink-light: #6c6c88;
+        --rule: #e2e2ee;
+      }
+
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: 9pt;
+        line-height: 1.55;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-bottom: 10pt;
+        border-bottom: 2pt solid var(--orange);
+        margin-bottom: 16pt;
+      }
+      .header-title {
+        font-size: 18pt;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.015em;
+      }
+      .header-meta {
+        font-size: 8pt;
+        color: var(--ink-light);
+        text-align: right;
+        line-height: 1.5;
+      }
+      .header-eyebrow {
+        font-size: 7.5pt;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 3pt;
+      }
+
+      h2 {
+        font-size: 10.5pt;
+        font-weight: 700;
+        color: var(--navy);
+        margin: 12pt 0 6pt 0;
+      }
+
+      p {
+        font-size: 8.5pt;
+        color: var(--ink-mid);
+        line-height: 1.55;
+        margin-bottom: 6pt;
+      }
+      p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8pt;
+        margin: 4pt 0 10pt 0;
+      }
+      th {
+        background: var(--navy);
+        color: #fff;
+        font-weight: 600;
+        font-size: 7pt;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 5pt 7pt;
+        text-align: left;
+      }
+      th.right {
+        text-align: right;
+      }
+      th.orange-head {
+        background: var(--orange);
+      }
+      td {
+        padding: 5pt 7pt;
+        border-bottom: 0.5pt solid var(--rule);
+        color: var(--ink-mid);
+        vertical-align: top;
+        line-height: 1.45;
+      }
+      td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      td.metric {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      td.lar {
+        color: var(--orange-dark);
+        font-weight: 600;
+      }
+      tr.total td {
+        border-top: 1.5pt solid var(--orange);
+        border-bottom: none;
+        font-weight: 700;
+        color: var(--orange-dark);
+      }
+
+      .callout {
+        background: var(--orange-light);
+        border-left: 3pt solid var(--orange);
+        padding: 9pt 12pt;
+        margin: 10pt 0;
+      }
+      .callout p {
+        font-size: 8.5pt;
+        color: var(--ink);
+        margin: 0;
+        line-height: 1.55;
+      }
+      .callout p strong {
+        color: var(--orange-dark);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12pt;
+        margin: 8pt 0;
+      }
+      .info-card {
+        background: var(--navy-light);
+        border-left: 2pt solid var(--navy);
+        padding: 9pt 12pt;
+      }
+      .info-card-label {
+        font-size: 7pt;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 4pt;
+      }
+      .info-card-value {
+        font-size: 14pt;
+        font-weight: 800;
+        color: var(--navy);
+        line-height: 1.1;
+        margin-bottom: 3pt;
+      }
+      .info-card-desc {
+        font-size: 8pt;
+        color: var(--ink-mid);
+        line-height: 1.45;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div>
+        <p class="header-eyebrow">Appendix B</p>
+        <h1 class="header-title">Use of Funds &amp; Quarterly Plan</h1>
+      </div>
+      <div class="header-meta">
+        Larinova Private Limited<br />
+        ₹75 Lakh deployed over 22 months<br />
+        Plan v1 · 29 April 2026
+      </div>
+    </div>
+
+    <h2>1. Annual cash plan</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bucket</th>
+          <th class="right">Year 1 (mo 1–12)</th>
+          <th class="right">Year 2 (mo 13–22)</th>
+          <th class="right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Founder runway</td>
+          <td class="num">₹12 L</td>
+          <td class="num">₹10 L</td>
+          <td class="num">₹22 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Hospital BD travel + Bala commissions</td>
+          <td class="num">₹6 L</td>
+          <td class="num">₹4 L</td>
+          <td class="num">₹10 L</td>
+        </tr>
+        <tr>
+          <td class="metric">First strategic hire (starts month 9)</td>
+          <td class="num">₹4 L</td>
+          <td class="num">₹8 L</td>
+          <td class="num">₹12 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Indonesia market entry</td>
+          <td class="num">₹5 L</td>
+          <td class="num">₹3 L</td>
+          <td class="num">₹8 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Marketing + content + brand video</td>
+          <td class="num">₹4 L</td>
+          <td class="num">₹2 L</td>
+          <td class="num">₹6 L</td>
+        </tr>
+        <tr>
+          <td class="metric">AI inference + infra</td>
+          <td class="num">₹3 L</td>
+          <td class="num">₹3 L</td>
+          <td class="num">₹6 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Compliance + legal</td>
+          <td class="num">₹2.5 L</td>
+          <td class="num">₹1.5 L</td>
+          <td class="num">₹4 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Tools + subscriptions</td>
+          <td class="num">₹1.5 L</td>
+          <td class="num">₹1.5 L</td>
+          <td class="num">₹3 L</td>
+        </tr>
+        <tr>
+          <td class="metric">Buffer for unknowns</td>
+          <td class="num">₹2 L</td>
+          <td class="num">₹2 L</td>
+          <td class="num">₹4 L</td>
+        </tr>
+        <tr class="total">
+          <td><strong>Total cash deployed</strong></td>
+          <td class="num"><strong>₹40 L</strong></td>
+          <td class="num"><strong>₹35 L</strong></td>
+          <td class="num"><strong>₹75 L</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Quarterly milestones — what each ₹ produces</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 12%">Quarter</th>
+          <th class="right" style="width: 12%">Cumulative spend</th>
+          <th>Milestones produced</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Q1 (mo 1–3)</td>
+          <td class="num">₹10 L</td>
+          <td>
+            50 paying Chennai doctors · 3 Chennai clinic deals · first hospital
+            pilot signed · ambassador program live with Bala + 2 founding
+            ambassadors · brand video shipped · current account + GST live
+          </td>
+        </tr>
+        <tr>
+          <td class="metric">Q2 (mo 4–6)</td>
+          <td class="num">₹20 L</td>
+          <td>
+            120 paying doctors (~₹1.2 L MRR) · 2 hospital deployments ·
+            Indonesia first 5 paying doctors · referral loop kicks in ·
+            Tamil-language demo asset library complete
+          </td>
+        </tr>
+        <tr>
+          <td class="metric">Q3 (mo 7–9)</td>
+          <td class="num">₹30 L</td>
+          <td>
+            250 paying doctors (~₹2.5 L MRR) · 5 hospital deals signed ·
+            expansion to Coimbatore + Madurai · first strategic hire onboarded
+            (BD or eng) · Telugu language pilot
+          </td>
+        </tr>
+        <tr>
+          <td class="metric">Q4 (mo 10–12)</td>
+          <td class="num">₹40 L</td>
+          <td>
+            <strong style="color: var(--orange-dark)"
+              >500 paying doctors · ~₹50 L ARR · break-even line of sight ·
+              Series Seed raise initiated at ₹25–50 Cr post-money</strong
+            >
+          </td>
+        </tr>
+        <tr>
+          <td class="metric">Q5–Q7 (mo 13–22)</td>
+          <td class="num">₹75 L</td>
+          <td>
+            10 months of additional runway as cushion before / during Series
+            Seed close. Provides buffer if timing slips by 6 months without
+            forcing distress raise.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Sensitivity — what survives delay</h2>
+    <div class="grid-2">
+      <div class="info-card">
+        <p class="info-card-label">If Indonesia is delayed by 12 months</p>
+        <p class="info-card-value">No impact</p>
+        <p class="info-card-desc">
+          India motion delivers all committed milestones independently. ₹8 L
+          allocated to Indonesia rolls into a 4-month runway extension.
+        </p>
+      </div>
+      <div class="info-card">
+        <p class="info-card-label">If first hire is delayed by 3 months</p>
+        <p class="info-card-value">+1.5 month runway</p>
+        <p class="info-card-desc">
+          ₹2 L returned to founder runway pool. Operational risk: founder
+          bus-factor extends; net-positive on cash, net-negative on resilience.
+        </p>
+      </div>
+      <div class="info-card">
+        <p class="info-card-label">If hospital pipeline closes 30% slower</p>
+        <p class="info-card-value">~₹15 L ARR shortfall</p>
+        <p class="info-card-desc">
+          Year-1 ARR target lands ~₹35 L instead of ₹50 L. Series Seed raise
+          compresses to ₹15–30 Cr post-money but still proceeds.
+        </p>
+      </div>
+      <div class="info-card">
+        <p class="info-card-label">If AI inference cost doubles</p>
+        <p class="info-card-value">Margin: 85% → 70%</p>
+        <p class="info-card-desc">
+          Still elite SaaS unit economics. Mitigated by Claude Service caching
+          layer, free-tier 20-consult cap, model-swap flexibility.
+        </p>
+      </div>
+    </div>
+
+    <h2>4. Monthly burn profile — blended steady-state</h2>
+    <p>
+      Once the first strategic hire onboards (month 9), the monthly burn settles
+      at approximately
+      <strong>₹3.4 Lakh per month</strong> blended across founder runway, hire
+      salary, infra, BD, and tools. The runway calculation assumes no revenue
+      offset — every Pro doctor that converts effectively extends runway beyond
+      22 months. At 100 paying doctors (~₹1 L MRR), the company is cash-flow
+      neutral relative to ongoing burn.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Month phase</th>
+          <th class="right">Monthly burn</th>
+          <th>Composition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Mo 1–8 (pre-hire)</td>
+          <td class="num">~₹2.5 L</td>
+          <td>
+            Founder ₹1 L · BD/travel ₹0.5 L · Infra/tools ₹0.4 L · Marketing
+            ₹0.3 L · Compliance ₹0.2 L · Buffer ₹0.1 L
+          </td>
+        </tr>
+        <tr>
+          <td class="metric">Mo 9–22 (post-hire, steady)</td>
+          <td class="num">~₹3.4 L</td>
+          <td>
+            Founder ₹1 L · Hire ₹1.2 L · BD/travel ₹0.4 L · Infra ₹0.3 L ·
+            Marketing ₹0.3 L · Compliance/tools ₹0.2 L
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p>
+        <strong>Bottom line for the investor:</strong> ₹75 L produces 22 months
+        of runway in the worst case (zero revenue), 28+ months in the realistic
+        case (modest revenue offset from month 4 onwards), and 36+ months in the
+        upside case (Indonesia traction). At month 12 the company is either
+        Series Seed-able (₹50 L ARR achieved) or cash-flow-positive on a smaller
+        doctor base. Either path returns Sundar's cheque at a 5–10× multiple
+        within 18–24 months from today.
+      </p>
+    </div>
+  </body>
+</html>

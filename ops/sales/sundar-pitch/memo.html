@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova — Investor Memo for Sundar Venkatraman</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+Pro:wght@400;600;700&display=swap");
+
+      @page {
+        size: A4 portrait;
+        margin: 24mm 22mm 22mm 22mm;
+        @bottom-center {
+          content: "Larinova · Investor memo for Mr. Sundar Venkatraman · April 2026 · Page "
+            counter(page) " of " counter(pages);
+          font-family: "Inter", sans-serif;
+          font-size: 8pt;
+          color: #888;
+        }
+      }
+      @page cover {
+        margin: 0;
+        @bottom-center {
+          content: none;
+        }
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #0d3349;
+        --navy-mid: #1a4a66;
+        --navy-light: #e8eef3;
+        --orange: #b84e18;
+        --orange-light: #fff3ec;
+        --orange-dark: #8a3810;
+        --ink: #14141c;
+        --ink-mid: #3a3a52;
+        --ink-light: #6c6c88;
+        --rule: #e2e2ee;
+      }
+
+      html,
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.6;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* ─── COVER ─── */
+      .cover {
+        page: cover;
+        width: 210mm;
+        height: 297mm;
+        display: flex;
+        flex-direction: column;
+        break-after: page;
+      }
+      .cover-hero {
+        flex: 1;
+        background: var(--navy);
+        padding: 64pt 52pt 40pt 52pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .cover-eyebrow {
+        font-size: 9pt;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 28pt;
+      }
+      .cover-wordmark {
+        font-size: 64pt;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.97);
+        letter-spacing: -0.025em;
+        line-height: 1;
+        margin-bottom: 18pt;
+      }
+      .cover-title {
+        font-size: 22pt;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        margin-bottom: 14pt;
+        max-width: 380pt;
+      }
+      .cover-title em {
+        color: #ffb887;
+        font-style: normal;
+      }
+      .cover-doctype {
+        font-size: 9pt;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.65);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .cover-meta {
+        background: #07202e;
+        padding: 22pt 52pt;
+      }
+      .cover-meta-line {
+        font-size: 8.5pt;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.85;
+      }
+      .cover-meta-line strong {
+        color: rgba(255, 255, 255, 0.92);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 7.5pt;
+        display: inline-block;
+        width: 110pt;
+      }
+
+      /* ─── SECTION HEADERS ─── */
+      h1.section-title {
+        font-size: 18pt;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.2;
+        letter-spacing: -0.015em;
+        margin: 0 0 6pt 0;
+        padding-bottom: 8pt;
+        border-bottom: 1.5pt solid var(--orange);
+        break-after: avoid;
+      }
+      .section-num {
+        font-size: 8pt;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 4pt;
+      }
+      .section {
+        break-before: page;
+      }
+      .section:first-of-type {
+        break-before: avoid;
+      }
+
+      h2 {
+        font-size: 11pt;
+        font-weight: 700;
+        color: var(--navy);
+        margin: 14pt 0 6pt 0;
+        line-height: 1.3;
+        break-after: avoid;
+      }
+      h3 {
+        font-size: 10pt;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 10pt 0 4pt 0;
+        line-height: 1.3;
+        break-after: avoid;
+      }
+
+      p {
+        margin: 0 0 8pt 0;
+        font-size: 9.5pt;
+        color: var(--ink-mid);
+        line-height: 1.65;
+      }
+      p.lead {
+        font-size: 11pt;
+        color: var(--ink);
+        line-height: 1.6;
+        margin: 12pt 0 14pt 0;
+        font-weight: 500;
+      }
+
+      ul {
+        margin: 8pt 0 12pt 18pt;
+        padding: 0;
+      }
+      li {
+        font-size: 9.5pt;
+        color: var(--ink-mid);
+        line-height: 1.65;
+        margin-bottom: 4pt;
+      }
+      li strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ─── CALLOUT ─── */
+      .callout {
+        background: var(--orange-light);
+        border-left: 3pt solid var(--orange);
+        padding: 11pt 14pt;
+        margin: 12pt 0;
+        break-inside: avoid;
+      }
+      .callout p {
+        font-size: 9.5pt;
+        color: var(--ink);
+        line-height: 1.6;
+        margin: 0;
+      }
+      .callout p strong {
+        color: var(--orange-dark);
+        font-weight: 700;
+      }
+
+      .callout-navy {
+        background: var(--navy-light);
+        border-left: 3pt solid var(--navy);
+        padding: 11pt 14pt;
+        margin: 12pt 0;
+        break-inside: avoid;
+      }
+      .callout-navy p {
+        font-size: 9.5pt;
+        color: var(--ink);
+        line-height: 1.6;
+        margin: 0;
+      }
+      .callout-navy p strong {
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      /* ─── TABLES ─── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8.5pt;
+        margin: 10pt 0 12pt 0;
+        break-inside: auto;
+      }
+      th {
+        background: var(--navy);
+        color: #fff;
+        font-weight: 600;
+        font-size: 7.5pt;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 6pt 8pt;
+        text-align: left;
+        vertical-align: middle;
+      }
+      th.right {
+        text-align: right;
+      }
+      th.orange-head {
+        background: var(--orange);
+      }
+      td {
+        padding: 6pt 8pt;
+        border-bottom: 0.5pt solid var(--rule);
+        vertical-align: top;
+        line-height: 1.5;
+        color: var(--ink-mid);
+      }
+      td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      td.metric {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      td.lar {
+        color: var(--orange-dark);
+        font-weight: 600;
+      }
+      td.dim {
+        color: var(--ink-light);
+      }
+      tr.total td {
+        border-top: 1.5pt solid var(--orange);
+        border-bottom: none;
+        font-weight: 700;
+        color: var(--orange-dark);
+      }
+      tr {
+        break-inside: avoid;
+      }
+
+      .quote {
+        font-family: "Source Serif Pro", Georgia, serif;
+        font-size: 11pt;
+        font-style: italic;
+        color: var(--orange-dark);
+        line-height: 1.5;
+        padding: 6pt 0 6pt 14pt;
+        border-left: 2pt solid var(--orange);
+        margin: 12pt 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ════ COVER ════ -->
+    <div class="cover">
+      <div class="cover-hero">
+        <p class="cover-eyebrow">Confidential · April 2026</p>
+        <h1 class="cover-wordmark">Larinova</h1>
+        <p class="cover-title">
+          Investor memo<br />
+          <em>The OPD assistant for Indian doctors.</em>
+        </p>
+        <p class="cover-doctype">For private circulation · diligence-grade</p>
+      </div>
+      <div class="cover-meta">
+        <p class="cover-meta-line">
+          <strong>Prepared for</strong> Mr. Sundar Venkatraman, CEO · APAR
+          Innosys LLP, Chennai
+        </p>
+        <p class="cover-meta-line">
+          <strong>By</strong> Gabriel Antony Xaviour, Founder &amp; CEO ·
+          Larinova Private Limited
+        </p>
+        <p class="cover-meta-line">
+          <strong>Subject</strong> Lead-angel cheque proposal — ₹75 Lakh for 10%
+          equity at ₹7.5 Cr post-money
+        </p>
+        <p class="cover-meta-line">
+          <strong>Entity</strong> Larinova Private Limited · CIN
+          U62012TN2026PTC192444 · Tamil Nadu
+        </p>
+        <p class="cover-meta-line"><strong>Date</strong> 29 April 2026</p>
+      </div>
+    </div>
+
+    <!-- ════ §1 EXECUTIVE SUMMARY ════ -->
+    <div class="section">
+      <p class="section-num">Section 1</p>
+      <h1 class="section-title">Executive summary</h1>
+
+      <p class="lead">
+        Larinova is a Chennai-based healthcare-AI company building the only
+        end-to-end OPD platform for Indian doctors — booking, AI-guided patient
+        intake, a 60-second pre-consult Prep Brief, real-time
+        Tamil/Hindi/English clinical scribe, and a wellness follow-up agent. The
+        product is live in production, used by 5 alpha doctors as of today, and
+        priced at ₹999 per doctor per month — roughly 10% under Eka.Care, the
+        only adjacent competitor in India, which itself supports only English
+        and Hindi and ships only the scribe layer.
+      </p>
+
+      <p>
+        Larinova Private Limited was incorporated on 22 April 2026 (CIN
+        U62012TN2026PTC192444). The founder, Gabriel Antony Xaviour, is a
+        22-year-old Loyola-ICAM engineering graduate, holds 90% of the company,
+        and is full-time on Larinova. His father Antony Xaviour holds 10% as a
+        co-founding governance shareholder — he runs Rax Tech, the family's
+        ₹20–40 Cr/year IoT and e-surveillance business, and APAR Innosys is a
+        longstanding Rax Tech client. Sundar Venkatraman therefore knows the
+        Xaviour family's product-and-execution standard from existing commercial
+        dealings.
+      </p>
+
+      <p>
+        Gabriel is asking for
+        <strong
+          >₹75 Lakh in exchange for 10% equity at a ₹7.5 Cr post-money
+          valuation</strong
+        >. The cheque funds 22 months of runway, the first strategic hire by
+        month 9, a hospital business-development motion across Chennai and a
+        controlled second-engine launch in Indonesia. The committed milestone at
+        month 12 is 500 paying doctors at ~₹50 Lakh ARR with line of sight to
+        break-even — the proof needed to raise a Series Seed at ₹25–50 Cr
+        post-money, a 5–10× markup on Sundar's entry valuation.
+      </p>
+
+      <h2>Why this opportunity is unusual</h2>
+      <ul>
+        <li>
+          <strong>The only Tamil-native clinical AI in production.</strong>
+          140,000+ Tamil-speaking doctors in India have no AI EMR alternative
+          today. Larinova is built on Sarvam AI's Indic models, designed for
+          clinical context rather than phonetic translation.
+        </li>
+        <li>
+          <strong
+            >The only full-OPD-stack platform in the Indian market.</strong
+          >
+          Eka.Care does scribe; Practo does booking; Healthplix does clinic
+          management. Nobody else combines them. Larinova replaces 5
+          disconnected tools with one.
+        </li>
+        <li>
+          <strong>Capital-efficient unit economics.</strong> 85% gross margin,
+          sub-1-month CAC payback, ₹999/month per seat. Profitability per doctor
+          begins on day 30.
+        </li>
+        <li>
+          <strong>Founder track record:</strong> 70+ hackathon wins in four
+          years, prior production work at RPS AI (San Francisco; Orange DAO +
+          Delphi Ventures + TRIVE Singapore + UF Venture backed) and Marlin
+          Protocol (Dubai).
+        </li>
+        <li>
+          <strong>Pre-existing trust.</strong> Sundar already transacts
+          commercially with the Xaviour family. The risk on character and
+          execution is reduced before the cheque is written.
+        </li>
+      </ul>
+    </div>
+
+    <!-- ════ §2 PROBLEM + MARKET ════ -->
+    <div class="section">
+      <p class="section-num">Section 2</p>
+      <h1 class="section-title">Problem &amp; market</h1>
+
+      <h2>The clinical workflow problem</h2>
+      <p>
+        An Indian outpatient doctor sees 30+ patients per day. After every
+        consult, they must produce a SOAP note, an ICD-10 code, and a
+        prescription — typed manually into an EMR or written by hand. Most EMRs
+        are designed in English. When a Tamil-speaking patient describes
+        symptoms in Tamil, the doctor performs mental translation while typing,
+        and clinical nuance is lost in transit. The cumulative documentation
+        overhead averages 90 minutes per doctor per day — either at the cost of
+        patient time, or of going home on time. Existing AI scribes partially
+        solve documentation in English and Hindi, but completely fail to serve
+        the Tamil-, Telugu-, Bengali-, and Marathi-speaking practices that make
+        up the majority of clinical India.
+      </p>
+
+      <h2>The market</h2>
+      <p>
+        India has approximately 1.1 million doctors. Eka.Care, the only AI
+        scribe operating in India, has reached approximately 65,000 doctors as
+        of 2025 — almost entirely English- and Hindi-speaking. That leaves
+        roughly a million doctors unserved by AI scribing, including the entire
+        Tamil, Telugu, Bengali, and Marathi-speaking population. Larinova's
+        Day-1 wedge is the ~140,000 Tamil-speaking doctors in Tamil Nadu,
+        Puducherry and parts of Karnataka — a market with zero direct AI scribe
+        alternative.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th class="right">Doctors</th>
+            <th>Currently served by</th>
+            <th>Larinova role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Tamil-speaking (TN, Puducherry, KA fringe)</td>
+            <td class="num">~140,000</td>
+            <td class="dim">Nobody — English EMRs only</td>
+            <td class="lar">ICP #1 — Day 1 wedge</td>
+          </tr>
+          <tr>
+            <td class="metric">Telugu / Bengali / Marathi (AP, TS, WB, MH)</td>
+            <td class="num">~280,000</td>
+            <td class="dim">Nobody</td>
+            <td class="lar">Year-2 expansion via Sarvam</td>
+          </tr>
+          <tr>
+            <td class="metric">Hindi-speaking (UP, MP, BR, RJ, DL)</td>
+            <td class="num">~390,000</td>
+            <td>Eka.Care (scribe only)</td>
+            <td class="lar">Compete on full OPD stack + price</td>
+          </tr>
+          <tr>
+            <td class="metric">English-primary (urban metros)</td>
+            <td class="num">~300,000</td>
+            <td>Eka.Care, Practo, Healthplix</td>
+            <td>Year-3+ — not the wedge</td>
+          </tr>
+          <tr class="total">
+            <td><strong>Total India addressable</strong></td>
+            <td class="num"><strong>~1.1M</strong></td>
+            <td colspan="2">
+              <strong>Larinova owns the language wedge</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p>
+          <strong>Revenue ceiling math:</strong> at ₹999/month per doctor,
+          capturing just the 140,000-doctor Tamil segment yields ~₹168 Cr annual
+          revenue. We do not need to win every doctor — capturing 5% of the
+          Tamil segment alone is ~₹8.4 Cr ARR. This is the kind of market where
+          modest execution still produces a meaningful business.
+        </p>
+      </div>
+
+      <h2>The Indonesia opportunity (the second engine)</h2>
+      <p>
+        Indonesia has approximately 180,000 doctors and zero direct AI scribe
+        competitor. Local clinic management software (Klinik Pintar, Assist.id,
+        Trustmedis) costs Rp 250K–3M/month for scheduling and records, but none
+        of them auto-generate clinical notes. Global premium scribes (Nuance,
+        Suki, Abridge) cost $200–$830 per doctor per month and have no Bahasa
+        Indonesia support. Larinova at IDR 299K/month (~$18) is structurally
+        uncatchable on price and language simultaneously. Larinova's landing
+        page is already live in Bahasa at larinova.com/id; ₹8 Lakh of this round
+        is allocated to Indonesia entry as proof-of-cross-border, not as a full
+        second launch.
+      </p>
+    </div>
+
+    <!-- ════ §3 SOLUTION + PRODUCT ════ -->
+    <div class="section">
+      <p class="section-num">Section 3</p>
+      <h1 class="section-title">Solution &amp; product</h1>
+
+      <p class="lead">
+        Larinova is one platform that handles the entire outpatient journey —
+        from the patient booking the slot to the wellness follow-up seven days
+        after the consult — built natively in Tamil first.
+      </p>
+
+      <h2>The five layers</h2>
+      <ol style="margin: 8pt 0 12pt 22pt; padding: 0">
+        <li
+          style="
+            font-size: 9.5pt;
+            line-height: 1.65;
+            margin-bottom: 6pt;
+            color: var(--ink-mid);
+          "
+        >
+          <strong style="color: var(--ink)">Booking.</strong> Patients book a
+          consultation slot from a public page on the doctor's domain. They
+          self-confirm by email; the doctor's calendar updates instantly.
+        </li>
+        <li
+          style="
+            font-size: 9.5pt;
+            line-height: 1.65;
+            margin-bottom: 6pt;
+            color: var(--ink-mid);
+          "
+        >
+          <strong style="color: var(--ink)">AI-guided intake.</strong> Before
+          the appointment, the patient fills a structured form. An AI agent
+          follows up for missing details and accepts lab uploads, so the doctor
+          walks in with complete information.
+        </li>
+        <li
+          style="
+            font-size: 9.5pt;
+            line-height: 1.65;
+            margin-bottom: 6pt;
+            color: var(--ink-mid);
+          "
+        >
+          <strong style="color: var(--ink)">60-second Prep Brief.</strong> The
+          moment the patient arrives, the doctor sees a one-screen brief:
+          presenting symptoms, prior medications, flagged red flags, and a
+          structured chronology drawn from prior visits and intake responses.
+        </li>
+        <li
+          style="
+            font-size: 9.5pt;
+            line-height: 1.65;
+            margin-bottom: 6pt;
+            color: var(--ink-mid);
+          "
+        >
+          <strong style="color: var(--ink)"
+            >Tamil-native consultation scribe.</strong
+          >
+          The doctor speaks naturally in Tamil, Hindi, English, or any mix.
+          Powered by Sarvam AI's Indic clinical models, Larinova generates a
+          SOAP note, an ICD-10 code, and a draft prescription in real time. The
+          doctor reviews, edits, and signs in under two minutes.
+        </li>
+        <li
+          style="
+            font-size: 9.5pt;
+            line-height: 1.65;
+            margin-bottom: 6pt;
+            color: var(--ink-mid);
+          "
+        >
+          <strong style="color: var(--ink)">Wellness follow-up agent.</strong> A
+          conversational agent checks in with the patient on day 1, day 3, and
+          day 7. Replies are classified — only flagged ones reach the doctor.
+          Routine recovery never bothers the doctor.
+        </li>
+      </ol>
+
+      <h2>Technology infrastructure</h2>
+      <p>
+        Larinova is built on Next.js with Supabase as the data layer, deployed
+        on Vercel. Real-time Tamil and Hindi transcription runs on Sarvam AI's
+        WebSocket streaming API. Clinical reasoning and SOAP-note generation
+        route through a dedicated Claude Service infrastructure
+        (claude.fierypools.fun) which centralises and caps unit cost across our
+        AI inference. Asynchronous workflows (intake, dispatch, follow-up) are
+        orchestrated through Inngest, a durable event-driven queue. The product
+        is a Progressive Web App — works on every doctor's phone or tablet
+        without an install — with offline fallback wired via Serwist. ABDM and
+        ABHA integration are native; the company is DPDP Act 2023 compliant by
+        design.
+      </p>
+
+      <div class="callout-navy">
+        <p>
+          <strong>Why this stack matters to an investor:</strong>
+          capital-efficient, modern, vendor-neutral. We do not pay platform rent
+          to a competitor (no Microsoft Health Bot, no Google Cloud Healthcare
+          API). Our AI inference is layered behind our own service, so we can
+          swap models without product changes. This means our gross margin
+          compounds as model costs fall.
+        </p>
+      </div>
+    </div>
+
+    <!-- ════ §4 WHERE WE STAND TODAY + ROADMAP ════ -->
+    <div class="section">
+      <p class="section-num">Section 4</p>
+      <h1 class="section-title">Where we stand today &amp; 12-month roadmap</h1>
+
+      <h2>Today (Day 7 since incorporation)</h2>
+      <p>
+        Larinova was incorporated as a Private Limited company on 22 April 2026.
+        We deliberately present small, real numbers rather than inflated metrics
+        — Sundar's eventual fact-check is the only audit that matters, and the
+        honest version is strong enough.
+      </p>
+
+      <ul>
+        <li>
+          <strong>5 Tamil-speaking doctors</strong> are actively onboarded as
+          alpha pro users in Chennai. They are co-building with the founder
+          weekly.
+        </li>
+        <li>
+          <strong>2–3 hospitals</strong> are in active onboarding conversations,
+          expected to deploy within 30 days. These are multi-doctor pilots — the
+          enterprise wedge.
+        </li>
+        <li>
+          <strong>Full product is live in production</strong> at
+          app.larinova.com — booking, AI intake, Prep Brief, Tamil scribe,
+          follow-up agent.
+        </li>
+        <li>
+          <strong>Pricing is locked</strong> at ₹999/month or ₹9,990/year on the
+          Pro tier. Free tier capped at 20 consultations/month for
+          top-of-funnel.
+        </li>
+        <li>
+          <strong>Tamil clinical AI is operational</strong> via Sarvam AI's
+          Indic models — the only such deployment in production in India today.
+        </li>
+        <li>
+          <strong>Cap table is clean:</strong> Gabriel 90% / Father 10%. Zero
+          outside money. Zero advisor equity. Zero SAFE notes outstanding. Bala
+          (Balachandar Seeman) is on a commission-only ambassador structure with
+          no equity.
+        </li>
+        <li>
+          <strong>Current account &amp; GST registration are in flight</strong>
+          — expected to complete before the funded share allotment.
+        </li>
+      </ul>
+
+      <h2>The 12-month roadmap</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 18%">Horizon</th>
+            <th>Commitments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Month 1–3</td>
+            <td>
+              50 paying Chennai doctors · 3 Chennai clinic deals · first
+              hospital pilot signed · ambassador program live with Bala + 2
+              founding ambassadors · Indonesia landing testing on first 5 leads
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Month 4–6</td>
+            <td>
+              120 paying doctors · 2 hospital deployments · ~₹1.4 Lakh MRR ·
+              Indonesia first 5–10 paying doctors · referral loop active from
+              Month-1 cohort
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Month 7–9</td>
+            <td>
+              250 paying doctors · 5 hospital deals signed · expansion beyond
+              Chennai (Coimbatore, Madurai) · first strategic hire (BD or
+              engineering)
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Month 10–12</td>
+            <td>
+              500 paying doctors · ~₹50 Lakh ARR · break-even line of sight ·
+              Series Seed conversation initiated at ₹25–50 Cr post-money — 5–10×
+              markup for Sundar
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p>
+          <strong>Why these numbers are conservative.</strong> 500 paying
+          doctors out of India's 1.1 million is less than 0.05% market share —
+          well within reach for a focused Chennai-first motion with one operator
+          and a working ambassador program. The plan does not require unusual
+          luck; it requires executing on a live product in a market with no
+          Tamil competitor.
+        </p>
+      </div>
+    </div>
+
+    <!-- ════ §5 BUSINESS MODEL + UNIT ECON ════ -->
+    <div class="section">
+      <p class="section-num">Section 5</p>
+      <h1 class="section-title">Business model &amp; unit economics</h1>
+
+      <p class="lead">
+        Larinova is a per-doctor monthly SaaS subscription. The model is simple,
+        the gross margin is high, and the CAC payback is under one month — the
+        unit economics of a category-leading software business.
+      </p>
+
+      <h2>Pricing</h2>
+      <ul>
+        <li>
+          <strong>Free tier:</strong> 20 consultations per month. Designed to
+          let new doctors experience the full product without cost friction.
+        </li>
+        <li>
+          <strong>Pro tier:</strong> ₹999 per doctor per month, or ₹9,990 per
+          year (a ₹1,998 saving). Unlimited consultations.
+        </li>
+        <li>
+          <strong>Hospital tier (custom):</strong> ₹3 Lakh – ₹12 Lakh annual
+          contract value depending on doctor count (15–60 doctors), billed
+          quarterly.
+        </li>
+      </ul>
+
+      <h2>Unit economics</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Metric</th>
+            <th class="right" style="width: 22%">Value</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">ARPU per doctor (Pro tier)</td>
+            <td class="num">₹11,988 / year</td>
+            <td>Or ₹9,990 on annual prepay (~₹833/month effective)</td>
+          </tr>
+          <tr>
+            <td class="metric">Cost to serve per doctor</td>
+            <td class="num">~₹150 / month</td>
+            <td>
+              Sarvam STT + Anthropic LLM + Supabase + Vercel; all variable
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Gross margin</td>
+            <td class="num">~85%</td>
+            <td>
+              Inference cost falls as models commoditise — margin compounds
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">CAC (ambassador channel)</td>
+            <td class="num">~₹4,000</td>
+            <td>
+              ₹1,500 activation + ₹2,500 paid conversion to Bala / ambassadors
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">CAC payback</td>
+            <td class="num">&lt; 1 month</td>
+            <td>Recovered within first paid month at ₹999 monthly billing</td>
+          </tr>
+          <tr>
+            <td class="metric">Path to ₹1 Cr ARR</td>
+            <td class="num">~840 doctors</td>
+            <td>Achievable in 14–18 months with the funded GTM motion</td>
+          </tr>
+          <tr>
+            <td class="metric">Path to ₹10 Cr ARR</td>
+            <td class="num">~8,400 doctors</td>
+            <td>
+              ~0.8% of India's 1.1M doctors. Year 3 with hospital-tier mix.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout-navy">
+        <p>
+          <strong>Industrial-CEO test:</strong> at 85% gross margin, ₹999
+          monthly per seat, sub-1-month CAC payback, and a hospital tier that
+          compounds revenue per relationship, Larinova has the unit economics of
+          a category-leading SaaS business — even before we layer on enterprise
+          hospital deals. Profitability per doctor begins on day 30 of paid use.
+        </p>
+      </div>
+    </div>
+
+    <!-- ════ §6 COMPETITION + MOAT ════ -->
+    <div class="section">
+      <p class="section-num">Section 6</p>
+      <h1 class="section-title">Competition &amp; moat</h1>
+
+      <p>
+        Larinova has one indirect competitor in India (Eka.Care), a fragmented
+        adjacent market in Indonesia (clinic-management tools without AI
+        scribe), and a set of premium global scribes (Nuance, Suki, Abridge) who
+        do not operate in Indian or Indonesian markets and are priced for US
+        healthcare systems. None of them deliver what Larinova delivers, in any
+        market, at any price.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%">Dimension</th>
+            <th class="orange-head" style="width: 22%">Larinova</th>
+            <th style="width: 22%">Eka.Care (India)</th>
+            <th>Nuance / Suki / Abridge (US)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Languages</td>
+            <td class="lar">Tamil + Hindi + English (22 via Sarvam)</td>
+            <td>English + Hindi only</td>
+            <td class="dim">English only</td>
+          </tr>
+          <tr>
+            <td class="metric">Product scope</td>
+            <td class="lar">
+              Full OPD: booking, intake, prep, scribe, follow-up
+            </td>
+            <td>Scribe only</td>
+            <td class="dim">Scribe only</td>
+          </tr>
+          <tr>
+            <td class="metric">Patient booking</td>
+            <td class="lar">Yes — public booking page</td>
+            <td class="dim">No</td>
+            <td class="dim">No</td>
+          </tr>
+          <tr>
+            <td class="metric">Pre-consult AI</td>
+            <td class="lar">60-sec Prep Brief on every patient</td>
+            <td class="dim">No</td>
+            <td class="dim">No</td>
+          </tr>
+          <tr>
+            <td class="metric">Wellness follow-up agent</td>
+            <td class="lar">Day 1, 3, 7 conversational</td>
+            <td class="dim">No</td>
+            <td class="dim">No</td>
+          </tr>
+          <tr>
+            <td class="metric">ABDM / ABHA integration</td>
+            <td class="lar">Full native</td>
+            <td>Partial</td>
+            <td class="dim">Not applicable</td>
+          </tr>
+          <tr>
+            <td class="metric">Price per doctor / month</td>
+            <td class="lar">₹999</td>
+            <td>~₹1,100</td>
+            <td class="dim">₹17,000 – ₹70,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Why the moat is structural</h2>
+      <p>
+        Eka.Care has chosen to ship English and Hindi for three years. Adding
+        Tamil clinical AI is not a feature flip — it requires integration with
+        Sarvam's Indic clinical models, retraining on Tamil clinical corpora,
+        and clinical-domain validation. We expect at least 12–18 months of
+        head-start. By the time Eka.Care could ship a Tamil scribe, we will have
+        the Tamil-doctor relationships, the ambassador network, the hospital
+        pilots, and the regulatory integrations locked in — and we will have
+        moved on to Telugu, Bengali, and Marathi.
+      </p>
+
+      <p>
+        Global scribes face a different barrier: they price for US healthcare
+        economics and do not have the local presence, regulatory integration
+        (ABDM/ABHA), or Indic language coverage to compete in India. Their entry
+        would require a complete repricing and re-architecture — not a rational
+        priority for them given their US growth runway.
+      </p>
+
+      <p>
+        The most credible competitive risk is not from a competitor but from
+        <strong>doctor adoption speed</strong>. Indian doctors are habit-bound;
+        even the right tool takes time to displace manual notes. Our mitigations
+        are co-building with our 5 alpha doctors weekly to drive the product to
+        obvious-better, the free trial to remove cost friction, and the
+        ambassador program to create peer pull.
+      </p>
+    </div>
+
+    <!-- ════ §7 TEAM + CAP TABLE ════ -->
+    <div class="section">
+      <p class="section-num">Section 7</p>
+      <h1 class="section-title">Team, cap table &amp; family context</h1>
+
+      <h2>Founder</h2>
+      <p>
+        <strong style="color: var(--ink)">Gabriel Antony Xaviour</strong>, 22,
+        is the founder and CEO of Larinova. A graduate of Loyola-ICAM (LICET,
+        Chennai) with a Bachelor of Engineering in Electronics and
+        Communication, he has spent the last four to five years as one of
+        India's most prolific competitive product builders — winning 70+
+        hackathons across AI, Web3, and consumer software while shipping
+        production code for three companies of note. As Founding Engineer at
+        <strong style="color: var(--ink)">RPS AI</strong> (San Francisco), he
+        helped build a company backed by Orange DAO, Delphi Ventures, TRIVE
+        Singapore, and UF Venture, which has raised millions across early
+        rounds. As Solutions Engineer at
+        <strong style="color: var(--ink)">Marlin Protocol</strong> (Dubai), he
+        worked on trusted execution environments and privacy compute
+        infrastructure. He has also worked inside
+        <strong style="color: var(--ink)">Rax Tech</strong>
+        (Chennai) — the IoT, software, and e-surveillance company his parents
+        founded and run today, currently doing ₹20–40 Cr/year — the same Rax
+        Tech that supplies APAR Innosys.
+      </p>
+
+      <p>
+        He is solo on Larinova, full-time, and AI-augmented. He builds both the
+        technical product and the commercial motion himself, with Claude as a
+        force multiplier across engineering, sales, and operations. He intends
+        Larinova to be the operating system of every Indian hospital and,
+        eventually, every hospital globally — the most valuable healthcare
+        company India has produced. He has chosen to dedicate the next twenty
+        years to this goal.
+      </p>
+
+      <div class="quote">
+        "The biggest battle in technology right now is healthcare AI. I want to
+        win it from India."
+      </div>
+
+      <h2>Family context</h2>
+      <p>
+        Gabriel's father,
+        <strong style="color: var(--ink)">Antony Xaviour</strong> (DIN
+        01646014), is the second subscriber on the Memorandum of Association and
+        holds 10% as a co-founding governance shareholder. He is the CEO of Rax
+        Tech in his own right and has no operational or advisory role in
+        Larinova — his shareholding is structural, not active. Gabriel's mother
+        is the CTO of Rax Tech. Larinova draws on the family's entrepreneurial
+        standard but operates entirely independently. APAR Innosys's existing
+        commercial relationship with Rax Tech is the relationship through which
+        this conversation began — Sundar already knows the family delivers; he
+        is now evaluating whether the next-generation product warrants his
+        backing on its own merits.
+      </p>
+
+      <h2>Cap table — pre and post round</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Holder</th>
+            <th>Role</th>
+            <th class="right">Pre-round</th>
+            <th class="right">Post-round</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gabriel Antony Xaviour</td>
+            <td>Founder &amp; CEO</td>
+            <td class="num">90.0%</td>
+            <td class="num">81.0%</td>
+          </tr>
+          <tr>
+            <td>Antony Xaviour</td>
+            <td>Co-founding shareholder (governance only)</td>
+            <td class="num">10.0%</td>
+            <td class="num">9.0%</td>
+          </tr>
+          <tr>
+            <td>Sundar Venkatraman</td>
+            <td>Lead angel — new this round</td>
+            <td class="num">—</td>
+            <td class="num">10.0%</td>
+          </tr>
+          <tr class="total">
+            <td colspan="2"><strong>Total</strong></td>
+            <td class="num"><strong>100.0%</strong></td>
+            <td class="num"><strong>100.0%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="font-size: 8.5pt; color: var(--ink-light); margin-top: 6pt">
+        Sales channel: Balachandar Seeman is Larinova's independent BD partner
+        on a structured ambassador commission of ₹1,500 per activation, ₹2,500
+        per paid conversion, and a ₹25,000 bonus per 5+ doctor clinic deal. He
+        holds no equity. There are no advisor grants, SAFE notes, convertible
+        notes, or other equity-linked instruments outstanding.
+      </p>
+    </div>
+
+    <!-- ════ §8 ASK + USE OF FUNDS + RISKS + CLOSING ════ -->
+    <div class="section">
+      <p class="section-num">Section 8</p>
+      <h1 class="section-title">The ask, use of funds, risks &amp; closing</h1>
+
+      <h2>The ask</h2>
+      <p class="lead">
+        <strong>₹75 Lakh in exchange for 10% equity</strong> in Larinova Private
+        Limited, at a <strong>₹7.5 Cr post-money valuation</strong>. Clean
+        equity — no SAFE, no convertible note, no liquidation preference. Funds
+        land into the Larinova current account once the company's authorised
+        capital is increased from the current ₹1 Lakh to ₹10 Lakh via a routine
+        SH-7 filing with the MCA (~7–10 working days). We are ready to execute
+        the share allotment within seven days of agreed terms.
+      </p>
+
+      <h2>Use of funds</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Bucket</th>
+            <th class="right">Amount</th>
+            <th>What it produces</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Founder runway (₹1L/mo × 22 months)</td>
+            <td class="num">₹22 L</td>
+            <td>Founder stays full-time, no income distraction</td>
+          </tr>
+          <tr>
+            <td class="metric">Hospital BD travel + Bala commissions</td>
+            <td class="num">₹10 L</td>
+            <td>10–15 hospital contracts signed across Chennai cluster</td>
+          </tr>
+          <tr>
+            <td class="metric">First strategic hire (month 9–12)</td>
+            <td class="num">₹12 L</td>
+            <td>BD or engineering lead — eliminates founder bus-factor</td>
+          </tr>
+          <tr>
+            <td class="metric">Indonesia market entry</td>
+            <td class="num">₹8 L</td>
+            <td>
+              2 trips to Jakarta, 5–10 paying ID doctors as cross-border proof
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Marketing + content + brand video</td>
+            <td class="num">₹6 L</td>
+            <td>50+ inbound doctor leads/month by month 12</td>
+          </tr>
+          <tr>
+            <td class="metric">AI inference + infra</td>
+            <td class="num">₹6 L</td>
+            <td>Capacity for 200+ active doctors at full Pro usage</td>
+          </tr>
+          <tr>
+            <td class="metric">Compliance + legal</td>
+            <td class="num">₹4 L</td>
+            <td>
+              GST, DPDP, HPR, MSME, ToS, SH-7 — investable corporate state
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Tools + subscriptions</td>
+            <td class="num">₹3 L</td>
+            <td>Claude, Cursor, Linear, Notion, Vercel Pro</td>
+          </tr>
+          <tr>
+            <td class="metric">Buffer for unknowns</td>
+            <td class="num">₹4 L</td>
+            <td>DLT template fees, Meta WhatsApp BSP, surprises</td>
+          </tr>
+          <tr class="total">
+            <td><strong>Total</strong></td>
+            <td class="num"><strong>₹75 L</strong></td>
+            <td><strong>22 months runway · path to ₹50 L ARR</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Risks &amp; mitigations</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 35%">Risk</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric">Eka.Care adds Tamil scribe</td>
+            <td>
+              12–18 month head-start; deeper ABDM moat + full OPD stack they
+              don't have; Tamil clinic relationships locked in by then
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Solo founder bus-factor</td>
+            <td>
+              This raise funds the first strategic hire by month 9; AI
+              augmentation already de-risks single-person execution; cap table
+              is clean if a successor is needed
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Doctor adoption slow / habit-resistant</td>
+            <td>
+              Co-build with 5 alpha doctors weekly; free trial removes cost
+              friction; ambassador program creates peer pull from trusted
+              Tamil-doctor network
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">Indonesia regulatory delays</td>
+            <td>
+              India is primary market; Indonesia is upside not load-bearing; ₹8
+              L Indonesia allocation is bounded
+            </td>
+          </tr>
+          <tr>
+            <td class="metric">AI infra costs scale faster than revenue</td>
+            <td>
+              ~85% gross margin even today; Claude Service caps unit cost; free
+              vs Pro tier controls runaway usage; model costs are falling
+              industry-wide
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Why Sundar, why now</h2>
+      <p>
+        This cheque comes from a relationship that already exists. APAR Innosys
+        has trusted Rax Tech for years — Sundar already knows the Xaviour family
+        delivers. Larinova is the next chapter from the same family, with
+        measurably better unit economics (85% gross margin SaaS vs. hardware +
+        services), a 50× larger addressable market (1.1M Indian doctors vs.
+        India's e-surveillance buyer base), and no incumbent to displace in the
+        Tamil segment. Sundar gets first-mover position in the Larinova cap
+        table before the Series Seed conversation begins.
+      </p>
+
+      <p>
+        We are ready to send a term sheet for review within 48 hours of Sundar's
+        expressed interest, execute the SH-7 filing in parallel, and close the
+        share allotment within seven days of agreed terms. The full company
+        documentation set — Certificate of Incorporation, MoA, AoA, DIN
+        approvals, PAN, TAN, and recent MCA filings — is available on request.
+      </p>
+
+      <div class="callout-navy">
+        <p>
+          <strong>Direct line to founder:</strong> Gabriel Antony Xaviour ·
+          gabriel@larinova.com · WhatsApp +91 84386 11643 · larinova.com ·
+          Larinova Private Limited, CIN U62012TN2026PTC192444, 4/2377
+          Sithalapakkam, Tambaram, Kanchipuram, Tamil Nadu 600126.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

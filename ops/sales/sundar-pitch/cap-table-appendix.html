@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Larinova — Cap Table Appendix</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      @page {
+        size: A4 portrait;
+        margin: 22mm 22mm 18mm 22mm;
+        @bottom-center {
+          content: "Larinova · Appendix A — Cap Table & Share Allotment · Confidential";
+          font-family: "Inter", sans-serif;
+          font-size: 8pt;
+          color: #888;
+        }
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --navy: #0d3349;
+        --orange: #b84e18;
+        --orange-light: #fff3ec;
+        --orange-dark: #8a3810;
+        --ink: #14141c;
+        --ink-mid: #3a3a52;
+        --ink-light: #6c6c88;
+        --rule: #e2e2ee;
+      }
+
+      body {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: 9pt;
+        line-height: 1.55;
+        color: var(--ink);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-bottom: 10pt;
+        border-bottom: 2pt solid var(--orange);
+        margin-bottom: 18pt;
+      }
+      .header-title {
+        font-size: 18pt;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.015em;
+      }
+      .header-meta {
+        font-size: 8pt;
+        color: var(--ink-light);
+        text-align: right;
+        line-height: 1.5;
+      }
+      .header-eyebrow {
+        font-size: 7.5pt;
+        font-weight: 700;
+        color: var(--orange);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 3pt;
+      }
+
+      h2 {
+        font-size: 10.5pt;
+        font-weight: 700;
+        color: var(--navy);
+        margin: 14pt 0 6pt 0;
+      }
+
+      p {
+        font-size: 9pt;
+        color: var(--ink-mid);
+        line-height: 1.55;
+        margin-bottom: 7pt;
+      }
+      p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8pt;
+        margin: 6pt 0 12pt 0;
+      }
+      th {
+        background: var(--navy);
+        color: #fff;
+        font-weight: 600;
+        font-size: 7pt;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 5pt 7pt;
+        text-align: left;
+      }
+      th.right {
+        text-align: right;
+      }
+      td {
+        padding: 5pt 7pt;
+        border-bottom: 0.5pt solid var(--rule);
+        color: var(--ink-mid);
+        vertical-align: top;
+      }
+      td.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      td.metric {
+        font-weight: 600;
+        color: var(--ink);
+      }
+      tr.total td {
+        border-top: 1.5pt solid var(--orange);
+        border-bottom: none;
+        font-weight: 700;
+        color: var(--orange-dark);
+      }
+
+      .callout {
+        background: var(--orange-light);
+        border-left: 3pt solid var(--orange);
+        padding: 9pt 12pt;
+        margin: 10pt 0;
+      }
+      .callout p {
+        font-size: 8.5pt;
+        color: var(--ink);
+        margin: 0;
+        line-height: 1.55;
+      }
+      .callout p strong {
+        color: var(--orange-dark);
+      }
+
+      .doc-list {
+        background: #fafafa;
+        border: 1pt solid var(--rule);
+        padding: 10pt 14pt;
+        font-size: 8pt;
+        line-height: 1.6;
+        color: var(--ink-mid);
+        margin-top: 10pt;
+      }
+      .doc-list strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div>
+        <p class="header-eyebrow">Appendix A</p>
+        <h1 class="header-title">Cap Table &amp; Share Allotment</h1>
+      </div>
+      <div class="header-meta">
+        Larinova Private Limited<br />
+        CIN U62012TN2026PTC192444<br />
+        Tamil Nadu · Incorporated 22 April 2026
+      </div>
+    </div>
+
+    <h2>1. Authorised &amp; paid-up capital — current state</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Capital line</th>
+          <th class="right">Shares</th>
+          <th class="right">Face value</th>
+          <th class="right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Authorised share capital</td>
+          <td class="num">10,000</td>
+          <td class="num">₹10</td>
+          <td class="num">₹1,00,000</td>
+        </tr>
+        <tr>
+          <td class="metric">Issued, subscribed &amp; paid-up</td>
+          <td class="num">1,000</td>
+          <td class="num">₹10</td>
+          <td class="num">₹10,000</td>
+        </tr>
+        <tr>
+          <td class="metric">Headroom under current authorisation</td>
+          <td class="num">9,000</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Pre-round shareholding (subscribers to the MoA, INC-33)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 36%">Holder</th>
+          <th>Identifier</th>
+          <th class="right">Shares</th>
+          <th class="right">% holding</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Gabriel Antony Xaviour</td>
+          <td>PAN DPDPG7678D · DIN-1 (digital signed 14/04/2026)</td>
+          <td class="num">900</td>
+          <td class="num">90.0%</td>
+        </tr>
+        <tr>
+          <td class="metric">Antony Xaviour (father)</td>
+          <td>DIN 01646014</td>
+          <td class="num">100</td>
+          <td class="num">10.0%</td>
+        </tr>
+        <tr class="total">
+          <td colspan="2"><strong>Total pre-round</strong></td>
+          <td class="num"><strong>1,000</strong></td>
+          <td class="num"><strong>100.0%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. Post-round share allotment math (₹75L for 10%)</h2>
+    <p>
+      To grant Sundar Venkatraman a clean 10% post-round, Larinova will allot
+      111 new equity shares at a premium calculated to deliver the agreed
+      valuation. The math is shown below; the company secretary will produce the
+      formal share certificate on board approval.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th class="right">Value</th>
+          <th>Derivation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Pre-money valuation</td>
+          <td class="num">₹6,75,00,000</td>
+          <td>= ₹7.5 Cr post-money − ₹75 L investment</td>
+        </tr>
+        <tr>
+          <td class="metric">Post-money valuation</td>
+          <td class="num">₹7,50,00,000</td>
+          <td>Agreed</td>
+        </tr>
+        <tr>
+          <td class="metric">Investment amount</td>
+          <td class="num">₹75,00,000</td>
+          <td>Sundar's cheque</td>
+        </tr>
+        <tr>
+          <td class="metric">New shares to issue</td>
+          <td class="num">111</td>
+          <td>= 1,000 × (10 / 90) = 111.11 → rounded to 111</td>
+        </tr>
+        <tr>
+          <td class="metric">Total post-round shares</td>
+          <td class="num">1,111</td>
+          <td>= 1,000 + 111</td>
+        </tr>
+        <tr>
+          <td class="metric">Issue price per share</td>
+          <td class="num">₹67,567.57</td>
+          <td>= ₹75 L / 111 shares</td>
+        </tr>
+        <tr>
+          <td class="metric">— Of which face value</td>
+          <td class="num">₹10.00</td>
+          <td>Standard equity share face value</td>
+        </tr>
+        <tr>
+          <td class="metric">— Of which premium</td>
+          <td class="num">₹67,557.57</td>
+          <td>Credited to Securities Premium Reserve</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Post-round shareholding</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 36%">Holder</th>
+          <th>Role</th>
+          <th class="right">Shares</th>
+          <th class="right">% holding</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Gabriel Antony Xaviour</td>
+          <td>Founder &amp; CEO</td>
+          <td class="num">900</td>
+          <td class="num">81.0%</td>
+        </tr>
+        <tr>
+          <td class="metric">Antony Xaviour</td>
+          <td>Co-founding shareholder (governance only)</td>
+          <td class="num">100</td>
+          <td class="num">9.0%</td>
+        </tr>
+        <tr>
+          <td class="metric">Sundar Venkatraman</td>
+          <td>Lead angel — new this round</td>
+          <td class="num">111</td>
+          <td class="num">10.0%</td>
+        </tr>
+        <tr class="total">
+          <td colspan="2"><strong>Total post-round</strong></td>
+          <td class="num"><strong>1,111</strong></td>
+          <td class="num"><strong>100.0%</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. Pre-allotment legal sequence (estimated 7–10 working days)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%" class="right">Day</th>
+          <th>Action</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">D + 0</td>
+          <td>
+            Term sheet signed; board resolution to increase authorised capital
+          </td>
+          <td>Founder + Sundar</td>
+        </tr>
+        <tr>
+          <td class="num">D + 1</td>
+          <td>Notice of EGM issued to shareholders (Gabriel + father)</td>
+          <td>CS / founder</td>
+        </tr>
+        <tr>
+          <td class="num">D + 3</td>
+          <td>
+            EGM passes special resolution; SH-7 filed with MCA to raise
+            authorised capital ₹1L → ₹10L
+          </td>
+          <td>CS</td>
+        </tr>
+        <tr>
+          <td class="num">D + 5</td>
+          <td>SH-7 approved by MCA</td>
+          <td>MCA</td>
+        </tr>
+        <tr>
+          <td class="num">D + 6</td>
+          <td>Funds wire from Sundar to Larinova current account</td>
+          <td>Sundar</td>
+        </tr>
+        <tr>
+          <td class="num">D + 7</td>
+          <td>Board allots 111 equity shares; PAS-3 filed with MCA</td>
+          <td>CS / founder</td>
+        </tr>
+        <tr>
+          <td class="num">D + 8</td>
+          <td>Share certificate issued to Sundar; SH-1 register updated</td>
+          <td>CS</td>
+        </tr>
+        <tr>
+          <td class="num">D + 10</td>
+          <td>Post-allotment shareholding pattern reflected in MCA records</td>
+          <td>MCA</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p>
+        <strong>Other instruments outstanding: none.</strong> Zero advisor
+        equity. Zero ESOP pool created yet. Zero SAFE notes. Zero convertible
+        debentures. Zero employee or contractor equity grants. Bala (Balachandar
+        Seeman) is on a structured ambassador commission of ₹1,500 / activation
+        + ₹2,500 / paid conversion + ₹25,000 / 5+ doctor clinic deal — entirely
+        cash, no equity. The company has zero outstanding loans.
+      </p>
+    </div>
+
+    <div class="doc-list">
+      <strong>Supporting legal documents available on request:</strong>
+      Certificate of Incorporation (SPICE+ approval, dated 22/04/2026);
+      Memorandum of Association (INC-33); Articles of Association (INC-34, Table
+      F); Name approval letter (SRN AC2725768); SPICE+ Part B approval (SRN
+      AC3085730); DIN approval letter for both directors; PAN allotment letter
+      (PAN AAGCL8535J); TAN allotment letter (TAN CHEL10203E). All filings
+      completed via Razorpay Rize / BizFoc.
+    </div>
+  </body>
+</html>
