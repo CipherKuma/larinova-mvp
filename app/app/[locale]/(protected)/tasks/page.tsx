@@ -133,6 +133,7 @@ export default function TasksPage() {
   }, [t]);
 
   const fetchPatients = useCallback(async () => {
+    if (patients.length > 0) return;
     try {
       const response = await fetch("/api/patients?limit=500");
       if (!response.ok) throw new Error("Failed to fetch patients");
@@ -141,12 +142,11 @@ export default function TasksPage() {
     } catch (error) {
       console.error("Error fetching patients:", error);
     }
-  }, []);
+  }, [patients.length]);
 
   useEffect(() => {
     fetchTasks();
-    fetchPatients();
-  }, [fetchTasks, fetchPatients]);
+  }, [fetchTasks]);
 
   // Focus title input when entering edit/add mode
   useEffect(() => {
@@ -155,13 +155,19 @@ export default function TasksPage() {
     }
   }, [isAddingNew, editingTaskId]);
 
+  const ensurePatientsLoaded = () => {
+    fetchPatients();
+  };
+
   const startAddingNew = () => {
+    ensurePatientsLoaded();
     setEditingTaskId(null);
     setFormData(emptyForm);
     setIsAddingNew(true);
   };
 
   const startEditing = (task: Task) => {
+    ensurePatientsLoaded();
     setIsAddingNew(false);
     setEditingTaskId(task.id);
     setFormData({
