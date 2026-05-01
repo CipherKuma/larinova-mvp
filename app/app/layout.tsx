@@ -70,6 +70,29 @@ export default function RootLayout({
       className={`dark grain ${inter.variable} ${outfit.variable} ${ibmPlexMono.variable} ${cairo.variable}`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var matchMedia = window.matchMedia;
+                  var isStandalone =
+                    (matchMedia &&
+                      (matchMedia("(display-mode: standalone)").matches ||
+                        matchMedia("(display-mode: fullscreen)").matches)) ||
+                    window.navigator.standalone === true;
+                  var reduceMotion =
+                    matchMedia &&
+                    matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+                  if (isStandalone && !reduceMotion) {
+                    document.documentElement.classList.add("larinova-pwa-launch");
+                  }
+                } catch (error) {}
+              })();
+            `,
+          }}
+        />
         <link
           rel="apple-touch-icon"
           href="/icons/apple-touch-icon-180.png?v=20260501"

@@ -148,7 +148,7 @@ html {
   position: fixed;
   inset: 0;
   z-index: 2147483647;
-  display: grid;
+  display: none;
   place-items: center;
   align-content: center;
   gap: 18px;
@@ -161,6 +161,10 @@ html {
     radial-gradient(circle at 50% 42%, hsla(160, 84%, 39%, 0.16), transparent 31%),
     linear-gradient(180deg, hsl(224 54% 8%), hsl(220 42% 6%));
   pointer-events: none;
+}
+
+.larinova-pwa-launch .pwa-launch-splash {
+  display: grid;
   animation: larinova-splash-exit 1450ms cubic-bezier(0.22, 1, 0.36, 1)
     forwards;
 }

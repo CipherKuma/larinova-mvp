@@ -16,19 +16,26 @@ function isStandaloneDisplayMode() {
 }
 
 export function PwaLaunchSplash() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     if (!isStandaloneDisplayMode()) {
+      document.documentElement.classList.remove("larinova-pwa-launch");
+      setVisible(false);
       return;
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.remove("larinova-pwa-launch");
+      setVisible(false);
       return;
     }
 
-    setVisible(true);
-    const timer = window.setTimeout(() => setVisible(false), 1450);
+    document.documentElement.classList.add("larinova-pwa-launch");
+    const timer = window.setTimeout(() => {
+      document.documentElement.classList.remove("larinova-pwa-launch");
+      setVisible(false);
+    }, 1450);
 
     return () => window.clearTimeout(timer);
   }, []);
