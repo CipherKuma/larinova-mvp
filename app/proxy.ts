@@ -184,7 +184,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Check onboarding status for authenticated users (both for auth routes and protected routes)
-  if (user && !pathname.includes("/api") && !pathname.includes("/onboarding")) {
+  if (user && !pathname.includes("/api")) {
     // Check if onboarding is completed
     const { data: doctorData, error: doctorError } = await supabase
       .from("larinova_doctors")
@@ -196,10 +196,25 @@ export async function proxy(request: NextRequest) {
 
     const redirectUrl = request.nextUrl.clone();
 
-    // If there's an error fetching doctor data or doctor doesn't exist, go to onboarding
+    const isOnboardingPath = pathname.includes("/onboarding");
+    const clearAuthCookies = (response: NextResponse) => {
+      for (const cookie of request.cookies.getAll()) {
+        if (cookie.name.startsWith("sb-")) {
+          response.cookies.delete(cookie.name);
+        }
+      }
+      return response;
+    };
+
+    // If there's an error fetching doctor data or doctor doesn't exist, do not
+    // allow onboarding to create a doctor profile. Doctor rows must come from
+    // the invite-backed signup path.
     if (doctorError || !doctorData) {
-      redirectUrl.pathname = `/${locale}/onboarding`;
-      return NextResponse.redirect(redirectUrl);
+      if (isPublicRoute) {
+        return clearAuthCookies(supabaseResponse);
+      }
+      redirectUrl.pathname = `/${locale}/sign-in`;
+      return clearAuthCookies(NextResponse.redirect(redirectUrl));
     }
     const hasAlphaDoctorAccess = Boolean(
       doctorData.invite_code_claimed_at || doctorData.invite_code_redeemed_at,
@@ -221,6 +236,7 @@ export async function proxy(request: NextRequest) {
     // If onboarding is not completed, redirect to onboarding
     if (
       !doctorData.onboarding_completed &&
+      !isOnboardingPath &&
       !pathname.includes("/access") &&
       !pathname.includes("/redeem")
     ) {

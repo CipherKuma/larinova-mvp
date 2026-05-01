@@ -1,6 +1,57 @@
 import { isAdminEmail } from "@/lib/admin";
-import { createClient as createServiceClient } from "@supabase/supabase-js";
+import {
+  createClient as createServiceClient,
+  type SupabaseClient,
+} from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+
+const CLAIM_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+type InviteRow = {
+  code: string;
+  claimed_at: string | null;
+  claimed_by_user_id: string | null;
+};
+
+function isClaimAvailable(invite: InviteRow | null | undefined) {
+  if (!invite) return false;
+  if (!invite.claimed_by_user_id || !invite.claimed_at) return true;
+  return Date.now() - new Date(invite.claimed_at).getTime() > CLAIM_TTL_MS;
+}
+
+async function grantInviteAccess(
+  supabase: SupabaseClient,
+  doctor: { id: string; user_id: string },
+  invite: InviteRow,
+) {
+  const claimedAt = new Date().toISOString();
+  await supabase
+    .from("larinova_invite_codes")
+    .update({
+      claimed_at: claimedAt,
+      claimed_by_user_id: doctor.user_id,
+      redeemed_at: claimedAt,
+      redeemed_by: doctor.user_id,
+    })
+    .eq("code", invite.code)
+    .is("consumed_at", null);
+  await supabase
+    .from("larinova_doctors")
+    .update({ invite_code_claimed_at: claimedAt })
+    .eq("id", doctor.id);
+  await supabase.from("larinova_subscriptions").upsert(
+    {
+      doctor_id: doctor.id,
+      plan: "pro",
+      status: "active",
+      current_period_end: new Date(
+        Date.now() + 30 * 24 * 60 * 60 * 1000,
+      ).toISOString(),
+      updated_at: claimedAt,
+    },
+    { onConflict: "doctor_id" },
+  );
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,10 +82,8 @@ export async function POST(request: NextRequest) {
 
     const { data: pendingInvite } = await supabase
       .from("larinova_invite_codes")
-      .select("code")
+      .select("code, claimed_at, claimed_by_user_id")
       .eq("email", normalizedEmail)
-      .is("claimed_at", null)
-      .is("redeemed_at", null)
       .is("consumed_at", null)
       .order("created_at", { ascending: false })
       .limit(1)
@@ -45,41 +94,21 @@ export async function POST(request: NextRequest) {
     // signs the user out before /api/invite/claim runs. Since OTP delivery still
     // proves ownership of the invited email, binding the exact pending invite
     // here is safe and keeps the sign-in gate from showing "pending" forever.
-    if (doctor && !hasAlphaDoctorAccess && pendingInvite) {
-      const claimedAt = new Date().toISOString();
-      await supabase
-        .from("larinova_invite_codes")
-        .update({
-          claimed_at: claimedAt,
-          claimed_by_user_id: doctor.user_id,
-          redeemed_at: claimedAt,
-          redeemed_by: doctor.user_id,
-        })
-        .eq("code", pendingInvite.code)
-        .is("consumed_at", null);
-      await supabase
-        .from("larinova_doctors")
-        .update({ invite_code_claimed_at: claimedAt })
-        .eq("id", doctor.id);
-      await supabase
-        .from("larinova_subscriptions")
-        .update({
-          plan: "pro",
-          status: "active",
-          current_period_end: new Date(
-            Date.now() + 30 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-          updated_at: claimedAt,
-        })
-        .eq("doctor_id", doctor.id)
-        .eq("plan", "free");
+    if (
+      doctor &&
+      !hasAlphaDoctorAccess &&
+      pendingInvite &&
+      (pendingInvite.claimed_by_user_id === doctor.user_id ||
+        isClaimAvailable(pendingInvite))
+    ) {
+      await grantInviteAccess(supabase, doctor, pendingInvite);
       hasAlphaDoctorAccess = true;
     }
 
     return NextResponse.json({
       exists: hasAlphaDoctorAccess,
       hasDoctorProfile: !!doctor,
-      hasPendingInvite: !doctor && !!pendingInvite,
+      hasPendingInvite: !doctor && isClaimAvailable(pendingInvite),
       isAdmin: isAdminEmail(normalizedEmail),
       onboardingCompleted: doctor?.onboarding_completed ?? false,
     });

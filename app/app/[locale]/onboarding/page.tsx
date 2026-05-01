@@ -69,16 +69,36 @@ export default function OnboardingPage() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (user) {
-        setDoctorName(
-          user.user_metadata?.full_name ||
-            user.email?.split("@")[0] ||
-            "Doctor",
-        );
+      if (!user) {
+        window.location.href = `/${locale}/sign-in`;
+        return;
       }
+
+      const { data: doctor } = await supabase
+        .from("larinova_doctors")
+        .select(
+          "full_name, first_name, last_name, invite_code_claimed_at, invite_code_redeemed_at",
+        )
+        .eq("user_id", user.id)
+        .maybeSingle();
+      const hasAlphaDoctorAccess = Boolean(
+        doctor?.invite_code_claimed_at || doctor?.invite_code_redeemed_at,
+      );
+      if (!doctor || !hasAlphaDoctorAccess) {
+        await supabase.auth.signOut();
+        window.location.href = `/${locale}/sign-in`;
+        return;
+      }
+
+      setDoctorName(
+        doctor.full_name ||
+          [doctor.first_name, doctor.last_name].filter(Boolean).join(" ") ||
+          user.email?.split("@")[0] ||
+          "Doctor",
+      );
     };
     fetchUser();
-  }, []);
+  }, [locale]);
 
   const handleFinish = useCallback(async () => {
     if (savingRef.current) return;
@@ -116,20 +136,14 @@ export default function OnboardingPage() {
         .select("id");
 
       if (updateError || !updated?.length) {
-        // No rows matched — record doesn't exist, insert it. full_name
-        // is GENERATED from first_name + last_name (saved by StepName).
-        const { error: insertError } = await supabase
-          .from("larinova_doctors")
-          .insert({
-            user_id: user.id,
-            email: user.email!,
-            ...updateData,
-          });
-        if (insertError) {
-          console.error("Onboarding save failed:", insertError.message);
-          savingRef.current = false;
-          return;
-        }
+        console.error("Onboarding save failed:", updateError?.message);
+        savingRef.current = false;
+        alert(
+          "We couldn't find your invite-backed doctor profile. Please sign in again from your invite email.",
+        );
+        await supabase.auth.signOut();
+        window.location.href = `/${locale}/sign-in`;
+        return;
       }
 
       const finalizeOnboarding = async () => {

@@ -10,10 +10,44 @@ type SignupErrorType =
   | "VALIDATION_ERROR"
   | "UNKNOWN_ERROR";
 
+const CLAIM_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+type ServiceClient = ReturnType<typeof createServiceClient<any>>;
+
+async function findAuthUserByEmail(
+  serviceClient: ServiceClient,
+  email: string,
+) {
+  const needle = email.trim().toLowerCase();
+  for (let page = 1; page <= 10; page++) {
+    const { data, error } = await serviceClient.auth.admin.listUsers({
+      page,
+      perPage: 1000,
+    });
+    if (error) return null;
+    const found = data.users.find(
+      (user) => user.email?.trim().toLowerCase() === needle,
+    );
+    if (found) return found;
+    if (data.users.length < 1000) return null;
+  }
+  return null;
+}
+
+function claimIsLockedByAnotherUser(invite: {
+  claimed_at: string | null;
+  claimed_by_user_id: string | null;
+}, userId: string) {
+  if (!invite.claimed_by_user_id || !invite.claimed_at) return false;
+  if (invite.claimed_by_user_id === userId) return false;
+  return Date.now() - new Date(invite.claimed_at).getTime() <= CLAIM_TTL_MS;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, phoneNumber } = body;
+    const { phoneNumber } = body;
+    const email = String(body.email ?? "").trim().toLowerCase();
     // Accept either {firstName, lastName} (current sign-up form) or
     // {fullName} (back-compat for any external integration still posting
     // the old shape).
@@ -60,7 +94,7 @@ export async function POST(request: Request) {
 
     const { data: invite, error: inviteError } = await serviceClient
       .from("larinova_invite_codes")
-      .select("code, email, consumed_at")
+      .select("code, email, consumed_at, claimed_at, claimed_by_user_id")
       .eq("code", inviteCode)
       .maybeSingle();
 
@@ -79,6 +113,130 @@ export async function POST(request: Request) {
       );
     }
 
+    const createDoctorAndBindInvite = async (userId: string) => {
+      if (claimIsLockedByAnotherUser(invite, userId)) {
+        return {
+          ok: false as const,
+          status: 409,
+          body: {
+            error:
+              "This invite is already being used. Please use the latest invite email or contact support.",
+            errorType: "VALIDATION_ERROR" as SignupErrorType,
+          },
+        };
+      }
+
+      const existingDoctor = await serviceClient
+        .from("larinova_doctors")
+        .select(
+          "id, invite_code_claimed_at, invite_code_redeemed_at, onboarding_completed",
+        )
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      const claimedAt = new Date().toISOString();
+      const computedFirst =
+        firstName ?? (fullName ? fullName.split(/\s+/)[0] : null);
+      const computedLast =
+        lastName ??
+        (fullName ? fullName.split(/\s+/).slice(1).join(" ") || null : null);
+
+      const doctorResult = existingDoctor.data?.id
+        ? await serviceClient
+            .from("larinova_doctors")
+            .update({
+              email,
+              first_name: computedFirst,
+              last_name: computedLast,
+              invite_code_claimed_at:
+                existingDoctor.data.invite_code_claimed_at ?? claimedAt,
+              ...(phoneNumber ? { phone: phoneNumber } : {}),
+            })
+            .eq("id", existingDoctor.data.id)
+            .select("id")
+            .single()
+        : await serviceClient
+            .from("larinova_doctors")
+            .insert({
+              user_id: userId,
+              email,
+              first_name: computedFirst,
+              last_name: computedLast,
+              specialization: "Not Specified",
+              locale: "in",
+              onboarding_completed: false,
+              invite_code_claimed_at: claimedAt,
+              ...(phoneNumber ? { phone: phoneNumber } : {}),
+            })
+            .select("id")
+            .single();
+      const createdDoctorRow = !existingDoctor.data?.id;
+
+      if (doctorResult.error || !doctorResult.data?.id) {
+        return {
+          ok: false as const,
+          status: 400,
+          body: {
+            error: "Failed to create doctor profile. Please contact support.",
+            errorType: "PROFILE_CREATION_FAILED" as SignupErrorType,
+            originalError: doctorResult.error?.message,
+          },
+        };
+      }
+
+      const inviteUpdate = await serviceClient
+        .from("larinova_invite_codes")
+        .update({
+          claimed_at: claimedAt,
+          claimed_by_user_id: userId,
+          redeemed_at: claimedAt,
+          redeemed_by: userId,
+        })
+        .eq("code", inviteCode)
+        .is("consumed_at", null)
+        .select("code")
+        .single();
+
+      if (inviteUpdate.error || !inviteUpdate.data) {
+        if (createdDoctorRow) {
+          await serviceClient
+            .from("larinova_doctors")
+            .delete()
+            .eq("id", doctorResult.data.id);
+        } else if (!existingDoctor.data?.invite_code_claimed_at) {
+          await serviceClient
+            .from("larinova_doctors")
+            .update({ invite_code_claimed_at: null })
+            .eq("id", doctorResult.data.id);
+        }
+        return {
+          ok: false as const,
+          status: 409,
+          body: {
+            error:
+              "We could not bind this invite to your account. Please try again.",
+            errorType: "VALIDATION_ERROR" as SignupErrorType,
+            originalError: inviteUpdate.error?.message,
+          },
+        };
+      }
+
+      await serviceClient.from("larinova_subscriptions").upsert(
+        {
+          doctor_id: doctorResult.data.id,
+          plan: "pro",
+          status: "active",
+          current_period_end: new Date(
+            Date.now() + 30 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          updated_at: claimedAt,
+        },
+        { onConflict: "doctor_id" },
+      );
+
+      return { ok: true as const, doctorId: doctorResult.data.id };
+    };
+
     // Create the auth user with no password. email_confirm: true skips
     // Supabase's confirmation email — for invite-gated signup the email is
     // already proven (admin sent the invite; doctor clicked through). For
@@ -91,6 +249,31 @@ export async function POST(request: Request) {
       });
     if (createErr || !created?.user) {
       const m = (createErr?.message ?? "").toLowerCase();
+      if (m.includes("already") || m.includes("registered")) {
+        const existingUser = await findAuthUserByEmail(serviceClient, email);
+        if (existingUser?.id) {
+          const bindExisting = await createDoctorAndBindInvite(existingUser.id);
+          if (!bindExisting.ok) {
+            return NextResponse.json(bindExisting.body, {
+              status: bindExisting.status,
+            });
+          }
+
+          const response = NextResponse.json({
+            success: true,
+            user: {
+              id: existingUser.id,
+              email: existingUser.email,
+            },
+          });
+          response.cookies.set("larinova_invite_token", "", {
+            path: "/",
+            maxAge: 0,
+          });
+          return response;
+        }
+      }
+
       let errorType: SignupErrorType = "UNKNOWN_ERROR";
       let errorMessage = createErr?.message ?? "Failed to create account";
       if (m.includes("already") || m.includes("registered")) {
@@ -106,68 +289,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create doctor profile (service role bypasses RLS). Compute first/last
-    // for the new columns. If the caller supplied them explicitly, use those;
-    // otherwise split fullName on first whitespace.
-    const computedFirst =
-      firstName ?? (fullName ? fullName.split(/\s+/)[0] : null);
-    const computedLast =
-      lastName ??
-      (fullName ? fullName.split(/\s+/).slice(1).join(" ") || null : null);
-
-    const claimedAt = new Date().toISOString();
-    const { data: doctorRow, error: profileError } = await serviceClient
-      .from("larinova_doctors")
-      .insert({
-        user_id: created.user.id,
-        email,
-        first_name: computedFirst,
-        last_name: computedLast,
-        // full_name is a GENERATED column derived from first/last
-        specialization: "Not Specified",
-        locale: "in",
-        onboarding_completed: false,
-        invite_code_claimed_at: claimedAt,
-        ...(phoneNumber ? { phone: phoneNumber } : {}),
-      })
-      .select("id")
-      .single();
-
-    if (profileError) {
+    const bindCreated = await createDoctorAndBindInvite(created.user.id);
+    if (!bindCreated.ok) {
+      await serviceClient.auth.admin.deleteUser(created.user.id);
       return NextResponse.json(
-        {
-          error: "Failed to create doctor profile. Please contact support.",
-          errorType: "PROFILE_CREATION_FAILED" as SignupErrorType,
-          originalError: profileError.message,
-        },
-        { status: 400 },
+        bindCreated.body,
+        { status: bindCreated.status },
       );
-    }
-
-    await serviceClient
-      .from("larinova_invite_codes")
-      .update({
-        claimed_at: claimedAt,
-        claimed_by_user_id: created.user.id,
-        redeemed_at: claimedAt,
-        redeemed_by: created.user.id,
-      })
-      .eq("code", inviteCode)
-      .is("consumed_at", null);
-
-    if (doctorRow?.id) {
-      await serviceClient
-        .from("larinova_subscriptions")
-        .update({
-          plan: "pro",
-          status: "active",
-          current_period_end: new Date(
-            Date.now() + 30 * 24 * 60 * 60 * 1000,
-          ).toISOString(),
-          updated_at: claimedAt,
-        })
-        .eq("doctor_id", doctorRow.id)
-        .eq("plan", "free");
     }
 
     const response = NextResponse.json({
