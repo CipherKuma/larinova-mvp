@@ -320,17 +320,23 @@ export async function run({ page, context }) {
   try {
     const origin = new URL(BASE_URL).origin;
     const session = await ensureDoctorSession();
-    await context.clearCookies({
-      name: new RegExp(`^sb-${projectRef()}-auth-token`),
-    });
-    await context.addCookies(buildSessionCookies(session, origin));
+    const refreshAuthCookies = async () => {
+      await context.clearCookies({
+        name: new RegExp(`^sb-${projectRef()}-auth-token`),
+      });
+      await context.addCookies(buildSessionCookies(session, origin));
+    };
+
+    await refreshAuthCookies();
 
     const pages = [];
     for (const route of pageRoutes) {
+      await refreshAuthCookies();
       pages.push(await measurePage(page, route));
     }
 
     const apis = [];
+    await refreshAuthCookies();
     for (const route of safeApiRoutes) {
       apis.push(await measureApi(page, route));
     }
