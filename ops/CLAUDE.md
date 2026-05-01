@@ -35,7 +35,8 @@ ops/
 │   └── SIGDA_OPTIMA_FORM_SPEC.md
 ├── sales/                            decks, discovery forms, leads
 ├── collateral/                       marketing assets
-├── logo-gen/                         brand logos (light/dark/square)
+├── brand/                            canonical brand logos (only approved files)
+├── logo-gen/                         compatibility aliases regenerated from brand/logos
 └── whatsapp/                         whatsapp-web.js CLI (pair/send/list)
 ```
 

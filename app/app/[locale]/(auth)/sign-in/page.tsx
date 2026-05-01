@@ -265,7 +265,7 @@ export default function SignInPage() {
       <div className="flex justify-start mb-6">
         <div className="flex items-center gap-2.5">
           <Image
-            src={sharedAsset("larinova-icon.png")}
+            src={sharedAsset("dark-mode-icon-only.png")}
             alt="Larinova"
             width={48}
             height={48}

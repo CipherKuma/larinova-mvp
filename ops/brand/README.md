@@ -12,3 +12,9 @@ Use only these four files:
 Do not use older `logo-gen` experiments, generated SVG recreations, or one-off
 copies as brand source files. App, landing, PWA, sales collateral, and portal
 aliases should be regenerated from the four files above.
+
+Before committing branding changes, run:
+
+```bash
+node scripts/verify-brand-assets.mjs
+```
