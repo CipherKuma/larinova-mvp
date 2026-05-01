@@ -15,13 +15,15 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { UserShellDoctor } from "@/lib/user-shell";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  initialDoctor: UserShellDoctor | null;
-  initialPlan?: "free" | "pro";
+}
+
+interface Doctor {
+  full_name: string;
+  specialization: string;
 }
 
 const REGIONS = [
@@ -29,17 +31,30 @@ const REGIONS = [
   { code: "id" as const, label: "Indonesia", flag: "🇮🇩" },
 ];
 
-export function MobileMoreSheet({
-  open,
-  onClose,
-  initialDoctor,
-  initialPlan = "free",
-}: Props) {
+export function MobileMoreSheet({ open, onClose }: Props) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
-  const doctor = initialDoctor;
-  const plan = initialPlan;
+  const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const [plan, setPlan] = useState<string>("free");
+
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/user/shell");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        if (data.doctor) setDoctor(data.doctor);
+        setPlan(data.plan ?? "free");
+      } catch {}
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;

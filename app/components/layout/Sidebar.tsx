@@ -21,25 +21,24 @@ import { useSidebar } from "./SidebarContext";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { RegionSwitcher } from "./RegionSwitcher";
-import type { UserShellDoctor } from "@/lib/user-shell";
 
-interface SidebarProps {
-  initialDoctor: UserShellDoctor | null;
-  initialPlan?: "free" | "pro";
+interface Doctor {
+  full_name: string;
+  specialization: string;
+  locale: string;
 }
 
-export function Sidebar({ initialDoctor, initialPlan = "free" }: SidebarProps) {
+export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
-  const [doctor, setDoctor] = useState<UserShellDoctor | null>(initialDoctor);
-  const [loading, setLoading] = useState(!initialDoctor);
-  const [plan, setPlan] = useState<string>(initialPlan);
+  const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [plan, setPlan] = useState<string>("free");
   const { isCollapsed, setIsCollapsed } = useSidebar();
 
   useEffect(() => {
-    if (initialDoctor) return;
     let cancelled = false;
     async function fetchShell() {
       try {
@@ -62,7 +61,7 @@ export function Sidebar({ initialDoctor, initialPlan = "free" }: SidebarProps) {
     return () => {
       cancelled = true;
     };
-  }, [initialDoctor, router]);
+  }, [router]);
 
   const handleLogout = async () => {
     const { createClient } = await import("@/lib/supabase/client");
