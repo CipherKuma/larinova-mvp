@@ -712,18 +712,6 @@
       "description": "Switch between English and Arabic anytime. The entire interface, transcriptions, and AI responses will adapt to your language."
     }
   },
-  "voiceAI": {
-    "title": "Voice AI Testing",
-    "description": "Test and compare different speech-to-text providers",
-    "selectProvider": "Select AI Provider",
-    "speechmatics": "Speechmatics",
-    "deepgram": "Deepgram",
-    "openaiWhisper": "OpenAI Whisper",
-    "assemblyai": "AssemblyAI",
-    "arabicSupported": "Arabic ✓",
-    "arabicNotSupported": "Arabic ✗",
-    "logoAlt": "Larinova Logo"
-  },
   "Banner": {
     "betaTranslation": "This page uses a beta translation. We're working with native Indonesian speakers to refine the content.",
     "dismiss": "Dismiss"

@@ -712,18 +712,6 @@
       "description": "Beralih antara Bahasa Indonesia dan Bahasa Inggris kapan saja. Seluruh antarmuka, transkripsi, dan respons AI akan menyesuaikan dengan bahasa Anda."
     }
   },
-  "voiceAI": {
-    "title": "Pengujian Suara AI",
-    "description": "Uji dan bandingkan berbagai penyedia ucapan-ke-teks",
-    "selectProvider": "Pilih Penyedia AI",
-    "speechmatics": "Speechmatics",
-    "deepgram": "Deepgram",
-    "openaiWhisper": "OpenAI Whisper",
-    "assemblyai": "AssemblyAI",
-    "arabicSupported": "Arab ✓",
-    "arabicNotSupported": "Arab ✗",
-    "logoAlt": "Logo Larinova"
-  },
   "Banner": {
     "betaTranslation": "Halaman ini menggunakan terjemahan beta. Kami sedang bekerja sama dengan penutur asli bahasa Indonesia untuk menyempurnakan konten.",
     "dismiss": "Tutup"
