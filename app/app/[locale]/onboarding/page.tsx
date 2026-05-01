@@ -186,14 +186,14 @@ export default function OnboardingPage() {
   const currentImage = stepImages[step];
 
   return (
-    <div className="h-screen relative overflow-hidden font-display">
+    <div className="h-dvh relative overflow-hidden font-display">
       <ParticleDust />
       <ProgressBar step={step} totalSteps={totalSteps} />
 
       {isCelebration ? (
         /* Step 6: Full-width celebration */
-        <div className="h-screen flex items-center justify-center">
-          <div className="relative z-10 w-full py-12">
+        <div className="h-dvh flex items-center justify-center">
+          <div className="relative z-10 w-full py-12 pt-[calc(env(safe-area-inset-top)+3rem)] pb-[calc(env(safe-area-inset-bottom)+3rem)]">
             <StepCelebration
               doctorName={doctorName}
               specialty={specialty}
@@ -203,11 +203,11 @@ export default function OnboardingPage() {
         </div>
       ) : (
         /* Steps 1-5: Split layout */
-        <div className="h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
+        <div className="h-dvh grid grid-cols-1 lg:grid-cols-2 relative z-10">
           {/* Left column */}
           <div className="flex flex-col h-full min-h-0">
             {/* Logo — permanent top left */}
-            <div className="flex-shrink-0 flex items-center gap-2.5 p-6 lg:p-8">
+            <div className="flex-shrink-0 flex items-center gap-2.5 px-6 pb-4 pt-[calc(env(safe-area-inset-top)+1.25rem)] lg:p-8">
               <Image
                 src={sharedAsset("dark-mode-icon-only.png")}
                 alt="Larinova"
@@ -224,14 +224,15 @@ export default function OnboardingPage() {
             {step >= 2 && (
               <button
                 onClick={() => setStep(step - 1)}
-                className="absolute top-7 right-6 lg:right-auto lg:left-[calc(50%-40px)] z-50 w-8 h-8 flex items-center justify-center rounded-full bg-muted/20 hover:bg-muted/40 transition-colors lg:hidden"
+                className="absolute top-[calc(env(safe-area-inset-top)+1.5rem)] right-6 lg:right-auto lg:left-[calc(50%-40px)] z-50 w-8 h-8 flex items-center justify-center rounded-full bg-muted/20 hover:bg-muted/40 transition-colors lg:hidden"
+                aria-label="Go back"
               >
                 <ArrowLeft className="w-4 h-4 text-foreground" />
               </button>
             )}
 
             {/* Form content — matches image padding so actions align with image bottom */}
-            <div className="flex-1 min-h-0 flex flex-col px-6 lg:px-8 xl:px-12 pb-10 xl:pb-14">
+            <div className="flex-1 min-h-0 flex flex-col px-6 lg:px-8 xl:px-12 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] xl:pb-14">
               <div className="w-full max-w-xl flex-1 min-h-0 flex flex-col">
                 {step === 1 && (
                   <StepName
