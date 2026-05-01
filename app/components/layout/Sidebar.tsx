@@ -21,24 +21,25 @@ import { useSidebar } from "./SidebarContext";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { RegionSwitcher } from "./RegionSwitcher";
+import type { UserShellDoctor } from "@/lib/user-shell";
 
-interface Doctor {
-  full_name: string;
-  specialization: string;
-  locale: string;
+interface SidebarProps {
+  initialDoctor: UserShellDoctor | null;
+  initialPlan?: "free" | "pro";
 }
 
-export function Sidebar() {
+export function Sidebar({ initialDoctor, initialPlan = "free" }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [plan, setPlan] = useState<string>("free");
+  const [doctor, setDoctor] = useState<UserShellDoctor | null>(initialDoctor);
+  const [loading, setLoading] = useState(!initialDoctor);
+  const [plan, setPlan] = useState<string>(initialPlan);
   const { isCollapsed, setIsCollapsed } = useSidebar();
 
   useEffect(() => {
+    if (initialDoctor) return;
     let cancelled = false;
     async function fetchShell() {
       try {
@@ -61,7 +62,7 @@ export function Sidebar() {
     return () => {
       cancelled = true;
     };
-  }, [router]);
+  }, [initialDoctor, router]);
 
   const handleLogout = async () => {
     const { createClient } = await import("@/lib/supabase/client");
@@ -273,14 +274,14 @@ export function Sidebar() {
               <>
                 <div className="flex items-center gap-1.5">
                   <span className="text-sm font-semibold truncate text-foreground">
-                    {doctor.full_name}
+                    {doctor.full_name ?? "—"}
                   </span>
                   {plan === "pro" && (
                     <Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" />
                   )}
                 </div>
                 <div className="text-xs text-muted-foreground truncate">
-                  {doctor.specialization}
+                  {doctor.specialization ?? ""}
                 </div>
               </>
             ) : (

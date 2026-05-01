@@ -90,11 +90,28 @@ export async function GET() {
     let todayAppointmentsQuery = doctor?.id
       ? supabase
           .from("larinova_appointments")
-          .select("*")
+          .select(
+            "id, appointment_date, start_time, end_time, status, booker_name, chief_complaint, prep_brief, patient_id, larinova_patients!patient_id ( id, full_name, patient_code )",
+          )
           .eq("doctor_id", doctor.id)
           .eq("appointment_date", formatLocalDateYmd(today))
-          .eq("status", "confirmed")
+          .in("status", ["confirmed", "pending"])
           .order("start_time", { ascending: true })
+      : Promise.resolve({ data: [], error: null });
+
+    const flaggedQuery = doctor?.id
+      ? supabase
+          .from("larinova_follow_up_threads")
+          .select(
+            "id, patient_id, tier, larinova_patients!patient_id ( id, full_name )",
+          )
+          .eq("doctor_id", doctor.id)
+          .eq("flagged", true)
+          .order("doctor_notified_at", {
+            ascending: false,
+            nullsFirst: false,
+          })
+          .limit(50)
       : Promise.resolve({ data: [], error: null });
 
     if (organizationId) {
@@ -112,22 +129,30 @@ export async function GET() {
       todayAppointmentsQuery = Promise.resolve({ data: [], error: null });
     }
 
-    const [tasksResult, todayResult, appointmentsResult] = await Promise.all([
-      tasksQuery,
-      todayConsultationsQuery,
-      todayAppointmentsQuery,
-    ]);
+    const [tasksResult, todayResult, appointmentsResult, flaggedResult] =
+      await Promise.all([
+        tasksQuery,
+        todayConsultationsQuery,
+        todayAppointmentsQuery,
+        flaggedQuery,
+      ]);
 
     if (todayResult.error) throw todayResult.error;
     if (appointmentsResult.error) throw appointmentsResult.error;
+    if (flaggedResult.error) throw flaggedResult.error;
+
+    const appointments = appointmentsResult.data || [];
+    const nextAppointment = appointments[0] ?? null;
 
     return NextResponse.json(
       {
         tasks: tasksResult.error ? [] : tasksResult.data || [],
         todayConsultations: sortScheduleEntries([
           ...(todayResult.data || []).map(consultationToScheduleEntry),
-          ...(appointmentsResult.data || []).map(appointmentToScheduleEntry),
+          ...appointments.map(appointmentToScheduleEntry),
         ]),
+        nextAppointment,
+        flaggedThreads: flaggedResult.data || [],
       },
       {
         headers: {

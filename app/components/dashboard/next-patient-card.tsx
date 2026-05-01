@@ -19,11 +19,16 @@ interface NextAppointment {
   } | null;
 }
 
-export function NextPatientCard() {
-  const [next, setNext] = useState<NextAppointment | null>(null);
-  const [loading, setLoading] = useState(true);
+export function NextPatientCard({
+  initialNext,
+}: {
+  initialNext?: NextAppointment | null;
+}) {
+  const [next, setNext] = useState<NextAppointment | null>(initialNext ?? null);
+  const [loading, setLoading] = useState(initialNext === undefined);
 
   useEffect(() => {
+    if (initialNext !== undefined) return;
     let cancelled = false;
     async function load() {
       try {
@@ -41,7 +46,7 @@ export function NextPatientCard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [initialNext]);
 
   if (loading) {
     return (

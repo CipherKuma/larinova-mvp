@@ -11,10 +11,17 @@ interface FlaggedThread {
   larinova_patients?: { id: string; full_name: string } | null;
 }
 
-export function FlaggedFollowUpAlert() {
-  const [threads, setThreads] = useState<FlaggedThread[]>([]);
+export function FlaggedFollowUpAlert({
+  initialThreads,
+}: {
+  initialThreads?: FlaggedThread[];
+}) {
+  const [threads, setThreads] = useState<FlaggedThread[]>(
+    initialThreads ?? [],
+  );
 
   useEffect(() => {
+    if (initialThreads) return;
     let cancelled = false;
     async function load() {
       try {
@@ -30,7 +37,7 @@ export function FlaggedFollowUpAlert() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [initialThreads]);
 
   if (!threads.length) return null;
 

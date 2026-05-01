@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { MobileMoreSheet } from "./MobileMoreSheet";
+import type { UserShellDoctor } from "@/lib/user-shell";
 
 interface NavItem {
   href: string;
@@ -26,7 +27,13 @@ function isOnPath(pathname: string, locale: string, prefix: string): boolean {
   return stripped === prefix || stripped.startsWith(`${prefix}/`);
 }
 
-export function MobileBottomNav() {
+export function MobileBottomNav({
+  initialDoctor,
+  initialPlan = "free",
+}: {
+  initialDoctor: UserShellDoctor | null;
+  initialPlan?: "free" | "pro";
+}) {
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations();
@@ -138,7 +145,12 @@ export function MobileBottomNav() {
         </button>
       </nav>
 
-      <MobileMoreSheet open={moreOpen} onClose={() => setMoreOpen(false)} />
+      <MobileMoreSheet
+        open={moreOpen}
+        onClose={() => setMoreOpen(false)}
+        initialDoctor={initialDoctor}
+        initialPlan={initialPlan}
+      />
     </>
   );
 }

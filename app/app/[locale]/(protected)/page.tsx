@@ -37,9 +37,33 @@ interface Consultation {
   } | null;
 }
 
+interface NextAppointment {
+  id: string;
+  start_time: string;
+  end_time: string;
+  status: string;
+  booker_name: string | null;
+  prep_brief: unknown | null;
+  patient_id: string | null;
+  larinova_patients?: {
+    id: string;
+    full_name: string;
+    patient_code: string;
+  } | null;
+}
+
+interface FlaggedThread {
+  id: string;
+  patient_id: string;
+  tier: string;
+  larinova_patients?: { id: string; full_name: string } | null;
+}
+
 interface DashboardData {
   tasks: Task[];
   todayConsultations: Consultation[];
+  nextAppointment: NextAppointment | null;
+  flaggedThreads: FlaggedThread[];
 }
 
 const PRIORITY_ORDER: Record<string, number> = {
@@ -398,8 +422,8 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-3 md:h-full">
-      <FlaggedFollowUpAlert />
-      <NextPatientCard />
+      <FlaggedFollowUpAlert initialThreads={data?.flaggedThreads ?? []} />
+      <NextPatientCard initialNext={data?.nextAppointment ?? null} />
 
       {/* Mobile: stacked Today → Tasks → Helena */}
       {/* Desktop: 70/30 grid with Helena left, Tasks+Today right */}
