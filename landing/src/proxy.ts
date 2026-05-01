@@ -12,9 +12,6 @@ function detectLocale(request: NextRequest): "in" | "id" {
   if (cfCountry === "ID") return "id";
   if (cfCountry && cfCountry !== "ID") return "in";
 
-  const acceptLang = request.headers.get("accept-language") ?? "";
-  if (/\bid(-[A-Z]{2})?\b/i.test(acceptLang)) return "id";
-
   return "in";
 }
 
@@ -37,16 +34,8 @@ export function proxy(request: NextRequest) {
     });
   }
 
-  // ── Root path "/" ──────────────────────────────────────────
-  const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (cookieLocale === "in" || cookieLocale === "id") {
-    const url = request.nextUrl.clone();
-    url.pathname = `/${cookieLocale}`;
-    const response = NextResponse.redirect(url, { status: 307 });
-    response.headers.set("x-pathname", `/${cookieLocale}`);
-    return response;
-  }
-
+  // Root path "/" is region-driven only: Indonesia gets /id; every other
+  // country, unknown country, or language preference gets /in.
   const locale = detectLocale(request);
 
   const url = request.nextUrl.clone();
