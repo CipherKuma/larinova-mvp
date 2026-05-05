@@ -43,6 +43,7 @@ Maintain with: /maintain-agents-md
 
 ## Preferred shell patterns
 
+- **Git branch policy:** `main` is the canonical branch for all Larinova work. Start sessions with `git status --short --branch`, move to `main` if needed, pull/rebase from `origin/main`, commit on `main`, and push to `origin/main` unless Gabriel explicitly asks for a feature branch. `india-pilot` is a legacy GitHub default-branch artifact only; do not base work on it or describe the product as a separate India pilot branch/app.
 - **Playwright auth:** always pass `--session=<name>` — never launch a raw browser just to test authed flows. See testing-rules.md.
 - **Supabase project:** all three apps (`app/`, `landing/`, `patient-portal/`) use the same Supabase project, `afitpprgfsidrnrrhvzs` (`https://afitpprgfsidrnrrhvzs.supabase.co`). Verify this ref before any data mutation; `vziyntciabkelnaujliq` is not the Larinova app database. See `docs/ENVIRONMENT.md`.
 - **Env vars:** for Larinova Supabase, prefer the vault keys with `_LARINOVA` suffix and map them to the app's expected env names. Do not inject the generic `NEXT_PUBLIC_SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` into Larinova without verifying. Run `node scripts/verify-supabase-env.mjs` before any data mutation.
@@ -71,7 +72,7 @@ Maintain with: /maintain-agents-md
 <claude-mem-context>
 # Memory Context
 
-# [larinova] recent context, 2026-05-05 8:38pm GMT+5:30
+# [larinova] recent context, 2026-05-05 8:51pm GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision
 Format: ID TIME TYPE TITLE

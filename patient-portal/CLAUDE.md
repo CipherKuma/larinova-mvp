@@ -23,7 +23,7 @@ Plus: `/login` (magic-link) + `/auth/callback` (OTP exchange).
 - `max-w-md` on forms, `max-w-2xl` on content.
 - Large tap targets (44px minimum).
 - Dark theme only — same brand palette as the doctor app and landing (background `#0a0f1e`, primary `#10b981`, fonts Inter/Outfit/IBM Plex Mono). See `app/globals.css`.
-- No i18n for v1 (English only). Spec says `in` locale only; `id` deferred.
+- Patient portal belongs to the same India + Indonesia Larinova OPD product. English-only patient UX can ship first, but do not treat that as an India-only product, branch, or separate app.
 - Auth gate lives in `proxy.ts` (Next 16 renamed `middleware.ts` → `proxy.ts`).
 
 ## Data access

@@ -2,6 +2,8 @@
 
 Non-technical subdir of the larinova project. Business, strategy, creative, sales, outreach, ops tooling — no application code, no deploys.
 
+Branch/product rule: `main` is the canonical working branch for all Larinova work. `india-pilot` is only a legacy GitHub default-branch artifact. Treat Larinova as one OPD product for India and Indonesia together; market differences belong in docs, locale/config, outreach, and compliance notes, not in separate long-lived branches.
+
 ## Why this subdir exists
 
 The main `larinova/` repo holds app code (Next.js apps for `app.larinova.com`, `larinova.com`, `patient.larinova.com`). Ops-side MCPs (Gmail, WhatsApp) would bleed into coding sessions and pollute context if loaded at repo root. So they live here: Claude Code walks **up** from the current working dir to find `.mcp.json`, so `ops/.mcp.json` is only visible when your CWD is inside `ops/`. When you `cd` into `app/` or `landing/`, it is invisible.
@@ -44,12 +46,12 @@ ops/
 
 Strategy docs reference app behavior (pricing, whitelist, landing features). When a strategy doc prescribes a code change, `cd ..` to the repo root to execute it. Don't try to edit code from here — Cursor/Claude Code should be restarted at the root when switching modes.
 
-## Current focus (April 2026)
+## Current focus (May 2026)
 
-- **Indonesia launch** — primary. Meeting doctors IRL, collecting testimonials, then cold outreach to ~50 hospital leads.
-- **India** — secondary market, maintained but not actively launching.
-- **Offer**: 1 month free, full access, no credit card. Same everywhere.
-- **Active spec** (in the code side of this repo): `../docs/superpowers/specs/2026-04-23-india-opd-platform-design.md`.
+- **One OPD product** — India and Indonesia move together in the same Larinova app, landing workspace, and Supabase project.
+- **Market-specific ops** — keep India/Indonesia outreach, pricing, compliance, and language differences explicit in docs, but do not split the product into separate app/branch concepts.
+- **Offer**: 1 month free, full access, no credit card. Same everywhere unless a market-specific document says otherwise.
+- **Active spec** (in the code side of this repo): `../.claude/state/CURRENT_SPEC.md`.
 
 ## Key strategy docs
 

@@ -10,8 +10,11 @@ Core product at `app.larinova.com`. Next.js + Supabase.
 - Playwright for E2E
 - Resend for transactional email
 
+## Product scope
+This is one Larinova OPD app for India and Indonesia together. Do not create or assume a separate India-pilot app, Indonesia-only app, or long-lived market branch. Locale differences belong in routing, messages, STT provider selection, pricing/compliance config, and market-specific content.
+
 ## Feature flow
-End-to-end OPD: patient booking → AI-guided intake → pre-consult Prep Brief → recorded consult (voice → transcription → SOAP notes → ICD-10 → prescription → PDF) → post-consult dispatcher (email today; SMS + WhatsApp in v1.1) → wellness follow-up agent at days 1, 3, 7. Indonesia app stays scribe-only for now (Indonesia OPD landing parity is live; OPD app features are India-only in v1).
+End-to-end OPD: patient booking → AI-guided intake → pre-consult Prep Brief → recorded consult (voice → transcription → SOAP notes → ICD-10 → prescription/certificates → PDF) → post-consult dispatcher (email today; SMS + WhatsApp in v1.1) → wellness follow-up agent at days 1, 3, 7.
 
 ## STT providers (by locale)
 - **India**: Sarvam AI (primary)

@@ -12,6 +12,8 @@ Marketing website at `larinova.com`. Next.js App Router, TypeScript, Tailwind.
 - `/in` — India (English)
 - `/id` — Indonesia (Bahasa + English)
 
+These routes are two market faces of the same Larinova OPD product. Keep India and Indonesia in the same app/landing architecture; handle differences through locale content, config, and market-specific copy, not separate branches.
+
 ## Key routes
 - `/[locale]` — landing page
 - `/[locale]/discovery-survey` — doctor survey form

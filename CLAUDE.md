@@ -1,6 +1,6 @@
 # Larinova
 
-End-to-end OPD platform for Indian doctors. Patients book online, complete an AI-guided intake, and arrive with the doctor already holding a Prep Brief. During the consult, Larinova transcribes Tamil/Hindi/English speech and produces SOAP notes, ICD-10 codes, and a signed prescription in real time. After the visit, summaries and prescriptions go out by email (SMS + WhatsApp in v1.1), and a wellness agent follows up at days 1, 3, and 7. Indonesia ships the same OPD landing in parallel; the Indonesia app is scribe-only for now.
+End-to-end OPD platform for Indian and Indonesian doctors in one shared product. Patients book online, complete an AI-guided intake, and arrive with the doctor already holding a Prep Brief. During the consult, Larinova transcribes locale-appropriate speech and produces SOAP notes, ICD-10 codes, prescriptions, certificates, and follow-up outputs. India and Indonesia are not separate apps or branches; they are locale/market configurations inside the same Larinova OPD platform.
 
 This repo holds both the code and the ops material, split into subdirs so they can have different MCP configs. The rule: **Gmail/WhatsApp MCPs live inside `ops/`**, so they only load when your CWD is inside that subdir. Code sessions at the repo root (or in `app/`, `landing/`, `patient-portal/`) never see them. See `ops/CLAUDE.md`.
 
@@ -8,8 +8,13 @@ This repo holds both the code and the ops material, split into subdirs so they c
 - **Name**: Larinova (formerly Kosyn)
 - **Domain**: larinova.com
 - **Emails**: hello@larinova.com (primary), contact@larinova.com (secondary)
-- **Tagline**: "The OPD assistant for Indian doctors"
+- **Tagline**: "The OPD assistant for modern clinics"
 - **Founder**: Gabriel Antony Xaviour
+
+## Git branch policy
+- **Canonical working branch: `main`**. Start every Claude/Codex session from `main`, pull/rebase from `origin/main`, commit on `main`, and push to `origin/main` unless Gabriel explicitly asks for a feature branch.
+- `india-pilot` is a legacy GitHub default-branch artifact only. Do not treat it as the active product branch, do not base new work on it, and do not describe Larinova as an "India pilot" branch/app.
+- The product is one Larinova OPD app for India and Indonesia together. Market differences belong in locale/config/data, not in separate long-lived branches.
 
 ## Directory structure
 ```
@@ -48,11 +53,11 @@ Claude Code walks **up** from CWD to find `.mcp.json`. So:
 
 When switching modes, restart your Claude Code session in the appropriate directory.
 
-## Current focus (April 2026)
-- **Indonesia launch** — primary. Meeting doctors IRL, collecting testimonials, then cold outreach to ~50 hospital leads.
-- **India** — secondary market, maintained but not actively launching.
-- **Offer**: 1 month free, full access, no credit card. Same everywhere.
-- **Active spec**: `docs/superpowers/specs/2026-04-23-india-opd-platform-design.md`.
+## Current focus (May 2026)
+- **One OPD product** — India and Indonesia move together in the same app, landing workspace, and Supabase project.
+- **Market-specific work** — handle India/Indonesia copy, STT providers, pricing, compliance notes, and workflows through locale/configuration, not branches.
+- **Offer**: 1 month free, full access, no credit card. Same everywhere unless a market-specific document says otherwise.
+- **Active spec**: `.claude/state/CURRENT_SPEC.md`.
 
 ## Conventions
 - Every user-facing CTA links to `https://app.larinova.com` (never `#pricing` or `#`).

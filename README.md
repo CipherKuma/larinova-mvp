@@ -2,7 +2,7 @@
 
 Private monorepo containing all Larinova work: product code, marketing site, strategy docs, sales collateral, brand assets.
 
-**Status:** Active. Indonesia launch in progress (April 2026).
+**Status:** Active. India and Indonesia OPD launch work now moves through one shared product on `main`.
 
 ---
 
@@ -24,25 +24,13 @@ See `CLAUDE.md` for architecture details, brand conventions, and key files.
 
 ---
 
-## Branching model (two-laptop workflow)
+## Branch policy
 
-This repo uses a per-laptop branch pattern during the initial sync:
+`main` is the canonical working branch for Larinova. Start every Claude/Codex session from `main`, pull/rebase from `origin/main`, commit on `main`, and push to `origin/main` unless Gabriel explicitly asks for a feature branch.
 
-- `main` — clean, merged state of both laptops
-- `m4-pro` — snapshot of work done on the M4 Pro laptop
-- `m2-pro` — snapshot of work done on the M2 Pro laptop
+`india-pilot` is a legacy GitHub default-branch artifact only. It is not the active product branch, and new work must not be based on it.
 
-### Initial consolidation sequence
-
-1. `m4-pro` branch pushed from M4 Pro (done as of initial commit)
-2. `m2-pro` branch pushed from M2 Pro (pending)
-3. Merge both into `main`, resolve conflicts, delete laptop branches
-4. Going forward: work on feature branches off `main`, both laptops pull/push to `main`
-
-### Daily habit after consolidation
-
-- Every session: `git pull --rebase` before editing, commit often, `git push` before switching laptops
-- Never edit the same file on both laptops between pull and push
+The product is one Larinova OPD app for India and Indonesia together. Market differences belong in locale/config/data, not in long-lived Git branches.
 
 ---
 
