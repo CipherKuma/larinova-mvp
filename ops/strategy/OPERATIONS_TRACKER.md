@@ -3,7 +3,7 @@
 **Company:** LARINOVA PRIVATE LIMITED
 **CIN:** U62012TN2026PTC192444
 **Incorporated:** 22 April 2026
-**Last updated:** 1 May 2026
+**Last updated:** 5 May 2026
 **Purpose:** One source of truth for non-product company operations, compliance, funding, registrations, legal setup, and program applications.
 
 This tracker is meant to be updated by the relevant cmux/Codex surface after every meaningful action. Keep it factual: what happened, who owns the next step, what evidence exists, and what is blocked.
@@ -48,10 +48,10 @@ This tracker is meant to be updated by the relevant cmux/Codex surface after eve
 
 | Priority | Workstream | Status | Owner / Surface | Deadline / Trigger | Next Action | Evidence / Notes |
 |---|---|---|---|---|---|---|
-| P0 | Current account | Waiting | `surface:42` | ASAP | Resolve final bank choice and collect current-account document list. | HDFC SmartUp thread listed in `STARTUP_OPPS_2026.md`; earlier notes also mentioned ICICI/Kotak preference, so confirm final choice. |
-| P0 | ADT-1 auditor appointment | Waiting | `surface:43` | 22 May 2026 | Wait for CS Murugan response before the next filing step; then send documents and coordinate auditor appointment filing. | Contact received from Praveen Office Accountant. Email sent to `murugantmp@yahoo.co.in`; WhatsApp sent to `+91 90809 40689`; copied Antony and CA Innocent on email. Waiting on DSC token and CS response. |
+| P0 | Current account | In progress | `surface:42` | ASAP | Proceed with ICICI current-account application only; use official ICICI online lead form or direct ICICI branch/RM route if the form blocks on OTP/branch selection. | Gabriel confirmed ICICI only on 5 May 2026. Ignore HDFC, Kotak, RazorpayX-as-primary, and other inbound bank-account offers unless Gabriel explicitly changes the bank choice. |
+| P0 | ADT-1 auditor appointment | Waiting | `surface:43` | 22 May 2026 | Wait for Praveen / CS Murugan confirmation that the signed appointment documents plus KYC/photo packet are sufficient, or for the exact remaining document list if anything is still pending. | Signed DOCX copies and balance KYC/photo documents were sent to Praveen Office Accountant by WhatsApp on 5 May 2026. Bank route remains ICICI-only. |
 | P0 | Paid-up capital infusion | Not started | `surface:47` | Within 60 days of incorporation | Confirm paid-up capital, transfer founder capital after bank opens, preserve bank proof. | Depends on current account. |
-| P0 | INC-20A commencement | Not started | `surface:47` | 19 October 2026 | Prepare declaration and bank proof after capital infusion. | Depends on bank account and capital receipt. |
+| P0 | INC-20A commencement | Not started | `surface:47` | 19 October 2026 | After bank opens, arrange registered-office nameboard/photos and bank statement showing Rs. 10,000 paid-up capital receipt from shareholders. | Murugan listed INC-20A requirements on 2 May 2026: outside registered-office photo with English/Tamil nameboard, inside office photo with signing director, and bank statement evidencing paid-up share capital. |
 | P1 | GST registration | Researching | `surface:45` | Before first invoice/payment gateway | Prepare voluntary GST application inputs now; do not submit without Gabriel approval. | Bank details can be furnished after GSTIN through non-core amendment, but must be provided within the required post-registration window / before returns. |
 | P1 | DPIIT recognition | Ready | `surface:44` | ASAP | Submit Startup India recognition form once Gabriel approves packet and OTP/signature steps. | Packet drafted in `DPIIT_APPLICATION.md`; upload docs staged under `ops/company-docs/_incoming/2026-04-30-incorporation-shortnames/`; board resolution needs signed PDF. |
 | P1 | IEC | Waiting | `surface:45` | Before foreign receipts | Prepare DGFT profile/application data now; submit only after company bank account is open and Gabriel approves. | DGFT IEC requires PAN plus company bank account and valid address. Needed for Indonesia/foreign revenue. |
@@ -74,8 +74,8 @@ This tracker is meant to be updated by the relevant cmux/Codex surface after eve
 
 ### Bank Account
 
-- [ ] Resolve final bank choice.
-- [ ] Confirm document list from bank.
+- [x] Resolve final bank choice.
+- [ ] Confirm selected bank document list from bank/RM.
 - [ ] Prepare board resolution for current account.
 - [ ] Gather CoI, MoA, AoA, PAN, TAN, director KYC, office proof.
 - [ ] Open current account.
@@ -88,7 +88,7 @@ This tracker is meant to be updated by the relevant cmux/Codex surface after eve
 - [x] Confirm CS Murugan contact.
 - [ ] Confirm CS Murugan fee structure and filing process.
 - [ ] Confirm statutory auditor.
-- [ ] Obtain auditor consent letter.
+- [x] Obtain auditor consent letter.
 - [ ] Obtain auditor non-disqualification certificate.
 - [ ] Prepare board meeting minutes/resolution.
 - [ ] File ADT-1 by 22 May 2026.
@@ -98,10 +98,12 @@ This tracker is meant to be updated by the relevant cmux/Codex surface after eve
 ### Capital / INC-20A
 
 - [ ] Confirm authorized and paid-up capital from MoA.
-- [ ] Transfer capital from founders to company account.
-- [ ] Preserve bank statement showing receipt.
+- [ ] Transfer Rs. 10,000 paid-up capital from shareholders/founders to company account after current account opens.
+- [ ] Preserve bank statement showing Rs. 10,000 paid-up capital receipt.
 - [ ] Issue share certificates.
 - [ ] Update register of members.
+- [ ] Arrange outside registered-office photo with English/Tamil nameboard showing company name, CIN, registered-office address, email, and phone.
+- [ ] Arrange inside registered-office photo with signing director.
 - [ ] Prepare INC-20A declaration.
 - [ ] File INC-20A by 19 October 2026.
 - [ ] Store SRN, challan, acknowledgement, and filed form.
@@ -261,6 +263,19 @@ Add one line per meaningful action. Keep newest entries at the top.
 
 | Date | Surface | Workstream | Status Change | Note | Evidence / Link |
 |---|---|---|---|---|---|
+| 5 May 2026 | `surface:43` | ADT-1 ROC | Waiting | Praveen Office Accountant sent two DOCX files over WhatsApp asking for signatures. Signed copies were created using Gabriel's signature image and sent back by WhatsApp. The resolution had `600071`; a corrected `600126` signed copy was sent with a confirmation note. | Incoming WhatsApp rows `45805`, `45806`, `45807`; outgoing rows `45867`, `45868`, `45869`; signed files under `ops/company-docs/_incoming/2026-05-05-praveen-auditor-signature/signed/` |
+| 5 May 2026 | `surface:43` | ADT-1 ROC | Waiting | Praveen replied that he will forward the signed documents to Murugan Sir's office and that balance documents are required. Reply sent asking him to share the exact balance-document list here so it can be arranged immediately. | Incoming WhatsApp rows `45871`, `45872`; outgoing WhatsApp row `45874`, status `6` |
+| 5 May 2026 | `surface:43` | ADT-1 ROC | Waiting | After Gabriel sent the pending list in WhatsApp, the requested PAN/Aadhaar/company-PAN/photo packet was sent to Praveen Office Accountant. This document share does not change the ICICI-only bank route. | WhatsApp list rows `45876`, `45877`; outgoing text row `45878`; outgoing document rows `45880`, `45881`, `45882`, `45883`, `45884`, status `6`; staged files under `/tmp/larinova-praveen-docs/` |
+| 5 May 2026 | `surface:43` | ADT-1 ROC | Waiting | The company PAN originally sent was password-protected, so an unprotected copy was generated and sent for direct filing use. | `pdftocairo` verified output as `Encrypted: no`; outgoing WhatsApp rows `45886`, `45887`, status `6`, error `0`; file staged at `/tmp/larinova-praveen-docs/larinova-company-pan-unprotected.pdf` |
+| 5 May 2026 | `surface:42` | Bank Account | In progress | Corrected bank route to ICICI only after Gabriel clarified that HDFC/Kotak should not be pursued. Bank onboarding note, TODO, startup ops plan, and AGENTS.md now say to ignore HDFC, Kotak, RazorpayX-as-primary, and other inbound bank-account offers unless Gabriel explicitly changes the bank choice. | `ops/company-docs/02-bank.md`; `ops/company-docs/00-TODO.md`; `ops/strategy/STARTUP_OPPS_2026.md`; `AGENTS.md` |
+| 5 May 2026 | `surface:42` | Bank Account | In progress | Retraction emails sent to HDFC and Kotak telling them to disregard the mistaken current-account checklist request because Larinova is proceeding with ICICI. | HDFC retraction Gmail sent ID `19df76b836648068`; Kotak retraction Gmail sent ID `19df76b853fe64bd` |
+| 5 May 2026 | `surface:43` | ADT-1 ROC | Waiting | Checked Larinova Gmail and WhatsApp for new statutory-auditor / ADT-1 movement. No new Murugan email after the 2 May packet and no new Innocent email after the consent PDF. WhatsApp shows Murugan's last incoming ADT-1 note on 2 May and a DSC ETA follow-up sent on 5 May. | Gmail search; WhatsApp rows `44487`, `44563`, `45793` |
+| 2 May 2026 | `surface:43` | ADT-1 ROC | Waiting | WhatsApp reply sent to CS Murugan acknowledging his ADT-1 email/docs message, confirming email reply, Innocent consent PDF, signature plan, and DSC courier timing. | WhatsApp local DB row `44563`, chat `7907135484057@lid`, sent 17:26:58 IST, status `1`, error `0` |
+| 2 May 2026 | `surface:42` | Bank Account | Waiting -> In progress | Final bank decision changed to ICICI. HDFC route paused by email; ICICI official lead form checked and accepts Pvt Ltd first-page details, but automation was inconsistent at branch selection. Recommended branch: Sithalapakkam if available; fallback: Tambaram - Agaram Main Road. | Gmail sent ID `19de8820eddbd083`; ICICI official current-account page |
+| 2 May 2026 | `surface:43` | ADT-1 ROC | Waiting | Reply sent to CS Murugan confirming receipt of documents, Innocent consent PDF, INC-20A requirements, and DSC courier timing; asked what can proceed before the DSC token arrives. | Gmail sent ID `19de87ea8f32a5aa` |
+| 2 May 2026 | `surface:43` | ADT-1 ROC | Waiting | CA Innocent replied with `larinova consent.pdf`; next step is to confirm with CS Murugan whether this signed consent satisfies the auditor-consent requirement and what remains in the ADT-1 signing packet. | Gmail message `19de7f06527a1735`; `ops/company-docs/_incoming/2026-05-02-innocent-auditor-consent/larinova consent.pdf` |
+| 2 May 2026 | `surface:43` | ADT-1 ROC | Waiting | CS Murugan replied with first-auditor documents and asked for signatures; auditor consent letter must be signed by auditor. Attachments downloaded. | Gmail message `19de7862485033d7`; `ops/company-docs/_incoming/2026-05-02-murugan-first-auditor/` |
+| 2 May 2026 | `surface:47` | Capital INC20A | Not started | Murugan clarified INC-20A requirements: registered-office outside photo with English/Tamil nameboard including company name, CIN, registered-office address, email, phone; inside office photo with signing director; bank statement proving Rs. 10,000 paid-up capital receipt. | Gmail message `19de7862485033d7` |
 | 1 May 2026 | `surface:44` | DPIIT Recognition | Ready | Readiness audit completed: upload docs and logo/photo assets exist; `DPIIT_APPLICATION.md` paths corrected to the actual staging folder; remaining blockers are Gabriel approval, mobile/Aadhaar OTP, and signed board-resolution PDF. | `DPIIT_APPLICATION.md`; `ops/company-docs/_incoming/2026-04-30-incorporation-shortnames/` |
 | 1 May 2026 | `surface:45` | GST IEC Udyam | Not started -> Researching/Waiting split | Split readiness into pre-bank and post-bank tasks. GST preparation can begin now with bank details furnished after GSTIN within the required post-registration window / before returns; IEC remains blocked until company bank account exists; no registration will be submitted without Gabriel approval. | `OPERATIONS_TRACKER.md`; GST portal bank-account guidance; DGFT IEC prerequisite page |
 | 1 May 2026 | `surface:43` | ADT-1 ROC | In progress -> Waiting | CS Murugan contact received from Praveen Office Accountant. Email sent to `murugantmp@yahoo.co.in`; WhatsApp sent to `+91 90809 40689`; email copied Antony Xaviour and CA Innocent. Next filing step is blocked until Murugan replies. | `OPERATIONS_TRACKER.md`; Gmail/WhatsApp evidence recorded below |

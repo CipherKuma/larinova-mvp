@@ -297,6 +297,8 @@
       "labelWeight": "Weight:",
       "printPdf": "Print PDF",
       "generatingPrescription": "Generating prescription from your consultation...",
+      "noMedicinesTitle": "No medicines specified",
+      "noMedicinesDescription": "The consultation audio did not specify a medicine, so Larinova did not generate one automatically.",
       "editHint": "Click any field to edit"
     },
     "step5": {
@@ -663,9 +665,115 @@
     "diagnosis": "Diagnosis",
     "na": "N/A",
     "sickLeaveForm": {
-      "action": "Sick Leave",
-      "title": "Sick Leave Certificate",
-      "description": "Select an existing patient, confirm demographics, and enter only the clinical sick leave details.",
+      "action": "Medical Certificate",
+      "title": "Medical Certificate",
+      "description": "Select an existing patient, choose the certificate type, and enter only doctor-reviewed clinical details.",
+      "typeLabel": "Certificate type",
+      "typePlaceholder": "Select certificate type",
+      "typeOptions": {
+        "sick_leave": "Sick Leave Certificate",
+        "work_from_home": "Work From Home Certificate",
+        "fitness": "Medical Fitness Certificate",
+        "diagnosis": "Medical Diagnosis Certificate",
+        "caretaker": "Caretaker Certificate",
+        "recovery": "Recovery Certificate"
+      },
+      "typeDescriptions": {
+        "sick_leave": "For illness-related leave from work, school, or college.",
+        "work_from_home": "For temporary work-from-home advice during recovery.",
+        "fitness": "For doctor-reviewed fitness for routine activity.",
+        "diagnosis": "For documenting a confirmed medical diagnosis.",
+        "caretaker": "For certifying caretaker support needed by the patient.",
+        "recovery": "For confirming recovery and return to work or classes."
+      },
+      "fieldLabels": {
+        "sick_leave": {
+          "condition": "Condition",
+          "treatment": "Treatment provided",
+          "startDate": "Leave start date",
+          "endDate": "Leave end date",
+          "advice": "Advice"
+        },
+        "work_from_home": {
+          "condition": "Condition",
+          "treatment": "Assessment / treatment",
+          "startDate": "WFH start date",
+          "endDate": "WFH end date",
+          "advice": "Work restrictions"
+        },
+        "fitness": {
+          "condition": "Fitness context",
+          "treatment": "Clinical assessment",
+          "startDate": "Fit from",
+          "endDate": "Valid until",
+          "advice": "Restrictions"
+        },
+        "diagnosis": {
+          "condition": "Diagnosis",
+          "treatment": "Assessment / treatment",
+          "startDate": "Care period start",
+          "endDate": "Care period end",
+          "advice": "Advice"
+        },
+        "caretaker": {
+          "condition": "Patient condition",
+          "treatment": "Assessment / treatment",
+          "startDate": "Care start date",
+          "endDate": "Care end date",
+          "advice": "Care instructions"
+        },
+        "recovery": {
+          "condition": "Recovered condition",
+          "treatment": "Treatment / review",
+          "startDate": "Illness start date",
+          "endDate": "Recovery date",
+          "advice": "Return advice"
+        }
+      },
+      "fieldPlaceholders": {
+        "sick_leave": {
+          "condition": "e.g., Acute viral fever",
+          "treatment": "e.g., Antipyretics, hydration, and rest",
+          "startDate": "Pick start date",
+          "endDate": "Pick end date",
+          "advice": "e.g., Avoid strenuous activities and follow prescribed medication."
+        },
+        "work_from_home": {
+          "condition": "e.g., Post-viral fatigue",
+          "treatment": "e.g., Clinical review and supportive care",
+          "startDate": "Pick WFH start date",
+          "endDate": "Pick WFH end date",
+          "advice": "e.g., Avoid commute and take short rest breaks."
+        },
+        "fitness": {
+          "condition": "e.g., Fitness for office duty",
+          "treatment": "e.g., Examined and vitals reviewed",
+          "startDate": "Pick fit-from date",
+          "endDate": "Pick validity end date",
+          "advice": "e.g., Avoid heavy lifting for one week."
+        },
+        "diagnosis": {
+          "condition": "e.g., Acute gastroenteritis",
+          "treatment": "e.g., Examined and supportive treatment advised",
+          "startDate": "Pick care start date",
+          "endDate": "Pick care end date",
+          "advice": "e.g., Continue fluids and return if symptoms worsen."
+        },
+        "caretaker": {
+          "condition": "e.g., Post-operative recovery",
+          "treatment": "e.g., Surgical review and recovery monitoring",
+          "startDate": "Pick care start date",
+          "endDate": "Pick care end date",
+          "advice": "e.g., Needs support with mobility and medication schedule."
+        },
+        "recovery": {
+          "condition": "e.g., Viral illness",
+          "treatment": "e.g., Reviewed after treatment and rest",
+          "startDate": "Pick illness start date",
+          "endDate": "Pick recovery date",
+          "advice": "e.g., Resume routine activity gradually."
+        }
+      },
       "patientLabel": "Patient",
       "patientPlaceholder": "Select patient",
       "loadingPatients": "Loading patients...",

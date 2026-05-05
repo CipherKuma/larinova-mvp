@@ -10,7 +10,7 @@ import type { SOAPNote } from "@/lib/sarvam/types";
 import { useTranslations, useLocale } from "next-intl";
 import { ListeningOrb } from "@/components/consultation/ListeningOrb";
 
-const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING === "true";
+const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING !== "false";
 
 type Phase = "prompt" | "recording" | "processing" | "results";
 
@@ -40,11 +40,11 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
   // India: Sarvam streaming. Both hooks are unconditionally called to keep
   // React's hook order stable; the inactive one never does any work since
   // start() is what triggers the mic / WS / fetch.
-  // - When NEXT_PUBLIC_STT_STREAMING=true: use the WebSocket path with
+  // - By default: use the WebSocket path with
   //   server-side VAD, same as the consult flow. No consultationId yet
   //   (doctor is being onboarded), so the token is issued under the
   //   "onboarding" purpose.
-  // - When the flag is off: fall back to the REST 3s-chunk path.
+  // - When NEXT_PUBLIC_STT_STREAMING=false: fall back to the REST 3s-chunk path.
   const restStt = useSarvamSTT({ languageCode: "unknown", locale });
   const streamingStt = useSarvamStreamingSTT({
     languageCode: "unknown",
@@ -158,7 +158,11 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
     setTranscript("");
     stoppingRef.current = false;
     setPhase("recording");
-    await stt.start();
+    const started = await stt.start();
+    if (!started) {
+      setPhase("prompt");
+      return;
+    }
 
     maxDurationTimerRef.current = setTimeout(() => {
       if (!stoppingRef.current) handleStopStreaming();

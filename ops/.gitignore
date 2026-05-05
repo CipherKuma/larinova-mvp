@@ -12,6 +12,7 @@ whatsapp/.wwebjs_cache/
 .gmail-credentials.json
 .gmail-token.json
 .gmail-token-*.json
+.gmail-token*.json.bak-*
 
 # macOS
 .DS_Store

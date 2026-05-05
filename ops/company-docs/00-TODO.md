@@ -28,7 +28,8 @@ Legend: ⛔ blocks charging · 🔴 high · 🟡 medium · 🟢 nice-to-have
 ### ⛔ PHASE 1 — required before first invoice
 
 #### 1. Open company bank account — **next 1–2 weeks**
-- [ ] Pick bank (recommend ICICI or Kotak for SaaS; Razorpay X is fully digital)
+- [x] Pick bank: **ICICI only** for Larinova's first current account.
+- [ ] Ignore HDFC, Kotak, RazorpayX-as-primary, and all other inbound bank-account offers unless Gabriel explicitly changes the bank choice.
 - [ ] Take to bank: `01-incorporation/…SPICE + Part B_Approval Letter_AC3085730.pdf` (CoI), `…INC 33` (MoA), `…INC 34` (AoA), director PANs + Aadhaar, registered-office address proof
 - [ ] Board resolution to open account (Dad's CA can draft)
 - [ ] Record IFSC + account number in `02-bank.md`
@@ -37,7 +38,7 @@ Legend: ⛔ blocks charging · 🔴 high · 🟡 medium · 🟢 nice-to-have
 
 #### 2. Capital infusion — **within 60 days of incorporation (by 21 Jun 2026)**
 - [ ] Confirm paid-up capital per MoA (check `01-incorporation/…INC 33…pdf`)
-- [ ] Transfer from founders' personal accounts → company account
+- [ ] Transfer **Rs. 10,000** from founders' personal accounts → company account
 - [ ] Get bank statement showing the credit (needed for INC-20A)
 - [ ] Issue share certificates, update register of members
 - **Depends on:** #1 done
@@ -54,7 +55,9 @@ Legend: ⛔ blocks charging · 🔴 high · 🟡 medium · 🟢 nice-to-have
 - [ ] Bank account open (#1)
 - [ ] Capital infused (#2)
 - [ ] Director declaration drafted
-- [ ] Bank statement showing capital receipt attached
+- [ ] Bank statement showing **Rs. 10,000** paid-up capital receipt attached
+- [ ] Outside registered-office photo with English/Tamil nameboard showing company name, CIN, registered-office address, email, and phone
+- [ ] Inside registered-office photo with signing director
 - [ ] File INC-20A, certified by practising CA/CS/CMA
 - **Penalty if missed:** ₹50,000 on company + ₹1,000/day/director
 - **Hard deadline:** 180 days from incorporation = **19 Oct 2026**

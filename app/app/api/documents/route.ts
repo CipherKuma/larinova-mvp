@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { buildSickLeaveCertificateContent } from "@/lib/documents/sick-leave-certificate";
+import {
+  MEDICAL_CERTIFICATE_TYPE_TITLES,
+  MEDICAL_CERTIFICATE_TYPES,
+  buildMedicalCertificateContent,
+} from "@/lib/documents/sick-leave-certificate";
 
 const sickLeaveSchema = z.object({
   document_type: z.literal("medical_certificate"),
-  certificate_type: z.literal("sick_leave"),
+  certificate_type: z.enum(MEDICAL_CERTIFICATE_TYPES),
   patient_id: z.string().uuid(),
   condition: z.string().trim().min(2).max(500),
   treatment_provided: z.string().trim().min(2).max(1000),
@@ -135,7 +139,8 @@ export async function POST(req: Request) {
     }
 
     const issueDate = new Date().toISOString().slice(0, 10);
-    const content = buildSickLeaveCertificateContent({
+    const content = buildMedicalCertificateContent({
+      certificateType: body.certificate_type,
       issueDate,
       patient: {
         fullName: patient.full_name,
@@ -165,11 +170,11 @@ export async function POST(req: Request) {
         doctor_id: doctor.id,
         patient_id: patient.id,
         document_type: "medical_certificate",
-        title: `Medical Certificate - Sick Leave - ${patient.full_name}`,
-        description: "Structured sick leave certificate",
+        title: `Medical Certificate - ${MEDICAL_CERTIFICATE_TYPE_TITLES[body.certificate_type]} - ${patient.full_name}`,
+        description: `Structured ${MEDICAL_CERTIFICATE_TYPE_TITLES[body.certificate_type].toLowerCase()}`,
         content,
         metadata: {
-          certificate_type: "sick_leave",
+          certificate_type: body.certificate_type,
           structured_form: {
             condition: body.condition,
             treatment_provided: body.treatment_provided,

@@ -20,7 +20,7 @@ import { useSarvamStreamingSTT } from "@/hooks/useSarvamStreamingSTT";
 import { useTranslations } from "next-intl";
 import { ListeningOrb } from "@/components/consultation/ListeningOrb";
 
-const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING === "true";
+const STREAMING_ENABLED = process.env.NEXT_PUBLIC_STT_STREAMING !== "false";
 
 interface Transcript {
   id: string;
@@ -140,6 +140,17 @@ export function TranscriptionViewStreaming({
     }
   }, []);
 
+  const handleUnexpectedSTTStop = useCallback(
+    (reason: string) => {
+      setError(reason.toUpperCase());
+      setIsPaused(false);
+      setInterimText("");
+      pausedRef.current = false;
+      onStopRecording();
+    },
+    [onStopRecording],
+  );
+
   // Both hooks are unconditionally called to keep React's hook order
   // stable across renders; only the active one ever does real work since
   // `start()` is what kicks off the mic / WS / fetch.
@@ -147,6 +158,7 @@ export function TranscriptionViewStreaming({
     languageCode: language,
     onTranscript: handleTranscript,
     onError: handleSTTError,
+    onUnexpectedStop: handleUnexpectedSTTStop,
   });
   const streamingStt = useSarvamStreamingSTT({
     consultationId,
@@ -154,6 +166,7 @@ export function TranscriptionViewStreaming({
     mode: "codemix",
     onTranscript: handleTranscript,
     onError: handleSTTError,
+    onUnexpectedStop: handleUnexpectedSTTStop,
   });
   const stt = STREAMING_ENABLED ? streamingStt : restStt;
 
@@ -225,15 +238,15 @@ export function TranscriptionViewStreaming({
     sessionStartTime.current = Date.now();
     pausedRef.current = false;
 
-    await stt.start();
+    const started = await stt.start();
 
-    if (!stt.permissionDenied) {
+    if (started) {
       onStartRecording();
     }
   }, [stt, onStartRecording]);
 
-  const handleStop = useCallback(() => {
-    stt.stop();
+  const handleStop = useCallback(async () => {
+    await stt.stop();
     setIsPaused(false);
     setInterimText("");
     pausedRef.current = false;
@@ -250,8 +263,8 @@ export function TranscriptionViewStreaming({
     pausedRef.current = false;
   }, []);
 
-  const handleRestart = useCallback(() => {
-    handleStop();
+  const handleRestart = useCallback(async () => {
+    await handleStop();
     onTranscriptUpdate([]);
     setError(null);
     setInterimText("");
@@ -261,14 +274,12 @@ export function TranscriptionViewStreaming({
   }, [handleStop, onTranscriptUpdate, startSession]);
 
   const handleEndConsultation = useCallback(async () => {
-    handleStop();
     setIsGeneratingReport(true);
     setReportFailed(false);
     setError(null);
 
-    // Pull the full audio off the parallel MediaRecorder before stt.stop()
-    // tears down the underlying MediaStream tracks.
     const audioBlob = await finalizeAudioBlob();
+    await handleStop();
 
     try {
       const formData = new FormData();
@@ -620,7 +631,9 @@ export function TranscriptionViewStreaming({
             <span className="opacity-50">|</span>
             <span className="uppercase">{selectedLang?.label}</span>
             <span className="opacity-50">|</span>
-            <span className="uppercase font-mono text-primary">WS</span>
+            <span className="uppercase font-mono text-primary">
+              {STREAMING_ENABLED ? "WS" : "REST"}
+            </span>
           </div>
         </div>
       )}

@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { chatSync, extractJson } from "@/lib/ai/sarvam";
+import {
+  buildPrescriptionDemoPrompt,
+  getEmptyPrescription,
+  hasExplicitMedicineMention,
+  sanitizePrescriptionDemo,
+  sourceTextForPrescription,
+  type PrescriptionData,
+} from "@/lib/onboarding/prescription-demo";
 
 export const maxDuration = 30;
-
-interface PrescriptionMedicine {
-  name: string;
-  frequency: string;
-  duration: string;
-  timing: string;
-}
-
-interface PrescriptionData {
-  patient_name: string;
-  patient_sex: string;
-  patient_age: string;
-  medicines: PrescriptionMedicine[];
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,39 +22,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isIndonesia = locale === "id";
-
-    const prompt = `You are a medical prescription assistant. Based on the SOAP note and consultation transcript below, generate a realistic prescription.
-
-IMPORTANT RULES:
-1. Extract the patient's name from the transcript if mentioned. If no name is found, use "${isIndonesia ? "Siti Rahayu" : "Ravi Kumar"}" as the default.
-2. Determine the patient's sex from context clues (pronouns, title like Mr/Mrs/Pak/Bu). Default to "${isIndonesia ? "F" : "M"}" if unclear.
-3. Estimate the patient's age from context. Default to "45" if not mentioned.
-4. Generate 2-4 appropriate medicines based on the diagnosis/assessment in the SOAP note.
-5. Each medicine MUST have: name (drug name + dosage), frequency, duration, and timing.
-6. Use REAL medicine names appropriate for the diagnosis. Do NOT use placeholder medicines.
-7. ${isIndonesia ? 'Use Indonesian format: frequency as "3x1" or "2x1", duration in "hari", timing in Indonesian (e.g., "Sesudah makan", "Sebelum makan").' : 'Use Indian format: frequency as "1-0-1" or "1-1-1", duration in "days", timing in English (e.g., "After food", "Before food").'}
-
-Return ONLY a valid JSON object with this exact structure (no markdown, no explanation):
-{
-  "patient_name": "Name Here",
-  "patient_sex": "M" or "F",
-  "patient_age": "45",
-  "medicines": [
-    {
-      "name": "DRUG NAME DOSAGE",
-      "frequency": "frequency",
-      "duration": "duration",
-      "timing": "timing"
+    const sourceText = sourceTextForPrescription(soapNote, transcript);
+    if (!hasExplicitMedicineMention(sourceText)) {
+      return NextResponse.json({
+        prescription: getEmptyPrescription(locale),
+        medicineSource: "none_explicit",
+      });
     }
-  ]
-}
 
-SOAP Note:
-${soapNote ? JSON.stringify(soapNote) : "Not available"}
-
-Consultation Transcript:
-${transcript || "Not available"}`;
+    const prompt = buildPrescriptionDemoPrompt({
+      soapNote,
+      transcript,
+      locale,
+    });
 
     let aiText = "";
     try {
@@ -93,7 +67,10 @@ ${transcript || "Not available"}`;
       );
     }
 
-    return NextResponse.json({ prescription });
+    return NextResponse.json({
+      prescription: sanitizePrescriptionDemo(prescription, sourceText, locale),
+      medicineSource: "explicit_only",
+    });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "Prescription generation failed";

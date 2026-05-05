@@ -23,6 +23,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  MEDICAL_CERTIFICATE_TYPES,
+  type MedicalCertificateType,
+} from "@/lib/documents/sick-leave-certificate";
 import type { DocumentWithPatient } from "@/types/helena";
 
 interface PatientOption {
@@ -101,6 +105,8 @@ export function SickLeaveCertificateDialog({
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPatientId, setSelectedPatientId] = useState("");
+  const [certificateType, setCertificateType] =
+    useState<MedicalCertificateType>("sick_leave");
   const [form, setForm] = useState(blankForm);
 
   useEffect(() => {
@@ -142,6 +148,7 @@ export function SickLeaveCertificateDialog({
 
   const reset = () => {
     setSelectedPatientId("");
+    setCertificateType("sick_leave");
     setForm(blankForm);
     setError(null);
   };
@@ -156,7 +163,7 @@ export function SickLeaveCertificateDialog({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           document_type: "medical_certificate",
-          certificate_type: "sick_leave",
+          certificate_type: certificateType,
           patient_id: selectedPatientId,
           condition: form.condition,
           treatment_provided: form.treatmentProvided,
@@ -190,6 +197,30 @@ export function SickLeaveCertificateDialog({
         </DialogHeader>
 
         <div className="space-y-5">
+          <div className="space-y-2">
+            <Label>{t("typeLabel")}</Label>
+            <Select
+              value={certificateType}
+              onValueChange={(value) =>
+                setCertificateType(value as MedicalCertificateType)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t("typePlaceholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                {MEDICAL_CERTIFICATE_TYPES.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {t(`typeOptions.${type}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              {t(`typeDescriptions.${certificateType}`)}
+            </p>
+          </div>
+
           <div className="space-y-2">
             <Label>{t("patientLabel")}</Label>
             <Select
@@ -240,56 +271,66 @@ export function SickLeaveCertificateDialog({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="sick-leave-condition">{t("conditionLabel")}</Label>
+              <Label htmlFor="sick-leave-condition">
+                {t(`fieldLabels.${certificateType}.condition`)}
+              </Label>
               <Input
                 id="sick-leave-condition"
                 value={form.condition}
                 onChange={(event) => updateField("condition", event.target.value)}
-                placeholder={t("conditionPlaceholder")}
+                placeholder={t(`fieldPlaceholders.${certificateType}.condition`)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sick-leave-treatment">{t("treatmentLabel")}</Label>
+              <Label htmlFor="sick-leave-treatment">
+                {t(`fieldLabels.${certificateType}.treatment`)}
+              </Label>
               <Input
                 id="sick-leave-treatment"
                 value={form.treatmentProvided}
                 onChange={(event) =>
                   updateField("treatmentProvided", event.target.value)
                 }
-                placeholder={t("treatmentPlaceholder")}
+                placeholder={t(`fieldPlaceholders.${certificateType}.treatment`)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sick-leave-start">{t("startDateLabel")}</Label>
+              <Label htmlFor="sick-leave-start">
+                {t(`fieldLabels.${certificateType}.startDate`)}
+              </Label>
               <DatePicker
                 date={parseFormDate(form.leaveStartDate)}
                 onDateChange={(date) =>
                   updateField("leaveStartDate", toIsoDate(date))
                 }
-                placeholder={t("startDatePlaceholder")}
+                placeholder={t(`fieldPlaceholders.${certificateType}.startDate`)}
                 initialMonth={new Date()}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="sick-leave-end">{t("endDateLabel")}</Label>
+              <Label htmlFor="sick-leave-end">
+                {t(`fieldLabels.${certificateType}.endDate`)}
+              </Label>
               <DatePicker
                 date={parseFormDate(form.leaveEndDate)}
                 onDateChange={(date) =>
                   updateField("leaveEndDate", toIsoDate(date))
                 }
-                placeholder={t("endDatePlaceholder")}
+                placeholder={t(`fieldPlaceholders.${certificateType}.endDate`)}
                 initialMonth={parseFormDate(form.leaveStartDate) || new Date()}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="sick-leave-advice">{t("adviceLabel")}</Label>
+            <Label htmlFor="sick-leave-advice">
+              {t(`fieldLabels.${certificateType}.advice`)}
+            </Label>
             <Textarea
               id="sick-leave-advice"
               value={form.restAdvice}
               onChange={(event) => updateField("restAdvice", event.target.value)}
-              placeholder={t("advicePlaceholder")}
+              placeholder={t(`fieldPlaceholders.${certificateType}.advice`)}
             />
           </div>
 

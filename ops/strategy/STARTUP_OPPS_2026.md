@@ -1,7 +1,7 @@
 # Larinova — Startup Opportunities & Compliance Plan (FY 2026-27)
 
 **Owner:** Gabriel Antony Xaviour
-**Last updated:** 2026-04-30
+**Last updated:** 2026-05-05
 **Status:** Living checklist. Tick items as they complete.
 **Company:** Larinova Private Limited · CIN U62012TN2026PTC192444 · Incorporated 22 April 2026 (Tamil Nadu)
 **Directors:** Gabriel Antony Xaviour, Antony Xaviour
@@ -14,7 +14,7 @@
 - **2026-04-30 — DPIIT app prepped:** Full DPIIT recognition packet drafted at `ops/strategy/DPIIT_APPLICATION.md`. All 8 incorporation PDFs staged at `ops/incorporation/`. Board resolution template drafted at `ops/incorporation/board-resolution-dpiit-auth.md` — needs print + 2 wet signatures. Session 2 (form-fill on M2 Chrome with OTP cooperation) ready when Gabriel is.
 - **2026-04-30:** Funding/grants/accelerator applications (BIRAC BIG, MeitY SAMRIDH, SISFS, TANSEED, YC W27, 80-IAC, W Health) **deferred** until we have ≥5 paying doctors and a stronger investment narrative. Apply only after that.
 - **2026-04-30:** Optional add-ons (external CDSCO consultant, external privacy lawyer, TM agent, ISO 27001, NABH Digital Health, patent prosecution) **declined** as unnecessary expense. We DIY all of these or defer until a paying customer asks in writing.
-- **2026-04-30:** Bank — **HDFC SmartUp** chosen (Sribathi K is the banker; Velmurugan Ethiraj cc'd). Branch visit pending; awaiting doc-list response.
+- **2026-05-05:** Bank — **ICICI only** for Larinova's first current account. Ignore HDFC/Kotak/other inbound bank offers unless Gabriel explicitly changes the bank choice.
 - **2026-04-30:** Razorpay Partner Program referral via Komal Sharma Associates **declined** in favour of direct Razorpay + RazorpayX onboarding once ready.
 - **2026-04-30:** Mr Murugan (Company Secretary already filing for raxgbc) is being engaged for ROC compliance via `accounts@raxgbc.co.in`.
 - **2026-04-29:** Innocent Sir confirmed scope: **IT only** via him; **Companies Act** via Mr Murugan (CS); **GST** via dad's existing RAX Tech GST consultant.
@@ -113,7 +113,7 @@ Do NOT apply to these prematurely. Approval rates are gated on traction story. R
 
 | # | Item | Status |
 |---|---|---|
-| 24 | **HDFC SmartUp current account** | [ ] Awaiting doc-list from Sribathi K |
+| 24 | **ICICI current account** | [ ] Use ICICI official form or direct ICICI branch/RM route |
 | 25 | **EEFC account** (forex retention) | [ ] After current account opens |
 | 26 | **RazorpayX** (auto-bookkeeping, transaction layer) | [ ] After current account |
 | 27 | **Razorpay International** for USD (or Cashfree) | [ ] When first US/SEA invoice |
@@ -151,7 +151,7 @@ Add new entries to the filter list as more drips arrive.
 |---|---|---|
 | ADT-1 / auditor | CA Innocent Ashok | Sent registered office on 30 Apr; waiting for consent letter draft |
 | Murugan engagement | `accounts@raxgbc.co.in` (cc dad) | Sent 30 Apr; awaiting Murugan's contact + fee structure |
-| Current account | Sribathi K @ HDFC | Sent 30 Apr; awaiting doc-list + branch options |
+| Current account | ICICI | ICICI only; ignore other bank outreach unless Gabriel explicitly changes the bank choice |
 | Razorpay Partner Program | Razorpay | Declined 30 Apr |
 | RAX GST consultant | Dad | Pending — asked dad on 29 Apr for the contact |
 

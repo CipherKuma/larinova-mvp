@@ -136,36 +136,7 @@ export function StepPrescription({
     patient_name: locale === "id" ? "Siti Rahayu" : "Ravi Kumar",
     patient_sex: locale === "id" ? "F" : "M",
     patient_age: "45",
-    medicines:
-      locale === "id"
-        ? [
-            {
-              name: "PARACETAMOL 500MG",
-              frequency: "3x1",
-              duration: "5 hari",
-              timing: "Sesudah makan",
-            },
-            {
-              name: "AMOXICILLIN 500MG",
-              frequency: "3x1",
-              duration: "7 hari",
-              timing: "Sesudah makan",
-            },
-          ]
-        : [
-            {
-              name: "PARACETAMOL 500MG",
-              frequency: "1-0-1",
-              duration: "5 days",
-              timing: "After food",
-            },
-            {
-              name: "AMOXICILLIN 250MG",
-              frequency: "1-1-1",
-              duration: "7 days",
-              timing: "After food",
-            },
-          ],
+    medicines: [],
   };
 
   useEffect(() => {
@@ -194,11 +165,11 @@ export function StepPrescription({
         const data = await res.json();
         if (!cancelled && data.prescription) {
           const p = data.prescription as PrescriptionData;
-          if (p.medicines && p.medicines.length > 0) {
-            setPrescription(p);
-          } else {
-            setPrescription(fallback);
-          }
+          setPrescription({
+            ...fallback,
+            ...p,
+            medicines: Array.isArray(p.medicines) ? p.medicines : [],
+          });
         }
       } catch {
         if (!cancelled) setPrescription(fallback);
@@ -266,15 +237,18 @@ export function StepPrescription({
       const regNum = registrationNumber || t("yourRegNumber");
       const council = registrationCouncil || t("yourCouncil");
 
-      const medsHtml = rx.medicines
-        .map(
-          (med, i) => `
+      const medsHtml =
+        rx.medicines.length > 0
+          ? rx.medicines
+              .map(
+                (med, i) => `
           <div style="margin-bottom: 12px;">
             <p style="font-weight: 600; margin: 0;">${i + 1}. ${med.name}</p>
             <p style="color: #888; font-size: 12px; margin: 2px 0 0;">${med.frequency} · ${med.duration} · ${med.timing}</p>
           </div>`,
-        )
-        .join("");
+              )
+              .join("")
+          : `<p style="color: #555; font-size: 13px; margin: 0;">${t("noMedicinesDescription")}</p>`;
 
       const html = `
         <div style="font-family: 'Times New Roman', serif; padding: 32px; max-width: 700px; margin: 0 auto; color: #000;">
@@ -458,39 +432,50 @@ export function StepPrescription({
 
               {/* Medicines — editable */}
               <div className="space-y-3 mb-6">
-                {rx.medicines.map((med, i) => (
-                  <div key={i} className="text-sm">
+                {rx.medicines.length === 0 ? (
+                  <div className="rounded-md border border-dashed border-border bg-muted/30 p-3 text-sm">
                     <p className="font-semibold text-foreground">
-                      {i + 1}.{" "}
-                      <EditableField
-                        value={med.name}
-                        onChange={(v) => updateMedicine(i, "name", v)}
-                      />
+                      {t("noMedicinesTitle")}
                     </p>
-                    <p className="text-muted-foreground text-xs flex items-center gap-1">
-                      <EditableField
-                        value={med.frequency}
-                        onChange={(v) => updateMedicine(i, "frequency", v)}
-                        className="text-xs"
-                        inputClassName="text-xs w-12"
-                      />
-                      <span>&middot;</span>
-                      <EditableField
-                        value={med.duration}
-                        onChange={(v) => updateMedicine(i, "duration", v)}
-                        className="text-xs"
-                        inputClassName="text-xs w-16"
-                      />
-                      <span>&middot;</span>
-                      <EditableField
-                        value={med.timing}
-                        onChange={(v) => updateMedicine(i, "timing", v)}
-                        className="text-xs"
-                        inputClassName="text-xs w-24"
-                      />
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {t("noMedicinesDescription")}
                     </p>
                   </div>
-                ))}
+                ) : (
+                  rx.medicines.map((med, i) => (
+                    <div key={i} className="text-sm">
+                      <p className="font-semibold text-foreground">
+                        {i + 1}.{" "}
+                        <EditableField
+                          value={med.name}
+                          onChange={(v) => updateMedicine(i, "name", v)}
+                        />
+                      </p>
+                      <p className="text-muted-foreground text-xs flex items-center gap-1">
+                        <EditableField
+                          value={med.frequency}
+                          onChange={(v) => updateMedicine(i, "frequency", v)}
+                          className="text-xs"
+                          inputClassName="text-xs w-12"
+                        />
+                        <span>&middot;</span>
+                        <EditableField
+                          value={med.duration}
+                          onChange={(v) => updateMedicine(i, "duration", v)}
+                          className="text-xs"
+                          inputClassName="text-xs w-16"
+                        />
+                        <span>&middot;</span>
+                        <EditableField
+                          value={med.timing}
+                          onChange={(v) => updateMedicine(i, "timing", v)}
+                          className="text-xs"
+                          inputClassName="text-xs w-24"
+                        />
+                      </p>
+                    </div>
+                  ))
+                )}
               </div>
 
               {/* Signature */}

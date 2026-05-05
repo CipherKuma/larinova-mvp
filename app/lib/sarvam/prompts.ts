@@ -1,3 +1,4 @@
+import { CLINICAL_TRANSCRIPT_BOUNDARY_RULES } from "@/lib/consultation/transcript-safety";
 import type { Locale } from "@/src/i18n/routing";
 
 /**
@@ -22,7 +23,9 @@ Rules:
 (1) Document only information explicitly stated in the transcript — never invent, assume, or extrapolate clinical findings.
 (2) If a section has no relevant information in the transcript, set its value to the EXACT phrase "${noInfo}" — verbatim, no synonyms, no paraphrasing. Do NOT use "N/A", "None", "Not discussed", "—", or any other placeholder. NEVER return an empty string.
 (3) Keep language professional and concise, as a clinician would write.
-(4) Write the entire JSON response in ${lang} — do NOT mix languages.`;
+(4) Write the entire JSON response in ${lang} — do NOT mix languages.
+
+${CLINICAL_TRANSCRIPT_BOUNDARY_RULES}`;
 }
 
 export function getSoapFallback(locale: Locale) {

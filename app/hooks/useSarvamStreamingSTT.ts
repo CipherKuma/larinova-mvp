@@ -11,6 +11,7 @@ interface UseSarvamStreamingSTTOptions {
   mode?: "transcribe" | "translate" | "verbatim" | "translit" | "codemix";
   onTranscript?: (text: string, isFinal: boolean) => void;
   onError?: (error: string) => void;
+  onUnexpectedStop?: (reason: string) => void;
   onSpeechStart?: () => void;
   onSpeechEnd?: () => void;
 }
@@ -48,6 +49,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     mode = "codemix",
     onTranscript,
     onError,
+    onUnexpectedStop,
     onSpeechStart,
     onSpeechEnd,
   } = opts;
@@ -74,6 +76,8 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   const detectedLanguageRef = useRef<string | null>(null);
   const startTimeRef = useRef<number>(0);
   const durationTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intentionalStopRef = useRef(false);
+  const activeSessionRef = useRef(false);
   const mountedRef = useRef(true);
   const waitForTranscriptResolversRef = useRef<Array<() => void>>([]);
 
@@ -85,6 +89,9 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   }, []);
 
   const cleanup = useCallback(() => {
+    intentionalStopRef.current = true;
+    activeSessionRef.current = false;
+
     if (durationTimerRef.current) {
       clearInterval(durationTimerRef.current);
       durationTimerRef.current = null;
@@ -116,6 +123,33 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     }
     wsRef.current = null;
   }, []);
+
+  const reportUnexpectedStop = useCallback(
+    (reason: string) => {
+      if (intentionalStopRef.current || !activeSessionRef.current) return;
+      activeSessionRef.current = false;
+
+      if (durationTimerRef.current) {
+        clearInterval(durationTimerRef.current);
+        durationTimerRef.current = null;
+      }
+
+      if (mountedRef.current) {
+        setState((s) => ({
+          ...s,
+          isRecording: false,
+          isConnecting: false,
+          interimText: "",
+          speaking: false,
+          error: reason,
+        }));
+      }
+      onError?.(reason);
+      onUnexpectedStop?.(reason);
+      cleanup();
+    },
+    [cleanup, onError, onUnexpectedStop],
+  );
 
   useEffect(() => {
     return () => cleanup();
@@ -192,7 +226,10 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   );
 
   const start = useCallback(async () => {
-    if (state.isRecording || state.isConnecting) return;
+    if (state.isRecording || state.isConnecting) return false;
+
+    intentionalStopRef.current = false;
+    activeSessionRef.current = true;
 
     setState((s) => ({
       ...s,
@@ -233,6 +270,18 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         },
       });
       streamRef.current = stream;
+
+      stream.getAudioTracks().forEach((track) => {
+        track.addEventListener(
+          "ended",
+          () => {
+            reportUnexpectedStop(
+              "Microphone input stopped unexpectedly. Please restart recording before continuing.",
+            );
+          },
+          { once: true },
+        );
+      });
 
       // 3. Open WebSocket with all tuning params for Sarvam
       const params = new URLSearchParams({
@@ -280,6 +329,20 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
       ws.addEventListener("close", (ev) => {
         waitForTranscriptResolversRef.current.forEach((resolve) => resolve());
         waitForTranscriptResolversRef.current = [];
+
+        const unexpected =
+          !intentionalStopRef.current && activeSessionRef.current;
+        if (unexpected) {
+          const detail = ev.code
+            ? ` (${ev.code}${ev.reason ? ` ${ev.reason}` : ""})`
+            : "";
+          reportUnexpectedStop(
+            `Transcription connection stopped unexpectedly${detail}. Please restart recording before continuing.`,
+          );
+          return;
+        }
+
+        activeSessionRef.current = false;
         if (mountedRef.current) {
           setState((s) => ({
             ...s,
@@ -363,7 +426,10 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
           isConnecting: false,
         }));
       }
+      return true;
     } catch (err: unknown) {
+      intentionalStopRef.current = true;
+      activeSessionRef.current = false;
       cleanup();
       const error = err as Error;
       const isPermission =
@@ -381,6 +447,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
         }));
       }
       onError?.(error.message || "Failed to start streaming STT");
+      return false;
     }
   }, [
     consultationId,
@@ -389,6 +456,7 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
     handleServerMessage,
     cleanup,
     onError,
+    reportUnexpectedStop,
     state.isRecording,
     state.isConnecting,
   ]);
@@ -408,6 +476,9 @@ export function useSarvamStreamingSTT(opts: UseSarvamStreamingSTTOptions) {
   }, []);
 
   const stop = useCallback(async () => {
+    intentionalStopRef.current = true;
+    activeSessionRef.current = false;
+
     if (durationTimerRef.current) {
       clearInterval(durationTimerRef.current);
       durationTimerRef.current = null;

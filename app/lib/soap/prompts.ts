@@ -1,5 +1,7 @@
 import type { Locale } from "@/src/i18n/routing";
 
+import { CLINICAL_TRANSCRIPT_BOUNDARY_RULES } from "@/lib/consultation/transcript-safety";
+
 const SOAP_TEMPLATE = `
 Subjective:
 - Chief Complaint: [Patient's primary reason for visit]
@@ -72,6 +74,8 @@ Guidelines:
 - Use ${formulary} formulary drug names and standard dosing conventions for the region
 - Do NOT include any PII beyond what is present in the transcript
 - Use markdown formatting: use ## for section headers and **bold** for sub-section labels
+
+${CLINICAL_TRANSCRIPT_BOUNDARY_RULES}
 
 Universal SOAP Template Reference:
 ${SOAP_TEMPLATE}

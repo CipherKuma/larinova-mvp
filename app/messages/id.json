@@ -297,6 +297,8 @@
       "labelWeight": "Berat Badan:",
       "printPdf": "Cetak PDF",
       "generatingPrescription": "Membuat resep dari konsultasi Anda...",
+      "noMedicinesTitle": "Tidak ada obat yang disebutkan",
+      "noMedicinesDescription": "Audio konsultasi tidak menyebutkan obat, jadi Larinova tidak membuat obat secara otomatis.",
       "editHint": "Klik untuk mengedit"
     },
     "step5": {
@@ -663,9 +665,115 @@
     "diagnosis": "Diagnosis",
     "na": "T/A",
     "sickLeaveForm": {
-      "action": "Cuti Sakit",
-      "title": "Sertifikat Cuti Sakit",
-      "description": "Pilih pasien yang sudah ada, konfirmasi demografi, lalu isi hanya detail klinis cuti sakit.",
+      "action": "Sertifikat Medis",
+      "title": "Sertifikat Medis",
+      "description": "Pilih pasien yang sudah ada, pilih jenis sertifikat, lalu isi hanya detail klinis yang sudah ditinjau dokter.",
+      "typeLabel": "Jenis sertifikat",
+      "typePlaceholder": "Pilih jenis sertifikat",
+      "typeOptions": {
+        "sick_leave": "Sertifikat Cuti Sakit",
+        "work_from_home": "Sertifikat Kerja dari Rumah",
+        "fitness": "Sertifikat Kesehatan",
+        "diagnosis": "Sertifikat Diagnosis Medis",
+        "caretaker": "Sertifikat Pendamping Perawatan",
+        "recovery": "Sertifikat Pemulihan"
+      },
+      "typeDescriptions": {
+        "sick_leave": "Untuk cuti karena sakit dari kantor, sekolah, atau kampus.",
+        "work_from_home": "Untuk rekomendasi kerja dari rumah sementara selama pemulihan.",
+        "fitness": "Untuk kelayakan aktivitas rutin yang ditinjau dokter.",
+        "diagnosis": "Untuk mendokumentasikan diagnosis medis yang dikonfirmasi.",
+        "caretaker": "Untuk menyatakan kebutuhan dukungan pendamping pasien.",
+        "recovery": "Untuk mengonfirmasi pemulihan dan kembali bekerja atau kelas."
+      },
+      "fieldLabels": {
+        "sick_leave": {
+          "condition": "Kondisi",
+          "treatment": "Perawatan yang diberikan",
+          "startDate": "Tanggal mulai cuti",
+          "endDate": "Tanggal akhir cuti",
+          "advice": "Saran"
+        },
+        "work_from_home": {
+          "condition": "Kondisi",
+          "treatment": "Penilaian / perawatan",
+          "startDate": "Tanggal mulai WFH",
+          "endDate": "Tanggal akhir WFH",
+          "advice": "Pembatasan kerja"
+        },
+        "fitness": {
+          "condition": "Konteks kesehatan",
+          "treatment": "Penilaian klinis",
+          "startDate": "Sehat mulai",
+          "endDate": "Berlaku sampai",
+          "advice": "Pembatasan"
+        },
+        "diagnosis": {
+          "condition": "Diagnosis",
+          "treatment": "Penilaian / perawatan",
+          "startDate": "Awal periode perawatan",
+          "endDate": "Akhir periode perawatan",
+          "advice": "Saran"
+        },
+        "caretaker": {
+          "condition": "Kondisi pasien",
+          "treatment": "Penilaian / perawatan",
+          "startDate": "Tanggal mulai perawatan",
+          "endDate": "Tanggal akhir perawatan",
+          "advice": "Instruksi perawatan"
+        },
+        "recovery": {
+          "condition": "Kondisi yang pulih",
+          "treatment": "Perawatan / tinjauan",
+          "startDate": "Tanggal mulai sakit",
+          "endDate": "Tanggal pemulihan",
+          "advice": "Saran kembali beraktivitas"
+        }
+      },
+      "fieldPlaceholders": {
+        "sick_leave": {
+          "condition": "mis., Demam virus akut",
+          "treatment": "mis., Antipiretik, hidrasi, dan istirahat",
+          "startDate": "Pilih tanggal mulai",
+          "endDate": "Pilih tanggal akhir",
+          "advice": "mis., Hindari aktivitas berat dan ikuti obat yang diresepkan."
+        },
+        "work_from_home": {
+          "condition": "mis., Kelelahan pasca-virus",
+          "treatment": "mis., Tinjauan klinis dan perawatan suportif",
+          "startDate": "Pilih tanggal mulai WFH",
+          "endDate": "Pilih tanggal akhir WFH",
+          "advice": "mis., Hindari perjalanan dan ambil jeda istirahat singkat."
+        },
+        "fitness": {
+          "condition": "mis., Kelayakan untuk tugas kantor",
+          "treatment": "mis., Diperiksa dan tanda vital ditinjau",
+          "startDate": "Pilih tanggal mulai sehat",
+          "endDate": "Pilih akhir masa berlaku",
+          "advice": "mis., Hindari angkat berat selama satu minggu."
+        },
+        "diagnosis": {
+          "condition": "mis., Gastroenteritis akut",
+          "treatment": "mis., Diperiksa dan perawatan suportif disarankan",
+          "startDate": "Pilih awal perawatan",
+          "endDate": "Pilih akhir perawatan",
+          "advice": "mis., Lanjutkan cairan dan kembali jika gejala memburuk."
+        },
+        "caretaker": {
+          "condition": "mis., Pemulihan pasca-operasi",
+          "treatment": "mis., Tinjauan bedah dan pemantauan pemulihan",
+          "startDate": "Pilih tanggal mulai perawatan",
+          "endDate": "Pilih tanggal akhir perawatan",
+          "advice": "mis., Perlu bantuan mobilitas dan jadwal obat."
+        },
+        "recovery": {
+          "condition": "mis., Penyakit virus",
+          "treatment": "mis., Ditinjau setelah perawatan dan istirahat",
+          "startDate": "Pilih tanggal mulai sakit",
+          "endDate": "Pilih tanggal pemulihan",
+          "advice": "mis., Kembali beraktivitas secara bertahap."
+        }
+      },
       "patientLabel": "Pasien",
       "patientPlaceholder": "Pilih pasien",
       "loadingPatients": "Memuat pasien...",

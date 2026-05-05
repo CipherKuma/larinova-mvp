@@ -1,13 +1,24 @@
 # Larinova bank onboarding
 
-Status as of 2026-05-01: ICICI is the preferred first attempt; HDFC Startup Current Account remains the fallback.
+Status as of 2026-05-05: ICICI only for LARINOVA PRIVATE LIMITED's first current account. HDFC and Kotak are not active fallback routes. A same-day follow-up was mistakenly sent to HDFC/Kotak on 5 May 2026 and then immediately retracted.
 
-## Target stack
+## First account target
 
 1. ICICI company current account for LARINOVA PRIVATE LIMITED.
-2. Razorpay MoneySaver Export Account for inbound export collections after bank/GST/IEC readiness.
-3. Wise Business as a backup inbound rail after IEC and company bank verification.
-4. Personal ICICI savings account only if Gabriel wants linked founder banking convenience.
+
+## Downstream rails, not bank alternatives
+
+- Razorpay MoneySaver Export Account is only for inbound export collections after bank/GST/IEC readiness.
+- Wise Business is only a backup inbound rail after IEC and company bank verification.
+- Personal ICICI savings is out of scope unless Gabriel explicitly asks for linked founder banking convenience.
+
+## Bank routing
+
+| Bank | Status | Note |
+|---|---|---|
+| ICICI | Active route | Use the official digital current-account form or direct branch/RM path. |
+| HDFC | Not pursuing | Do not reopen unless Gabriel explicitly changes the bank choice. |
+| Kotak | Not pursuing | Do not reopen unless Gabriel explicitly changes the bank choice. |
 
 ## ICICI company account
 

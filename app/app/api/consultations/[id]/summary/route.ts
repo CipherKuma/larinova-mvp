@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { checkAIUsage, recordAIUsage } from "@/lib/subscription";
 import { chatSync } from "@/lib/ai/sarvam";
+import { CLINICAL_TRANSCRIPT_BOUNDARY_RULES } from "@/lib/consultation/transcript-safety";
 
 export const maxDuration = 60;
 
@@ -111,7 +112,7 @@ export async function POST(
           "6. **Important Notes**: Any other critical information from the consultation that should be highlighted.",
         ];
 
-    const systemPrompt = `You are a medical documentation assistant for the Larinova healthcare platform. Generate DRAFT consultation summaries for physician review. Write entirely in ${lang}. Structure the summary with these sections:\n\n${sections.join("\n\n")}\n\nGuidelines: be concise (300-500 words), use bullet points, only include information from the transcript, do not fabricate information, use professional medical terminology.`;
+    const systemPrompt = `You are a medical documentation assistant for the Larinova healthcare platform. Generate DRAFT consultation summaries for physician review. Write entirely in ${lang}. Structure the summary with these sections:\n\n${sections.join("\n\n")}\n\nGuidelines: be concise (300-500 words), use bullet points, only include information from the transcript, do not fabricate information, use professional medical terminology.\n\n${CLINICAL_TRANSCRIPT_BOUNDARY_RULES}`;
 
     const p = consultation?.patient as any;
     const patientLines = [

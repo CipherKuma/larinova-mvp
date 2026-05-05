@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { buildSickLeaveCertificateContent } from "./sick-leave-certificate";
+import {
+  buildMedicalCertificateContent,
+  buildSickLeaveCertificateContent,
+} from "./sick-leave-certificate";
 
 describe("buildSickLeaveCertificateContent", () => {
   it("uses selected patient demographics and structured sick leave fields", () => {
@@ -35,5 +38,35 @@ describe("buildSickLeaveCertificateContent", () => {
     expect(content).toContain("3 days of sick leave from 01 May 2026 to 03 May 2026");
     expect(content).not.toContain("[Patient Full Name]");
     expect(content).not.toContain("[Age]");
+  });
+
+  it("supports work-from-home certificate wording from the same structured flow", () => {
+    const content = buildMedicalCertificateContent({
+      certificateType: "work_from_home",
+      issueDate: "2026-05-05",
+      patient: {
+        fullName: "Raghu Kumar",
+        dateOfBirth: "1995-04-30",
+        gender: "male",
+        address: "Koramangala, Bengaluru",
+      },
+      doctor: {
+        fullName: "Balachandar Seeman",
+        specialization: "General Practitioner",
+        licenseNumber: "61089",
+        clinicAddress: "Rain Tree Towers, Bengaluru",
+      },
+      form: {
+        condition: "Post-viral fatigue",
+        treatmentProvided: "Clinical review and supportive care",
+        leaveStartDate: "2026-05-05",
+        leaveEndDate: "2026-05-07",
+        restAdvice: "Avoid commute and continue hydration.",
+      },
+    });
+
+    expect(content).toContain("Work From Home Certificate");
+    expect(content).toContain("advised to work from home for 3 days");
+    expect(content).toContain("from 05 May 2026 to 07 May 2026");
   });
 });

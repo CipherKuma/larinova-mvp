@@ -1,26 +1,27 @@
 # Current Spec
 
 ## Goal
-Audit and improve production performance for `app.larinova.com` starting 2026-05-01, covering every reachable app page, API route timing, and browser route fluidity.
+Complete the 2026-05-05 Seeman product follow-up by implementing the certificate-product value inside Larinova and fixing/auditing the product bugs found during Saturday testing.
 
 ## Decided
-- Measure before changing code: route inventory, live production page loads, browser navigation timings, and API timing samples.
-- Prioritize visible user latency in the protected doctor app before micro-optimizing isolated code.
-- Use existing Larinova performance learnings as a map, but remeasure current production because timings and deployments can drift.
-- Keep unrelated dirty worktree changes out of any performance patch.
+- P0 is consultation reliability: a real consultation must not silently stop around one minute, must visibly report recording/transcription state, and must stream transcript text on screen while recording.
+- P0 is onboarding/prescription correctness: medicines must not be generated unless explicitly stated in the audio/transcript.
+- Product-value target is not just documenting competitor certificate apps; Larinova should absorb their useful value in a doctor-controlled, patient-linked, auditable certificate module.
+- Use Balachandar Seeman's hospital integration PDF only as an example/reference for how hospital integration material is structured.
+- Preserve unrelated dirty worktree changes.
 
 ## Open
-- Which protected routes are reachable with the currently saved production session.
-- Which API routes can be safely sampled as GET/HEAD without mutating production data.
-- Whether the worst latency is network, auth/proxy, database, route render, client bundle, or global provider work.
+- Exact minimum certificate types to ship first beyond sick leave.
+- Whether to create a controlled production test certificate for full end-to-end proof or keep production browser testing read-only.
+- Browser/polish proof is blocked until the M2 Playwright worker is reachable again.
 
 ## Out of scope
-- Do not run mutating production API requests just to benchmark them.
-- Do not change product behavior, copy, or UI unless required to remove measured latency.
-- Do not deploy without build/test checks and live verification.
+- Do not claim HL7/Mirth integration is shipped unless implemented and tested.
+- Do not file, contact, or send external communications without Gabriel approval.
+- Do not mutate production data without explicit approval or a controlled test-cleanup path.
 
 ## Done-when
-- Page and API inventories are documented with timing evidence.
-- The slowest reproducible paths have root causes identified and focused fixes applied where safe.
-- Local regression checks pass for affected code.
-- Production is verified after deployment with representative page and API timing samples.
+- Consultation recording/transcription root cause is identified, fixed, and covered by regression checks.
+- Onboarding medicine-generation root cause is identified, fixed, and covered by regression checks.
+- Certificate module ships a practical first expansion toward the competitor-product value without fake-certificate framing.
+- Build/tests pass and browser proof covers the changed user paths.

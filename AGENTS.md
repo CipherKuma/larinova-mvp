@@ -52,6 +52,7 @@ Maintain with: /maintain-agents-md
 - **Locale copy edits:** `landing/` copy → `src/data/locale-content.ts` (both `in` + `id` entries). `app/` copy → `messages/in.json` or `messages/id.json`.
 - **WhatsApp send verification:** after any WhatsApp send, verify the target chat itself before claiming success. For Marty/personal sends, query `~/Library/Group Containers/group.net.whatsapp.WhatsApp.shared/ChatStorage.sqlite` and, for browser fallback, capture a WhatsApp Web screenshot. `whatsapp-web.js` can report progress while a UI fallback still failed; do not trust an intermediate log alone.
 - **WhatsApp Web current UA:** if `ops/whatsapp` hangs before `ready` or shows "WhatsApp works with Google Chrome 85+", set/use a modern Chrome user agent from `ops/whatsapp/config.ts`; the old `whatsapp-web.js` default Chrome 101 UA is unreliable in this environment.
+- **Larinova bank route:** for the first company current account, use **ICICI only**. Ignore HDFC, Kotak, RazorpayX-as-primary, and other inbound bank-account offers unless Gabriel explicitly changes the bank choice.
 
 ## Things to avoid
 
@@ -70,13 +71,13 @@ Maintain with: /maintain-agents-md
 <claude-mem-context>
 # Memory Context
 
-# [larinova] recent context, 2026-05-01 5:45pm GMT+5:30
+# [larinova] recent context, 2026-05-05 8:38pm GMT+5:30
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (20,955t read) | 735,265t work | 97% savings
+Stats: 50 obs (22,723t read) | 1,165,124t work | 98% savings
 
 ### Apr 26, 2026
 S183 Larinova Landing — Migrate all CTAs to survey-gated access model, fix build errors, push to GitHub, verify Vercel deployment (Apr 26 at 3:24 PM)
@@ -93,56 +94,58 @@ S554 Gmail OAuth Tokens Found in Larinova Ops — Two Accounts Authenticated (Ap
 S563 WhatsApp SQLite Mirror — Balachandar Seeman Conversation Accessible (Apr 30 at 10:10 AM)
 S584 Larinova sign-in page UX redesign — handle invite-only access clearly for both returning doctors and new users needing invite codes (Apr 30 at 4:13 PM)
 ### May 1, 2026
-2082 3:42p 🔵 Larinova Bank Account Agent — 5 Open Questions Surfaced for Current Account Setup
-2083 " 🔵 Larinova STARTUP_OPPS_2026.md — Accelerator & Funding Strategy Fully Mapped
-2084 3:43p 🔄 Larinova — Server-Side Pre-fetch Eliminates Client-Side Waterfall API Calls on Protected Routes
-2085 " 🔵 Larinova Private Limited — Company State, Compliance Roadmap, and Funding Strategy Mapped
-2086 3:44p 🔵 Larinova Production Performance Baseline — Slow Pages and API Routes Identified
-2087 3:45p 🔴 Larinova App — Task Patient Lookup Deferred Fix Shipped
-2088 3:48p 🔵 Larinova App — Full Route and API Surface Mapped for Performance Audit
-2089 3:51p 🔵 Larinova Production Performance Audit — Slow Pages and APIs Baseline
-2090 " 🔵 Performance Regression Found — DCL Increased After /api/user/shell Removal
-2091 " 🔄 Protected Layout — Server-Side getUserShellData Removed, Sidebar/MobileNav Fetch Client-Side
-2092 3:52p 🔵 Larinova App — Full Route Inventory (Next.js 16.1.6, 122 Static Pages + All Dynamic Routes)
-2093 " ✅ Shell Data Refactor Committed and Deployed to Vercel Production
-2094 3:53p 🔵 Larinova Performance Session — Three Sequential Commits, Vercel Project Inventory Confirmed
-2095 3:54p 🔵 Larinova Vercel Deployment Failed with Unexpected Error
-2096 3:55p 🔵 Vercel CLI `logs` Command Hangs with No Output on Error Deployments
-2097 " 🔵 Larinova App — Full API Route Inventory Mapped
-2098 3:56p 🔵 Larinova Vercel Deploy — Token Passing Gotcha with vercel pull + spawnSync
-2099 " 🔵 Larinova App Sends OTP to gabrielantony56@gmail.com Despite No Active Invited Doctors
-2100 " ⚖️ Larinova App — Full Performance Audit Initiated for app.larinova.com
-2101 3:58p 🔵 Larinova OTP Root Cause — gabrielantony56@gmail.com Exists in auth.users With No Doctor Row
-2102 " 🔴 Larinova Sign-In — Pre-flight Email Gate Added Before OTP Dispatch
-2103 3:59p 🔵 Larinova App — Complete Route Map (28 Page Routes + 100+ API Routes)
-2104 " ✅ Larinova — Successful Prebuilt Vercel Production Deployment to app.larinova.com
-2105 4:01p ✅ Larinova Production Build Passes + Database Reset to Clean Admin-Only State
-2106 4:02p 🔵 Larinova Production Performance Audit — Baseline Timings for All Routes
-2107 " 🔴 Perf Audit Script — Auth Cookies Refreshed Before Each Page Measurement
-2108 4:03p 🔵 Larinova Operations — 18-Surface cmux Team Active for Company Setup
-2109 " ⚖️ OPERATIONS_TRACKER.md Designated as Source of Truth for Funding/Program Status
-2110 4:04p 🔵 Larinova Private Limited — Incorporation Confirmed via Email Trail
-2111 4:05p ✅ Larinova — ADT-1 Auditor Outreach Sent via Email and WhatsApp
-2112 4:06p 🔵 WhatsApp Message to Murugan Confirmed Delivered via ChatStorage.sqlite
-2113 " ✅ OPERATIONS_TRACKER.md Updated with ADT-1 Outreach Actions and Activity Log
-2114 " 🔴 Larinova Auth Gate Refined — hasAlphaDoctorAccess Requires Invite Claim/Redeem, Not Just Doctor Profile
-2116 4:07p ✅ Larinova Alpha Gate Fix — Final Build Passes Clean (122 Routes, Zero TypeScript Errors)
-2115 " ⚖️ Larinova Compliance — Three Parallel Workstreams Dispatched via cmux Surfaces
-2117 4:08p ✅ CS Murugan Contact Outreach — Rax Ops Filing Step
-2118 4:09p ✅ Larinova Alpha Gate Fix Committed and Pushed to Production (SHA 1fcc737)
-2119 " ⚖️ GST/IEC/Udyam Readiness — Pre/Post Bank Account Task Split Initiated
-2121 4:10p 🔴 Larinova Alpha Gate Fix — Production Verified on app.larinova.com (SHA 1fcc737)
-2122 4:12p 🔵 Larinova PWA Architecture Mapped — Serwist Service Worker, Manifest, Install Gate E2E Tests
-2123 4:13p 🟣 Larinova PWA — Animated Launch Splash Screen Added for Standalone Mode
-2124 4:14p 🟣 Larinova PWA Launch Splash — Build Passes, Dev Server Starts on Port 3000
-2125 4:15p 🟣 Larinova PWA Launch Splash — Playwright Test Verified: Shows on Mount, Hides After 1450ms
-2126 4:16p ⚖️ Messaging Tone Rule — No "Dear" or "Love" Salutations
-2127 " 🟣 Larinova Sign-In — "Not Recognized" Email Error State Redesigned with Access Request Flow
-2128 4:18p 🟣 Larinova PWA Launch Splash Screen Added
-2129 " ✅ Larinova Invite-Only UX — Commit 04e298b Pushed and Vercel Deploy Triggered
-2130 4:19p 🔵 Larinova Vercel Token Exposed in Process List
-2131 4:20p ✅ Larinova Invite-Only UX — Production Deployment larinova-mp5ldhobp Confirmed Ready
-2132 " ✅ Larinova Invite-Only UX — Production Verified on app.larinova.com
+2158 5:59p 🔵 Vercel CLI Not Authenticated on M4 — Deployment Polling Fails Without --token Flag
+2159 6:00p 🔴 Vercel CLI Auth Fixed — Use --token Flag with VERCEL_TOKEN from Vault
+2160 6:14p 🔵 Larinova Invite Code System — Full Code Path Mapped Across Auth, Admin, and Redeem Flows
+2161 6:15p 🔵 Larinova Invite Flow — Three-Route Architecture: accept → claim → redeem
+2162 " 🔵 verify-supabase-env.mjs — Env Files OK but .vercel/project.json Missing for All Three Apps
+2164 6:19p 🟣 Larinova Sign-In — Pending Doctor Invite State Distinguished from Not-Recognized
+2171 6:23p ⚖️ Larinova Demo Video Strategy — Multi-Tool Production Plan Initiated
+2172 6:24p 🔵 Larinova Private Limited — Bank Account Setup Session Scoped
+2173 6:41p 🔵 Larinova — Doctor Onboarding Flow: Multiple Bugs and UX Issues Identified
+2174 6:42p 🔵 Larinova — Root Cause: invite_code_claimed_at Null Despite Account Creation
+2175 " 🔵 Larinova — Invite Email Contains No Visible Invite Code in Body
+2176 " 🔵 Larinova — Invite Claim Architecture: claim_invite_code RPC Flow Mapped
+2177 6:43p 🔴 Larinova — Doctor Onboarding: Invite Claim Now Atomic at Signup, Self-Healing at Login
+2178 6:44p 🔴 Larinova — Production Data Repair: Gabriel's Stuck invite_code_claimed_at Backfilled
+2179 " 🔴 Larinova — Invite Flow Fixes Verified: check-email Returns Correct State, Sign-in UI Shows Inline Code Field
+2180 6:45p 🔴 Larinova — Invite Claim Now Upgrades Subscription to Pro at Signup and Self-Heal Time
+2181 6:46p 🔴 Larinova — Production check-email Confirmed Fixed for gabriel@raxgbc.co.in
+2182 6:47p ✅ Larinova — Invite Flow Fix Deployed to Vercel Production
+2183 6:48p 🔴 Larinova — Production Login Flow Verified: gabriel@raxgbc.co.in Reaches OTP Step Without Pending Gate
+2184 7:05p 🔵 Larinova Onboarding — Mobile Status Bar Overlap: No Safe-Area Insets Applied
+2185 7:06p 🔵 Larinova Onboarding — Full Component Audit: Safe-Area Gap Confirmed Across Entire Stack
+2186 7:07p 🔴 Larinova Onboarding — Mobile Safe-Area Fix Committed and Pushed
+2187 7:08p 🔴 Larinova Onboarding Safe-Area Fix — Deployed to Production on Vercel
+### May 2, 2026
+2303 5:09p 🟣 Jakarta Luxury Car Rental Outreach — Audi A6/A8 Self-Drive Hunt Initiated
+2305 5:11p 🟣 Jakarta Luxury Car Rental Outreach — Audi A6/A8 Self-Drive Inquiry
+2307 5:13p 🟣 Jakarta Luxury Car Rental Outreach — Audi A6/A8 Self-Drive Hunt Initiated
+2310 5:14p 🟣 Jakarta Audi Rental WhatsApp Blast Executed via Larinova Ops CLI
+2314 5:16p 🔵 whatsapp-web.js Bulk Inline-Eval Send Hung — Fallback to send.ts CLI Per-Message
+2321 5:18p 🟣 WhatsApp URL Scheme + osascript Fallback — 7 Send Attempts Dispatched to Jakarta Rental Vendors
+2327 5:22p 🔵 Jakarta Rental Vendor Responses — All 3 Early Replies Declined Audi Availability
+2328 " 🟣 Follow-Up WhatsApp Messages Sent to 3 Declining Vendors — Partner Sourcing + BMW/Mercedes Ask
+2329 5:23p 🔵 Ryan Rent Car Numbers Received Blank Messages — URL Scheme Sent Empty Text
+2345 5:38p 🔵 Audi A6/A8 Jakarta Rental Outreach — Status After First Wave
+2346 5:47p 🔵 WhatsApp URL Scheme + osascript Send — Not Reflected in SQLite Mirror
+2347 5:48p 🔵 Audi Rental Lead Confirmed — +62 813-8443-7296 Has Availability
+2348 5:49p 🔵 Audi Rental Outreach — Three Key Status Updates Confirmed
+### May 5, 2026
+3321 2:40p 🔵 Larinova cmux Workspace Topology — Full Tab Map Confirmed
+3322 " 🔵 Larinova Ops — 18 cmux Surfaces Each Assigned a Company Formation Track
+3323 " 🔵 Larinova DPIIT Recognition — 7 Remaining Blockers Identified
+3324 " ✅ Larinova INC-20A Checklist — Rs. 10,000 Capital and Nameboard Photos Added
+3325 " 🔵 Larinova ADT-1 — CS Murugan Replied May 2 with First-Auditor Appointment Docs
+3326 " 🔵 Larinova Funding — India Grants Pipeline Ranked, SISFS + DPIIT as Critical Path
+3327 " 🔵 Larinova DPDP / Insurance Gap — Existing Policy 328971012 Is LIC Jeevan Labh, Not PI/Cyber Coverage
+3328 " 🔵 Larinova GST/IEC/Udyam — Pre-Bank vs Post-Bank Dependency Split Documented
+3334 2:42p 🔵 gog CLI Gmail OAuth Client Deleted — Cannot Use gog for Gmail Searches
+3335 " 🔵 Larinova ADT-1 — Murugan Email Thread Confirmed, CA Innocent Sent Signed Consent PDF
+3345 2:46p 🔴 Larinova Bank Account — HDFC/Kotak Outreach Sent Without Authorization, Immediately Retracted
+3346 " ✅ Larinova OPERATIONS_TRACKER.md — Full May 2–5 Activity Backfill Completed
+3349 2:47p ✅ Larinova ICICI-Only Bank Rule Propagated to All 5 Source-of-Truth Docs
+3352 2:49p ✅ ops/company-docs/02-bank.md Restructured to Prevent Downstream Rails Being Mistaken for Bank Alternatives
 
-Access 735k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1165k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

@@ -8,6 +8,7 @@ interface UseSarvamSTTOptions {
   chunkDurationMs?: number;
   onTranscript?: (text: string, isFinal: boolean) => void;
   onError?: (error: string) => void;
+  onUnexpectedStop?: (reason: string) => void;
 }
 
 interface SarvamSTTState {
@@ -27,6 +28,7 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
     chunkDurationMs = 3000,
     onTranscript,
     onError,
+    onUnexpectedStop,
   } = options;
 
   const [state, setState] = useState<SarvamSTTState>({
@@ -47,6 +49,7 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
   const mountedRef = useRef(true);
   const recordingRef = useRef(false);
   const processingRef = useRef(false);
+  const intentionalStopRef = useRef(false);
   const languageCodeRef = useRef(languageCode);
   const localeRef = useRef(locale);
 
@@ -87,6 +90,7 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
   }, [cleanup]);
 
   const stop = useCallback(() => {
+    intentionalStopRef.current = true;
     cleanup();
     if (mountedRef.current) {
       setState((s) => ({
@@ -97,6 +101,32 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
       }));
     }
   }, [cleanup]);
+
+  const reportUnexpectedStop = useCallback(
+    (reason: string) => {
+      if (intentionalStopRef.current || !recordingRef.current) return;
+      recordingRef.current = false;
+
+      if (durationTimerRef.current) {
+        clearInterval(durationTimerRef.current);
+        durationTimerRef.current = null;
+      }
+
+      if (mountedRef.current) {
+        setState((s) => ({
+          ...s,
+          isRecording: false,
+          isConnecting: false,
+          interimText: "",
+          error: reason,
+        }));
+      }
+      onError?.(reason);
+      onUnexpectedStop?.(reason);
+      cleanup();
+    },
+    [cleanup, onError, onUnexpectedStop],
+  );
 
   // Record a short clip, stop it, send the complete file
   const recordAndSend = useCallback(
@@ -206,6 +236,9 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
   );
 
   const start = useCallback(async () => {
+    if (state.isRecording || state.isConnecting) return false;
+    intentionalStopRef.current = false;
+
     setState((s) => ({
       ...s,
       error: null,
@@ -228,6 +261,18 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
       streamRef.current = stream;
 
       recordingRef.current = true;
+
+      stream.getAudioTracks().forEach((track) => {
+        track.addEventListener(
+          "ended",
+          () => {
+            reportUnexpectedStop(
+              "Microphone input stopped unexpectedly. Please restart recording before continuing.",
+            );
+          },
+          { once: true },
+        );
+      });
 
       // Duration timer
       startTimeRef.current = Date.now();
@@ -253,9 +298,15 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
         while (recordingRef.current && streamRef.current?.active) {
           await recordAndSend(streamRef.current);
         }
+        if (recordingRef.current && !intentionalStopRef.current) {
+          reportUnexpectedStop(
+            "Microphone input stopped unexpectedly. Please restart recording before continuing.",
+          );
+        }
       };
 
       recordLoop();
+      return true;
     } catch (err: unknown) {
       const error = err as Error;
       cleanup();
@@ -284,8 +335,16 @@ export function useSarvamSTT(options: UseSarvamSTTOptions = {}) {
         }
         onError?.(errMsg);
       }
+      return false;
     }
-  }, [cleanup, recordAndSend, onError]);
+  }, [
+    cleanup,
+    recordAndSend,
+    onError,
+    reportUnexpectedStop,
+    state.isRecording,
+    state.isConnecting,
+  ]);
 
   const resetTranscript = useCallback(() => {
     transcriptRef.current = "";
