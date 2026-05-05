@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { chatSync, extractJson } from "@/lib/ai/sarvam";
 import {
   buildPrescriptionDemoPrompt,
-  getEmptyPrescription,
   hasExplicitMedicineMention,
   sanitizePrescriptionDemo,
   sourceTextForPrescription,
@@ -23,12 +22,10 @@ export async function POST(request: NextRequest) {
     }
 
     const sourceText = sourceTextForPrescription(soapNote, transcript);
-    if (!hasExplicitMedicineMention(sourceText)) {
-      return NextResponse.json({
-        prescription: getEmptyPrescription(locale),
-        medicineSource: "none_explicit",
-      });
-    }
+    // Always call the AI so patient name/age/sex are extracted from the transcript.
+    // sanitizePrescriptionDemo zeroes medicines when no explicit medicine is mentioned,
+    // so the P0 guard still holds — we just don't skip demographics extraction.
+    const hasMedicine = hasExplicitMedicineMention(sourceText);
 
     const prompt = buildPrescriptionDemoPrompt({
       soapNote,
@@ -69,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       prescription: sanitizePrescriptionDemo(prescription, sourceText, locale),
-      medicineSource: "explicit_only",
+      medicineSource: hasMedicine ? "explicit_only" : "none_explicit",
     });
   } catch (error: unknown) {
     const message =

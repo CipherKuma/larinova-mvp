@@ -44,14 +44,25 @@ interface SickLeaveCertificateDialogProps {
   onCreated: (document: DocumentWithPatient) => void;
 }
 
-const blankForm = {
-  condition: "",
-  treatmentProvided: "",
-  leaveStartDate: "",
-  leaveEndDate: "",
-  restAdvice: "",
-  remarks: "",
-};
+function todayIsoDate() {
+  return toIsoDate(new Date());
+}
+
+function createBlankForm() {
+  return {
+    condition: "",
+    treatmentProvided: "",
+    examinationDate: todayIsoDate(),
+    leaveStartDate: "",
+    leaveEndDate: "",
+    placeOfIssue: "",
+    patientSignatureOrThumb: "",
+    identificationMarkOne: "",
+    identificationMarkTwo: "",
+    restAdvice: "",
+    remarks: "",
+  };
+}
 
 function formatGender(value?: string | null) {
   if (!value) return null;
@@ -107,7 +118,7 @@ export function SickLeaveCertificateDialog({
   const [selectedPatientId, setSelectedPatientId] = useState("");
   const [certificateType, setCertificateType] =
     useState<MedicalCertificateType>("sick_leave");
-  const [form, setForm] = useState(blankForm);
+  const [form, setForm] = useState(() => createBlankForm());
 
   useEffect(() => {
     if (!open) return;
@@ -138,18 +149,22 @@ export function SickLeaveCertificateDialog({
     selectedPatientId &&
     form.condition.trim() &&
     form.treatmentProvided.trim() &&
+    /^\d{4}-\d{2}-\d{2}$/.test(form.examinationDate) &&
     /^\d{4}-\d{2}-\d{2}$/.test(form.leaveStartDate) &&
     /^\d{4}-\d{2}-\d{2}$/.test(form.leaveEndDate) &&
-    isDateRangeValid(form.leaveStartDate, form.leaveEndDate);
+    isDateRangeValid(form.leaveStartDate, form.leaveEndDate) &&
+    form.placeOfIssue.trim() &&
+    form.patientSignatureOrThumb.trim() &&
+    form.identificationMarkOne.trim();
 
-  const updateField = (field: keyof typeof blankForm, value: string) => {
+  const updateField = (field: keyof ReturnType<typeof createBlankForm>, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
   const reset = () => {
     setSelectedPatientId("");
     setCertificateType("sick_leave");
-    setForm(blankForm);
+    setForm(createBlankForm());
     setError(null);
   };
 
@@ -167,19 +182,28 @@ export function SickLeaveCertificateDialog({
           patient_id: selectedPatientId,
           condition: form.condition,
           treatment_provided: form.treatmentProvided,
+          examination_date: form.examinationDate,
           leave_start_date: form.leaveStartDate,
           leave_end_date: form.leaveEndDate,
+          place_of_issue: form.placeOfIssue,
+          patient_signature_or_thumb: form.patientSignatureOrThumb,
+          identification_mark_1: form.identificationMarkOne,
+          identification_mark_2: form.identificationMarkTwo || undefined,
           rest_advice: form.restAdvice || undefined,
           remarks: form.remarks || undefined,
         }),
       });
-      if (!response.ok) throw new Error("create_failed");
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "create_failed");
       onCreated(data.document);
       reset();
       onOpenChange(false);
-    } catch {
-      setError(t("createFailed"));
+    } catch (error) {
+      setError(
+        error instanceof Error && error.message === "doctor_registration_required"
+          ? t("doctorRegistrationRequired")
+          : t("createFailed"),
+      );
     } finally {
       setCreating(false);
     }
@@ -295,6 +319,32 @@ export function SickLeaveCertificateDialog({
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="sick-leave-exam-date">
+                {t("examinationDateLabel")}
+              </Label>
+              <DatePicker
+                date={parseFormDate(form.examinationDate)}
+                onDateChange={(date) =>
+                  updateField("examinationDate", toIsoDate(date))
+                }
+                placeholder={t("examinationDatePlaceholder")}
+                initialMonth={parseFormDate(form.examinationDate) || new Date()}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sick-leave-place">
+                {t("placeOfIssueLabel")}
+              </Label>
+              <Input
+                id="sick-leave-place"
+                value={form.placeOfIssue}
+                onChange={(event) =>
+                  updateField("placeOfIssue", event.target.value)
+                }
+                placeholder={t("placeOfIssuePlaceholder")}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="sick-leave-start">
                 {t(`fieldLabels.${certificateType}.startDate`)}
               </Label>
@@ -318,6 +368,48 @@ export function SickLeaveCertificateDialog({
                 }
                 placeholder={t(`fieldPlaceholders.${certificateType}.endDate`)}
                 initialMonth={parseFormDate(form.leaveStartDate) || new Date()}
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label htmlFor="sick-leave-patient-signature">
+                {t("patientSignatureLabel")}
+              </Label>
+              <Input
+                id="sick-leave-patient-signature"
+                value={form.patientSignatureOrThumb}
+                onChange={(event) =>
+                  updateField("patientSignatureOrThumb", event.target.value)
+                }
+                placeholder={t("patientSignaturePlaceholder")}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sick-leave-id-mark-one">
+                {t("identificationMarkOneLabel")}
+              </Label>
+              <Input
+                id="sick-leave-id-mark-one"
+                value={form.identificationMarkOne}
+                onChange={(event) =>
+                  updateField("identificationMarkOne", event.target.value)
+                }
+                placeholder={t("identificationMarkOnePlaceholder")}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sick-leave-id-mark-two">
+                {t("identificationMarkTwoLabel")}
+              </Label>
+              <Input
+                id="sick-leave-id-mark-two"
+                value={form.identificationMarkTwo}
+                onChange={(event) =>
+                  updateField("identificationMarkTwo", event.target.value)
+                }
+                placeholder={t("identificationMarkTwoPlaceholder")}
               />
             </div>
           </div>

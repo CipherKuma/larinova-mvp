@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Larinova Hospital Integration Readiness</title><style>
+@page { size: A4; margin: 16mm 15mm 18mm; @bottom-right { content: 'Larinova | ' counter(page); color: #64748b; font-size: 8.5pt; } }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; color: #0f172a; font-size: 10.5pt; line-height: 1.48; }
+.cover { page-break-after: always; min-height: 245mm; padding: 22mm 18mm; background: #0f172a; color: white; display: block; }
+.cover .brand { display: inline-block; font-size: 12pt; letter-spacing: 1.8px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,.45); padding: 7px 11px; border-radius: 999px; margin-bottom: 50mm; }
+.cover h1 { color: white; border: 0; font-size: 31pt; line-height: 1.06; max-width: 150mm; margin: 0 0 12px; }
+.cover .dek { font-size: 15pt; color: #d1fae5; margin-top: 8px; }
+.cover .cover-meta { margin-top: 50mm; padding-top: 8mm; border-top: 1px solid rgba(255,255,255,.25); color: #cbd5e1; font-size: 11pt; }
+h1 { font-size: 24pt; line-height: 1.12; margin: 0 0 12px; color: #0f172a; }
+h2 { font-size: 15pt; margin: 20px 0 8px; padding-top: 4px; color: #065f46; border-bottom: 2px solid #a7f3d0; padding-bottom: 5px; }
+h3 { font-size: 12pt; margin: 15px 0 6px; color: #1f2937; }
+p { margin: 6px 0; }
+strong { font-weight: 750; color: #111827; }
+code { background: #ecfdf5; color: #065f46; border-radius: 4px; padding: 1px 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9pt; }
+ul, ol { margin: 6px 0 10px 18px; padding: 0; }
+li { margin: 3px 0; }
+hr { border: 0; height: 1px; background: #cbd5e1; margin: 18px 0; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0 15px; font-size: 9.2pt; page-break-inside: avoid; }
+th, td { border: 1px solid #cbd5e1; padding: 7px 8px; vertical-align: top; }
+th { background: #064e3b; color: white; text-align: left; }
+pre { white-space: pre-wrap; border: 1px solid #94a3b8; background: #f8fafc; padding: 12px 14px; border-radius: 8px; font-size: 8.6pt; line-height: 1.36; page-break-inside: avoid; box-shadow: inset 4px 0 0 #10b981; }
+.quote { display: block; background: #ecfdf5; border-left: 4px solid #10b981; padding: 8px 10px; margin: 8px 0; color: #064e3b; }
+</style></head><body><section class="cover"><div class="brand">Larinova</div><h1>Larinova Hospital Integration Readiness</h1><p class="dek">Hospital review packet</p><div class="cover-meta">Prepared for clinical, hospital administration, and hospital IT review</div></section><h1>Larinova Hospital Integration Readiness</h1><p><strong>Prepared for:</strong> Hospital leadership, medical administration, and hospital IT teams  </p><p><strong>Prepared by:</strong> Larinova  </p><p><strong>Date:</strong> 2026-05-06</p><h2>1. Purpose</h2><p>Larinova is an OPD workflow platform for doctors and clinics. It helps doctors manage patient intake, consultation recording/transcription, clinical notes, prescriptions, medical certificates, and follow-up workflows.</p><p>This document explains how Larinova can be evaluated by a hospital or clinic today, and how it can later integrate with hospital systems such as HIS, EMR, or interface engines.</p><h2>2. Current Product Scope</h2><p>Larinova currently focuses on the OPD workflow:</p><ul><li>Patient registration and profile.</li><li>Appointment and consultation workflow.</li><li>Real-time consultation transcription.</li><li>SOAP-style clinical notes and summaries.</li><li>Prescription/document workflows.</li><li>Medical certificate generation.</li><li>Follow-up and patient communication workflows.</li></ul><h2>3. Integration Position</h2><p>Larinova should be presented as:</p><p><span class="quote">A clinical workflow product with a clear path to hospital integration.</span></p><p>Larinova should not yet be presented as:</p><p><span class="quote">A fully live HL7/HIS/EMR connector already deployed in production.</span></p><p>The recommended hospital discussion is phased:</p><table><thead><tr><th>Phase</th><th>Scope</th><th>Purpose</th></tr></thead><tbody><tr><td>Phase 1</td><td>Product evaluation</td><td>Hospital doctors review the OPD workflow and document output.</td></tr><tr><td>Phase 2</td><td>Secure API/webhook pilot</td><td>Exchange patient, appointment, consultation, prescription, and certificate events.</td></tr><tr><td>Phase 3</td><td>Interface engine integration</td><td>Map Larinova events through Mirth/HL7/FHIR if required by the hospital.</td></tr><tr><td>Phase 4</td><td>Formal hospital rollout</td><td>Monitoring, audit logs, signed documents, support process, and production controls.</td></tr></tbody></table><h2>4. High-Level Architecture</h2><pre>PATIENT / ATTENDANT
+        |
+        v
+Patient intake / appointment booking
+        |
+        v
+LARINOVA DOCTOR APP
+        |
+        +-- Patient record
+        +-- Consultation transcript
+        +-- SOAP summary
+        +-- Prescription
+        +-- Medical certificate
+        +-- Follow-up task
+        |
+        v
+LARINOVA API AND DATABASE
+        |
+        +-- Audit trail
+        +-- Document store
+        +-- Notification layer
+        +-- Integration event queue
+        |
+        v
+INTEGRATION GATEWAY
+        |
+        +-- REST API / Webhooks
+        +-- HL7 adapter, if required
+        +-- FHIR adapter, future
+        |
+        v
+HOSPITAL HIS / EMR / INTERFACE ENGINE</pre><h2>5. Data Objects for Hospital Review</h2><table><thead><tr><th>Data object</th><th>Direction</th><th>Hospital value</th></tr></thead><tbody><tr><td>Patient demographics</td><td>HIS to Larinova or Larinova to HIS</td><td>Avoid duplicate entry.</td></tr><tr><td>Appointment/encounter</td><td>HIS to Larinova</td><td>Open the correct OPD workflow for the doctor.</td></tr><tr><td>Consultation summary</td><td>Larinova to HIS</td><td>Reduce manual doctor documentation.</td></tr><tr><td>Prescription</td><td>Larinova to HIS or patient</td><td>Structured doctor-reviewed output.</td></tr><tr><td>Medical certificate</td><td>Larinova to HIS/patient/recipient</td><td>Doctor-issued certificate with audit trail.</td></tr><tr><td>Follow-up task</td><td>Larinova internal or to HIS</td><td>Patient continuity after visit.</td></tr></tbody></table><h2>6. Hospital Evaluation Questions</h2><ol><li>Which HIS/EMR is currently used?</li><li>Does the hospital prefer REST API, webhooks, HL7, FHIR, or Mirth Connect?</li><li>Who owns the patient master record?</li><li>Should documents be stored in the HIS, sent to the patient, or both?</li><li>Does the hospital require physical stamp/signature, digital signature, QR verification, or all three?</li><li>What are the requirements for audit logs, consent, and data retention?</li></ol><h2>7. Recommended Next Step</h2><p>The best next step is a product evaluation meeting where hospital doctors and an IT representative review:</p><ul><li>OPD consultation workflow.</li><li>Medical certificate generation.</li><li>Prescription/document output.</li><li>Proposed integration data flow.</li><li>Required changes before a pilot.</li></ul></body></html>

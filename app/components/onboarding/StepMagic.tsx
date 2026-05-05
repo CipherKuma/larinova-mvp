@@ -45,10 +45,27 @@ export function StepMagic({ onContinue, onBack }: StepMagicProps) {
   //   (doctor is being onboarded), so the token is issued under the
   //   "onboarding" purpose.
   // - When NEXT_PUBLIC_STT_STREAMING=false: fall back to the REST 3s-chunk path.
-  const restStt = useSarvamSTT({ languageCode: "unknown", locale });
+  // Mirror handleUnexpectedSTTStop from TranscriptionViewStreaming: reset the
+  // phase state so the orb doesn't stay stuck in "listening" with no live audio.
+  const handleUnexpectedSTTStop = useCallback((reason: string) => {
+    if (maxDurationTimerRef.current) {
+      clearTimeout(maxDurationTimerRef.current);
+      maxDurationTimerRef.current = null;
+    }
+    stoppingRef.current = false;
+    setPhase("prompt");
+    setBatchError(reason);
+  }, []);
+
+  const restStt = useSarvamSTT({
+    languageCode: "unknown",
+    locale,
+    onUnexpectedStop: handleUnexpectedSTTStop,
+  });
   const streamingStt = useSarvamStreamingSTT({
     languageCode: "unknown",
     mode: "codemix",
+    onUnexpectedStop: handleUnexpectedSTTStop,
   });
   const stt = STREAMING_ENABLED ? streamingStt : restStt;
 

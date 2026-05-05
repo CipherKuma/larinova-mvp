@@ -7,22 +7,29 @@ import {
   buildMedicalCertificateContent,
 } from "@/lib/documents/sick-leave-certificate";
 
-const sickLeaveSchema = z.object({
-  document_type: z.literal("medical_certificate"),
-  certificate_type: z.enum(MEDICAL_CERTIFICATE_TYPES),
-  patient_id: z.string().uuid(),
-  condition: z.string().trim().min(2).max(500),
-  treatment_provided: z.string().trim().min(2).max(1000),
-  leave_start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  leave_end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  rest_advice: z.string().trim().max(1000).optional(),
-  remarks: z.string().trim().max(1000).optional(),
-}).refine(
-  (value) =>
-    new Date(`${value.leave_end_date}T00:00:00`) >=
-    new Date(`${value.leave_start_date}T00:00:00`),
-  { path: ["leave_end_date"] },
-);
+const sickLeaveSchema = z
+  .object({
+    document_type: z.literal("medical_certificate"),
+    certificate_type: z.enum(MEDICAL_CERTIFICATE_TYPES),
+    patient_id: z.string().uuid(),
+    condition: z.string().trim().min(2).max(500),
+    treatment_provided: z.string().trim().min(2).max(1000),
+    examination_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    leave_start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    leave_end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    place_of_issue: z.string().trim().min(2).max(250),
+    patient_signature_or_thumb: z.string().trim().min(2).max(250),
+    identification_mark_1: z.string().trim().min(2).max(250),
+    identification_mark_2: z.string().trim().max(250).optional(),
+    rest_advice: z.string().trim().max(1000).optional(),
+    remarks: z.string().trim().max(1000).optional(),
+  })
+  .refine(
+    (value) =>
+      new Date(`${value.leave_end_date}T00:00:00`) >=
+      new Date(`${value.leave_start_date}T00:00:00`),
+    { path: ["leave_end_date"] },
+  );
 
 // GET - List all documents for the current doctor
 export async function GET(req: Request) {
@@ -119,12 +126,23 @@ export async function POST(req: Request) {
 
     const { data: doctor } = await supabase
       .from("larinova_doctors")
-      .select("id, full_name, specialization, license_number, clinic_address")
+      .select(
+        "id, full_name, specialization, license_number, degrees, registration_number, registration_council, clinic_name, clinic_address, phone",
+      )
       .eq("user_id", user.id)
       .single();
 
     if (!doctor) {
       return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
+    }
+
+    const doctorRegistrationNumber =
+      doctor.registration_number || doctor.license_number;
+    if (!doctorRegistrationNumber) {
+      return NextResponse.json(
+        { error: "doctor_registration_required" },
+        { status: 409 },
+      );
     }
 
     const { data: patient } = await supabase
@@ -139,8 +157,13 @@ export async function POST(req: Request) {
     }
 
     const issueDate = new Date().toISOString().slice(0, 10);
+    const certificateId = `MC-${issueDate.replaceAll("-", "")}-${crypto
+      .randomUUID()
+      .slice(0, 8)
+      .toUpperCase()}`;
     const content = buildMedicalCertificateContent({
       certificateType: body.certificate_type,
+      certificateId,
       issueDate,
       patient: {
         fullName: patient.full_name,
@@ -151,14 +174,24 @@ export async function POST(req: Request) {
       doctor: {
         fullName: doctor.full_name,
         specialization: doctor.specialization,
+        degrees: doctor.degrees,
         licenseNumber: doctor.license_number,
+        registrationNumber: doctor.registration_number,
+        registrationCouncil: doctor.registration_council,
+        clinicName: doctor.clinic_name,
         clinicAddress: doctor.clinic_address,
+        phoneNumber: doctor.phone,
       },
       form: {
         condition: body.condition,
         treatmentProvided: body.treatment_provided,
+        examinationDate: body.examination_date,
         leaveStartDate: body.leave_start_date,
         leaveEndDate: body.leave_end_date,
+        placeOfIssue: body.place_of_issue,
+        patientSignatureOrThumb: body.patient_signature_or_thumb,
+        identificationMarkOne: body.identification_mark_1,
+        identificationMarkTwo: body.identification_mark_2,
         restAdvice: body.rest_advice,
         remarks: body.remarks,
       },
@@ -170,16 +203,24 @@ export async function POST(req: Request) {
         doctor_id: doctor.id,
         patient_id: patient.id,
         document_type: "medical_certificate",
-        title: `Medical Certificate - ${MEDICAL_CERTIFICATE_TYPE_TITLES[body.certificate_type]} - ${patient.full_name}`,
+        title: `${MEDICAL_CERTIFICATE_TYPE_TITLES[body.certificate_type]} - ${patient.full_name}`,
         description: `Structured ${MEDICAL_CERTIFICATE_TYPE_TITLES[body.certificate_type].toLowerCase()}`,
         content,
         metadata: {
+          certificate_id: certificateId,
           certificate_type: body.certificate_type,
+          standards_basis:
+            "Indian Medical Council (Professional Conduct, Etiquette and Ethics) Regulations, 2002 Appendix 2",
           structured_form: {
             condition: body.condition,
             treatment_provided: body.treatment_provided,
+            examination_date: body.examination_date,
             leave_start_date: body.leave_start_date,
             leave_end_date: body.leave_end_date,
+            place_of_issue: body.place_of_issue,
+            patient_signature_or_thumb: body.patient_signature_or_thumb,
+            identification_mark_1: body.identification_mark_1,
+            identification_mark_2: body.identification_mark_2 || null,
             rest_advice: body.rest_advice || null,
             remarks: body.remarks || null,
             issue_date: issueDate,

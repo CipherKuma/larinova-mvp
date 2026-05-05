@@ -8,8 +8,13 @@ interface CertificatePatient {
 interface CertificateDoctor {
   fullName?: string | null;
   specialization?: string | null;
+  degrees?: string | null;
   licenseNumber?: string | null;
+  registrationNumber?: string | null;
+  registrationCouncil?: string | null;
+  clinicName?: string | null;
   clinicAddress?: string | null;
+  phoneNumber?: string | null;
 }
 
 export const MEDICAL_CERTIFICATE_TYPES = [
@@ -38,14 +43,20 @@ export const MEDICAL_CERTIFICATE_TYPE_TITLES: Record<
 export interface SickLeaveCertificateForm {
   condition: string;
   treatmentProvided: string;
+  examinationDate: string;
   leaveStartDate: string;
   leaveEndDate: string;
+  placeOfIssue: string;
+  patientSignatureOrThumb: string;
+  identificationMarkOne: string;
+  identificationMarkTwo?: string | null;
   restAdvice?: string | null;
   remarks?: string | null;
 }
 
 export interface SickLeaveCertificateInput {
   certificateType?: MedicalCertificateType;
+  certificateId?: string;
   issueDate: string;
   patient: CertificatePatient;
   doctor: CertificateDoctor;
@@ -96,6 +107,25 @@ function calculateLeaveDays(startDate: string, endDate: string) {
   return Math.round((end.getTime() - start.getTime()) / dayMs) + 1;
 }
 
+function doctorDisplayName(doctor: CertificateDoctor): string {
+  const degrees = doctor.degrees ? `, ${doctor.degrees}` : "";
+  return `Dr. ${doctor.fullName || "Doctor"}${degrees}`;
+}
+
+function doctorRegistrationLine(doctor: CertificateDoctor): string {
+  const registrationNumber = doctor.registrationNumber || doctor.licenseNumber;
+  if (!registrationNumber) return "Registration No.: Not recorded";
+  if (doctor.registrationCouncil) {
+    return `Registration No.: ${registrationNumber} (${doctor.registrationCouncil})`;
+  }
+  return `Registration No.: ${registrationNumber}`;
+}
+
+function clinicLine(doctor: CertificateDoctor): string {
+  const parts = [doctor.clinicName, doctor.clinicAddress].filter(Boolean);
+  return parts.length ? parts.join(", ") : "Not recorded";
+}
+
 function buildCertificateBody(
   certificateType: MedicalCertificateType,
   patient: CertificatePatient,
@@ -103,6 +133,7 @@ function buildCertificateBody(
 ): string {
   const start = formatDate(form.leaveStartDate);
   const end = formatDate(form.leaveEndDate);
+  const examinedOn = formatDate(form.examinationDate);
   const days = calculateLeaveDays(form.leaveStartDate, form.leaveEndDate);
   const duration = days
     ? `${days} ${days === 1 ? "day" : "days"}`
@@ -113,7 +144,7 @@ function buildCertificateBody(
 
   switch (certificateType) {
     case "work_from_home":
-      return `This is to certify that Mr./Ms. ${patient.fullName} has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
 
 Based on clinical assessment, the patient is advised to work from home for ${duration}, from ${start} to ${end}, to support recovery while avoiding unnecessary exertion or exposure.
 
@@ -123,7 +154,7 @@ ${notes}
 Remarks:
 ${remarks}`;
     case "fitness":
-      return `This is to certify that Mr./Ms. ${patient.fullName} was examined for ${form.condition}. Assessment/treatment recorded: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, was examined for ${form.condition}. Assessment/treatment recorded: ${form.treatmentProvided}.
 
 Based on the clinical assessment, the patient is medically fit for routine daily activities from ${start} to ${end}, subject to the advice and restrictions below.
 
@@ -133,7 +164,7 @@ ${notes}
 Remarks:
 ${remarks}`;
     case "diagnosis":
-      return `This is to certify that Mr./Ms. ${patient.fullName} has been evaluated and diagnosed with ${form.condition}. Assessment/treatment recorded: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, has been evaluated and diagnosed with ${form.condition}. Assessment/treatment recorded: ${form.treatmentProvided}.
 
 This certificate is issued to document the diagnosis and care period from ${start} to ${end}.
 
@@ -143,7 +174,7 @@ ${notes}
 Remarks:
 ${remarks}`;
     case "caretaker":
-      return `This is to certify that Mr./Ms. ${patient.fullName} has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
 
 The patient requires caretaker support for ${duration}, from ${start} to ${end}, based on the present clinical condition and recovery needs.
 
@@ -153,7 +184,7 @@ ${notes}
 Remarks:
 ${remarks}`;
     case "recovery":
-      return `This is to certify that Mr./Ms. ${patient.fullName} has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
 
 Based on the clinical review, the patient has recovered sufficiently by ${end} and may return to work/classes or routine activity from that date, subject to the advice below.
 
@@ -164,7 +195,7 @@ Remarks:
 ${remarks}`;
     case "sick_leave":
     default:
-      return `This is to certify that Mr./Ms. ${patient.fullName} has been under my care for ${form.condition}. Treatment provided: ${form.treatmentProvided}.
+      return `I, the undersigned registered medical practitioner, certify that after careful examination on ${examinedOn}, Mr./Ms. ${patient.fullName}, whose signature/thumb impression and identification marks are recorded above, is suffering from ${form.condition}. Treatment provided: ${form.treatmentProvided}.
 
 After examination, I recommend ${duration} of sick leave from ${start} to ${end} for proper rest and recovery.
 
@@ -177,6 +208,7 @@ ${remarks}`;
 
 export function buildMedicalCertificateContent({
   certificateType = "sick_leave",
+  certificateId,
   issueDate,
   patient,
   doctor,
@@ -186,27 +218,46 @@ export function buildMedicalCertificateContent({
   const gender = formatGender(patient.gender);
   const body = buildCertificateBody(certificateType, patient, form);
   const title = MEDICAL_CERTIFICATE_TYPE_TITLES[certificateType];
+  const registrationNumber = doctor.registrationNumber || doctor.licenseNumber;
 
-  return `Patient Details:
+  return `${title}
+Certificate Register No.: ${certificateId || "Pending document number"}
+Date of Issue: ${formatDate(issueDate)}
+Place: ${form.placeOfIssue}
+
+Patient Verification:
+Patient signature/thumb impression: ${form.patientSignatureOrThumb}
+Identification mark 1: ${form.identificationMarkOne}
+Identification mark 2: ${form.identificationMarkTwo || "Not recorded"}
+
+Patient Details:
 Name: ${patient.fullName}
 Age/Sex: ${age}/${gender}
 Address: ${patient.address || "Not recorded"}
-Date of Issue: ${formatDate(issueDate)}
 
-Certifying Doctor Details:
-Dr. ${doctor.fullName || "Doctor"}
+Certifying Registered Medical Practitioner:
+${doctorDisplayName(doctor)}
 ${doctor.specialization || "Medical Practitioner"}
-License No.: ${doctor.licenseNumber || "Not recorded"}
-Clinic Address: ${doctor.clinicAddress || "Not recorded"}
+${doctorRegistrationLine(doctor)}
+Clinic/Hospital: ${clinicLine(doctor)}
+${doctor.phoneNumber ? `Phone: ${doctor.phoneNumber}` : "Phone: Not recorded"}
 
-${title}:
+Certificate Statement:
 
 ${body}
 
-________________________________
-Dr. ${doctor.fullName || "Doctor"}
+Brief Case Resume:
+Nature of illness/condition: ${form.condition}
+Assessment/treatment: ${form.treatmentProvided}
+Probable duration / validity: ${formatDate(form.leaveStartDate)} to ${formatDate(form.leaveEndDate)}
+Advice/restrictions: ${form.restAdvice || "As advised during consultation."}
 
-DRAFT DOCUMENT - Requires physician review, verification of dates/diagnosis, and signature before use.`;
+________________________________
+Signature and seal of Registered Medical Practitioner
+${doctorDisplayName(doctor)}
+${registrationNumber ? doctorRegistrationLine(doctor) : "Registration No.: Required before final issue"}
+
+DRAFT DOCUMENT - Requires physician review, verification of dates/diagnosis, patient signature/thumb impression, doctor signature, and clinic/hospital seal before use.`;
 }
 
 export function buildSickLeaveCertificateContent(

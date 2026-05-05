@@ -142,6 +142,17 @@ export function TranscriptionViewStreaming({
 
   const handleUnexpectedSTTStop = useCallback(
     (reason: string) => {
+      // Discard the parallel recorder so the gate reopens for the next session.
+      // Without this, stale session-1 audio would be uploaded to the diarizer.
+      if (audioRecorderRef.current) {
+        try {
+          audioRecorderRef.current.stop();
+        } catch {
+          /* already inactive */
+        }
+        audioRecorderRef.current = null;
+        audioChunksRef.current = [];
+      }
       setError(reason.toUpperCase());
       setIsPaused(false);
       setInterimText("");
@@ -246,6 +257,18 @@ export function TranscriptionViewStreaming({
   }, [stt, onStartRecording]);
 
   const handleStop = useCallback(async () => {
+    // Discard the parallel recorder so the gate reopens if a new session starts.
+    // handleEndConsultation calls finalizeAudioBlob() first (which nulls the ref),
+    // so this discard only fires on restart/error paths where we don't want the audio.
+    if (audioRecorderRef.current) {
+      try {
+        audioRecorderRef.current.stop();
+      } catch {
+        /* already inactive */
+      }
+      audioRecorderRef.current = null;
+      audioChunksRef.current = [];
+    }
     await stt.stop();
     setIsPaused(false);
     setInterimText("");

@@ -1,0 +1,120 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Larinova OPD Workflow Architecture and Flowcharts</title><style>
+@page { size: A4; margin: 16mm 15mm 18mm; @bottom-right { content: 'Larinova | ' counter(page); color: #64748b; font-size: 8.5pt; } }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; color: #0f172a; font-size: 10.5pt; line-height: 1.48; }
+.cover { page-break-after: always; min-height: 245mm; padding: 22mm 18mm; background: #0f172a; color: white; display: block; }
+.cover .brand { display: inline-block; font-size: 12pt; letter-spacing: 1.8px; text-transform: uppercase; color: #34d399; border: 1px solid rgba(52,211,153,.45); padding: 7px 11px; border-radius: 999px; margin-bottom: 50mm; }
+.cover h1 { color: white; border: 0; font-size: 31pt; line-height: 1.06; max-width: 150mm; margin: 0 0 12px; }
+.cover .dek { font-size: 15pt; color: #d1fae5; margin-top: 8px; }
+.cover .cover-meta { margin-top: 50mm; padding-top: 8mm; border-top: 1px solid rgba(255,255,255,.25); color: #cbd5e1; font-size: 11pt; }
+h1 { font-size: 24pt; line-height: 1.12; margin: 0 0 12px; color: #0f172a; }
+h2 { font-size: 15pt; margin: 20px 0 8px; padding-top: 4px; color: #065f46; border-bottom: 2px solid #a7f3d0; padding-bottom: 5px; }
+h3 { font-size: 12pt; margin: 15px 0 6px; color: #1f2937; }
+p { margin: 6px 0; }
+strong { font-weight: 750; color: #111827; }
+code { background: #ecfdf5; color: #065f46; border-radius: 4px; padding: 1px 4px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9pt; }
+ul, ol { margin: 6px 0 10px 18px; padding: 0; }
+li { margin: 3px 0; }
+hr { border: 0; height: 1px; background: #cbd5e1; margin: 18px 0; }
+table { border-collapse: collapse; width: 100%; margin: 10px 0 15px; font-size: 9.2pt; page-break-inside: avoid; }
+th, td { border: 1px solid #cbd5e1; padding: 7px 8px; vertical-align: top; }
+th { background: #064e3b; color: white; text-align: left; }
+pre { white-space: pre-wrap; border: 1px solid #94a3b8; background: #f8fafc; padding: 12px 14px; border-radius: 8px; font-size: 8.6pt; line-height: 1.36; page-break-inside: avoid; box-shadow: inset 4px 0 0 #10b981; }
+.quote { display: block; background: #ecfdf5; border-left: 4px solid #10b981; padding: 8px 10px; margin: 8px 0; color: #064e3b; }
+</style></head><body><section class="cover"><div class="brand">Larinova</div><h1>Larinova OPD Workflow Architecture and Flowcharts</h1><p class="dek">Hospital review packet</p><div class="cover-meta">Prepared for clinical, hospital administration, and hospital IT review</div></section><h1>Larinova OPD Workflow Architecture and Flowcharts</h1><p><strong>Date:</strong> 2026-05-06</p><h2>1. OPD Visit Flow</h2><pre>Patient books / walks in
+        |
+        v
+Patient profile is created or selected
+        |
+        v
+Intake details are collected
+        |
+        v
+Doctor starts consultation
+        |
+        v
+Larinova records and transcribes consultation
+        |
+        v
+Doctor reviews AI-assisted clinical draft
+        |
+        +-------------------+
+        |                   |
+        v                   v
+Prescription          Medical certificate
+        |                   |
+        v                   v
+Doctor review       Doctor review
+        |                   |
+        v                   v
+Final document      Signed/stamped certificate
+        |                   |
+        +---------+---------+
+                  |
+                  v
+Saved to patient record
+                  |
+                  v
+Shared / printed / sent as required</pre><h2>2. Medical Certificate Flow</h2><pre>Doctor opens Documents
+        |
+        v
+Select "Medical Certificate"
+        |
+        v
+Select patient
+        |
+        v
+Patient demographics auto-fill
+        |
+        v
+Select certificate type
+        |
+        v
+Enter doctor-reviewed clinical details
+        |
+        v
+Enter Indian-format verification fields
+        |
+        +-- Patient signature/thumb impression
+        +-- Identification mark 1
+        +-- Identification mark 2, optional
+        +-- Examination date
+        +-- Place
+        |
+        v
+Generate draft certificate
+        |
+        v
+Doctor verifies dates, diagnosis, registration number
+        |
+        v
+Doctor signs and stamps
+        |
+        v
+Certificate is saved to patient record</pre><h2>3. Hospital Integration Flow</h2><pre>Hospital HIS / EMR
+        |
+        | Patient / appointment data
+        v
+Larinova integration gateway
+        |
+        v
+Larinova OPD workflow
+        |
+        | Consultation completed
+        v
+Documents generated
+        |
+        +-- Prescription
+        +-- SOAP note
+        +-- Consultation summary
+        +-- Medical certificate
+        |
+        v
+Doctor approval
+        |
+        v
+Integration gateway
+        |
+        | Document/status event
+        v
+Hospital HIS / EMR</pre><h2>4. Certificate Control Points</h2><table><thead><tr><th>Control point</th><th>Why it matters</th></tr></thead><tbody><tr><td>Authenticated doctor</td><td>Prevents anonymous certificate generation.</td></tr><tr><td>Patient linked to doctor record</td><td>Keeps certificate tied to real OPD workflow.</td></tr><tr><td>Doctor registration number</td><td>Required trust signal for Indian certificates.</td></tr><tr><td>Patient signature/thumb and identification mark</td><td>Required in the recommended Indian certificate format.</td></tr><tr><td>Draft status before signature</td><td>Prevents AI/document draft from being treated as final.</td></tr><tr><td>Doctor signature and clinic seal</td><td>Required before external use.</td></tr><tr><td>Document record copy</td><td>Supports register/copy retention.</td></tr><tr><td>Future QR/verification link</td><td>Helps hospitals, HR, and recipients verify authenticity.</td></tr></tbody></table></body></html>

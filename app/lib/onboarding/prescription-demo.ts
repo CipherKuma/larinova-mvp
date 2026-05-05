@@ -15,10 +15,13 @@ export interface PrescriptionData {
 const COMMON_DRUG_PATTERN =
   /\b(paracetamol|acetaminophen|dolo|crocin|ibuprofen|amoxicillin|azithromycin|cetirizine|levocetirizine|pantoprazole|omeprazole|rabeprazole|metformin|insulin|salbutamol|montelukast|atorvastatin|amlodipine|losartan|telmisartan|doxycycline|cefexime|cefixime|cefuroxime)\b/i;
 
-const BRANDED_DOSE_PATTERN = /\b[a-z][a-z0-9-]{2,}\s*\d{2,4}\b/i;
+// Require a dosage-unit suffix so "visit 2024" / "pulse 90" don't match.
+const BRANDED_DOSE_PATTERN =
+  /\b[a-z][a-z0-9-]{2,}\s*\d{2,4}\s*(?:mg|mcg|g|ml|iu|units)\b/i;
 const DOSAGE_UNIT_PATTERN = /\b\d+(?:\.\d+)?\s*(?:mg|mcg|g|ml|iu|units)\b/i;
-const FREQUENCY_PATTERN =
-  /\b(?:once|twice|thrice|daily|bd|od|tds|qid|hs|morning|night|after food|before food|1-0-1|1-1-1|0-0-1|3x1|2x1)\b/i;
+// Only unambiguous clinical abbreviations — plain English ("daily", "morning",
+// "night") are too common in symptom descriptions to use as standalone signals.
+const FREQUENCY_PATTERN = /\b(?:bd|od|tds|qid|hs|1-0-1|1-1-1|0-0-1|3x1|2x1)\b/i;
 
 const COMMON_NAME_STOPWORDS = new Set([
   "tablet",
