@@ -16,52 +16,22 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { sharedAsset } from "@/lib/locale-asset";
-import { useEffect, useState } from "react";
 import { useSidebar } from "./SidebarContext";
+import { useUserShell } from "./UserShellContext";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
 import { RegionSwitcher } from "./RegionSwitcher";
-
-interface Doctor {
-  full_name: string;
-  specialization: string;
-  locale: string;
-}
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [plan, setPlan] = useState<string>("free");
+  const shell = useUserShell();
+  const doctor = shell?.doctor ?? null;
+  const plan = shell?.plan ?? "free";
+  const loading = shell === null;
   const { isCollapsed, setIsCollapsed } = useSidebar();
-
-  useEffect(() => {
-    let cancelled = false;
-    async function fetchShell() {
-      try {
-        const res = await fetch("/api/user/shell");
-        if (res.status === 401) {
-          router.push("/sign-in");
-          return;
-        }
-        if (!res.ok) return;
-        const data = await res.json();
-        if (cancelled) return;
-        setDoctor(data.doctor ?? null);
-        setPlan(data.plan ?? "free");
-      } catch {
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    fetchShell();
-    return () => {
-      cancelled = true;
-    };
-  }, [router]);
 
   const handleLogout = async () => {
     const { createClient } = await import("@/lib/supabase/client");

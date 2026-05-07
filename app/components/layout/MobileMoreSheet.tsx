@@ -13,17 +13,13 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useUserShell } from "./UserShellContext";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-}
-
-interface Doctor {
-  full_name: string;
-  specialization: string;
 }
 
 const REGIONS = [
@@ -35,26 +31,9 @@ export function MobileMoreSheet({ open, onClose }: Props) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [plan, setPlan] = useState<string>("free");
-
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch("/api/user/shell");
-        if (!res.ok) return;
-        const data = await res.json();
-        if (cancelled) return;
-        if (data.doctor) setDoctor(data.doctor);
-        setPlan(data.plan ?? "free");
-      } catch {}
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [open]);
+  const shell = useUserShell();
+  const doctor = shell?.doctor ?? null;
+  const plan = shell?.plan ?? "free";
 
   useEffect(() => {
     if (!open) return;

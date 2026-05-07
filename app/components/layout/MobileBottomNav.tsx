@@ -71,7 +71,7 @@ export function MobileBottomNav() {
           border-t border-border/60
           flex items-stretch
         "
-        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8px)" }}
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label="Primary"
       >
         {items.map((item) => {
@@ -81,7 +81,7 @@ export function MobileBottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className="relative flex min-h-[60px] flex-1 flex-col items-center justify-center gap-1 py-2.5 active:bg-muted/40"
+              className="relative flex h-12 flex-1 flex-col items-center justify-center gap-0.5 active:bg-muted/40"
               aria-current={active ? "page" : undefined}
             >
               <span
@@ -111,7 +111,7 @@ export function MobileBottomNav() {
         <button
           type="button"
           onClick={() => setMoreOpen(true)}
-          className="relative flex min-h-[60px] flex-1 flex-col items-center justify-center gap-1 py-2.5 active:bg-muted/40"
+          className="relative flex h-12 flex-1 flex-col items-center justify-center gap-0.5 active:bg-muted/40"
           aria-haspopup="dialog"
           aria-expanded={moreOpen}
         >

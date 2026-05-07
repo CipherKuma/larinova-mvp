@@ -2,15 +2,24 @@
 
 import { useEffect } from "react";
 import { SidebarProvider } from "@/components/layout/SidebarContext";
+import { UserShellProvider } from "@/components/layout/UserShellContext";
+import type { UserShellData } from "@/lib/user-shell";
 
-export function ClientProviders({ children }: { children: React.ReactNode }) {
-  // Tell the PWA launch splash that the protected shell has mounted so it
-  // can fade out — keeps the splash up through the JS bundle parse + first
-  // hydration instead of dropping to a black background mid-load.
+export function ClientProviders({
+  initialShell,
+  children,
+}: {
+  initialShell: UserShellData | null;
+  children: React.ReactNode;
+}) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     window.dispatchEvent(new Event("larinova:app-ready"));
   }, []);
 
-  return <SidebarProvider>{children}</SidebarProvider>;
+  return (
+    <UserShellProvider initial={initialShell}>
+      <SidebarProvider>{children}</SidebarProvider>
+    </UserShellProvider>
+  );
 }
