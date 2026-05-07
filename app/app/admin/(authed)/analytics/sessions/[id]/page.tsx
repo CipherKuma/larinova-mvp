@@ -23,8 +23,8 @@ export default async function SessionTimeline({
     <div>
       <h1 className="text-2xl font-semibold mb-1">Session timeline</h1>
       <p className="text-sm text-muted-foreground mb-6 font-mono">{id}</p>
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="rounded-lg border border-border bg-card overflow-x-auto">
+        <table className="w-full min-w-[640px] text-sm">
           <thead className="bg-muted/40">
             <tr className="text-left">
               <th className="px-4 py-2 font-medium">Time</th>

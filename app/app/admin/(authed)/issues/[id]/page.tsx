@@ -77,7 +77,7 @@ export default function AdminIssueDetail() {
           From {d?.full_name ?? "—"} ({d?.email ?? "—"}) ·{" "}
           {new Date(issue.created_at).toLocaleString()}
         </div>
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           {(["open", "in_progress", "resolved", "wont_fix"] as const).map(
             (s) => (
               <Button

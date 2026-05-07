@@ -171,8 +171,8 @@ export default async function DoctorsPage() {
         <h1 className="text-2xl font-semibold">Doctors</h1>
         <InviteDoctorModal />
       </div>
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="rounded-lg border border-border bg-card overflow-x-auto">
+        <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-muted/40">
             <tr className="text-left">
               <th className="px-4 py-2 font-medium">Doctor</th>

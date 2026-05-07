@@ -129,11 +129,6 @@ export default function SignInPage() {
         body: JSON.stringify({ email: normalizedEmail }),
       }).then((res) => res.json());
 
-      if (access?.isAdmin && !access?.exists) {
-        window.location.assign("/admin/sign-in");
-        return;
-      }
-
       if (access?.hasPendingInvite && !access?.exists) {
         setEmailError("pending_invite");
         setEmailErrorMessage("");

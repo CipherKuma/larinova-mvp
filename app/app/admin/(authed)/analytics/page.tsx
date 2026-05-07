@@ -373,28 +373,33 @@ export default async function AnalyticsPage() {
         <div className="rounded-lg border border-border bg-card p-4">
           <div className="space-y-3">
             {funnel.map((step, i) => (
-              <div key={step.label} className="flex items-center gap-3">
-                <div className="w-32 shrink-0 text-sm">{step.label}</div>
+              <div
+                key={step.label}
+                className="flex items-center gap-2 sm:gap-3"
+              >
+                <div className="w-24 sm:w-32 shrink-0 text-xs sm:text-sm">
+                  {step.label}
+                </div>
                 <div className="flex-1 h-2 rounded-full bg-muted/40 overflow-hidden">
                   <div
                     className="h-full bg-primary"
                     style={{ width: `${step.pct}%` }}
                   />
                 </div>
-                <div className="w-24 shrink-0 text-right tabular-nums text-sm">
+                <div className="w-16 sm:w-24 shrink-0 text-right tabular-nums text-xs sm:text-sm">
                   <span className="font-semibold">{step.value}</span>
-                  <span className="text-muted-foreground ml-2 text-xs">
+                  <span className="text-muted-foreground ml-1 sm:ml-2 text-[11px] sm:text-xs">
                     {step.pct}%
                   </span>
                 </div>
                 {i < funnel.length - 1 && funnel[i + 1].value < step.value && (
-                  <div className="w-12 shrink-0 text-xs text-muted-foreground tabular-nums">
+                  <div className="hidden sm:block w-12 shrink-0 text-xs text-muted-foreground tabular-nums">
                     −{step.value - funnel[i + 1].value}
                   </div>
                 )}
                 {(i === funnel.length - 1 ||
                   funnel[i + 1].value >= step.value) && (
-                  <div className="w-12 shrink-0" />
+                  <div className="hidden sm:block w-12 shrink-0" />
                 )}
               </div>
             ))}
@@ -411,14 +416,14 @@ export default async function AnalyticsPage() {
         <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
           Needs attention
         </h2>
-        <div className="rounded-lg border border-border bg-card overflow-hidden">
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
           {needsAttention.length === 0 ? (
             <div className="px-4 py-8 text-center text-sm text-muted-foreground">
               Nobody&apos;s stuck — every active doctor was seen within the last
               3 days.
             </div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[640px] text-sm">
               <thead className="bg-muted/40">
                 <tr className="text-left">
                   <th className="px-4 py-2 font-medium">Doctor</th>
@@ -457,8 +462,8 @@ export default async function AnalyticsPage() {
         <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
           Doctor health
         </h2>
-        <div className="rounded-lg border border-border bg-card overflow-hidden overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
+          <table className="w-full min-w-[860px] text-sm">
             <thead className="bg-muted/40">
               <tr className="text-left">
                 <th className="px-4 py-2 font-medium">Doctor</th>
@@ -540,8 +545,8 @@ export default async function AnalyticsPage() {
         <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
           Last 7 days
         </h2>
-        <div className="rounded-lg border border-border bg-card overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
+          <table className="w-full min-w-[480px] text-sm">
             <thead className="bg-muted/40">
               <tr className="text-left">
                 <th className="px-4 py-2 font-medium">Day</th>
@@ -584,8 +589,8 @@ export default async function AnalyticsPage() {
         <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
           Top clicked (7d)
         </h2>
-        <div className="rounded-lg border border-border bg-card overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
+          <table className="w-full min-w-[420px] text-sm">
             <tbody>
               {top.map(([element, count]) => (
                 <tr
@@ -612,8 +617,8 @@ export default async function AnalyticsPage() {
         <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-3">
           Recent sessions (24h)
         </h2>
-        <div className="rounded-lg border border-border bg-card overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
+          <table className="w-full min-w-[720px] text-sm">
             <thead className="bg-muted/40">
               <tr className="text-left">
                 <th className="px-4 py-2 font-medium">Session</th>
